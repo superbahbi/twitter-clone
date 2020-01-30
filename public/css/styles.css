@@ -1,0 +1,164 @@
+.main {
+  max-width: 600px;
+}
+.tweet-border{
+  border-color: #eee #ddd #bbb;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  padding: 0 16px 16px 16px;
+}
+.title {
+
+}
+.icon-list {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+}
+.logo {
+  color: #1DA1F2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo:hover{
+  border-radius: 30px;
+  background-color: #E8F5FE;
+}
+.tweet-btn{
+  background-color: #1DA1F2;
+  border-radius: 30px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1;
+  margin: 15px;
+  padding: 15px;
+
+}
+.tweet-btn a {
+    color: #fff;
+    text-decoration: none;
+}
+.tweet-btn:hover{
+  background-color: #1A91DA;
+}
+.nav{
+  margin-right: 50px;
+}
+.nav-link{
+  padding: 0;
+}
+.nav-item a{
+  color: #14171A;
+  font-weight: 500;
+}
+.nav-item:hover{
+  border-radius: 30px;
+  background-color: #E8F5FE;
+}
+.nav-item:hover a{
+  color: #1DA1F2;
+}
+.nav-item a:active  {
+  color: #1DA1F2;
+}
+.profile-pic {
+  margin-right: 20px;
+}
+.tweetBox {
+  font-size: 20px;
+  margin-bottom: 30px;
+  max-width: 100%;
+}
+.tweetBox input {
+  align-items: stretch;
+  border: 0 solid black;
+  box-sizing: border-box;
+}
+.tweetBox input:focus{
+  outline:none;
+  border:none;
+}
+
+.twitter-tweet {
+  display: inline-block;
+  font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  border-color: #eee #ddd #bbb;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  padding: 0 16px 16px 16px;
+}
+
+.twitter-tweet p {
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+.twitter-tweet a {
+  color: inherit;
+  font-weight: normal;
+  text-decoration: none;
+  outline: 0 none;
+}
+.twitter-tweet a:hover,
+.twitter-tweet a:focus {
+  text-decoration: underline;
+}
+.side-bar {
+  margin-left: 40px;
+  margin-top: 5px;
+}
+.side-bar-items {
+  padding: 5px 16px 5px 16px;
+  background-color: #F5F8FA;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+.side-bar-items .search {
+  border-radius: 30px;
+}
+.side-bar-items input {
+  font-size: 15px;
+  padding: 5px;
+  background-color: #F5F8FA;
+  border: 0 solid black;
+  box-sizing: border-box;
+}
+.side-bar-title{
+  font-size: 19px;
+  font-weight: 800;
+  color: rgb(20, 23, 26);
+  padding-bottom:  5px;
+
+}
+.side-bar-content{
+  color: #83929F;
+  font-size: 15px;
+  padding-bottom:  5px;
+  padding-top: 5px;
+  border-color: #eee #ddd #bbb;
+  border-top: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+.side-bar-icon{
+  padding-right: 10px;
+}
+.side-bar-name{
+  font-size: 15px;
+  font-weight: bold;
+  color: #14171A;
+}
+.side-bar-tag{
+  font-size: 15px;
+  font-weight: 400;
+  color: rgb(101, 119, 134);
+}
