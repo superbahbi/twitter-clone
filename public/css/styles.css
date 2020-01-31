@@ -1,7 +1,8 @@
 .main {
   max-width: 600px;
 }
-.tweet-border{
+
+.tweet-border {
   border-color: #eee #ddd #bbb;
   border-radius: 5px;
   border-style: solid;
@@ -9,25 +10,28 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   padding: 0 16px 16px 16px;
 }
-.title {
 
-}
+.title {}
+
 .icon-list {
   width: 50px;
   height: 50px;
   text-align: center;
 }
+
 .logo {
   color: #1DA1F2;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.logo:hover{
+
+.logo:hover {
   border-radius: 30px;
   background-color: #E8F5FE;
 }
-.tweet-btn{
+
+.tweet-btn {
   background-color: #1DA1F2;
   border-radius: 30px;
   text-align: center;
@@ -36,51 +40,62 @@
   line-height: 1;
   margin: 15px;
   padding: 15px;
+}
 
-}
 .tweet-btn a {
-    color: #fff;
-    text-decoration: none;
+  color: #fff;
+  text-decoration: none;
 }
-.tweet-btn:hover{
+
+.tweet-btn:hover {
   background-color: #1A91DA;
 }
-.nav{
+
+.nav {
   margin-right: 50px;
 }
-.nav-link{
+
+.nav-link {
   padding: 0;
 }
-.nav-item a{
+
+.nav-item a {
   color: #14171A;
   font-weight: 500;
 }
-.nav-item:hover{
+
+.nav-item:hover {
   border-radius: 30px;
   background-color: #E8F5FE;
 }
-.nav-item:hover a{
+
+.nav-item:hover a {
   color: #1DA1F2;
 }
-.nav-item a:active  {
+
+.nav-item a:active {
   color: #1DA1F2;
 }
+
 .profile-pic {
   margin-right: 20px;
 }
+
 .tweetBox {
   font-size: 20px;
   margin-bottom: 30px;
   max-width: 100%;
 }
+
 .tweetBox input {
   align-items: stretch;
   border: 0 solid black;
   box-sizing: border-box;
 }
-.tweetBox input:focus{
-  outline:none;
-  border:none;
+
+.tweetBox input:focus {
+  outline: none;
+  border: none;
 }
 
 .twitter-tweet {
@@ -108,28 +123,34 @@
   text-decoration: none;
   outline: 0 none;
 }
+
 .twitter-tweet a:hover,
 .twitter-tweet a:focus {
   text-decoration: underline;
 }
+
 .side-bar {
   margin-left: 40px;
   margin-top: 5px;
 }
-.search input:focus{
-  outline:none;
-  border:none;
+
+.search input:focus {
+  outline: none;
+  border: none;
   background-color: #F5F8FA;
 }
+
 .side-bar-items {
   padding: 5px 16px 5px 16px;
   background-color: #F5F8FA;
   border-radius: 15px;
   margin-bottom: 20px;
 }
+
 .side-bar-items {
   border-radius: 30px;
 }
+
 .side-bar-items input {
   font-size: 15px;
   padding: 5px;
@@ -137,36 +158,41 @@
   border: 0 solid black;
   box-sizing: border-box;
 }
-.side-bar-title{
+
+.side-bar-title {
   font-size: 19px;
   font-weight: 800;
   color: rgb(20, 23, 26);
-  padding-bottom:  5px;
-
+  padding-bottom: 5px;
 }
-.side-bar-content{
+
+.side-bar-content {
   color: #83929F;
   font-size: 15px;
-  padding-bottom:  5px;
+  padding-bottom: 5px;
   padding-top: 5px;
   border-color: #eee #ddd #bbb;
   border-top: solid;
   border-width: 1px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
-.side-bar-icon{
+
+.side-bar-icon {
   padding-right: 10px;
 }
-.side-bar-name{
+
+.side-bar-name {
   font-size: 15px;
   font-weight: bold;
   color: #14171A;
 }
-.side-bar-tag{
+
+.side-bar-tag {
   font-size: 15px;
   font-weight: 400;
   color: rgb(101, 119, 134);
 }
+
 .flex-container {
   display: flex;
   flex-wrap: wrap;
@@ -177,45 +203,61 @@
   min-width: 50%;
   min-height: 50%;
 }
+
 .index-left-side {
-  background-color:#71C9F8
+  background-color: #71C9F8
 }
+
 .index-right-side {
-  background-color:#FFFFFF
+  background-color: #FFFFFF
 }
-.login{
+
+.input-box {
   font-size: 13px;
   color: #657786;
   background-color: #F5F8FA;
   border: 0 solid black;
   box-sizing: border-box;
-  max-width:initial;
+  max-width: initial;
   margin-right: 15px;
-  padding: 0 15px 0 15px ;
+  padding: 0 15px 0 15px;
   border-bottom: 2px solid #657786;
   display: inline-block;
-
 }
-.login label{
+
+.input-box label {
   margin-bottom: 0;
 }
 
-.login input {
+.input-box input {
   align-items: stretch;
   border: 0 solid black;
   box-sizing: border-box;
   background-color: #F5F8FA;
   color: black;
-  display:block;
+  display: block;
   font-size: 20px;
 }
-.login input:focus{
-  outline:none;
-  border:none;
+
+.input-box input:focus {
+  outline: none;
+  border: none;
 }
-.login:hover{
+
+.input-box:hover {
+  color: #71C9F8;
+  border-color: #71C9F8;
+}
+.input-box select {
+    border: 0px;
+    outline: 0px;
+    background-color: #F5F8FA;
+    color: #657786;
+}
+.input-box select:hover{
   color: #71C9F8;
 }
+
 .login-btn {
   color: #1DA1F2;
   background-color: #fff;
@@ -225,30 +267,37 @@
   font-size: 15px;
   font-weight: 600;
 }
-.login-btn:hover{
+
+.login-btn:hover {
   background-color: #E8F5FE;
   color: #1DA1F2;
 }
+
 .login-center {
   max-width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .login-center-item {
   max-width: 50%;
 }
+
 .login-logo {
   color: #1DA1F2;
 }
-.login-header{
+
+.login-header {
   font-size: 25px;
   font-weight: 700;
 }
+
 .login-join {
   font-size: 13px;
   font-weight: 600;
 }
+
 .login-btn-signup {
   background-color: #1DA1F2;
   border-radius: 30px;
@@ -257,14 +306,24 @@
   font-weight: 600;
   padding: 5px;
   margin-bottom: 15px;
-}
-.login-btn-signup a {
   color: #fff;
-  text-decoration: none;
+  border: none;
 }
-.login-btn-signup:hover{
+
+.login-btn-login:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+.login-btn-signup:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+.login-btn-signup:hover {
   background-color: #1A91DA;
 }
+
 .login-btn-login {
   color: #1DA1F2;
   background-color: #fff;
@@ -276,11 +335,29 @@
   padding: 5px;
   margin-bottom: 15px;
 }
+
 .login-btn-login a {
   color: #1DA1F2;
   text-decoration: none;
 }
-.login-btn-login:hover{
+
+.login-btn-login:hover {
   background-color: #E8F5FE;
   color: #1DA1F2;
+}
+
+.signup-modal {
+  display: flex;
+}
+.signup-header {
+  margin-left: 15px;
+  padding-left: 15px;
+}
+.dob span {
+  font-size: 14px;
+  font-weight: bolder;
+}
+.dob p {
+  font-size: 13px;
+  font-weight: lighter;;
 }

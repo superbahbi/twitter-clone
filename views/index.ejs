@@ -8,12 +8,12 @@
         <div class="p-2 align-self-center">
           <form class="" action="/login" method="post">
             <div class="d-flex flex-row ">
-              <div class="login">
-                <label for="">Phone, email, or username
+              <div class="input-box">
+                <label for="">Username
                   <input type="text" name="username" value="">
                 </label>
               </div>
-              <div class="login">
+              <div class="input-box">
                 <label for="">Password
                   <input type="password" name="password" value="">
                 </label>
@@ -34,17 +34,79 @@
             <div class="login-join">
               <p>Join not twitter today.</p>
             </div>
-            <div class="login-btn-signup">
-              <a href="/signup">Sign up</a>
-            </div>
-            <div class="login-btn-login">
-              <a href="/login">Log in</a>
-            </div>
+            <button class="login-btn-signup" data-toggle="modal" data-target="#modalLoginForm" type="button" name="button">Sign up</button>
+            <button class="login-btn-login" type="button" name="button" onclick="window.location.href = '/login';">Log in</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="signup" action="/signup" method="post">
+        <div class="modal-header">
+          <div class="p-2 login-logo"><i class="fab fa-twitter fa-2x"></i></div>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-header signup-header">
+          <h4 class="modal-title w-100 font-weight-bold">Create your account</h4>
+        </div>
 
-<%- include("footer.ejs") %>
+        <div class="modal-body mx-5">
+          <div class="md-form mb-5">
+            <div class="signup-modal input-box">
+              <label for="">Username
+                <input type="text" name="username" value="">
+              </label>
+            </div>
+          </div>
+
+          <div class="md-form mb-5">
+            <div class="signup-modal input-box">
+              <label for="">Password
+                <input type="password" name="password" value="">
+              </label>
+            </div>
+          </div>
+          <div class="dob">
+            <span>Date of birth</span>
+            <p>This will not be shown publicly. Confirm your age to receive the appropriate experience.</p>
+            <div class="md-form mb-5">
+              <div class="d-flex flex-row ">
+                <div class="input-box">
+                  <label for="">Month
+                    <input class="moment-date" type="text" id="month" data-format="MMMM" data-template="MMMM" name="month" value="">
+                  </label>
+                </div>
+                <div class="input-box">
+                  <label for="">Day
+                    <input type="text" id="day" data-format="DD" data-template="D" name="day" value="">
+                  </label>
+                </div>
+                <div class="input-box">
+                  <label for="">Year
+                    <input type="text" id="year" data-format="YYYY" data-template="YYYY " name="year" value="">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button class="login-btn-signup" data-toggle="modal" data-target="#modalLoginForm" type="button" name="button" onclick="document.getElementById('signup').submit();">Sign up</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    $(function() {
+      $('#year').combodate();
+      $('#day').combodate();
+      $('#month').combodate();
+    });
+  </script>
+  <%- include("footer.ejs") %>
