@@ -116,13 +116,18 @@
   margin-left: 40px;
   margin-top: 5px;
 }
+.search input:focus{
+  outline:none;
+  border:none;
+  background-color: #F5F8FA;
+}
 .side-bar-items {
   padding: 5px 16px 5px 16px;
   background-color: #F5F8FA;
   border-radius: 15px;
   margin-bottom: 20px;
 }
-.side-bar-items .search {
+.side-bar-items {
   border-radius: 30px;
 }
 .side-bar-items input {
