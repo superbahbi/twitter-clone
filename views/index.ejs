@@ -1,3 +1,50 @@
 <%- include("header.ejs") %>
 
+<div class="flex-container">
+  <div class="split-item index-left-side"></div>
+  <div class="split-item index-right-side">
+    <div class="d-flex justify-content-center">
+      <div class="d-flex flex-column w-75">
+        <div class="p-2 align-self-center">
+          <form class="" action="/login" method="post">
+            <div class="d-flex flex-row ">
+              <div class="login">
+                <label for="">Phone, email, or username
+                  <input type="text" name="username" value="">
+                </label>
+              </div>
+              <div class="login">
+                <label for="">Password
+                  <input type="password" name="password" value="">
+                </label>
+              </div>
+
+              <div class="p-1 align-self-center">
+                <button class="btn login-btn " type="submit" name="button">Log in</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="p-2 login-center align-self-center">
+          <div class="d-flex flex-column">
+            <div class="p-2 login-logo"><i class="fab fa-twitter fa-2x"></i></div>
+            <div class="login-header">
+              <p>See what’s happening in the world right now</p>
+            </div>
+            <div class="login-join">
+              <p>Join not twitter today.</p>
+            </div>
+            <div class="login-btn-signup">
+              <a href="/signup">Sign up</a>
+            </div>
+            <div class="login-btn-login">
+              <a href="/login">Log in</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <%- include("footer.ejs") %>

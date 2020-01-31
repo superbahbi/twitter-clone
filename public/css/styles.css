@@ -167,3 +167,120 @@
   font-weight: 400;
   color: rgb(101, 119, 134);
 }
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100vh;
+}
+
+.split-item {
+  min-width: 50%;
+  min-height: 50%;
+}
+.index-left-side {
+  background-color:#71C9F8
+}
+.index-right-side {
+  background-color:#FFFFFF
+}
+.login{
+  font-size: 13px;
+  color: #657786;
+  background-color: #F5F8FA;
+  border: 0 solid black;
+  box-sizing: border-box;
+  max-width:initial;
+  margin-right: 15px;
+  padding: 0 15px 0 15px ;
+  border-bottom: 2px solid #657786;
+  display: inline-block;
+
+}
+.login label{
+  margin-bottom: 0;
+}
+
+.login input {
+  align-items: stretch;
+  border: 0 solid black;
+  box-sizing: border-box;
+  background-color: #F5F8FA;
+  color: black;
+  display:block;
+  font-size: 20px;
+}
+.login input:focus{
+  outline:none;
+  border:none;
+}
+.login:hover{
+  color: #71C9F8;
+}
+.login-btn {
+  color: #1DA1F2;
+  background-color: #fff;
+  border-radius: 30px;
+  border: 1px solid #1DA1F2;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+}
+.login-btn:hover{
+  background-color: #E8F5FE;
+  color: #1DA1F2;
+}
+.login-center {
+  max-width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-center-item {
+  max-width: 50%;
+}
+.login-logo {
+  color: #1DA1F2;
+}
+.login-header{
+  font-size: 25px;
+  font-weight: 700;
+}
+.login-join {
+  font-size: 13px;
+  font-weight: 600;
+}
+.login-btn-signup {
+  background-color: #1DA1F2;
+  border-radius: 30px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 5px;
+  margin-bottom: 15px;
+}
+.login-btn-signup a {
+  color: #fff;
+  text-decoration: none;
+}
+.login-btn-signup:hover{
+  background-color: #1A91DA;
+}
+.login-btn-login {
+  color: #1DA1F2;
+  background-color: #fff;
+  border-radius: 30px;
+  border: 1px solid #1DA1F2;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 5px;
+  margin-bottom: 15px;
+}
+.login-btn-login a {
+  color: #1DA1F2;
+  text-decoration: none;
+}
+.login-btn-login:hover{
+  background-color: #E8F5FE;
+  color: #1DA1F2;
+}
