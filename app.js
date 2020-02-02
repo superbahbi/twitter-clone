@@ -1,11 +1,15 @@
 const express     =    require('express');
 const path        =    require('path');
+const dotenv      =    require('dotenv');
 const bodyParser  =    require('body-parser');
 const ejs         =    require('ejs');
 const mongoose    =    require('mongoose');
 const chalk       =    require('chalk');
+const flash       =    require('express-flash');
+const session     =    require('express-session');
 const passport    =    require('passport');
-const dotenv      =    require('dotenv');
+const passportLocalMongoose = require("passport-local-mongoose");
+const MongoStore = require('connect-mongo')(session);
 
 dotenv.config({ path: '.env' });
 
@@ -13,6 +17,20 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 
 const app = express();
+
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET,
+  cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
+  store: new MongoStore({
+    url: process.env.MONGODB_URI,
+    autoReconnect: true,
+  })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 /**
  * Connect to MongoDB.
  */
@@ -27,7 +45,7 @@ mongoose.connection.on('error', (err) => {
   process.exit();
 });
 
-
+app.use(flash());
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true
@@ -39,7 +57,7 @@ app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/bootstrap/d
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/jquery/dist'), { maxAge: 31557600000 }));
 
 app.get('/', homeController.index);
-app.get('/home', homeController.home);
+app.get('/home', userController.home);
 app.post('/signup', userController.postSignup);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
