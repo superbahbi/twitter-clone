@@ -7,9 +7,31 @@ exports.postSignup = (req, res) => {
   const strDate = moment().month(req.body.month).format("MM") + "-" + req.body.day + "-" + req.body.year;
   const date = moment(strDate).format('MM-DD-YYYY');
   console.log(req.body);
+
+  const validationErrors = [];
+  if (validator.isEmpty(req.body.username)) validationErrors.push({ msg: 'Please enter a username.' });
+  if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
+  if (validator.isEmpty(req.body.password)) validationErrors.push({ msg: 'Password cannot be blank.' });
+  if (validator.isEmpty(req.body.cpassword)) validationErrors.push({ msg: 'Confirm Password cannot be blank.' });
+  if (!validator.equals(req.body.password, req.body.cpassword)) validationErrors.push({ msg: 'Password is not match.' });
+  if (validator.isEmpty(req.body.gender)) validationErrors.push({ msg: 'Please pick a gender.' });
+  if (validator.isEmpty(req.body.phone)) validationErrors.push({ msg: 'Please enter a phone number.' });
+  if (validationErrors.length) {
+    req.flash('error', validationErrors);
+    return res.redirect('/');
+  }
+  req.body.email = validator.normalizeEmail(req.body.email, {
+    gmail_remove_dots: false
+  });
+
   User.register(new User({
     username: req.body.username,
     profile: {
+      name: null,
+      email: req.body.email,
+      bio: null,
+      gender: req.body.gender,
+      phone: req.body.phone,
       birthday: date
     }
   }), req.body.password, function(err, user) {

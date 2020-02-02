@@ -60,7 +60,14 @@
           <div class="md-form mb-5">
             <div class="signup-modal input-box">
               <label for="">Username
-                <input type="text" name="username" value="">
+                <input type="text" name="username" value="" required>
+              </label>
+            </div>
+          </div>
+          <div class="md-form mb-5">
+            <div class="signup-modal input-box">
+              <label for="">Email
+                <input type="email" name="email" value="" required>
               </label>
             </div>
           </div>
@@ -68,7 +75,31 @@
           <div class="md-form mb-5">
             <div class="signup-modal input-box">
               <label for="">Password
-                <input type="password" name="password" value="">
+                <input type="password" name="password" value="" required>
+              </label>
+            </div>
+          </div>
+          <div class="md-form mb-5">
+            <div class="signup-modal input-box">
+              <label for="">Confirm Password
+                <input type="password" name="cpassword" value="" required>
+              </label>
+            </div>
+          </div>
+          <div class="md-form mb-5">
+            <div class="signup-modal input-box">
+              <label for="">Gender
+                <select name="gender">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="md-form mb-5">
+            <div class="signup-modal input-box">
+              <label for="">Phone Number
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
               </label>
             </div>
           </div>
