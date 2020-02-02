@@ -1,4 +1,5 @@
 const express     =    require('express');
+const path        =    require('path');
 const bodyParser  =    require('body-parser');
 const ejs         =    require('ejs');
 const mongoose    =    require('mongoose');
@@ -27,11 +28,15 @@ mongoose.connection.on('error', (err) => {
 });
 
 
-app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+app.use('/', express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/moment/min'), { maxAge: 31557600000 }));
+app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js'), { maxAge: 31557600000 }));
+app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/jquery/dist'), { maxAge: 31557600000 }));
 
 app.get('/', homeController.index);
 app.get('/home', homeController.home);

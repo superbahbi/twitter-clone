@@ -9,7 +9,13 @@ const userSchema = new mongoose.Schema({
     gender: String,
     location: String,
     website: String,
-    picture: String
+    picture: String,
+    birthday:
+    {
+      month: String,
+      day: Number,
+      year: Number
+    }
   }
 });
 
