@@ -1,0 +1,39 @@
+<%- include("header.ejs") %>
+<div class="d-flex flex-row justify-content-center">
+  <%- include("nav.ejs") %>
+  <div class="w-50 p-0 main">
+    <div class="d-flex flex-row twitter-tweet">
+      <i class="fas fa-arrow-left"></i>
+      <h3><%= foundUser.username  %></h3>
+      <p class=""><%= foundUser.tweets %></p>
+    </div>
+    <form class="" action="index.html" method="post">
+      <div class="d-flex flex-row">
+        <div class="p-0 flex-fill profile-container">
+          <a class="profile-bg profile-block"></a>
+          <a title="" href="" class="">
+            <img src="https://pbs.twimg.com/profile_images/777300939745013761/kGYRVUeo_400x400.jpg" class="profile-avatarImg rounded-circle">
+          </a>
+
+          <div class="profile-divUser">
+            <div class="profile-divName">
+              <span href=""><%= foundUser.username  %></span>
+            </div>
+            <div class="profile-divTag">
+              <span>
+                @<%= foundUser.username  %>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="">
+
+    </div>
+  </div>
+  <%- include("sidebar.ejs") %>
+</div>
+<%- include("footer.ejs") %>

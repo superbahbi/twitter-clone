@@ -10,12 +10,14 @@ const session     =    require('express-session');
 const passport    =    require('passport');
 const passportLocalMongoose = require("passport-local-mongoose");
 const MongoStore = require('connect-mongo')(session);
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
 
 dotenv.config({ path: '.env' });
 
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
-
+const functionController = require('./models/function');
 const app = express();
 
 app.use(session({
@@ -57,11 +59,12 @@ app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/bootstrap/d
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/jquery/dist'), { maxAge: 31557600000 }));
 
 app.get('/', homeController.index);
-app.get('/home', userController.home);
+app.get('/home', functionController.isAuthenticated, userController.home);
 app.post('/signup', userController.postSignup);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
+app.get('/:profile', functionController.isAuthenticated, userController.profile);
 
 app.listen(3000, () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), process.env.SERVER_PORT, process.env.MODE);

@@ -100,13 +100,21 @@ exports.postLogin = (req, res, next) => {
 
 };
 exports.home = (req, res) => {
-  if (req.isAuthenticated()) {
     res.render("home");
-  } else {
-    res.redirect("/");
-  }
 };
 exports.logout = (req, res) => {
   req.logout();
   res.redirect("/");
+};
+
+exports.profile = (req, res, next) => {
+  const { profile } = req.params;
+  User.findOne({username: profile}, function(err, foundUser){
+    if(foundUser){
+      console.log("Current user id: " + foundUser._id); // current user
+      console.log("Session user id: " + req.session.passport.user._id); // Current login session id
+      res.render("profile", {foundUser});
+      console.log(foundUser);
+    }
+  });
 };
