@@ -12,12 +12,7 @@ const userSchema = new mongoose.Schema({
     location: String,
     website: String,
     picture: String,
-    birthday:
-    {
-      month: String,
-      day: Number,
-      year: Number
-    }
+    birthday: Date
   }
 });
 userSchema.plugin(passportLocalMongoose);

@@ -1,23 +1,17 @@
 const User = require('../models/User');
 const passport = require('passport');
 const validator = require('validator');
-
+const moment = require('moment');
 exports.postSignup = (req, res) => {
-  console.log(req.body);
-  const user = new User({
-    username: req.body.username,
-    password: req.body.password,
-    profile: {
-      birthday: {
-        month: req.body.month,
-        day: req.body.day,
-        year: req.body.year
-      }
-    }
-  });
+
+  const strDate = moment().month(req.body.month).format("MM") + "-" + req.body.day + "-" + req.body.year;
+  const date = moment(strDate).format('MM-DD-YYYY');
   console.log(req.body);
   User.register(new User({
-    username: req.body.username
+    username: req.body.username,
+    profile: {
+      birthday: date
+    }
   }), req.body.password, function(err, user) {
     if (err) {
       req.flash('error', {
