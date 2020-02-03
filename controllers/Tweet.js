@@ -4,8 +4,6 @@ const validator = require('validator');
 const moment = require('moment');
 const fs = require('fs');
 exports.tweet = (req, res, next) => {
-  console.log(req.body);
-  console.log(req.file);
   let tweet = new Tweet;
   const validationErrors = [];
   if (validator.isEmpty(req.body.tweet) && isEmptyObject(req.file)) {
