@@ -4,7 +4,15 @@ const validator = require('validator');
 const moment = require('moment');
 
 exports.tweet = (req, res, next) => {
-  console.log(req.session);
+  console.log(req.body);
+  const validationErrors = [];
+  if (validator.isEmpty(req.body.tweet)) validationErrors.push({ msg: 'Tweet cannot be blank.' });
+  if (validationErrors.length) {
+    req.flash('error', validationErrors);
+    return res.redirect('/home');
+  }
+
+
   User.findOne({username: req.session.passport.user.username }, function (err, user) {
     const tweet = new Tweet({
       username: req.session.passport.user.username,
