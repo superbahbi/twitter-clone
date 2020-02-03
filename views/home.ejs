@@ -39,7 +39,7 @@
     </div>
       <% foundTweet.forEach(function(tweet){ %>
       <div class="d-flex tweet-box">
-        <div class="p-2"><img  class="rounded-circle" src="https://pbs.twimg.com/profile_images/777300939745013761/kGYRVUeo_bigger.jpg" height="49" width="49"></div>
+        <div class="p-2"><img  class="rounded-circle" src="<%= foundUser.profile.avatar %>" height="49" width="49"></div>
         <div class="p-2 flex-fill">
           <div class="d-flex ">
             <span class="tweet-name"><%= tweet.name %></span>

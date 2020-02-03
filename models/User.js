@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     location: String,
     website: String,
     regDate: Number,
-    picture: String
+    avatar: String
   }
 });
 userSchema.plugin(passportLocalMongoose);
