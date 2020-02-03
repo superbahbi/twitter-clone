@@ -5,20 +5,26 @@
     <div class="d-flex flex-row twitter-tweet">
       <h3>Home</h3>
     </div>
-    <form class="" action="/tweet" method="post">
+    <form id="tweet-form" action="/tweet" method="POST" enctype="multipart/form-data">
       <div class="d-flex flex-row twitter-tweet">
         <div class="p-2">
-          <a href="/<%= foundUser.username %>" >
-          <img  class="rounded-circle" src="https://pbs.twimg.com/profile_images/777300939745013761/kGYRVUeo_bigger.jpg" height="49" width="49">
+          <a href="/<%= foundUser.username %>">
+            <img class="rounded-circle" src="https://pbs.twimg.com/profile_images/777300939745013761/kGYRVUeo_bigger.jpg" height="49" width="49">
           </a>
         </div>
         <div class="p-2 flex-fill">
-          <div class="tweetBox">
+          <div class="input-tweet-box">
             <input type="text" placeholder="What's Happening" name="tweet" value="" autocomplete="off" autocomplete="off">
+          </div>
+          <div class="input-tweet-box input-tweet-img">
+            <img id="img-preview" class="" />
           </div>
           <div class="input-tweet-row">
             <div class="input-tweet-group">
-              <button type="button" name="button" class="input-tweet-icon"><i class="far fa-file-image"></i></button>
+              <label for="upload-preview" class="input-tweet-icon">
+                <i class="far fa-file-image"></i>
+              </label>
+              <input type='file' id="upload-preview" name="img" />
             </div>
             <div class="input-tweet-group">
               <button type="button" name="button" class="input-tweet-icon"><i class="fas fa-gift"></i></button>
@@ -37,39 +43,55 @@
     </form>
     <div class="d-flex flex-fill tweet-block">
     </div>
-      <% foundTweet.forEach(function(tweet){ %>
-      <div class="d-flex tweet-box">
-        <div class="p-2"><img  class="rounded-circle" src="<%= foundUser.profile.avatar %>" height="49" width="49"></div>
-        <div class="p-2 flex-fill">
-          <div class="d-flex ">
-            <span class="tweet-name"><%= tweet.name %></span>
-            <span class="tweet-tag">@<%= tweet.username %> · <%= moment(tweet.timestamp).fromNow(); %> </span>
+    <% foundTweet.forEach(function(tweet){ %>
+    <div class="d-flex tweet-box">
+      <div class="p-2"><img class="rounded-circle" src="<%= foundUser.profile.avatar %>" height="49" width="49"></div>
+      <div class="p-2 flex-fill">
+        <div class="d-flex ">
+          <span class="tweet-name"><%= tweet.name %></span>
+          <span class="tweet-tag">@<%= tweet.username %> · <%= moment(tweet.timestamp).fromNow(); %> </span>
+        </div>
+        <div class="d-flex ">
+          <span class="tweet-content"><%= tweet.content %></span>
+        </div>
+        <div class="d-flex ">
+          <div class="p-2 flex-fill">
+            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="far fa-comment"></i></button>
           </div>
-          <div class="d-flex ">
-              <span class="tweet-content"><%= tweet.content %></span>
+          <div class="p-2 flex-fill">
+            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-retweet"></i></button>
           </div>
-          <div class="d-flex ">
-            <div class="p-2 flex-fill">
-              <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="far fa-comment"></i></button>
-            </div>
-            <div class="p-2 flex-fill">
-              <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-retweet"></i></button>
-            </div>
-            <div class="p-2 flex-fill">
-              <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-heart"></i></button>
-            </div>
-            <div class="p-2 flex-fill">
-                <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-external-link-alt"></i></button>
-            </div>
-            <!-- <div class="p-2 flex-fill">
+          <div class="p-2 flex-fill">
+            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-heart"></i></button>
+          </div>
+          <div class="p-2 flex-fill">
+            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-external-link-alt"></i></button>
+          </div>
+          <!-- <div class="p-2 flex-fill">
                 <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-poll"></i></i></button>
             </div> -->
-          </div>
         </div>
       </div>
-      <% }); %>
+    </div>
+    <% }); %>
   </div>
+  <script>
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
 
+        reader.onload = function(e) {
+          $('#img-preview').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    $("#upload-preview").change(function() {
+      readURL(this);
+    });
+  </script>
   <%- include("sidebar.ejs") %>
 </div>
 <%- include("footer.ejs") %>

@@ -15,26 +15,6 @@
   margin-right: 20px;
 }
 
-.tweetBox {
-  font-size: 20px;
-  padding-top: 15px;
-}
-
-.tweetBox input {
-  align-items: stretch;
-  border: 0 solid black;
-  box-sizing: border-box;
-}
-
-.tweetBox input:focus {
-  outline: none;
-  border: none;
-}
-.tweetBox input::placeholder {
-  font-weight: 400;
-  position: relative;
-  top: -0.3rem;
-}
 .twitter-tweet {
   display: inline-block;
   font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
@@ -148,7 +128,26 @@
 .index-right-side {
   background-color: #FFFFFF
 }
+.input-tweet-box {
+  font-size: 20px;
+  padding-top: 15px;
+}
 
+.input-tweet-box input {
+  align-items: stretch;
+  border: 0 solid black;
+  box-sizing: border-box;
+}
+
+.input-tweet-box input:focus {
+  outline: none;
+  border: none;
+}
+.input-tweet-box input::placeholder {
+  font-weight: 400;
+  position: relative;
+  top: -0.3rem;
+}
 .input-box {
   font-size: 13px;
   color: #657786;
@@ -195,7 +194,8 @@
   color: #71C9F8;
 }
 .input-tweet-group{
-
+  max-width: 45px;
+  max-height: 45px;
 }
 .input-tweet-icon {
   color: #71C9F8;
@@ -206,6 +206,8 @@
   padding: 0 5px 0 5px;
   width: 45px;
   height: 45px;
+  cursor: pointer;
+
   }
 
 .input-tweet-group:hover{
@@ -231,6 +233,12 @@
 }
 .input-tweet-btn:hover {
   background-color: #1A91DA;
+}
+.input-tweet-img img{
+  width: 100%;
+}
+input[type="file"] {
+    display: none;
 }
 .login-btn {
   color: #1DA1F2;
