@@ -117,6 +117,16 @@ exports.postLogin = (req, res, next) => {
 
 };
 exports.home = (req, res) => {
+  let foundUser = {};
+
+  User.findOne({username: req.session.passport.user.username}, function (err, user) {
+    if (err) {
+      req.flash('error', 'Could not find any user');
+      res.redirect('/home');
+    } else {
+      foundUser = user;
+    }
+  });
   Tweet.find({}).sort([
     ['timestamp', -1]
   ]).exec(function(err, foundTweet) {
@@ -124,9 +134,9 @@ exports.home = (req, res) => {
       req.flash('error', 'Could not find any tweets');
       res.redirect('/home');
     } else {
-      console.log(foundTweet);
       res.render('home', {
         foundTweet,
+        foundUser,
         moment: moment
       });
     }
