@@ -31,3 +31,12 @@
 .tweet-content-icon:hover {
   color: #1DA1F2;
 }
+.tweet-content-img{
+
+}
+.tweet-content-img img{
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding-top:5px;
+}

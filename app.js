@@ -10,8 +10,11 @@ const session     =    require('express-session');
 const passport    =    require('passport');
 const passportLocalMongoose = require("passport-local-mongoose");
 const MongoStore = require('connect-mongo')(session);
-var multer  = require('multer')
-var upload = multer({ dest: 'uploads/' })
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' });
+var storage = multer.memoryStorage();
+var upload = multer({ storage: storage });
+
 
 dotenv.config({ path: '.env' });
 

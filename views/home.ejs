@@ -55,6 +55,13 @@
           <span class="tweet-content"><%= tweet.content %></span>
         </div>
         <div class="d-flex ">
+          <% if(tweet.img) {%>
+          <span class="tweet-content tweet-content-img">
+            <img src="data:<%= tweet.img.contentType %>;base64,<%= tweet.img.data %>" />
+          </span>
+          <%}%>
+        </div>
+        <div class="d-flex ">
           <div class="p-2 flex-fill">
             <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="far fa-comment"></i></button>
           </div>
@@ -91,6 +98,14 @@
     $("#upload-preview").change(function() {
       readURL(this);
     });
+
+
+    function hexToBase64(str) {
+        imgBuffer = str.data;
+        console.log(str);
+        return btoa(String.fromCharCode.apply(null, imgBuffer.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
+    }
+
   </script>
   <%- include("sidebar.ejs") %>
 </div>

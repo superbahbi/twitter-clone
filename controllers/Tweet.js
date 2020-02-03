@@ -13,14 +13,13 @@ exports.tweet = (req, res, next) => {
     return res.redirect('/home');
   }
 
-
   User.findOne({username: req.session.passport.user.username }, function (err, user) {
     let tweet = new Tweet;
     tweet.username = req.session.passport.user.username;
     tweet.name = user.profile.name;
     tweet.timestamp = new Date();
     tweet.content = req.body.tweet,
-    tweet.img.data = fs.readFileSync(req.file.path);
+    tweet.img.data = req.file.buffer.toString("base64");
     tweet.img.contentType = req.file.mimetype;
     tweet.save(function(err) {
       if (err) {
