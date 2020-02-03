@@ -1,0 +1,33 @@
+.tweet-block {
+  border: 5px solid  rgb(230, 236, 240);
+}
+
+.tweet-box {
+  border-color:  #eee #ddd #bbb;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+.tweet-box:hover {
+  border-color:  #eee #ddd #bbb;
+}
+.tweet-name {
+  font-size:16px;
+  font-weight: bold;
+}
+.tweet-tag {
+  color: #657786;
+  font-size: 14px;
+}
+.tweet-content-icon{
+  color: #657786;
+  padding: 0;
+  border: none;
+  background: none;
+}
+.tweet-content-icon:hover {
+  color: #1DA1F2;
+}

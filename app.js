@@ -17,6 +17,7 @@ dotenv.config({ path: '.env' });
 
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
+const tweetController = require('./controllers/tweet');
 const functionController = require('./models/function');
 const app = express();
 
@@ -65,6 +66,7 @@ app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
 app.get('/:profile', functionController.isAuthenticated, userController.profile);
+app.post('/tweet', functionController.isAuthenticated, tweetController.tweet);
 
 app.listen(3000, () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), process.env.SERVER_PORT, process.env.MODE);

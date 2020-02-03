@@ -5,14 +5,14 @@
     <div class="d-flex flex-row twitter-tweet">
       <h3>Home</h3>
     </div>
-    <form class="" action="index.html" method="post">
+    <form class="" action="/tweet" method="post">
       <div class="d-flex flex-row twitter-tweet">
         <div class="p-2">
-          <img src="https://via.placeholder.com/49" class="rounded-circle profile-pic" alt="">
+          <img  class="rounded-circle" src="https://pbs.twimg.com/profile_images/777300939745013761/kGYRVUeo_bigger.jpg" height="49" width="49">
         </div>
         <div class="p-2 flex-fill">
           <div class="tweetBox">
-            <input type="text" placeholder="What's Happening" name="" value="">
+            <input type="text" placeholder="What's Happening" name="tweet" value="">
           </div>
           <div class="">
             <button type="button" name="button" class="btn btn btn-primary"><i class="far fa-file-image"></i></button>
@@ -24,11 +24,41 @@
         </div>
       </div>
     </form>
-
-    <div class="">
-
+    <div class="d-flex flex-fill tweet-block">
     </div>
+      <% foundTweet.forEach(function(tweet){ %>
+      <div class="d-flex tweet-box">
+        <div class="p-2"><img  class="rounded-circle" src="https://pbs.twimg.com/profile_images/777300939745013761/kGYRVUeo_bigger.jpg" height="49" width="49"></div>
+        <div class="p-2 flex-fill">
+          <div class="d-flex ">
+            <span class="tweet-name"><%= tweet.name %></span>
+            <span class="tweet-tag">@<%= tweet.username %> · <%= moment(tweet.timestamp).fromNow(); %> </span>
+          </div>
+          <div class="d-flex ">
+              <span class="tweet-content"><%= tweet.content %></span>
+          </div>
+          <div class="d-flex ">
+            <div class="p-2 flex-fill">
+              <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="far fa-comment"></i></button>
+            </div>
+            <div class="p-2 flex-fill">
+              <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-retweet"></i></button>
+            </div>
+            <div class="p-2 flex-fill">
+              <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-heart"></i></button>
+            </div>
+            <div class="p-2 flex-fill">
+                <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-external-link-alt"></i></button>
+            </div>
+            <!-- <div class="p-2 flex-fill">
+                <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-poll"></i></i></button>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <% }); %>
   </div>
+
   <%- include("sidebar.ejs") %>
 </div>
 <%- include("footer.ejs") %>

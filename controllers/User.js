@@ -1,7 +1,8 @@
-const User = require('../models/User');
-const passport = require('passport');
+const User      = require('../models/User');
+const Tweet     = require('../models/Tweet');
+const passport  = require('passport');
 const validator = require('validator');
-const moment = require('moment');
+const moment    = require('moment');
 exports.postSignup = (req, res) => {
 
   const strDate = moment().month(req.body.month).format("MM") + "-" + req.body.day + "-" + req.body.year;
@@ -102,7 +103,16 @@ exports.postLogin = (req, res, next) => {
 
 };
 exports.home = (req, res) => {
-    res.render("home");
+  Tweet.find({}, function(err, foundTweet) {
+    if(err){
+      req.flash('error','Could not find any tweets');
+      res.redirect('/home');
+    } else {
+      console.log(foundTweet);
+      res.render('home', {foundTweet, moment: moment});
+    }
+  });
+
 };
 exports.logout = (req, res) => {
   req.logout();
@@ -115,7 +125,8 @@ exports.profile = (req, res, next) => {
     if(foundUser){
       console.log("Current user id: " + foundUser._id); // current user
       console.log("Session user id: " + req.session.passport.user._id); // Current login session id
-      const regDate = moment.unix(foundUser.profile.regDate).format("MMMM YYYY")
+      const regDate = moment.unix(foundUser.profile.regDate).format("MMMM YYYY");
+
       res.render("profile", {foundUser, regDate});
     }
   });
