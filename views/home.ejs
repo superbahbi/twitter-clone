@@ -12,14 +12,23 @@
         </div>
         <div class="p-2 flex-fill">
           <div class="tweetBox">
-            <input type="text" placeholder="What's Happening" name="tweet" value="">
+            <input type="text" placeholder="What's Happening" name="tweet" value="" autocomplete="off" autocomplete="off">
           </div>
-          <div class="">
-            <button type="button" name="button" class="btn btn btn-primary"><i class="far fa-file-image"></i></button>
-            <button type="button" name="button" class="btn btn-primary"><i class="fas fa-gift"></i></button>
-            <button type="button" name="button" class="btn btn btn-primary"><i class="fas fa-poll-h"></i></button>
-            <button type="button" name="button" class="btn btn btn-primary"><i class="far fa-smile"></i></button>
-            <button class="btn btn-primary float-right" type="submit" name="button">Tweet</button>
+          <div class="input-tweet-row">
+            <div class="input-tweet-group">
+              <button type="button" name="button" class="input-tweet-icon"><i class="far fa-file-image"></i></button>
+            </div>
+            <div class="input-tweet-group">
+              <button type="button" name="button" class="input-tweet-icon"><i class="fas fa-gift"></i></button>
+            </div>
+            <div class="input-tweet-group">
+              <button type="button" name="button" class="input-tweet-icon"><i class="fas fa-poll-h"></i></button>
+            </div>
+            <div class="input-tweet-group">
+              <button type="button" name="button" class="input-tweet-icon"><i class="far fa-smile"></i></button>
+            </div>
+
+            <button type="submit" name="button" class="input-tweet-btn ml-auto">Tweet</button>
           </div>
         </div>
       </div>

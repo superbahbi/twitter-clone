@@ -83,8 +83,7 @@
 
 .tweetBox {
   font-size: 20px;
-  margin-bottom: 30px;
-  max-width: 100%;
+  padding-top: 15px;
 }
 
 .tweetBox input {
@@ -97,7 +96,11 @@
   outline: none;
   border: none;
 }
-
+.tweetBox input::placeholder {
+  font-weight: 400;
+  position: relative;
+  top: -0.3rem;
+}
 .twitter-tweet {
   display: inline-block;
   font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
@@ -108,7 +111,7 @@
   border-style: solid;
   border-width: 1px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  padding: 0 16px 16px 16px;
+  padding: 0 16px 0 16px;
 }
 
 .twitter-tweet p {
@@ -257,7 +260,44 @@
 .input-box select:hover{
   color: #71C9F8;
 }
+.input-tweet-group{
 
+}
+.input-tweet-icon {
+  color: #71C9F8;
+  font-size: 2em;
+  padding: 0;
+  border: none;
+  background: none;
+  padding: 0 5px 0 5px;
+  width: 45px;
+  height: 45px;
+  }
+
+.input-tweet-group:hover{
+  border-radius: 35px;
+  background-color: #E8F5FE;
+}
+.input-tweet-row {
+  padding-top: 20px;
+  display: flex;
+}
+.input-tweet-btn {
+  color: #fff;
+  background-color: #1DA1F2;
+  border-radius: 30px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1;
+  margin: 15px;
+  padding: 15px;
+  border-style: none;
+  margin: 0;
+}
+.input-tweet-btn:hover {
+  background-color: #1A91DA;
+}
 .login-btn {
   color: #1DA1F2;
   background-color: #fff;
