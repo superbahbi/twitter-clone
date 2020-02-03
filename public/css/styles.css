@@ -234,6 +234,9 @@
 .input-tweet-btn:hover {
   background-color: #1A91DA;
 }
+.input-tweet-img img{
+  width: 100%;
+}
 input[type="file"] {
     display: none;
 }
