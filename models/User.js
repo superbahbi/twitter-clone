@@ -6,17 +6,19 @@ const userSchema = new mongoose.Schema({
   username: { type: String, unique: true },
   password: String,
   tweets: Number,
-  tag: String,
+  following: Number,
+  followers: Number,
   profile: {
     name: String,
     email: String,
     bio: String,
     gender: String,
     phone: String,
+    birthday: Number,
     location: String,
     website: String,
-    picture: String,
-    birthday: Date
+    regDate: Number,
+    picture: String
   }
 });
 userSchema.plugin(passportLocalMongoose);

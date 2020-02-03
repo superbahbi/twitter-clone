@@ -5,7 +5,8 @@ const moment = require('moment');
 exports.postSignup = (req, res) => {
 
   const strDate = moment().month(req.body.month).format("MM") + "-" + req.body.day + "-" + req.body.year;
-  const date = moment(strDate).format('MM-DD-YYYY');
+  const date = new Date(strDate).getTime() / 1000
+  console.log(date+" " + strDate);
   console.log(req.body);
 
   const validationErrors = [];
@@ -32,7 +33,8 @@ exports.postSignup = (req, res) => {
       bio: null,
       gender: req.body.gender,
       phone: req.body.phone,
-      birthday: date
+      birthday: date,
+      regDate: Math.round((new Date()).getTime() / 1000)
     }
   }), req.body.password, function(err, user) {
     if (err) {
@@ -113,8 +115,8 @@ exports.profile = (req, res, next) => {
     if(foundUser){
       console.log("Current user id: " + foundUser._id); // current user
       console.log("Session user id: " + req.session.passport.user._id); // Current login session id
-      res.render("profile", {foundUser});
-      console.log(foundUser);
+      const regDate = moment.unix(foundUser.profile.regDate).format("MMMM YYYY")
+      res.render("profile", {foundUser, regDate});
     }
   });
 };
