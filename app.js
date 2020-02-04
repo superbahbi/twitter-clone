@@ -70,7 +70,9 @@ app.get('/logout', userController.logout);
 app.get('/:profile', functionController.isAuthenticated, userController.profile);
 app.post('/tweet', functionController.isAuthenticated, upload.single('img'), tweetController.tweet);
 app.post('/editprofile', functionController.isAuthenticated, userController.editprofile);
-
+app.get('/test', (req, res) => {
+  res.send('test result');
+});
 app.listen(3000, () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), process.env.SERVER_PORT, process.env.MODE);
   console.log('  Press CTRL-C to stop\n');
