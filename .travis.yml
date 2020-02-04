@@ -3,5 +3,11 @@ node_js:
   - "node"
 os: windows
 services: mongodb
+cache:
+  directories:
+    - "node_modules"
+sudo: false
+install:
+  - npm install
 script:
-  - npm run test
+  - npm test
