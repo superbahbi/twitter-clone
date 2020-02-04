@@ -10,10 +10,9 @@ const session     =    require('express-session');
 const passport    =    require('passport');
 const passportLocalMongoose = require("passport-local-mongoose");
 const MongoStore = require('connect-mongo')(session);
-var multer  = require('multer');
-var upload = multer({ dest: 'uploads/' });
-var storage = multer.memoryStorage();
-var upload = multer({ storage: storage });
+const multer  = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 
 dotenv.config({ path: '.env' });
@@ -70,6 +69,7 @@ app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
 app.get('/:profile', functionController.isAuthenticated, userController.profile);
 app.post('/tweet', functionController.isAuthenticated, upload.single('img'), tweetController.tweet);
+app.post('/editprofile', functionController.isAuthenticated, userController.editprofile);
 
 app.listen(3000, () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), process.env.SERVER_PORT, process.env.MODE);
