@@ -3,6 +3,8 @@ const Tweet = require('../models/Tweet');
 const passport = require('passport');
 const validator = require('validator');
 const moment = require('moment');
+const _ = require('lodash');
+
 exports.postSignup = (req, res) => {
 
   const strDate = moment().month(req.body.month).format("MM") + "-" + req.body.day + "-" + req.body.year;
@@ -179,8 +181,10 @@ exports.editprofile = async (req, res, next) => {
     user.profile.bio = req.body.bio || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
-    user.profile.avatar.data = req.file.buffer.toString("base64") || '';
-    user.profile.avatar.contentType = req.file.mimetype || '';
+    if(!_.isEmpty(req.file)){
+      user.profile.avatar.data = req.file.buffer.toString("base64") || '';
+      user.profile.avatar.contentType = req.file.mimetype || '';
+    }
     user.save((err) => {
       if (err) {
         return next(err);

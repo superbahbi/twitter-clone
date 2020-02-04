@@ -75,13 +75,12 @@
               <button class="login-btn-signup" data-toggle="modal" data-target="#modalLoginForm" type="button" name="button" onclick="document.getElementById('signup').submit();">Save</button>
             </div>
           </div>
-
-
           <div class="modal-body mx-5">
             <div class="md-form mb-5">
-              <div class="signup-modal input-box">
+              <div class="signup-modal input-box profile-edit-upload">
+                <img id="img-preview" class="" />
                 <label for="upload-preview" class="input-tweet-icon">
-                  <i class="far fa-file-image">Upload a profile pic</i>
+                  <i class="far fa-file-image"></i>
                 </label>
                 <input type='file' id="upload-preview" name="avatar" accept='image/*' />
               </div>
@@ -133,6 +132,19 @@
         this.className += " tweet-nav-item-active";
       });
     }
+
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#img-preview').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    $("#upload-preview").change(function() {
+      readURL(this);
+    });
   </script>
   <%- include("sidebar.ejs") %>
 </div>

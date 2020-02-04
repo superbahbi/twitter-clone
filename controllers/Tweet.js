@@ -3,17 +3,17 @@ const User = require('../models/User');
 const validator = require('validator');
 const moment = require('moment');
 const fs = require('fs');
-
+const _ = require('lodash');
 
 exports.tweet = (req, res, next) => {
   let tweet = new Tweet;
   const validationErrors = [];
-  if (validator.isEmpty(req.body.tweet) && isEmptyObject(req.file)) {
+  if (validator.isEmpty(req.body.tweet) && _.isEmpty(req.file)) {
     validationErrors.push({
       msg: 'Tweet cannot be blank.'
     });
   }
-  if (!isEmptyObject(req.file)) {
+  if (!_.isEmpty(req.file)) {
     switch (req.file.mimetype) {
       case "image/gif":
       case "image/png":
@@ -47,12 +47,3 @@ exports.tweet = (req, res, next) => {
   });
   res.redirect('/home');
 };
-
-function isEmptyObject(obj) {
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      return false;
-    }
-  }
-  return true;
-}

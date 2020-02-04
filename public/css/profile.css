@@ -56,6 +56,9 @@
 .profile-edit-btn:hover {
   background-color: #E8F5FE;
 }
+.profile-edit-upload img {
+  width: 100%;
+}
 .profile-divUser {
   margin: 5px 0 0;
   padding: 10px;
