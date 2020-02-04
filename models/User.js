@@ -18,7 +18,10 @@ const userSchema = new mongoose.Schema({
     location: String,
     website: String,
     regDate: Number,
-    avatar: String
+    avatar: {
+      data: Buffer,
+      contentType: String
+    }
   }
 });
 userSchema.plugin(passportLocalMongoose);

@@ -3,6 +3,8 @@ const User = require('../models/User');
 const validator = require('validator');
 const moment = require('moment');
 const fs = require('fs');
+
+
 exports.tweet = (req, res, next) => {
   let tweet = new Tweet;
   const validationErrors = [];

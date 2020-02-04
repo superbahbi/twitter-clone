@@ -169,7 +169,8 @@ exports.profile = (req, res, next) => {
     }
   });
 };
-exports.editprofile = async (req, res) => {
+exports.editprofile = async (req, res, next) => {
+  console.log(req.file);
   User.findOne({
     username: req.user.username
   }, function(err, user) {
@@ -178,6 +179,8 @@ exports.editprofile = async (req, res) => {
     user.profile.bio = req.body.bio || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
+    user.profile.avatar.data = req.file.buffer.toString("base64") || '';
+    user.profile.avatar.contentType = req.file.mimetype || '';
     user.save((err) => {
       if (err) {
         return next(err);

@@ -86,25 +86,16 @@
     function readURL(input) {
       if (input.files && input.files[0]) {
         var reader = new FileReader();
-
         reader.onload = function(e) {
           $('#img-preview').attr('src', e.target.result);
         }
-
         reader.readAsDataURL(input.files[0]);
       }
     }
-
     $("#upload-preview").change(function() {
       readURL(this);
     });
 
-
-    function hexToBase64(str) {
-        imgBuffer = str.data;
-        console.log(str);
-        return btoa(String.fromCharCode.apply(null, imgBuffer.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
-    }
 
   </script>
   <%- include("sidebar.ejs") %>
