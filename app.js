@@ -17,10 +17,10 @@ const upload = multer({ storage: storage });
 
 dotenv.config({ path: '.env' });
 
-const homeController = require('./controllers/home');
-const userController = require('./controllers/user');
-const tweetController = require('./controllers/tweet');
-const functionController = require('./models/function');
+const homeController = require(__dirname + '/controllers/home');
+const userController = require(__dirname + '/controllers/user');
+const tweetController = require(__dirname + '/controllers/tweet');
+const functionController = require(__dirname + '/models/function');
 const app = express();
 
 app.use(session({
