@@ -119,7 +119,9 @@ exports.postLogin = (req, res, next) => {
 exports.home = (req, res) => {
   let foundUser = {};
 
-  User.findOne({username: req.session.passport.user.username}, function (err, user) {
+  User.findOne({
+    username: req.user.username
+  }, function(err, user) {
     if (err) {
       req.flash('error', 'Could not find any user');
       res.redirect('/home');
@@ -157,7 +159,7 @@ exports.profile = (req, res, next) => {
   }, function(err, foundUser) {
     if (foundUser) {
       console.log("Current user id: " + foundUser._id); // current user
-      console.log("Session user id: " + req.session.passport.user._id); // Current login session id
+      console.log("Session user id: " + req.user._id); // Current login session id
       const regDate = moment.unix(foundUser.profile.regDate).format("MMMM YYYY");
 
       res.render("profile", {
@@ -165,5 +167,29 @@ exports.profile = (req, res, next) => {
         regDate
       });
     }
+  });
+};
+exports.editprofile = async (req, res) => {
+  User.findOne({
+    username: req.user.username
+  }, function(err, user) {
+    console.log(user);
+    user.profile.name = req.body.name || '';
+    user.profile.bio = req.body.bio || '';
+    user.profile.location = req.body.location || '';
+    user.profile.website = req.body.website || '';
+    user.save((err) => {
+      if (err) {
+        return next(err);
+      }
+      req.flash('success', {
+        msg: 'Profile information has been updated.'
+      });
+      const regDate = moment.unix(user.profile.regDate).format("MMMM YYYY");
+      res.render('profile', {
+        foundUser: user,
+        regDate
+      });
+    });
   });
 };
