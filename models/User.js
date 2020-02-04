@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
     avatar: {
       data: Buffer,
       contentType: String
+    },
+    cover: {
+      data: Buffer,
+      contentType: String
     }
   }
 });

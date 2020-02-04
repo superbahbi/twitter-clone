@@ -11,12 +11,14 @@
     <div class="d-flex flex-row">
       <div class="p-0 flex-fill profile-container">
         <div class="">
-          <a class="profile-bg profile-block"></a>
+          <a class="profile-bg profile-block">
+            <img class="" src="data:<%= foundUser.profile.cover.contentType %>;base64,<%= foundUser.profile.cover.data %>" alt="" />
+          </a>
           <div class="d-flex">
             <a title="" href="" class="">
               <img class="profile-avatarImg rounded-circle" src="data:<%= foundUser.profile.avatar.contentType %>;base64,<%= foundUser.profile.avatar.data %>" alt="" />
             </a>
-            <button type="submit" name="button" class="profile-edit-btn ml-auto"data-toggle="modal" data-target="#modalLoginForm">Edit Profile</button>
+            <button type="submit" name="button" class="profile-edit-btn ml-auto" data-toggle="modal" data-target="#modalLoginForm">Edit Profile</button>
           </div>
         </div>
         <div class="profile-divUser ">
@@ -60,8 +62,8 @@
   <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <form id="signup" action="/editprofile" method="post" enctype="multipart/form-data">
 
+        <form id="signup" action="/editprofile" method="post">
           <div class="modal-header edit-profile-header ">
             <div class="">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -72,17 +74,26 @@
               <h4 class="modal-title w-100 font-weight-bold">Edit profile</h4>
             </div>
             <div class="">
-              <button class="login-btn-signup" data-toggle="modal" data-target="#modalLoginForm" type="button" name="button" onclick="document.getElementById('signup').submit();">Save</button>
+              <button class="login-btn-signup" data-toggle="modal" data-target="#modalLoginForm" type="submit" name="button" onclick="document.getElementById('signup').submit();">Save</button>
             </div>
           </div>
           <div class="modal-body mx-5">
+            <div class="md-form mb-5">
+              <div class="signup-modal input-box profile-edit-upload">
+                <img id="img-cover-preview" class="" />
+                <label for="upload-cover-preview" class="input-tweet-icon">
+                  <i class="far fa-file-image"></i>
+                </label>
+                <input type="file" id="file-cover-upload" name="upload-cover-img" accept='image/*'>
+              </div>
+            </div>
             <div class="md-form mb-5">
               <div class="signup-modal input-box profile-edit-upload">
                 <img id="img-preview" class="" />
                 <label for="upload-preview" class="input-tweet-icon">
                   <i class="far fa-file-image"></i>
                 </label>
-                <input type='file' id="upload-preview" name="avatar" accept='image/*' />
+                <input type="file" id="file-profile-upload" name="upload-profile-img" accept='image/*'>
               </div>
             </div>
             <div class="md-form mb-5">
@@ -119,6 +130,7 @@
       </div>
     </div>
   </div>
+
   <script type="text/javascript">
     // Get the container element
     var btnContainer = document.getElementById("tweet-nav-container");
@@ -133,18 +145,63 @@
       });
     }
 
-    function readURL(input) {
+    function readURL(input, id) {
       if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
-          $('#img-preview').attr('src', e.target.result);
+          $(id).attr('src', e.target.result);
         }
         reader.readAsDataURL(input.files[0]);
       }
     }
     $("#upload-preview").change(function() {
-      readURL(this);
+      readURL(this, "#img-preview");
     });
+    $("#upload-cover-preview").change(function() {
+      readURL(this, "#img-cover-preview");
+    });
+
+    var file1 = $("#file-cover-upload")[0];
+    var file2 = $("#file-profile-upload")[0];
+    // The onchange event is used here, so when you select the file, it triggers the event upload.
+    file1.onchange = function() {
+      upload_file(file1);
+    }
+    file2.onchange = function() {
+      upload_file(file2);
+    }
+
+    function upload_file(file) {
+      // Create a FormDate
+      var formData = new FormData();
+      // Append file information to it
+      formData.append('upload-img', file.files[0]);
+      formData.append('source', file.name);
+      // Use split to cut and get the format of the uploaded file
+      console.dir(file);
+      var src = file.files[0].name,
+        format = src.split(".")[1];
+      // Use if to determine whether the uploaded file format conforms
+      if (format == "jpg" || format == "gif" ||
+        format == "png") {
+        // Only when the above format is satisfied will the Ajax request be triggered
+        $.ajax({
+          url: '/upload/photo',
+          type: 'POST',
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function(data) {
+            console.log(data);
+            // After successful upload, return the object data
+          }
+          // When the upload format is not satisfied
+        });
+      } else {
+        alert("file format does not support upload")
+      }
+    }
   </script>
   <%- include("sidebar.ejs") %>
 </div>

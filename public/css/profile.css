@@ -1,18 +1,20 @@
-
 .profile-bg {
-  background-image: url("https://pbs.twimg.com/profile_banners/777297854473711618/1474163877/600x200");
   background-position: 0 50%;
   background-size: 100% auto;
   border-bottom: 1px solid #e1e8ed;
   border-radius: 2px 2px 0 0;
-  height: 200px;
-  width: 100%;
 }
 
-.profile-block {
+.profile-block img {
   display: block !important;
   z-index: 0;
+}
 
+.profile-bg img {
+  width: 600px;
+  height: auto;
+  max-height: 200px;
+object-fit: cover;
 }
 
 .profile-button {
@@ -27,7 +29,7 @@
   border-width: 1px;
   border-color: #eee #ddd #bbb;
   font-size: 15px;
-  font-weight:lighter;
+  font-weight: lighter;
   line-height: 1.3125;
 }
 
@@ -39,6 +41,7 @@
   height: 134px;
   width: 134px;
 }
+
 .profile-edit-btn {
   color: #1DA1F2;
   background-color: #fff;
@@ -53,12 +56,15 @@
   padding: 15px;
   margin: 15px 15px 0 0;
 }
+
 .profile-edit-btn:hover {
   background-color: #E8F5FE;
 }
+
 .profile-edit-upload img {
   width: 100%;
 }
+
 .profile-divUser {
   margin: 5px 0 0;
   padding: 10px;
@@ -73,26 +79,31 @@
 .profile-divName a {
   color: inherit !important;
 }
-.profile-divTag{
+
+.profile-divTag {
   color: #657786;
   text-decoration: none;
 }
+
 .profile-info {
   padding: 5px 0 5px 0;
 }
+
 .profile-stat {
   margin-right: 20px;
 }
+
 .profile-edit-header {
   padding: 10px 5px 10px 5px;
 }
-.profile-edit-header .close{
+
+.profile-edit-header .close {
   padding: 0;
   margin: 0;
 }
-.tweet-nav {
 
-}
+.tweet-nav {}
+
 .tweet-nav-item {
   font-weight: bold;
   color: #657786;
@@ -100,6 +111,7 @@
   border-style: none;
   border-radius: 0;
 }
+
 .tweet-nav-item:hover {
   background-color: #E8F5FE;
   color: #1DA1F2;
@@ -109,8 +121,9 @@
   background-color: #E8F5FE;
   color: #1DA1F2;
   border-bottom: 2px solid #1DA1F2;
-  box-shadow:none;
+  box-shadow: none;
 }
+
 .tweet-nav-item-active:focus {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;

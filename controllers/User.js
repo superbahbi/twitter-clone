@@ -129,22 +129,24 @@ exports.home = (req, res) => {
       res.redirect('/home');
     } else {
       foundUser = user;
-    }
-  });
-  Tweet.find({}).sort([
-    ['timestamp', -1]
-  ]).exec(function(err, foundTweet) {
-    if (err) {
-      req.flash('error', 'Could not find any tweets');
-      res.redirect('/home');
-    } else {
-      res.render('home', {
-        foundTweet,
-        foundUser,
-        moment: moment
+      Tweet.find({}).sort([
+        ['timestamp', -1]
+      ]).exec(function(err, foundTweet) {
+        if (err) {
+          req.flash('error', 'Could not find any tweets');
+          res.redirect('/home');
+        } else {
+          res.render('home', {
+            foundTweet,
+            foundUser,
+            moment: moment
+          });
+        }
       });
     }
   });
+
+
 
 };
 exports.logout = (req, res) => {
@@ -172,19 +174,16 @@ exports.profile = (req, res, next) => {
   });
 };
 exports.editprofile = async (req, res, next) => {
-  console.log(req.file);
   User.findOne({
     username: req.user.username
   }, function(err, user) {
+    console.log(req.user);
+    console.log(req.body);
     console.log(user);
     user.profile.name = req.body.name || '';
     user.profile.bio = req.body.bio || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
-    if(!_.isEmpty(req.file)){
-      user.profile.avatar.data = req.file.buffer.toString("base64") || '';
-      user.profile.avatar.contentType = req.file.mimetype || '';
-    }
     user.save((err) => {
       if (err) {
         return next(err);
@@ -193,6 +192,7 @@ exports.editprofile = async (req, res, next) => {
         msg: 'Profile information has been updated.'
       });
       const regDate = moment.unix(user.profile.regDate).format("MMMM YYYY");
+      console.log(user);
       res.render('profile', {
         foundUser: user,
         regDate
@@ -200,3 +200,30 @@ exports.editprofile = async (req, res, next) => {
     });
   });
 };
+exports.upload = async (req, res, next) => {
+  User.findOne({
+    username: req.user.username
+  }, function(err, user) {
+
+    if (req.body.source === 'upload-profile-img') {
+      // upload profile image
+      user.profile.avatar.data = req.file.buffer.toString("base64") || '';
+      user.profile.avatar.contentType = req.file.mimetype || '';
+      req.flash('success', {
+        msg: 'Profile picture has been updated.'
+      });
+    } else if (req.body.source === 'upload-cover-img') {
+      // upload cover image
+      user.profile.cover.data = req.file.buffer.toString("base64") || '';
+      user.profile.cover.contentType = req.file.mimetype || '';
+      req.flash('success', {
+        msg: 'Profile cover has been updated.'
+      });
+    }
+    user.save((err) => {
+      if (err) {
+        return next(err);
+      }
+    });
+  });
+}

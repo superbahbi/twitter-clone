@@ -69,7 +69,8 @@ app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
 app.get('/:profile', functionController.isAuthenticated, userController.profile);
 app.post('/tweet', functionController.isAuthenticated, upload.single('img'), tweetController.tweet);
-app.post('/editprofile', functionController.isAuthenticated, upload.single('avatar'),userController.editprofile);
+app.post('/editprofile', functionController.isAuthenticated,userController.editprofile);
+app.post('/upload/photo', functionController.isAuthenticated, upload.single('upload-img'), userController.upload);
 app.get('/test', homeController.test);
 
 app.listen(process.env.SERVER_PORT || 3000, () => {
