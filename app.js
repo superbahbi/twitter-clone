@@ -72,7 +72,7 @@ app.post('/tweet', functionController.isAuthenticated, upload.single('img'), twe
 app.post('/editprofile', functionController.isAuthenticated, upload.single('avatar'),userController.editprofile);
 app.get('/test', homeController.test);
 
-app.listen(3000, () => {
+app.listen(process.env.SERVER_PORT || 3000, () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), process.env.SERVER_PORT, process.env.MODE);
   console.log('  Press CTRL-C to stop\n');
 });
