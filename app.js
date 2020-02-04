@@ -55,7 +55,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
+app.get('/test', homeController.test);
 app.use('/', express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/moment/min'), { maxAge: 31557600000 }));
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js'), { maxAge: 31557600000 }));
@@ -70,9 +70,7 @@ app.get('/logout', userController.logout);
 app.get('/:profile', functionController.isAuthenticated, userController.profile);
 app.post('/tweet', functionController.isAuthenticated, upload.single('img'), tweetController.tweet);
 app.post('/editprofile', functionController.isAuthenticated, userController.editprofile);
-app.get('/test', (req, res) => {
-  res.send('test result');
-});
+
 app.listen(3000, () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), process.env.SERVER_PORT, process.env.MODE);
   console.log('  Press CTRL-C to stop\n');
