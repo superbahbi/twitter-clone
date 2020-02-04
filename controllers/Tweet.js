@@ -31,9 +31,9 @@ exports.tweet = (req, res, next) => {
     return res.redirect('/home');
   }
   User.findOne({
-    username: req.session.passport.user.username
+    username: req.user.username
   }, function(err, user) {
-    tweet.username = req.session.passport.user.username;
+    tweet.username = req.user.username;
     tweet.name = user.profile.name;
     tweet.timestamp = new Date();
     tweet.content = req.body.tweet;
