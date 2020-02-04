@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "stable"
+os: windows
+services: mongodb
 script:
   - npm run test
-services:
-  – mongodb
