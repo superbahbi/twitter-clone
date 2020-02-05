@@ -343,3 +343,14 @@ input[type="file"] {
   font-size: 13px;
   font-weight: lighter;;
 }
+.modal-dialog,
+.modal-content {
+    /* 80% of window height */
+    height: 70%;
+}
+
+.modal-body {
+    /* 100% = dialog height, 120px = header + footer */
+    max-height: calc(100% - 120px);
+    overflow-y: scroll;
+}

@@ -6,7 +6,6 @@ const moment = require('moment');
 const _ = require('lodash');
 
 exports.postSignup = (req, res) => {
-
   const strDate = moment().month(req.body.month).format("MM") + "-" + req.body.day + "-" + req.body.year;
   const date = new Date(strDate).getTime() / 1000
   console.log(date + " " + strDate);
