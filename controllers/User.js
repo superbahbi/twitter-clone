@@ -61,7 +61,7 @@ exports.postSignup = (req, res) => {
       res.redirect("/");
     } else {
       passport.authenticate("local")(req, res, function() {
-        res.redirect("/home");
+        res.redirect("/");
       });
     }
   });
@@ -80,40 +80,52 @@ exports.getLogin = (req, res) => {
  * Login request page.
  */
 exports.postLogin = (req, res, next) => {
-
+  const validationErrors = [];
+  if (validator.isEmpty(req.body.username)) validationErrors.push({
+    msg: 'Please enter a username.'
+  });
+  if (validator.isEmpty(req.body.password)) validationErrors.push({
+    msg: 'Please enter a password.'
+  });
+  if (validationErrors.length) {
+    req.flash('error', validationErrors);
+    return res.redirect('/');
+  }
   const user = new User({
     username: req.body.username,
     password: req.body.password
   });
 
   req.login(user, function(err) {
-    console.log()
-    if (err) {
-      console.log(err);
-    } else {
-      passport.authenticate('local', function(error, user, info) {
-        // A error also means, an unsuccessful login attempt
-        if (error) {
-          console.error(error);
-          console.log('Failed login:');
-          // And do whatever you want here.
-          return next(new Error('AuthenticationError'), req, res);
-        }
+      console.log()
+      if (err) {
+        console.log(err);
+      } else {
+        if (req.body.username && req.body.password) {
+        passport.authenticate('local', function(error, user, info) {
+          // A error also means, an unsuccessful login attempt
+          if (error) {
+            console.error(error);
+            console.log('Failed login:');
+            // And do whatever you want here.
+            return next(new Error('AuthenticationError'), req, res);
+          }
 
-        if (user === false) {
-          // handle login error ...
-          req.flash('error', {
-            msg: info.message
-          });
-          res.redirect("/");
-        } else {
-          // handle successful login ...
-          req.flash('success', {
-            msg: "Successfully authenticated"
-          });
-          res.redirect('/home');
-        }
-      })(req, res, next);
+          if (user === false) {
+            // handle login error ...
+            req.flash('error', {
+              msg: info.message
+            });
+            res.redirect("/");
+          } else {
+            // handle successful login ...
+            req.flash('success', {
+              msg: "Successfully authenticated"
+            });
+            res.redirect('/');
+          }
+        })(req, res, next);
+      }
     }
   });
 
@@ -139,7 +151,7 @@ exports.home = (req, res) => {
           res.render('home', {
             foundTweet,
             foundUser,
-            moment: moment
+            moment
           });
         }
       });

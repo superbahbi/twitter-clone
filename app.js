@@ -62,7 +62,6 @@ app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/bootstrap/d
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/jquery/dist'), { maxAge: 31557600000 }));
 
 app.get('/', homeController.index);
-app.get('/home', functionController.isAuthenticated, userController.home);
 app.post('/signup', userController.postSignup);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
