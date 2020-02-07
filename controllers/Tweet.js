@@ -30,7 +30,7 @@ exports.tweet = (req, res, next) => {
   }
   if (validationErrors.length) {
     req.flash('error', validationErrors);
-    return res.redirect('/home');
+    return res.redirect('/');
   }
   User.findOne({
     username: req.user.username
@@ -45,5 +45,5 @@ exports.tweet = (req, res, next) => {
       }
     });
   });
-  res.redirect('/home');
+  res.redirect('/');
 };
