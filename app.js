@@ -22,20 +22,6 @@ const userController = require(__dirname + '/controllers/user');
 const tweetController = require(__dirname + '/controllers/tweet');
 const functionController = require(__dirname + '/models/function');
 const app = express();
-
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: process.env.SESSION_SECRET,
-  cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
-  store: new MongoStore({
-    url: process.env.MONGODB_URI,
-    autoReconnect: true,
-  })
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
 /**
  * Connect to MongoDB.
  */
@@ -49,6 +35,20 @@ mongoose.connection.on('error', (err) => {
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
   process.exit();
 });
+
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET,
+  cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 app.use(flash());
 app.set('view engine', 'ejs');
