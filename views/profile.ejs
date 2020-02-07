@@ -3,11 +3,21 @@
   <%- include("nav.ejs") %>
   <div class="w-50 p-0 main">
     <div class="d-flex flex-row twitter-tweet">
-      <i class="fas fa-arrow-left"></i>
-      <h3><%= foundUser.username  %></h3>
-      <p class=""><%= foundUser.tweets %></p>
-    </div>
+      <div class="d-flex profile-title-group">
+        <div class="p-2 profile-back-arrow">
+          <a href="" onclick="window.history.back()"><i class="fas fa-arrow-left"></i></a> 
 
+        </div>
+        <div class="p-0">
+          <div class="d-flex flex-column profile-title">
+            <div class="p-0 profile-title-name ">
+              <%= foundUser.profile.name  %>
+            </div>
+            <div class="p-0 profile-title-tweet-count"><%= foundUser.tweets %> Tweets</div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="d-flex flex-row">
       <div class="p-0 flex-fill profile-container">
         <div class="">
@@ -54,10 +64,46 @@
         </div>
       </div>
     </div>
+    <% foundTweet.forEach(function(tweet){ %>
     <div class="d-flex tweet-box">
-      <div class="p-2"><img class="rounded-circle" src="https://pbs.twimg.com/profile_images/777300939745013761/kGYRVUeo_bigger.jpg" height="49" width="49"></div>
-      <div class="p-2 flex-fill">Flex item</div>
+      <div class="p-2">
+        <img class="rounded-circle" src="data:<%= foundUser.profile.avatar.contentType %>;base64,<%= foundUser.profile.avatar.data %>" height="49" width="49">
+      </div>
+      <div class="p-2 flex-fill">
+        <div class="d-flex ">
+          <span class="tweet-name"><%= tweet.name %></span>
+          <span class="tweet-tag">@<%= tweet.username %> · <%= moment(tweet.timestamp).fromNow(); %> </span>
+        </div>
+        <div class="d-flex ">
+          <span class="tweet-content"><%= tweet.content %></span>
+        </div>
+        <% if(tweet.img.data) {%>
+        <div class="d-flex ">
+          <span class="tweet-content tweet-content-img">
+            <img src="data:<%= tweet.img.contentType %>;base64,<%= tweet.img.data %>" alt="" />
+          </span>
+        </div>
+        <% } %>
+        <div class="d-flex ">
+          <div class="p-2 flex-fill">
+            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="far fa-comment"></i></button>
+          </div>
+          <div class="p-2 flex-fill">
+            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-retweet"></i></button>
+          </div>
+          <div class="p-2 flex-fill">
+            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-heart"></i></button>
+          </div>
+          <div class="p-2 flex-fill">
+            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-external-link-alt"></i></button>
+          </div>
+          <!-- <div class="p-2 flex-fill">
+                <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-poll"></i></i></button>
+            </div> -->
+        </div>
+      </div>
     </div>
+    <% }); %>
   </div>
   <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
