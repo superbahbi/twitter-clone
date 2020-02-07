@@ -19,20 +19,34 @@ exports.index = (req, res) => {
         res.redirect('/home');
       } else {
         foundUser = user;
-        Tweet.find({}).sort([
-          ['timestamp', -1]
-        ]).exec(function(err, foundTweet) {
-          if (err) {
-            req.flash('error', 'Could not find any tweets');
-            res.redirect('/home');
-          } else {
+
+        Tweet.aggregate(
+          [{
+            $lookup: {
+              from: "users",
+              localField: "username",
+              foreignField: "username",
+              as: "tweet_data"
+            }
+          }, {
+            $unwind: {
+              path: "$tweet_data",
+              preserveNullAndEmptyArrays: true
+            }
+          },{
+            $sort: { timestamp: -1}
+          }],
+          function(err, foundTweet) {
+            if (err) {
+              console.log(err);
+            }
             res.render('home', {
               foundTweet,
               foundUser,
               moment
             });
           }
-        });
+        );
       }
     });
   } else {
