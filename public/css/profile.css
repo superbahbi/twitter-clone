@@ -1,3 +1,28 @@
+.profile-back-arrow {
+  margin: auto;
+}
+.profile-back-arrow i{
+  font-size: 20px;
+  color: #1DA1F2;
+}
+.profile-title-group {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.profile-title {
+  padding-left: 20px;
+}
+.profile-title-name {
+  margin-bottom: 5px;
+  font-size: 30px;
+  font-weight: bold;
+
+}
+.profile-title-tweet-count {
+  color: #657786;
+  font-size: 15px;
+  font-weight: lighter;
+}
 .profile-bg {
   background-position: 0 50%;
   background-size: 100% auto;

@@ -46,7 +46,7 @@
     <% foundTweet.forEach(function(tweet){ %>
     <div class="d-flex tweet-box">
       <div class="p-2">
-        <img class="rounded-circle" src="data:<%= foundUser.profile.avatar.contentType %>;base64,<%= foundUser.profile.avatar.data %>" height="49" width="49">
+        <img class="rounded-circle" src="data:<%= tweet.tweet_data.profile.avatar.contentType %>;base64,<%= tweet.tweet_data.profile.avatar.data %>" height="49" width="49">
       </div>
       <div class="p-2 flex-fill">
         <div class="d-flex ">
