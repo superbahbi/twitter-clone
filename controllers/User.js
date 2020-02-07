@@ -147,6 +147,8 @@ exports.home = (req, res) => {
           req.flash('error', 'Could not find any tweets');
           res.redirect('/home');
         } else {
+          // Found all tweets
+
           res.render('home', {
             foundTweet,
             foundUser,
@@ -176,11 +178,15 @@ exports.profile = (req, res, next) => {
       console.log("Current user id: " + foundUser._id); // current user
       console.log("Session user id: " + req.user._id); // Current login session id
       const regDate = moment.unix(foundUser.profile.regDate).format("MMMM YYYY");
-
-      res.render("profile", {
-        foundUser,
-        regDate
+      Tweet.find({username: foundUser.username}).sort({timestamp: -1}).exec(function(err, foundTweet) {
+        res.render("profile", {
+          foundTweet,
+          foundUser,
+          regDate,
+          moment: moment
+        });
       });
+
     }
   });
 };
