@@ -14,7 +14,6 @@ const multer  = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-
 dotenv.config({ path: '.env' });
 
 const homeController = require(__dirname + '/controllers/home');
@@ -48,8 +47,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 app.use(flash());
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
@@ -67,6 +64,7 @@ app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
 app.get('/:profile', functionController.isAuthenticated, userController.profile);
+app.get('/:profile/status/:id', functionController.isAuthenticated, tweetController.tweetStatus)
 app.post('/tweet', functionController.isAuthenticated, upload.single('img'), tweetController.tweet);
 app.post('/editprofile', functionController.isAuthenticated,userController.editprofile);
 app.post('/upload/photo', functionController.isAuthenticated, upload.single('upload-img'), userController.upload);

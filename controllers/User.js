@@ -109,7 +109,6 @@ exports.postLogin = (req, res, next) => {
             // And do whatever you want here.
             return next(new Error('AuthenticationError'), req, res);
           }
-
           if (user === false) {
             // handle login error ...
             req.flash('error', {
@@ -127,7 +126,6 @@ exports.postLogin = (req, res, next) => {
       }
     }
   });
-
 };
 exports.home = (req, res) => {
   let foundUser = {};
@@ -148,7 +146,6 @@ exports.home = (req, res) => {
           res.redirect('/home');
         } else {
           // Found all tweets
-
           res.render('home', {
             foundTweet,
             foundUser,
@@ -158,9 +155,6 @@ exports.home = (req, res) => {
       });
     }
   });
-
-
-
 };
 exports.logout = (req, res) => {
   req.logout();
@@ -175,8 +169,6 @@ exports.profile = (req, res, next) => {
     username: profile
   }, function(err, foundUser) {
     if (foundUser) {
-      console.log("Current user id: " + foundUser._id); // current user
-      console.log("Session user id: " + req.user._id); // Current login session id
       const regDate = moment.unix(foundUser.profile.regDate).format("MMMM YYYY");
       Tweet.find({username: foundUser.username}).sort({timestamp: -1}).exec(function(err, foundTweet) {
         res.render("profile", {
@@ -186,7 +178,6 @@ exports.profile = (req, res, next) => {
           moment: moment
         });
       });
-
     }
   });
 };

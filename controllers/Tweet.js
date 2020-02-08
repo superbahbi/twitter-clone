@@ -4,6 +4,7 @@ const validator = require('validator');
 const moment = require('moment');
 const fs = require('fs');
 const _ = require('lodash');
+const ObjectID = require('mongodb').ObjectID;
 
 exports.tweet = (req, res, next) => {
   let tweet = new Tweet;
@@ -46,4 +47,24 @@ exports.tweet = (req, res, next) => {
     });
   });
   res.redirect('/');
+};
+exports.tweetStatus = (req, res, next) => {
+  console.log(req.params);
+  const objectId2 = new ObjectID(req.params.id);
+  User.findOne({ username: req.params.profile }, function (err, user) {
+    if (err) {
+      console.log(err);
+    }
+    const foundUser = user;
+    Tweet.findOne({ _id: req.params.id }, function (err, foundTweet) {
+      if (err) {
+        console.log(err);
+      }
+      res.render('tweet', {
+        foundTweet,
+        foundUser,
+        moment
+      });
+    });
+  });
 };

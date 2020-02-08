@@ -19,7 +19,6 @@ exports.index = (req, res) => {
         res.redirect('/home');
       } else {
         foundUser = user;
-
         Tweet.aggregate(
           [{
             $lookup: {
