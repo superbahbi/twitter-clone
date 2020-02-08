@@ -8,6 +8,15 @@ const tweetSchema = new mongoose.Schema({
   img: {
     data: Buffer,
     contentType: String
+  },
+  comment: {
+    user_id: String,
+    timestamp: Date,
+    content: String,
+    img: {
+      data: Buffer,
+      contentType: String
+    }
   }
 });
 
