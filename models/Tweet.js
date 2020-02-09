@@ -5,11 +5,19 @@ const tweetSchema = new mongoose.Schema({
   name: String,
   timestamp: Date,
   content: String,
+  retweets: {
+    type: String,
+    default: 0
+  },
+  likes:{
+    type: String,
+    default: 0
+  },
   img: {
     data: Buffer,
     contentType: String
   },
-  comment: {
+  comment: [{
     user_id: String,
     timestamp: Date,
     content: String,
@@ -17,7 +25,7 @@ const tweetSchema = new mongoose.Schema({
       data: Buffer,
       contentType: String
     }
-  }
+  }]
 });
 
 const Tweet = mongoose.model('Tweet', tweetSchema);

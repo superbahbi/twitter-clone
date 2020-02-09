@@ -23,7 +23,9 @@
       <div class="p-2 flex-fill">
         <div class="d-flex ">
           <span class="tweet-name"><%= foundTweet.name %></span>
-          <span class="tweet-tag">@<%= foundTweet.username %> · <%= moment(foundTweet.timestamp).fromNow(); %> </span>
+        </div>
+        <div class="d-flex ">
+          <span class="tweet-tag">@<%= foundTweet.username %> </span>
         </div>
         <div class="d-flex ">
           <span class="tweet-content"><%= foundTweet.content %></span>
@@ -35,6 +37,17 @@
           </span>
         </div>
         <% } %>
+        <div class="d-flex ">
+          <span class="tweet-date"> <%= moment(foundTweet.timestamp).format("hh:mm A MMM D, YYYY"); %></span>
+        </div>
+        <div class="d-flex">
+          <% if(foundTweet.retweets != 0) { %>
+            <span class=""><%= foundTweet.retweets %> Retweets</span>
+          <% } %>
+          <% if(foundTweet.likes != 0) { %>
+            <span class=""><%= foundTweet.likes %> Likes</span>
+          <% } %>
+        </div>
         <div class="d-flex ">
           <div class="p-2 flex-fill">
             <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="far fa-comment"></i></button>
@@ -48,9 +61,6 @@
           <div class="p-2 flex-fill">
             <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-external-link-alt"></i></button>
           </div>
-          <!-- <div class="p-2 flex-fill">
-                <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-poll"></i></i></button>
-            </div> -->
         </div>
       </div>
     </div>
