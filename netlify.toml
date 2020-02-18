@@ -1,2 +1,2 @@
 [build]
-  command = "npm install && node app.js"
+  command = "npm install"
