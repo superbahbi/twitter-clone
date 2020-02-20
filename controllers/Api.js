@@ -163,7 +163,7 @@ exports.home = (req, res) => {
           if (err) {
             console.log(err);
           }
-          res.json({
+          res.send({
             foundTweet,
             foundUser,
             moment
@@ -173,3 +173,13 @@ exports.home = (req, res) => {
     }
   });
 };
+exports.getAllTweet = (req, res) => {
+  Tweet.find({}, (err, tweets) => {
+    res.send(tweets);
+  })
+}
+exports.getUser = (req, res) => {
+  User.findOne({username: req.params.username }, (err, user) => {
+    res.send(user);
+  })
+}
