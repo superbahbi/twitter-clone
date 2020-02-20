@@ -1,14 +1,12 @@
 import React, {useState, useEffect} from 'react';
 
-import Login from './Login';
-function App() {
-    const [state,
-        setState] = useState({});
+function Home() {
+    const [ state, setState ] = useState({});
     useEffect(() => {
         // This gets called after every render, by default (the first one, and every one
         // after that)
         const request = async(id = 100) => {
-            const response = await fetch(`http://localhost:3001/api`)
+            const response = await fetch(`http://localhost:3001/api/home`)
             const json = await response.json();
             setState(json);
         }
@@ -17,12 +15,10 @@ function App() {
         // and React will call it prior to unmounting.
         return () => console.log('unmounting...');
     }, []);
-
-    return (
-        <div>
-            <Login />
-        </div>
-    );
+    const {foundUser, foundTweet } = state;
+    console.log(foundTweet);
+    return <h1>{foundTweet.map((item) => (
+        console.log(item)
+    ))}</h1>
 }
-
-export default App;
+export default Home;

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory } from "react-router-dom";
 import styled from 'styled-components';
 const LoginButton = styled.button`
     color: #1DA1F2;
@@ -38,10 +39,15 @@ const SignupButton = styled.button`
     }
 `;
 function Button(props){
+    let history = useHistory();
+
+    function handleClick() {
+        history.push(props.to);
+    }
     if(props.btnStyle === 'login-btn'){
-        return (<LoginButton type={props.type} name={props.name }>{props.label}</LoginButton>);
+        return (<LoginButton type={props.type} name={props.name } onClick={handleClick} >{props.label}</LoginButton>);
     } else if(props.btnStyle === 'signup-btn') {
-        return (<SignupButton type={props.type} name={props.name }>{props.label}</SignupButton>);
+        return (<SignupButton type={props.type} name={props.name } onClick={handleClick} >{props.label}</SignupButton>);
     } else {
         return null;
     }

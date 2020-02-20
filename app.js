@@ -19,6 +19,7 @@ dotenv.config({ path: '.env' });
 const homeController = require(__dirname + '/controllers/home');
 const userController = require(__dirname + '/controllers/user');
 const tweetController = require(__dirname + '/controllers/tweet');
+const apiController = require(__dirname + '/controllers/api');
 const functionController = require(__dirname + '/models/function');
 const app = express();
 /**
@@ -62,8 +63,9 @@ app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/moment/min'
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js'), { maxAge: 31557600000 }));
 app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/jquery/dist'), { maxAge: 31557600000 }));
 
+
+// Routes for ejs views
 app.get('/', homeController.index);
-app.get('/api', homeController.api);
 app.post('/signup', userController.postSignup);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
@@ -75,6 +77,10 @@ app.post('/editprofile', functionController.isAuthenticated,userController.editp
 app.post('/upload/photo', functionController.isAuthenticated, upload.single('upload-img'), userController.upload);
 app.get('/test', homeController.test);
 
+// Routes for react views
+app.get('/api', homeController.api);
+app.post('/api/login', apiController.postLogin);
+app.get('/api/home', apiController.home);
 app.listen(process.env.SERVER_PORT || 3000, () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), process.env.SERVER_PORT, process.env.MODE);
   console.log('  Press CTRL-C to stop\n');
