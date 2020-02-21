@@ -7,7 +7,7 @@ const InputBox = styled.div`
   background-color: #f5f8fa;
   border: 0 solid black;
   box-sizing: border-box;
-  max-width: initial;
+  max-width: 100vh;
   margin-right: 15px;
   padding: 0 15px 0 15px;
   border-bottom: 2px solid #657786;
@@ -22,10 +22,11 @@ const InputBoxLabel = styled.div`
   margin-bottom: 0;
 `;
 
-const InputBoxinput = styled.input.attrs(props => ({
-  type: "text",
+const InputBoxInput = styled.input.attrs(props => ({
+  type: props.type,
   size: props.small ? 5 : undefined
 }))`
+  width: 45vh;
   align-items: stretch;
   border: 0 solid black;
   box-sizing: border-box;
@@ -43,7 +44,13 @@ function Input(props) {
     <InputBox>
       <InputBoxLabel>
         {props.name}
-        <InputBoxinput name={props.name}></InputBoxinput>
+        <InputBoxInput
+          name={props.name}
+          type={props.type}
+          placeholder={props.placeholder}
+          autocomplete={props.autocomplete}
+          value={props.value}
+        ></InputBoxInput>
       </InputBoxLabel>
     </InputBox>
   );

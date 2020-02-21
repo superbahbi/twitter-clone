@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Navbar from ".././Components/Navbar";
+import Tweet from ".././Components/Tweet";
 import Feed from ".././Components/Feed";
 import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
 
+const NavContainer = styled.div`
+  width: 15% !important;
+`;
 const HomeContainer = styled.div`
-  display: flex;
-  flex-direction:
-  height: 100vh;
+  width: 50% !important;
+  padding: 0;
+  max-width: 600px;
+`;
+const SideBarContainer = styled.div`
+  width: 15% !important;
+  padding: 0;
 `;
 function Home() {
   const [data, setData] = useState({});
@@ -31,14 +39,16 @@ function Home() {
   return (
     <div>
       <div className="d-flex flex-row justify-content-center">
-        <div className="w-10 p-0">
+        <NavContainer>
           <Navbar />
-        </div>
-        <div className="w-50 p-0">
+        </NavContainer>
+        <HomeContainer>
+          <Tweet />
           <Feed />
-        </div>
-        <div className="w-10 p-0">asd</div>
-        <Sidebar />
+        </HomeContainer>
+        <SideBarContainer>
+          <Sidebar />
+        </SideBarContainer>
       </div>
     </div>
   );
