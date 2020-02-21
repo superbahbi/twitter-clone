@@ -32,8 +32,8 @@ function Login() {
         <LeftSide></LeftSide>
         <RightSide>
           <SubLogin>
-            <Input name="Username" />
-            <Input name="Password" />
+            <Input name="Username" type="text" />
+            <Input name="Password" type="password" />
             <Button
               name="button"
               type="submit"
