@@ -36,6 +36,15 @@ const InputTweetIcon = styled.button`
   height: 45px;
   cursor: pointer;
 `;
+
+const TweetTweetIcon = styled.button`
+  color: #657786;
+  padding: 0;
+  border: none;
+  background: none;
+  flex: 1 1 auto !important;
+`;
+
 function Button(props) {
   let history = useHistory();
 
@@ -60,13 +69,8 @@ function Button(props) {
     :hover {
       background-color: #1a91da;
     }
-    margin-left: ${(props.position ? "auto!important" : "null")};
+    margin-left: ${props.position ? "auto!important" : "null"};
   `;
-  if (props.position) {
-    console.log("sssss");
-  } else {
-    console.log("aaaaa");
-  }
   if (props.btnStyle === "login-btn") {
     return (
       <LoginButton type={props.type} name={props.name} onClick={handleClick}>
@@ -84,6 +88,12 @@ function Button(props) {
       <InputTweetIcon type={props.type} name={props.name} onClick={handleClick}>
         <FontAwesomeIcon icon={props.icon} fixedWidth />
       </InputTweetIcon>
+    );
+  } else if (props.btnStyle === "feed-tweet-icon") {
+    return (
+      <TweetTweetIcon type={props.type} name={props.name} onClick={handleClick}>
+        <FontAwesomeIcon icon={props.icon} size={props.size} fixedWidth />
+      </TweetTweetIcon>
     );
   } else {
     return null;

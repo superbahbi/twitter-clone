@@ -25,8 +25,8 @@ function Home() {
     const request = async (id = 100) => {
       // const response = await fetch('http://localhost:3001/api/user/bahbi')
       // setUser(await response.json());
-      const raesponse = await fetch("http://localhost:3001/api/home");
-      setData(await raesponse.json());
+      const response = await fetch("http://localhost:3001/api/home");
+      setData(await response.json());
     };
     request();
     // If you want to implement componentWillUnmount, return a function from here,
@@ -44,7 +44,7 @@ function Home() {
         </NavContainer>
         <HomeContainer>
           <Tweet />
-          <Feed />
+          <Feed tweet={foundTweet} user={foundUser} />
         </HomeContainer>
         <SideBarContainer>
           <Sidebar />
