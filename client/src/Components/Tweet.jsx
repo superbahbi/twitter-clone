@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Input from ".././Components/Input";
+import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
 
 const TweetBox = styled.div`
@@ -49,6 +49,10 @@ const InputBoxGroup = styled.div`
   max-height: 45px;
 }
 `;
+const TweetDivider = styled.div`
+  flex: 1 1 auto !important;
+  border: 5px solid rgb(230, 236, 240);
+`;
 function Tweet() {
   return (
     <div>
@@ -68,7 +72,7 @@ function Tweet() {
         </ProfileIcon>
         <InputTweetBox>
           <InputBox>
-            <Input
+            <Textarea
               type="text"
               placeholder="What's Happening"
               autocomplete="off"
@@ -126,6 +130,7 @@ function Tweet() {
           </InputBoxRow>
         </InputTweetBox>
       </TweetBox>
+      <TweetDivider></TweetDivider>
     </div>
   );
 }
