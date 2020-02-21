@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
+import ProfileIcon from ".././Components/ProfileIcon";
 
 const TweetBox = styled.div`
   display: flex;
@@ -15,9 +16,7 @@ const TweetBox = styled.div`
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   padding: 0 16px 0 16px;
 `;
-const ProfileIcon = styled.div`
-  padding: 0.5em;
-`;
+
 const InputTweetBox = styled.div`
   flex: 1 1 auto !important;
   padding: 0.5em;
@@ -45,10 +44,10 @@ const InputBoxRow = styled.div`
   display: flex;
 `;
 const InputBoxGroup = styled.div`
-     max-width: 45px;
+  max-width: 45px;
   max-height: 45px;
-}
 `;
+
 const TweetDivider = styled.div`
   flex: 1 1 auto !important;
   border: 5px solid rgb(230, 236, 240);
@@ -60,16 +59,7 @@ function Tweet() {
         <h3>Home</h3>
       </TweetBox>
       <TweetBox>
-        <ProfileIcon>
-          <a href="/<%= foundUser.username %>">
-            <img
-              class="rounded-circle"
-              src="data:<%= foundUser.profile.avatar.contentType %>;base64,<%= foundUser.profile.avatar.data %>"
-              height="49"
-              width="49"
-            />
-          </a>
-        </ProfileIcon>
+        <ProfileIcon name="/bahbi" src=""></ProfileIcon>
         <InputTweetBox>
           <InputBox>
             <Textarea
