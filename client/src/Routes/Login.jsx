@@ -19,10 +19,15 @@ const LeftSide = styled.div`
 `;
 const SubLogin = styled.div`
   flex-direction: column;
-  height: 100vh;
   display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 15em;
+  vertical-align: middle;
+`;
+
+const LoginContainer = styled.div`
+  padding-top: 10em;
+  width: 40vh;
 `;
 
 function Login() {
@@ -32,14 +37,16 @@ function Login() {
         <LeftSide></LeftSide>
         <RightSide>
           <SubLogin>
-            <Input name="Username" type="text" />
-            <Input name="Password" type="password" />
-            <Button
-              name="button"
-              type="submit"
-              label="Log in"
-              btnStyle="login-btn"
-            />
+            <LoginContainer>
+              <Input name="Username" type="text" />
+              <Input name="Password" type="password" />
+              <Button
+                name="button"
+                type="submit"
+                label="Log in"
+                btnStyle="login-btn"
+              />
+            </LoginContainer>
           </SubLogin>
         </RightSide>
       </SplitPage>
