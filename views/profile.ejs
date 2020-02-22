@@ -5,14 +5,18 @@
     <div class="d-flex flex-row twitter-tweet">
       <div class="d-flex profile-title-group">
         <div class="p-2 profile-back-arrow">
-          <a href="" onclick="window.history.back()"><i class="fas fa-arrow-left"></i></a> 
+          <a href="" onclick="window.history.back()"
+            ><i class="fas fa-arrow-left"></i
+          ></a>
         </div>
         <div class="p-0">
           <div class="d-flex flex-column profile-title">
             <div class="p-0 profile-title-name ">
-              <%= foundUser.profile.name  %>
+              <%= foundUser.profile.name %>
             </div>
-            <div class="p-0 profile-title-tweet-count"><%= foundUser.tweets %> Tweets</div>
+            <div class="p-0 profile-title-tweet-count">
+              <%= foundUser.tweets %> Tweets
+            </div>
           </div>
         </div>
       </div>
@@ -21,57 +25,105 @@
       <div class="p-0 flex-fill profile-container">
         <div class="">
           <a class="profile-bg profile-block">
-            <img class="" src="data:<%= foundUser.profile.cover.contentType %>;base64,<%= foundUser.profile.cover.data %>" alt="" />
+            <img
+              class=""
+              src="/uploads/<%= foundUser.profile.cover.filename %>"
+              alt=""
+            />
           </a>
           <div class="d-flex">
             <a title="" href="" class="">
-              <img class="profile-avatarImg rounded-circle" src="data:<%= foundUser.profile.avatar.contentType %>;base64,<%= foundUser.profile.avatar.data %>" alt="" />
+              <img
+                class="profile-avatarImg rounded-circle"
+                src="/uploads/<%= foundUser.profile.avatar.filename %>"
+                alt=""
+              />
             </a>
-            <button type="submit" name="button" class="profile-edit-btn ml-auto" data-toggle="modal" data-target="#modalLoginForm">Edit Profile</button>
+            <button
+              type="submit"
+              name="button"
+              class="profile-edit-btn ml-auto"
+              data-toggle="modal"
+              data-target="#modalLoginForm"
+            >
+              Edit Profile
+            </button>
           </div>
         </div>
         <div class="profile-divUser ">
           <div class="profile-divName">
-            <span href=""><%= foundUser.profile.name  %></span>
+            <span href=""><%= foundUser.profile.name %></span>
           </div>
           <div class="profile-divTag">
             <span>
-              @<%= foundUser.username  %>
+              @<%= foundUser.username %>
             </span>
           </div>
           <div class="profile-bio profile-info">
             <span>
-              <%= foundUser.profile.bio  %>
+              <%= foundUser.profile.bio %>
             </span>
           </div>
           <div class="d-flex flex-row profile-info">
-            <div class="profile-stat"><i class="fas fa-map-marker-alt"></i> <%= foundUser.profile.location  %></div>
-            <div class="profile-stat"><i class="fas fa-link"></i> <a href="<%= foundUser.profile.website  %>"><%= foundUser.profile.website  %></a></div>
-            <div class="profile-stat"><i class="far fa-calendar-alt"></i> Joined <%= regDate %></div>
+            <div class="profile-stat">
+              <i class="fas fa-map-marker-alt"></i> <%=
+              foundUser.profile.location %>
+            </div>
+            <div class="profile-stat">
+              <i class="fas fa-link"></i>
+              <a href="<%= foundUser.profile.website  %>"
+                ><%= foundUser.profile.website %></a
+              >
+            </div>
+            <div class="profile-stat">
+              <i class="far fa-calendar-alt"></i> Joined <%= regDate %>
+            </div>
           </div>
           <div class="d-flex flex-row profile-info">
-            <div class="profile-stat"><strong><%= foundUser.following  %></strong> Following</div>
-            <div class="profile-stat"><strong><%= foundUser.followers  %></strong> Follwers</div>
+            <div class="profile-stat">
+              <strong><%= foundUser.following %></strong> Following
+            </div>
+            <div class="profile-stat">
+              <strong><%= foundUser.followers %></strong> Follwers
+            </div>
           </div>
         </div>
 
         <div class="d-flex flex-row" class="tweet-nav" id="tweet-nav-container">
-          <button id="tweets" class="btn p-2 flex-fill tweet-nav-item tweet-nav-item-active">Tweets</button>
-          <button id="tweetsnreplies" class="btn p-2 flex-fill tweet-nav-item">Tweets & replies</button>
-          <button id="media" class="btn p-2 flex-fill tweet-nav-item">Media</button>
-          <button id="likes" class="btn p-2 flex-fill tweet-nav-item">Likes</button>
+          <button
+            id="tweets"
+            class="btn p-2 flex-fill tweet-nav-item tweet-nav-item-active"
+          >
+            Tweets
+          </button>
+          <button id="tweetsnreplies" class="btn p-2 flex-fill tweet-nav-item">
+            Tweets & replies
+          </button>
+          <button id="media" class="btn p-2 flex-fill tweet-nav-item">
+            Media
+          </button>
+          <button id="likes" class="btn p-2 flex-fill tweet-nav-item">
+            Likes
+          </button>
         </div>
       </div>
     </div>
     <% foundTweet.forEach(function(tweet){ %>
     <div class="d-flex tweet-box">
       <div class="p-2">
-        <img class="rounded-circle" src="data:<%= foundUser.profile.avatar.contentType %>;base64,<%= foundUser.profile.avatar.data %>" height="49" width="49">
+        <img
+          class="rounded-circle"
+          src="/uploads/<%= foundUser.profile.avatar.filename %>"
+          height="49"
+          width="49"
+        />
       </div>
       <div class="p-2 flex-fill">
         <div class="d-flex ">
           <span class="tweet-name"><%= tweet.name %></span>
-          <span class="tweet-tag">@<%= tweet.username %> · <%= moment(tweet.timestamp).fromNow(); %> </span>
+          <span class="tweet-tag"
+            >@<%= tweet.username %> · <%= moment(tweet.timestamp).fromNow(); %>
+          </span>
         </div>
         <div class="d-flex ">
           <span class="tweet-content"><%= tweet.content %></span>
@@ -79,22 +131,46 @@
         <% if(tweet.img.data) {%>
         <div class="d-flex ">
           <span class="tweet-content tweet-content-img">
-            <img src="data:<%= tweet.img.contentType %>;base64,<%= tweet.img.data %>" alt="" />
+            <img src="/uploads/<%= tweet.img.filename %>" alt="" />
           </span>
         </div>
         <% } %>
         <div class="d-flex ">
           <div class="p-2 flex-fill">
-            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="far fa-comment"></i></button>
+            <button
+              type="button"
+              name="button"
+              class="flex-fill tweet-content-icon"
+            >
+              <i class="far fa-comment"></i>
+            </button>
           </div>
           <div class="p-2 flex-fill">
-            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-retweet"></i></button>
+            <button
+              type="button"
+              name="button"
+              class="flex-fill tweet-content-icon"
+            >
+              <i class="fas fa-retweet"></i>
+            </button>
           </div>
           <div class="p-2 flex-fill">
-            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-heart"></i></button>
+            <button
+              type="button"
+              name="button"
+              class="flex-fill tweet-content-icon"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
           </div>
           <div class="p-2 flex-fill">
-            <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-external-link-alt"></i></button>
+            <button
+              type="button"
+              name="button"
+              class="flex-fill tweet-content-icon"
+            >
+              <i class="fas fa-external-link-alt"></i>
+            </button>
           </div>
           <!-- <div class="p-2 flex-fill">
                 <button type="button" name="button" class="flex-fill tweet-content-icon"><i class="fas fa-poll"></i></i></button>
@@ -104,14 +180,25 @@
     </div>
     <% }); %>
   </div>
-  <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    id="modalLoginForm"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-
         <form id="signup" action="/editprofile" method="post">
           <div class="modal-header edit-profile-header ">
             <div class="">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -119,7 +206,16 @@
               <h4 class="modal-title w-100 font-weight-bold">Edit profile</h4>
             </div>
             <div class="">
-              <button class="login-btn-signup" data-toggle="modal" data-target="#modalLoginForm" type="submit" name="button" onclick="document.getElementById('signup').submit();">Save</button>
+              <button
+                class="login-btn-signup"
+                data-toggle="modal"
+                data-target="#modalLoginForm"
+                type="submit"
+                name="button"
+                onclick="document.getElementById('signup').submit();"
+              >
+                Save
+              </button>
             </div>
           </div>
           <div class="modal-body mx-5">
@@ -127,9 +223,14 @@
               <div class="signup-modal input-box profile-edit-upload">
                 <img id="img-cover-preview" class="" />
                 <label for="file-cover-upload" class="input-tweet-icon">
-                  <i class="far fa-file-image"></i>
+                  <i class="far fa-file-image">aa</i>
                 </label>
-                <input type="file" id="file-cover-upload" name="upload-cover-img" accept='image/*'>
+                <input
+                  type="file"
+                  id="file-cover-upload"
+                  name="upload-cover-img"
+                  accept="image/*"
+                />
               </div>
             </div>
             <div class="md-form mb-5">
@@ -138,35 +239,68 @@
                 <label for="file-profile-upload" class="input-tweet-icon">
                   <i class="far fa-file-image"></i>
                 </label>
-                <input type="file" id="file-profile-upload" name="upload-profile-img" accept='image/*'>
+                <input
+                  type="file"
+                  id="file-profile-upload"
+                  name="upload-profile-img"
+                  accept="image/*"
+                />
               </div>
             </div>
             <div class="md-form mb-5">
               <div class="signup-modal input-box">
-                <label for="">Name
-                  <input type="text" name="name" value="<%= foundUser.profile.name %>" data-lpignore="true" required>
+                <label for=""
+                  >Name
+                  <input
+                    type="text"
+                    name="name"
+                    value="<%= foundUser.profile.name %>"
+                    data-lpignore="true"
+                    required
+                  />
                 </label>
               </div>
             </div>
             <div class="md-form mb-5">
               <div class="signup-modal input-box">
-                <label for="">Bio
-                  <input type="textarea" name="bio" value="<%= foundUser.profile.bio %>" data-lpignore="true" required>
+                <label for=""
+                  >Bio
+                  <input
+                    type="textarea"
+                    name="bio"
+                    value="<%= foundUser.profile.bio %>"
+                    data-lpignore="true"
+                    required
+                  />
                 </label>
               </div>
             </div>
 
             <div class="md-form mb-5">
               <div class="signup-modal input-box">
-                <label for="">Location
-                  <input type="text" name="location" value="<%= foundUser.profile.location %>" data-lpignore="true" required>
+                <label for=""
+                  >Location
+                  <input
+                    type="text"
+                    name="location"
+                    value="<%= foundUser.profile.location %>"
+                    data-lpignore="true"
+                    required
+                  />
                 </label>
               </div>
             </div>
             <div class="md-form mb-5">
               <div class="signup-modal input-box">
-                <label for="">Website
-                  <input type="text" name="website" value="<%= foundUser.profile.website %>" data-lpignore="true" required>
+                <label for=""
+                  >Website
+                  <input
+                    type="text"
+                    name="website"
+                    value="<%= foundUser.profile.website %>"
+                    data-lpignore="true"
+                    required
+                  />
                 </label>
               </div>
             </div>
@@ -185,7 +319,10 @@
     for (var i = 0; i < btns.length; i++) {
       btns[i].addEventListener("click", function() {
         var current = document.getElementsByClassName("tweet-nav-item-active");
-        current[0].className = current[0].className.replace(" tweet-nav-item-active", "");
+        current[0].className = current[0].className.replace(
+          " tweet-nav-item-active",
+          ""
+        );
         this.className += " tweet-nav-item-active";
       });
     }
@@ -194,8 +331,8 @@
       if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
-          $(id).attr('src', e.target.result);
-        }
+          $(id).attr("src", e.target.result);
+        };
         reader.readAsDataURL(input.files[0]);
       }
     }
@@ -211,28 +348,27 @@
     // The onchange event is used here, so when you select the file, it triggers the event upload.
     file1.onchange = function() {
       upload_file(file1);
-    }
+    };
     file2.onchange = function() {
       upload_file(file2);
-    }
+    };
 
     function upload_file(file) {
       // Create a FormDate
       var formData = new FormData();
       // Append file information to it
-      formData.append('upload-img', file.files[0]);
-      formData.append('source', file.name);
+      formData.append("upload-img", file.files[0]);
+      formData.append("source", file.name);
       // Use split to cut and get the format of the uploaded file
       console.dir(file);
       var src = file.files[0].name,
         format = src.split(".")[1];
       // Use if to determine whether the uploaded file format conforms
-      if (format == "jpg" || format == "gif" ||
-        format == "png") {
+      if (format == "jpg" || format == "gif" || format == "png") {
         // Only when the above format is satisfied will the Ajax request be triggered
         $.ajax({
-          url: '/upload/photo',
-          type: 'POST',
+          url: "/upload/photo",
+          type: "POST",
           data: formData,
           cache: false,
           contentType: false,
@@ -244,7 +380,7 @@
           // When the upload format is not satisfied
         });
       } else {
-        alert("file format does not support upload")
+        alert("file format does not support upload");
       }
     }
   </script>

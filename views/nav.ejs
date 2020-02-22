@@ -1,5 +1,4 @@
 <div class="w-10 p-0">
-
   <div class="d-flex flex-column">
     <div class="p-0 logo icon-list ">
       <i class="fab fa-twitter fa-2x"></i>
@@ -67,9 +66,17 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-baseline" href="/<%= foundUser.username %>">
+          <a
+            class="nav-link d-flex align-items-baseline"
+            href="/<%= foundUser.username %>"
+          >
             <div class="p-2 icon-list">
-                <img  class="rounded-circle" src="data:<%= foundUser.profile.avatar.contentType %>;base64,<%= foundUser.profile.avatar.data %>" height="32" width="32">
+              <img
+                class="rounded-circle"
+                src="/uploads/<%= foundUser.profile.avatar.filename %>"
+                height="32"
+                width="32"
+              />
             </div>
             <div class="p-2 align-self-center">
               Profile
@@ -105,7 +112,10 @@
   for (var i = 0; i < btns.length; i++) {
     btns[i].addEventListener("click", function() {
       var current = document.getElementsByClassName("nav-btn-active");
-      current[0].className = current[0].className.replace(" nav-btn-active", "");
+      current[0].className = current[0].className.replace(
+        " nav-btn-active",
+        ""
+      );
       this.className += " nav-btn-active";
     });
   }

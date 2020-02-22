@@ -18,24 +18,22 @@ const SideBarContainer = styled.div`
   padding: 0;
 `;
 function Home() {
-  const [data, setData] = useState({});
+  const [user, setUser] = useState({});
+  const [tweet, setTweet] = useState([]);
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
     const request = async (id = 100) => {
-      // const response = await fetch('http://localhost:3001/api/user/bahbi')
-      // setUser(await response.json());
-      const response = await fetch("http://localhost:3001/api/home");
-      setData(await response.json());
+      const res1 = await fetch("http://localhost:3001/api/user/bahbi");
+      setUser(await res1.json());
+      const res2 = await fetch("http://localhost:3001/api/tweet");
+      setTweet(await res2.json());
     };
     request();
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
     return () => console.log("unmounting...");
   }, []);
-  const { foundUser, foundTweet } = data;
-  // {foundTweet && foundTweet.map(tweet => tweet.username ) }
-  // {foundUser && foundUser._id }
   return (
     <div>
       <div className="d-flex flex-row justify-content-center">
@@ -43,8 +41,8 @@ function Home() {
           <Navbar />
         </NavContainer>
         <HomeContainer>
-          <Tweet />
-          <Feed tweet={foundTweet} user={foundUser} />
+          <Tweet user={user} />
+          <Feed tweet={tweet} />
         </HomeContainer>
         <SideBarContainer>
           <Sidebar />

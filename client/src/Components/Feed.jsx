@@ -32,35 +32,39 @@ const TweetContainer = styled.div`
 const TweetBody = styled.div`
   display: flex;
 `;
-const feedData = ["test1", "test2"];
+
 function Feed(props) {
-  return props.tweet
-    ? props.tweet.map(item => (
+  console.log(props.tweet.foundTweet);
+
+  props.tweet.foundTweet &&
+    props.tweet.foundTweet.map(item => console.log(item));
+
+  return props.tweet.foundTweet
+    ? props.tweet.foundTweet.map(item => (
         <TweetBox>
           <ProfileIcon
-            name={item.name}
-            src={"data:" + item.img.contentType + ";base64," + item.img.data}
+            name={item.tweet_data.name}
+            src={
+              "http://localhost:3001/uploads/" + item.profile.avatar.filename
+            }
           ></ProfileIcon>
           <TweetContainer>
             <TweetBody>
-              <FeedName text={item.name} />
-              <FeedTag text={item.name} />
-              <FeedDate text={moment(item.timestamp).fromNow()} />
+              <FeedName text={item.tweet_data.name} />
+              <FeedTag text={item.tweet_data.name} />
+              <FeedDate text={moment(item.tweet_data.timestamp).fromNow()} />
             </TweetBody>
             <TweetBody>
-              <FeedContent text={item.content} />
+              <FeedContent text={item.tweet_data.content} />
             </TweetBody>
             <TweetBody>
               <FeedImage
                 src={
-                  "data:" +
-                  item.tweet_data.profile.avatar.contentType +
-                  ";base64," +
-                  item.tweet_data.profile.avatar.data
+                  "http://localhost:3001/uploads/" +
+                  item.tweet_data.img.filename
                 }
               />
             </TweetBody>
-
             <TweetBody>
               <TweetContainer>
                 <FeedFooter />

@@ -14,12 +14,8 @@
       <div class="d-flex flex-row twitter-tweet">
         <div class="p-2">
           <a href="/<%= foundUser.username %>">
-            <img
-              class="rounded-circle"
-              src="data:<%= foundUser.profile.avatar.contentType %>;base64,<%= foundUser.profile.avatar.data %>"
-              height="49"
-              width="49"
-            />
+            <img class="rounded-circle" src="/uploads/<%=
+            foundUser.profile.avatar.filename %>"" height="49" width="49" />
           </a>
         </div>
         <div class="p-2 flex-fill">
@@ -79,7 +75,7 @@
           <div class="p-2">
             <img
               class="rounded-circle"
-              src="data:<%= tweet.tweet_data.profile.avatar.contentType %>;base64,<%= tweet.tweet_data.profile.avatar.data %>"
+              src="uploads/<%= tweet.tweet_data.profile.avatar.filename %>"
               height="49"
               width="49"
             />

@@ -52,14 +52,22 @@ const TweetDivider = styled.div`
   flex: 1 1 auto !important;
   border: 5px solid rgb(230, 236, 240);
 `;
-function Tweet() {
-  return (
+
+function Tweet(props) {
+  return props.user ? (
     <div>
       <TweetBox>
         <h3>Home</h3>
       </TweetBox>
       <TweetBox>
-        <ProfileIcon name="/bahbi" src=""></ProfileIcon>
+        <ProfileIcon
+          name={props.user.username}
+          src={
+            props.user.profile &&
+            "http://localhost:3001/uploads/" +
+              props.user.profile.avatar.filename
+          }
+        ></ProfileIcon>
         <InputTweetBox>
           <InputBox>
             <Textarea
@@ -122,6 +130,6 @@ function Tweet() {
       </TweetBox>
       <TweetDivider></TweetDivider>
     </div>
-  );
+  ) : null;
 }
 export default Tweet;

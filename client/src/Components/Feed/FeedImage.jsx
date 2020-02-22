@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Image = styled.div`
+const Image = styled.img`
   width: 100%;
   border: none;
   border-radius: 10px;
@@ -9,12 +9,6 @@ const Image = styled.div`
 `;
 
 function FeedImage(props) {
-  return (
-    <Image>
-      <div>
-        <img src={props.src} alt="" />
-      </div>
-    </Image>
-  );
+  return <Image src={props.src} alt="" />;
 }
 export default FeedImage;

@@ -28,12 +28,10 @@ const userSchema = new mongoose.Schema({
     website: String,
     regDate: Number,
     avatar: {
-      data: Buffer,
-      contentType: String
+      filename: String,
     },
     cover: {
-      data: Buffer,
-      contentType: String
+      filename: String,
     }
   }
 });
