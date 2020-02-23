@@ -20,7 +20,7 @@ const SideBarContainer = styled.div`
 `;
 function Profile(props) {
   const profile = props.match.params.profile;
-  const { auth, setAuthData } = useContext(authContext);
+  const { auth } = useContext(authContext);
   const [tweetData, setTweetData] = useState({});
   const [userData, setUserData] = useState({});
   useEffect(() => {
@@ -37,7 +37,6 @@ function Profile(props) {
     // and React will call it prior to unmounting.
     return () => console.log("unmounting...");
   }, []);
-  console.log(userData.foundUser);
   return (
     <div>
       <div className="d-flex flex-row justify-content-center">
