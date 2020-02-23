@@ -12,6 +12,7 @@ function Avatar(props) {
           src={props.src}
           height="49"
           width="49"
+          alt={props.name}
         />
       </a>
     </IconContainer>
