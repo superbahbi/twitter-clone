@@ -128,14 +128,13 @@ exports.postLogin = (req, res, next) => {
               JSON.stringify(user),
               process.env.JWT_SECRET
             );
-            // const token = jwt.sign(
-            //   JSON.stringify(user),
-            //   process.env.JWT_SECRET,
-            //   {
-            //     expiresIn: 60 * 1 // expires in 1
-            //   }
-            // );
 
+            // Delete user salt and hash from user object
+            user = user.toObject();
+            delete user.salt;
+            delete user.hash;
+
+            console.log(user);
             return res.json({ user, token });
           }
         })(req, res, next);
