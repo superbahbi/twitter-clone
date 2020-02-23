@@ -140,6 +140,7 @@ app.post("/api/login", apiController.postLogin);
 app.get("/api/home", apiController.home);
 app.get("/api/tweet", apiController.getAllTweet);
 app.get("/api/user/:username", apiController.getUser);
+app.get("/api/login", apiController.postLogin);
 app.listen(process.env.SERVER_PORT || 3000, () => {
   console.log(
     "%s App is running at http://localhost:%d in %s mode",

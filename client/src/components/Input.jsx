@@ -41,12 +41,13 @@ function Input(props) {
       <InputBoxLabel>
         {props.name}
         <InputBoxInput
+          onChange={props.onHandleChange}
           name={props.name}
           type={props.type}
           placeholder={props.placeholder}
           autocomplete={props.autocomplete}
           value={props.value}
-        ></InputBoxInput>
+        />
       </InputBoxLabel>
     </InputBox>
   );

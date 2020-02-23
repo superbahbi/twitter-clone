@@ -5,7 +5,7 @@ import Tweet from ".././Components/Tweet";
 import Feed from ".././Components/Feed";
 import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
-
+import FeedHeader from "../Components/Feed/FeedHeader";
 const NavContainer = styled.div`
   width: 15% !important;
 `;
@@ -18,16 +18,13 @@ const SideBarContainer = styled.div`
   width: 15% !important;
   padding: 0;
 `;
-function Home() {
-  const { setAuthData, auth } = useContext(authContext);
-  const [user, setUser] = useState({});
+function Profile() {
+  const { auth, setAuthData } = useContext(authContext);
   const [tweet, setTweet] = useState([]);
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
     const request = async (id = 100) => {
-      const res1 = await fetch("http://localhost:3001/api/user/bahbi");
-      setUser(await res1.json());
       const res2 = await fetch("http://localhost:3001/api/tweet");
       setTweet(await res2.json());
     };
@@ -43,7 +40,7 @@ function Home() {
           <Navbar />
         </NavContainer>
         <HomeContainer>
-          <Tweet user={user} page="Home" />
+          <FeedHeader page="Profile" data={auth.data.user} />
           <Feed tweet={tweet} />
         </HomeContainer>
         <SideBarContainer>
@@ -53,4 +50,4 @@ function Home() {
     </div>
   );
 }
-export default Home;
+export default Profile;

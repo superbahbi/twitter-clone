@@ -4,6 +4,7 @@ const passport = require("passport");
 const validator = require("validator");
 const moment = require("moment");
 const _ = require("lodash");
+const jwt = require("jsonwebtoken");
 
 exports.postSignup = (req, res) => {
   const strDate =
@@ -97,50 +98,39 @@ exports.getLogin = (req, res) => {
  * Login request page.
  */
 exports.postLogin = (req, res, next) => {
-  const validationErrors = [];
-  if (validator.isEmpty(req.body.username))
-    validationErrors.push({
-      msg: "Please enter a username."
-    });
-  if (validator.isEmpty(req.body.password))
-    validationErrors.push({
-      msg: "Please enter a password."
-    });
-  if (validationErrors.length) {
-    req.flash("error", validationErrors);
-    return res.redirect("/");
-  }
   const user = new User({
     username: req.body.username,
     password: req.body.password
   });
-
   req.login(user, function(err) {
-    console.log();
-    if (err) {
-      console.log(err);
+    if (err || !user) {
+      return res.status(400).json({
+        message: "Something is not right",
+        user: user
+      });
     } else {
       if (req.body.username && req.body.password) {
-        passport.authenticate("local", function(error, user, info) {
+        passport.authenticate("local", { session: false }, function(
+          error,
+          user,
+          info
+        ) {
           // A error also means, an unsuccessful login attempt
+          console.log(user);
           if (error) {
-            console.error(error);
+            res.json("error2");
             console.log("Failed login:");
             // And do whatever you want here.
             return next(new Error("AuthenticationError"), req, res);
-          }
-          if (user === false) {
+          } else if (user === false) {
             // handle login error ...
-            req.flash("error", {
-              msg: info.message
-            });
-            res.redirect("/");
+            return res.json("error: username  or password doesnt match!");
           } else {
-            // handle successful login ...
-            req.flash("success", {
-              msg: "Successfully authenticated"
-            });
-            res.redirect("/");
+            const token = jwt.sign(
+              JSON.stringify(user),
+              process.env.JWTSECRETTOKEN
+            );
+            return res.json({ user, token });
           }
         })(req, res, next);
       }
@@ -199,27 +189,6 @@ exports.home = (req, res) => {
     }
   );
 };
-// async function getAllTweet(req, res, next) {
-//   try {
-//     Tweet.find({}, (err, tweets) => {
-//       res.send(tweets);
-//     });
-//   } catch (err) {
-//     console.log("fetch failed", err);
-//   }
-// }
-// async function getUser(req, res, next) {
-//   try {
-//     User.findOne({ username: req.params.username }, (err, user) => {
-//       res.send(user);
-//     });
-//   } catch (err) {
-//     console.log("fetch failed", err);
-//   }
-// }
-
-// module.exports.getAllTweet = getAllTweet;
-// module.exports.getUser = getUser;
 exports.getAllTweet = (req, res) => {
   Tweet.find(
     {},
