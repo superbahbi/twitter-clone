@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { authContext } from "../Contexts/AuthContext";
-
+import ClipLoader from "react-spinners/ClipLoader";
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { auth } = useContext(authContext);
   const { loading } = auth;
@@ -11,7 +11,16 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       <Route
         {...rest}
         render={() => {
-          return <p>Loading...</p>;
+          return (
+            <div className="sweet-loading">
+              <ClipLoader
+                size={150}
+                //size={"150px"} this also works
+                color={"#123abc"}
+                loading={loading}
+              />
+            </div>
+          );
         }}
       />
     );
