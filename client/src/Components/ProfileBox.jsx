@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import styled from "styled-components";
 import Button from ".././Components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -122,7 +123,7 @@ function ProfileBox(props) {
                     </ProfileStat>
                     <ProfileStat>
                       <FontAwesomeIcon icon="calendar-alt" fixedWidth />
-                      {item.profile.regdate}
+                      {moment.unix(item.profile.regDate).format("MMMM YYYY")}
                     </ProfileStat>
                   </ProfileInfo>
                   <ProfileInfo>
