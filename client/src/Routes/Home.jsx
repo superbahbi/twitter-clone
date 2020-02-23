@@ -20,15 +20,12 @@ const SideBarContainer = styled.div`
 `;
 function Home() {
   const { auth } = useContext(authContext);
-  const [user, setUser] = useState({});
   const [tweet, setTweet] = useState([]);
 
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
     const request = async (id = 100) => {
-      const res1 = await fetch("http://localhost:3001/api/user/bahbi");
-      setUser(await res1.json());
       const res2 = await fetch("http://localhost:3001/api/tweet");
       setTweet(await res2.json());
     };
