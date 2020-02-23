@@ -1,7 +1,7 @@
 import React from "react";
 import List from "./List";
 import styled from "styled-components";
-
+import { useHistory } from "react-router-dom";
 const ListStyle = styled.ul`
   display: flex;
   flex-direction: column;
@@ -17,6 +17,13 @@ const ListStyle = styled.ul`
   }
 `;
 function Navbar() {
+  let history = useHistory();
+  function handleClick(event) {
+    event.preventDefault();
+    // Remove the token from localStorage
+    localStorage.removeItem("authData");
+    history.push("/");
+  }
   return (
     <ListStyle>
       <List id="icon" icon="dog" color="#1da1f2" />
@@ -27,7 +34,12 @@ function Navbar() {
       <List id="bookmarks" name="Bookmarks" icon="bookmark" />
       <List id="lists" name="Lists" icon="list" />
       <List id="profile" name="Profile" icon="circle" />
-      <List id="logput" name="Logout" icon="circle" />
+      <List
+        id="logout"
+        name="Logout"
+        icon="circle"
+        onHandleClick={handleClick}
+      />
     </ListStyle>
   );
 }

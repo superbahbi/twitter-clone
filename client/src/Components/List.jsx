@@ -11,6 +11,7 @@ const ListItem = styled.li`
   font-weight: 400;
   padding: 0.5em;
   align-items: baseline;
+  cursor: pointer;
   :hover {
     border-radius: 30px;
     background-color: #e8f5fe;
@@ -27,7 +28,7 @@ const ListIcon = styled.span`
 
 function List(props) {
   return (
-    <ListItem id={props.id}>
+    <ListItem id={props.id} onClick={props.onHandleClick}>
       <ListIcon>
         <FontAwesomeIcon
           icon={props.icon}
