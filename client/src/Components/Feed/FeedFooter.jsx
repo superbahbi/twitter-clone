@@ -3,8 +3,9 @@ import Button from ".././Button";
 
 const iconList = ["comment", "retweet", "heart", "link"];
 function FeedFooter() {
-  return iconList.map(item => (
+  return iconList.map((item, index) => (
     <Button
+      key={index}
       name="button"
       type="button"
       btnStyle="feed-tweet-icon"
