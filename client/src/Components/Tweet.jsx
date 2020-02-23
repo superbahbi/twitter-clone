@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
-import ProfileIcon from ".././Components/ProfileIcon";
-
+import Avatar from ".././Components/Avatar";
+import FeedHeader from ".././Components/Feed/FeedHeader";
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -52,22 +52,24 @@ const TweetDivider = styled.div`
   flex: 1 1 auto !important;
   border: 5px solid rgb(230, 236, 240);
 `;
-
+const AvatarBox = styled.div`
+  padding-top: 15px;
+`;
 function Tweet(props) {
   return props.user ? (
     <div>
+      <FeedHeader page={props.page} />
       <TweetBox>
-        <h3>Home</h3>
-      </TweetBox>
-      <TweetBox>
-        <ProfileIcon
-          name={props.user.username}
-          src={
-            props.user.profile &&
-            "http://localhost:3001/uploads/" +
-              props.user.profile.avatar.filename
-          }
-        ></ProfileIcon>
+        <AvatarBox>
+          <Avatar
+            name={props.user.username}
+            src={
+              props.user.profile &&
+              "http://localhost:3001/uploads/" +
+                props.user.profile.avatar.filename
+            }
+          />
+        </AvatarBox>
         <InputTweetBox>
           <InputBox>
             <Textarea
