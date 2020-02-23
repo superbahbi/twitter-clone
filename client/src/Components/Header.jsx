@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -29,6 +30,7 @@ const ProfileArrow = styled.div`
   font-size: 15px;
   color: #1da1f2;
   padding: 0.5em;
+  cursor: pointer;
 `;
 const ProfileName = styled.div`
   margin-bottom: 5px;
@@ -41,13 +43,18 @@ const ProfileTweetCount = styled.div`
   font-weight: lighter;
 `;
 function Header(props) {
+  let history = useHistory();
   return props.page === "Home" ? (
     <TweetBox>
       <h3>{props.page}</h3>
     </TweetBox>
   ) : (
     <TweetBox>
-      <ProfileArrow>
+      <ProfileArrow
+        onClick={() => {
+          history.goBack();
+        }}
+      >
         <FontAwesomeIcon icon="arrow-left" fixedWidth />
       </ProfileArrow>
       <ProfileBox>
