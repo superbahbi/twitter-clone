@@ -80,7 +80,6 @@ function onHandleClick() {
   console.log("clicked");
 }
 function ProfileBox(props) {
-  console.log(props.auth);
   return props.user
     ? props.user.map((item, index) => (
         <div>
