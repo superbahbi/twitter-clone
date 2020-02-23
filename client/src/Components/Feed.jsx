@@ -2,12 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import moment from "moment";
 import Avatar from ".././Components/Avatar";
-import FeedName from ".././Components/Feed/FeedName";
-import FeedTag from ".././Components/Feed/FeedTag";
-import FeedDate from ".././Components/Feed/FeedDate";
-import FeedContent from ".././Components/Feed/FeedContent";
-import FeedImage from ".././Components/Feed/FeedImage";
-import FeedFooter from "./Feed/FeedFooter";
+import Button from "../Components/Button";
 
 const TweetBox = styled.div`
   display: flex;
@@ -29,11 +24,40 @@ const TweetContainer = styled.div`
   flex: 1 1 auto !important;
 `;
 
-const TweetBody = styled.div`
+const FeedBox = styled.div`
   display: flex;
 `;
-
+const FeedName = styled.span`
+  padding-right: 0.25em;
+  font-size: 16px;
+  font-weight: bold;
+`;
+const FeedTag = styled.span`
+  padding-right: 0.25em;
+  color: #657786;
+  font-size: 14px;
+`;
+const FeedDate = styled.span`
+  padding-right: 0.25em;
+  color: #657786;
+  font-size: 14px;
+`;
+const FeedContent = styled.span`
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+`;
+const FeedImage = styled.img`
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding-top: 5px;
+`;
 function Feed(props) {
+  const iconList = ["comment", "retweet", "heart", "link"];
+
   return props.tweet
     ? props.tweet.map((item, index) => (
         <TweetBox key={index}>
@@ -44,27 +68,36 @@ function Feed(props) {
             }
           />
           <TweetContainer>
-            <TweetBody>
-              <FeedName text={item.tweet_data.name} />
-              <FeedTag text={item.tweet_data.name} />
-              <FeedDate text={moment(item.tweet_data.timestamp).fromNow()} />
-            </TweetBody>
-            <TweetBody>
-              <FeedContent text={item.tweet_data.content} />
-            </TweetBody>
-            <TweetBody>
+            <FeedBox>
+              <FeedName>{item.tweet_data.name}</FeedName>
+              <FeedTag>{item.tweet_data.name}</FeedTag>
+              <FeedDate>{moment(item.tweet_data.timestamp).fromNow()}</FeedDate>
+            </FeedBox>
+            <FeedBox>
+              <FeedContent>{item.tweet_data.content}</FeedContent>
+            </FeedBox>
+            <FeedBox>
               <FeedImage
                 src={
                   "http://localhost:3001/uploads/" +
                   item.tweet_data.img.filename
                 }
               />
-            </TweetBody>
-            <TweetBody>
+            </FeedBox>
+            <FeedBox>
               <TweetContainer>
-                <FeedFooter />
+                {iconList.map((item, index) => (
+                  <Button
+                    key={index}
+                    name="button"
+                    type="button"
+                    btnStyle="feed-tweet-icon"
+                    icon={item}
+                    size="2x"
+                  />
+                ))}
               </TweetContainer>
-            </TweetBody>
+            </FeedBox>
           </TweetContainer>
         </TweetBox>
       ))

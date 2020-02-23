@@ -40,7 +40,7 @@ const ProfileTweetCount = styled.div`
   font-size: 14px;
   font-weight: lighter;
 `;
-function FeedHeader(props) {
+function Header(props) {
   return props.page === "Home" ? (
     <TweetBox>
       <h3>{props.page}</h3>
@@ -57,4 +57,4 @@ function FeedHeader(props) {
     </TweetBox>
   );
 }
-export default FeedHeader;
+export default Header;

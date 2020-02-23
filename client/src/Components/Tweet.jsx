@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
 import Avatar from ".././Components/Avatar";
-import FeedHeader from ".././Components/Feed/FeedHeader";
+import Header from ".././Components/Header";
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -59,7 +59,7 @@ const AvatarBox = styled.div`
 function Tweet(props) {
   return (
     <div>
-      <FeedHeader page={props.page} />
+      <Header page={props.page} />
       <TweetBox>
         <AvatarBox>
           <Avatar

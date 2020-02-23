@@ -4,7 +4,7 @@ import Navbar from ".././Components/Navbar";
 import Feed from ".././Components/Feed";
 import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
-import FeedHeader from "../Components/Feed/FeedHeader";
+import Header from "../Components/Header";
 import ProfileBox from "../Components/ProfileBox";
 const NavContainer = styled.div`
   width: 15% !important;
@@ -47,18 +47,13 @@ function Profile(props) {
         <HomeContainer>
           {userData.foundUser
             ? userData.foundUser.map(item => (
-                <FeedHeader
+                <Header
                   page="Profile"
                   name={item.profile.name}
                   tweetCount={item.tweets}
                 />
               ))
             : null}
-          <FeedHeader
-            page="Profile"
-            // name={userData.foundUser.profile.name}
-            // tweetCount={userData.tweets}
-          />
           <ProfileBox user={userData.foundUser} />
           <Feed tweet={tweetData.foundTweet} auth={auth} />
         </HomeContainer>
