@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { authContext } from "../Contexts/AuthContext";
 import Navbar from ".././Components/Navbar";
-import Tweet from ".././Components/Tweet";
 import Feed from ".././Components/Feed";
 import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
 import FeedHeader from "../Components/Feed/FeedHeader";
+import ProfileBox from "../Components/ProfileBox";
 const NavContainer = styled.div`
   width: 15% !important;
 `;
@@ -40,7 +40,12 @@ function Profile() {
           <Navbar />
         </NavContainer>
         <HomeContainer>
-          <FeedHeader page="Profile" data={auth.data.user} />
+          <FeedHeader
+            page="Profile"
+            name={auth.data.user.profile.name}
+            tweetCount={auth.data.user.tweets}
+          />
+          <ProfileBox user={auth.data.user} />
           <Feed tweet={tweet} />
         </HomeContainer>
         <SideBarContainer>

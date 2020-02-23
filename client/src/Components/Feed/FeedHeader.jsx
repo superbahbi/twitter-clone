@@ -53,8 +53,8 @@ function FeedHeader(props) {
         </a>
       </ProfileArrow>
       <ProfileBox>
-        <ProfileName>{props.data.profile.name}</ProfileName>
-        <ProfileTweetCount>{props.data.tweets} Tweets</ProfileTweetCount>
+        <ProfileName>{props.name}</ProfileName>
+        <ProfileTweetCount>{props.tweetCount} Tweets</ProfileTweetCount>
       </ProfileBox>
     </TweetBox>
   );

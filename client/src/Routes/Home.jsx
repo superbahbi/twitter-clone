@@ -43,7 +43,11 @@ function Home() {
           <Navbar />
         </NavContainer>
         <HomeContainer>
-          <Tweet user={user} page="Home" />
+          <Tweet
+            username={auth.data.user.username}
+            avatar={auth.data.user.profile.avatar.filename}
+            page="Home"
+          />
           <Feed tweet={tweet} />
         </HomeContainer>
         <SideBarContainer>

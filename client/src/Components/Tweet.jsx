@@ -56,18 +56,14 @@ const AvatarBox = styled.div`
   padding-top: 15px;
 `;
 function Tweet(props) {
-  return props.user ? (
+  return (
     <div>
       <FeedHeader page={props.page} />
       <TweetBox>
         <AvatarBox>
           <Avatar
-            name={props.user.username}
-            src={
-              props.user.profile &&
-              "http://localhost:3001/uploads/" +
-                props.user.profile.avatar.filename
-            }
+            name={props.username}
+            src={"http://localhost:3001/uploads/" + props.avatar}
           />
         </AvatarBox>
         <InputTweetBox>
@@ -132,6 +128,6 @@ function Tweet(props) {
       </TweetBox>
       <TweetDivider></TweetDivider>
     </div>
-  ) : null;
+  );
 }
 export default Tweet;

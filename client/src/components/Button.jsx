@@ -64,6 +64,28 @@ const SignupButton = styled.button`
   }
   ${"" /* margin-left: ${props.position ? "auto!important" : "null"}; */}
 `;
+const ProfileButton = styled.button`
+  font-weight: bold;
+  color: #657786;
+  background-color: #fff;
+  border-style: none;
+  border-radius: 0;
+  padding: 0.5em;
+  flex: 1 1 auto !important;
+  border-bottom: 2px solid;
+  :hover {
+    background-color: #e8f5fe;
+    color: #1da1f2;
+  }
+  :focus {
+    background-color: #e8f5fe;
+    color: #1da1f2;
+    border-bottom: 2px solid #1da1f2;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+`;
 function Button(props) {
   let history = useHistory();
 
@@ -94,6 +116,12 @@ function Button(props) {
       <TweetTweetIcon type={props.type} name={props.name} onClick={handleClick}>
         <FontAwesomeIcon icon={props.icon} size={props.size} fixedWidth />
       </TweetTweetIcon>
+    );
+  } else if (props.btnStyle === "profile-btn") {
+    return (
+      <ProfileButton type={props.type} name={props.name} onClick={handleClick}>
+        {props.label}
+      </ProfileButton>
     );
   } else {
     return null;
