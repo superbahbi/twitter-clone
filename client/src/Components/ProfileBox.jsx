@@ -87,12 +87,15 @@ function ProfileBox(props) {
             <div>
               <ProfileCover
                 src={
-                  "http://localhost:3001/uploads/" + item.profile.cover.filename
+                  process.env.REACT_APP_API_URL +
+                  "/uploads/" +
+                  item.profile.cover.filename
                 }
               />
               <ProfileAvatar
                 src={
-                  "http://localhost:3001/uploads/" +
+                  process.env.REACT_APP_API_URL +
+                  "/uploads/" +
                   item.profile.avatar.filename
                 }
                 alt=""

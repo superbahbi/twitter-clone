@@ -41,7 +41,7 @@ const Login = ({ history }) => {
   function onFormSubmit(event) {
     event.preventDefault();
     const request = async (id = 100) => {
-      const res1 = await fetch("http://localhost:3001/api/login", {
+      const res1 = await fetch(process.env.REACT_APP_API_URL + "/api/login", {
         method: "POST",
         headers: {
           Accept: "application/x-www-form-urlencoded",

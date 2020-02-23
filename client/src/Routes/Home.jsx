@@ -5,7 +5,11 @@ import Tweet from ".././Components/Tweet";
 import Feed from ".././Components/Feed";
 import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
-
+const Container = styled.div`
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+`;
 const NavContainer = styled.div`
   width: 15% !important;
 `;
@@ -21,12 +25,11 @@ const SideBarContainer = styled.div`
 function Home() {
   const { auth } = useContext(authContext);
   const [tweet, setTweet] = useState([]);
-
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
     const request = async (id = 100) => {
-      const res2 = await fetch("http://localhost:3001/api/tweet");
+      const res2 = await fetch(process.env.REACT_APP_API_URL + "/api/tweet");
       setTweet(await res2.json());
     };
     request();
@@ -35,24 +38,22 @@ function Home() {
     return () => console.log("unmounting...");
   }, []);
   return (
-    <div>
-      <div className="d-flex flex-row justify-content-center">
-        <NavContainer>
-          <Navbar />
-        </NavContainer>
-        <HomeContainer>
-          <Tweet
-            username={auth.data.user.username}
-            avatar={auth.data.user.profile.avatar.filename}
-            page="Home"
-          />
-          <Feed tweet={tweet.foundTweet} />
-        </HomeContainer>
-        <SideBarContainer>
-          <Sidebar />
-        </SideBarContainer>
-      </div>
-    </div>
+    <Container>
+      <NavContainer>
+        <Navbar />
+      </NavContainer>
+      <HomeContainer>
+        <Tweet
+          username={auth.data.user.username}
+          avatar={auth.data.user.profile.avatar.filename}
+          page="Home"
+        />
+        <Feed tweet={tweet.foundTweet} />
+      </HomeContainer>
+      <SideBarContainer>
+        <Sidebar />
+      </SideBarContainer>
+    </Container>
   );
 }
 export default Home;
