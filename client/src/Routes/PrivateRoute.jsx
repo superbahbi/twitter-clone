@@ -12,14 +12,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         {...rest}
         render={() => {
           return (
-            <div className="sweet-loading">
-              <ClipLoader
-                size={150}
-                //size={"150px"} this also works
-                color={"#123abc"}
-                loading={loading}
-              />
-            </div>
+            <ClipLoader
+              size={150}
+              //size={"150px"} this also works
+              color={"#1DA1F2"}
+              loading={loading}
+            />
           );
         }}
       />
