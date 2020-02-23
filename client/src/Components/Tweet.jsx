@@ -55,6 +55,7 @@ const TweetDivider = styled.div`
 const AvatarBox = styled.div`
   padding-top: 15px;
 `;
+
 function Tweet(props) {
   return (
     <div>

@@ -19,9 +19,10 @@ const SideBarContainer = styled.div`
   padding: 0;
 `;
 function Home() {
-  const { setAuthData, auth } = useContext(authContext);
+  const { auth } = useContext(authContext);
   const [user, setUser] = useState({});
   const [tweet, setTweet] = useState([]);
+
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
@@ -48,7 +49,7 @@ function Home() {
             avatar={auth.data.user.profile.avatar.filename}
             page="Home"
           />
-          <Feed tweet={tweet} />
+          <Feed tweet={tweet.foundTweet} />
         </HomeContainer>
         <SideBarContainer>
           <Sidebar />

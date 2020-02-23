@@ -48,9 +48,7 @@ function FeedHeader(props) {
   ) : (
     <TweetBox>
       <ProfileArrow>
-        <a href="" onclick="window.history.back()">
-          <FontAwesomeIcon icon="arrow-left" fixedWidth />
-        </a>
+        <FontAwesomeIcon icon="arrow-left" fixedWidth />
       </ProfileArrow>
       <ProfileBox>
         <ProfileName>{props.name}</ProfileName>

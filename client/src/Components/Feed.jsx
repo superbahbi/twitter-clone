@@ -34,8 +34,8 @@ const TweetBody = styled.div`
 `;
 
 function Feed(props) {
-  return props.tweet.foundTweet
-    ? props.tweet.foundTweet.map((item, index) => (
+  return props.tweet
+    ? props.tweet.map((item, index) => (
         <TweetBox key={index}>
           <Avatar
             name={item.tweet_data.name}

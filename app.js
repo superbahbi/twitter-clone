@@ -137,8 +137,8 @@ app.get("/test", homeController.test);
 
 // Routes for react views
 app.post("/api/login", apiController.postLogin);
-app.get("/api/home", apiController.home);
 app.get("/api/tweet", apiController.getAllTweet);
+app.get("/api/tweet/:username", apiController.getUserTweet);
 app.get("/api/user/:username", apiController.getUser);
 app.get("/api/login", apiController.postLogin);
 app.listen(process.env.SERVER_PORT || 3000, () => {

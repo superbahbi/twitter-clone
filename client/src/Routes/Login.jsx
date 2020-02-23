@@ -74,11 +74,13 @@ const Login = ({ history }) => {
                 <Input
                   name="username"
                   type="text"
+                  autocomplete="on"
                   onHandleChange={handleChange}
                 />
                 <Input
                   name="password"
                   type="password"
+                  autocomplete="on"
                   onHandleChange={handleChange}
                 />
                 <Button

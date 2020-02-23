@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Button from ".././Components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -79,96 +79,97 @@ function onHandleClick() {
   console.log("clicked");
 }
 function ProfileBox(props) {
-  const [active, setActive] = useState("");
-
-  return (
-    <div>
-      <TweetBox>
+  console.log(props.auth);
+  return props.user
+    ? props.user.map((item, index) => (
         <div>
-          <ProfileCover
-            src={
-              "http://localhost:3001/uploads/" +
-              props.user.profile.cover.filename
-            }
-          />
-          <ProfileAvatar
-            src={
-              "http://localhost:3001/uploads/" +
-              props.user.profile.avatar.filename
-            }
-            alt=""
-          />
-
-          <Button
-            name="button"
-            type="submit"
-            btnStyle="login-btn"
-            position={true}
-            label="Edit Profile"
-          />
-          <ProfileContainer>
-            <ProfileUser>
-              <ProfileName>{props.user.profile.name}</ProfileName>
-              <ProfileTag>@{props.user.username}</ProfileTag>
-              <ProfileBio>{props.user.profile.bio}</ProfileBio>
-              <ProfileInfo>
-                <ProfileStat>
-                  <FontAwesomeIcon icon="map-marker-alt" fixedWidth />
-                  {props.user.profile.location}
-                </ProfileStat>
-                <ProfileStat>
-                  <FontAwesomeIcon icon="link" fixedWidth />
-                  {props.user.profile.website}
-                </ProfileStat>
-                <ProfileStat>
-                  <FontAwesomeIcon icon="calendar-alt" fixedWidth />
-                  {props.user.profile.regdate}
-                </ProfileStat>
-              </ProfileInfo>
-              <ProfileInfo>
-                <ProfileStat>
-                  <strong>{props.user.following}</strong> Following
-                </ProfileStat>
-                <ProfileStat>
-                  <strong>{props.user.followers}</strong> Followers
-                </ProfileStat>
-              </ProfileInfo>
-            </ProfileUser>
-            <ProfileButton>
-              <Button
-                id="tweets"
-                name="button"
-                type="submit"
-                btnStyle="profile-btn"
-                label="Tweets"
-                onClick={onHandleClick}
+          <TweetBox key={index}>
+            <div>
+              <ProfileCover
+                src={
+                  "http://localhost:3001/uploads/" + item.profile.cover.filename
+                }
               />
-              <Button
-                id="tweetsnreplies"
-                name="button"
-                type="submit"
-                btnStyle="profile-btn"
-                label="Tweets & replies"
+              <ProfileAvatar
+                src={
+                  "http://localhost:3001/uploads/" +
+                  item.profile.avatar.filename
+                }
+                alt=""
               />
-              <Button
-                id="media"
-                name="button"
-                type="submit"
-                btnStyle="profile-btn"
-                label="Media"
-              />
-              <Button
-                id="likes"
-                name="button"
-                type="submit"
-                btnStyle="profile-btn"
-                label="Likes"
-              />
-            </ProfileButton>
-          </ProfileContainer>
+              {props.auth ? (
+                <Button
+                  name="button"
+                  type="submit"
+                  btnStyle="login-btn"
+                  position={true}
+                  label="Edit Profile"
+                />
+              ) : null}
+              <ProfileContainer>
+                <ProfileUser>
+                  <ProfileName>{item.profile.name}</ProfileName>
+                  <ProfileTag>@{item.username}</ProfileTag>
+                  <ProfileBio>{item.profile.bio}</ProfileBio>
+                  <ProfileInfo>
+                    <ProfileStat>
+                      <FontAwesomeIcon icon="map-marker-alt" fixedWidth />
+                      {item.profile.location}
+                    </ProfileStat>
+                    <ProfileStat>
+                      <FontAwesomeIcon icon="link" fixedWidth />
+                      {item.profile.website}
+                    </ProfileStat>
+                    <ProfileStat>
+                      <FontAwesomeIcon icon="calendar-alt" fixedWidth />
+                      {item.profile.regdate}
+                    </ProfileStat>
+                  </ProfileInfo>
+                  <ProfileInfo>
+                    <ProfileStat>
+                      <strong>{item.following}</strong> Following
+                    </ProfileStat>
+                    <ProfileStat>
+                      <strong>{item.followers}</strong> Followers
+                    </ProfileStat>
+                  </ProfileInfo>
+                </ProfileUser>
+                <ProfileButton>
+                  <Button
+                    id="tweets"
+                    name="button"
+                    type="submit"
+                    btnStyle="profile-btn"
+                    label="Tweets"
+                    onClick={onHandleClick}
+                  />
+                  <Button
+                    id="tweetsnreplies"
+                    name="button"
+                    type="submit"
+                    btnStyle="profile-btn"
+                    label="Tweets & replies"
+                  />
+                  <Button
+                    id="media"
+                    name="button"
+                    type="submit"
+                    btnStyle="profile-btn"
+                    label="Media"
+                  />
+                  <Button
+                    id="likes"
+                    name="button"
+                    type="submit"
+                    btnStyle="profile-btn"
+                    label="Likes"
+                  />
+                </ProfileButton>
+              </ProfileContainer>
+            </div>
+          </TweetBox>
         </div>
-      </TweetBox>
-    </div>
-  );
+      ))
+    : null;
 }
 export default ProfileBox;

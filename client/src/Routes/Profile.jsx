@@ -18,21 +18,26 @@ const SideBarContainer = styled.div`
   width: 15% !important;
   padding: 0;
 `;
-function Profile() {
+function Profile(props) {
+  const profile = props.match.params.profile;
   const { auth, setAuthData } = useContext(authContext);
-  const [tweet, setTweet] = useState([]);
+  const [tweetData, setTweetData] = useState({});
+  const [userData, setUserData] = useState({});
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
     const request = async (id = 100) => {
-      const res2 = await fetch("http://localhost:3001/api/tweet");
-      setTweet(await res2.json());
+      const res1 = await fetch("http://localhost:3001/api/user/" + profile);
+      setUserData(await res1.json());
+      const res2 = await fetch("http://localhost:3001/api/tweet/" + profile);
+      setTweetData(await res2.json());
     };
     request();
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
     return () => console.log("unmounting...");
   }, []);
+  console.log(userData.foundUser);
   return (
     <div>
       <div className="d-flex flex-row justify-content-center">
@@ -40,13 +45,22 @@ function Profile() {
           <Navbar />
         </NavContainer>
         <HomeContainer>
+          {userData.foundUser
+            ? userData.foundUser.map(item => (
+                <FeedHeader
+                  page="Profile"
+                  name={item.profile.name}
+                  tweetCount={item.tweets}
+                />
+              ))
+            : null}
           <FeedHeader
             page="Profile"
-            name={auth.data.user.profile.name}
-            tweetCount={auth.data.user.tweets}
+            // name={userData.foundUser.profile.name}
+            // tweetCount={userData.tweets}
           />
-          <ProfileBox user={auth.data.user} />
-          <Feed tweet={tweet} />
+          <ProfileBox user={userData.foundUser} />
+          <Feed tweet={tweetData.foundTweet} auth={auth} />
         </HomeContainer>
         <SideBarContainer>
           <Sidebar />

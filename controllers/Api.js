@@ -115,8 +115,6 @@ exports.postLogin = (req, res, next) => {
           user,
           info
         ) {
-          // A error also means, an unsuccessful login attempt
-          console.log(user);
           if (error) {
             res.json("error2");
             console.log("Failed login:");
@@ -128,8 +126,16 @@ exports.postLogin = (req, res, next) => {
           } else {
             const token = jwt.sign(
               JSON.stringify(user),
-              process.env.JWTSECRETTOKEN
+              process.env.JWT_SECRET
             );
+            // const token = jwt.sign(
+            //   JSON.stringify(user),
+            //   process.env.JWT_SECRET,
+            //   {
+            //     expiresIn: 60 * 1 // expires in 1
+            //   }
+            // );
+
             return res.json({ user, token });
           }
         })(req, res, next);
@@ -143,96 +149,79 @@ exports.logout = (req, res) => {
   res.redirect("/");
 };
 
-exports.home = (req, res) => {
-  User.findOne(
-    {
-      // CHANGE THIS TO ACTUAL USERNAME WITH AUTHENTICATION
-      username: "bahbi"
-    },
-    function(err, user) {
-      if (err) {
-        req.flash("error", "Could not find any user");
-        res.redirect("/home");
-      } else {
-        foundUser = user;
-        Tweet.aggregate(
-          [
-            {
-              $lookup: {
-                from: "users",
-                localField: "username",
-                foreignField: "username",
-                as: "tweet_data"
-              }
-            },
-            {
-              $unwind: {
-                path: "$tweet_data"
-              }
-            },
-            {
-              $sort: { timestamp: -1 }
-            }
-          ],
-          function(err, foundTweet) {
-            if (err) {
-              console.log(err);
-            }
-            res.send({
-              foundTweet,
-              foundUser,
-              moment
-            });
-          }
-        );
+exports.getAllTweet = (req, res) => {
+  User.aggregate(
+    [
+      {
+        $lookup: {
+          from: "tweets",
+          localField: "username",
+          foreignField: "username",
+          as: "tweet_data"
+        }
+      },
+      {
+        $unwind: {
+          path: "$tweet_data",
+          preserveNullAndEmptyArrays: true
+        }
       }
+    ],
+    function(err, foundTweet) {
+      if (err) {
+        console.log(err);
+      }
+      foundTweet.sort(function(a, b) {
+        return b.tweet_data.timestamp - a.tweet_data.timestamp;
+      });
+      res.send({
+        foundTweet
+      });
     }
   );
 };
-exports.getAllTweet = (req, res) => {
-  Tweet.find(
-    {},
-    {
-      $sort: { timestamp: 1 }
-    },
-    function(err, tweet) {
-      User.aggregate(
-        [
-          {
-            $lookup: {
-              from: "tweets",
-              localField: "username",
-              foreignField: "username",
-              as: "tweet_data"
-            }
-          },
-          {
-            $unwind: {
-              path: "$tweet_data",
-              preserveNullAndEmptyArrays: true
-            }
-          }
-        ],
-        function(err, foundTweet) {
-          if (err) {
-            console.log(err);
-          }
-          foundTweet.sort(function(a, b) {
-            return b.tweet_data.timestamp - a.tweet_data.timestamp;
-          });
-          res.send({
-            foundTweet
-          });
+exports.getUserTweet = (req, res) => {
+  User.aggregate(
+    [
+      { $match: { username: req.params.username } },
+      {
+        $lookup: {
+          from: "tweets",
+          localField: "username",
+          foreignField: "username",
+          as: "tweet_data"
         }
-      );
+      },
+      {
+        $unwind: {
+          path: "$tweet_data",
+          preserveNullAndEmptyArrays: true
+        }
+      }
+    ],
+    function(err, foundTweet) {
+      if (err) {
+        console.log(err);
+      }
+      foundTweet.sort(function(a, b) {
+        return b.tweet_data.timestamp - a.tweet_data.timestamp;
+      });
+      res.send({
+        foundTweet
+      });
     }
   );
 };
 exports.getUser = (req, res) => {
-  User.findOne({ username: req.params.username }, (err, user) => {
+  User.aggregate([{ $match: { username: req.params.username } }], function(
+    err,
+    foundUser
+  ) {
     if (err) {
       console.log(err);
     }
-    res.send(user);
+    res.send({
+      foundUser
+    });
   });
 };
