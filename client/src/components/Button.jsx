@@ -44,33 +44,33 @@ const TweetTweetIcon = styled.button`
   background: none;
   flex: 1 1 auto !important;
 `;
-
+const SignupButton = styled.button`
+  color: #fff;
+  background-color: #1da1f2;
+  border-radius: 30px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 0.375rem 0.75rem;
+  margin: 0.25em;
+  line-height: 1.5;
+  border: none;
+  :focus {
+    text-decoration: none;
+    outline: none;
+  }
+  :hover {
+    background-color: #1a91da;
+  }
+  ${"" /* margin-left: ${props.position ? "auto!important" : "null"}; */}
+`;
 function Button(props) {
   let history = useHistory();
 
   function handleClick() {
     history.push(props.to);
   }
-  const SignupButton = styled.button`
-    color: #fff;
-    background-color: #1da1f2;
-    border-radius: 30px;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 0.375rem 0.75rem;
-    margin: 0.25em;
-    line-height: 1.5;
-    border: none;
-    :focus {
-      text-decoration: none;
-      outline: none;
-    }
-    :hover {
-      background-color: #1a91da;
-    }
-    margin-left: ${props.position ? "auto!important" : "null"};
-  `;
+
   if (props.btnStyle === "login-btn") {
     return (
       <LoginButton type={props.type} name={props.name} onClick={handleClick}>

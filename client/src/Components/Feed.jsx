@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import moment from "moment";
-import ProfileIcon from ".././Components/ProfileIcon";
+import Avatar from ".././Components/Avatar";
 import FeedName from ".././Components/Feed/FeedName";
 import FeedTag from ".././Components/Feed/FeedTag";
 import FeedDate from ".././Components/Feed/FeedDate";
@@ -34,20 +34,15 @@ const TweetBody = styled.div`
 `;
 
 function Feed(props) {
-  console.log(props.tweet.foundTweet);
-
-  props.tweet.foundTweet &&
-    props.tweet.foundTweet.map(item => console.log(item));
-
   return props.tweet.foundTweet
-    ? props.tweet.foundTweet.map(item => (
-        <TweetBox>
-          <ProfileIcon
+    ? props.tweet.foundTweet.map((item, index) => (
+        <TweetBox key={index}>
+          <Avatar
             name={item.tweet_data.name}
             src={
               "http://localhost:3001/uploads/" + item.profile.avatar.filename
             }
-          ></ProfileIcon>
+          />
           <TweetContainer>
             <TweetBody>
               <FeedName text={item.tweet_data.name} />
