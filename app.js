@@ -11,6 +11,7 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const MongoStore = require("connect-mongo")(session);
 const multer = require("multer");
+const cors = require("cors");
 // SET STORAGE
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -46,14 +47,8 @@ mongoose.connection.on("error", err => {
   );
   process.exit();
 });
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+app.use(cors());
+
 app.use(
   session({
     resave: true,
@@ -141,6 +136,7 @@ app.get("/api/tweet", apiController.getAllTweet);
 app.get("/api/tweet/:username", apiController.getUserTweet);
 app.get("/api/user/:username", apiController.getUser);
 app.get("/api/login", apiController.postLogin);
+app.post("/api/tweet", apiController.postTweet);
 app.listen(process.env.SERVER_PORT || 3000, () => {
   console.log(
     "%s App is running at http://localhost:%d in %s mode",
