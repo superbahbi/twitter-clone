@@ -95,31 +95,51 @@ function Button(props) {
 
   if (props.btnStyle === "login-btn") {
     return (
-      <LoginButton type={props.type} name={props.name} onClick={handleClick}>
+      <LoginButton
+        type={props.type}
+        name={props.name}
+        onClick={props.handleClick}
+      >
         {props.label}
       </LoginButton>
     );
   } else if (props.btnStyle === "signup-btn") {
     return (
-      <SignupButton type={props.type} name={props.name} onClick={handleClick}>
+      <SignupButton
+        type={props.type}
+        name={props.name}
+        onClick={props.handleClick}
+      >
         {props.label}
       </SignupButton>
     );
   } else if (props.btnStyle === "input-tweet-icon") {
     return (
-      <InputTweetIcon type={props.type} name={props.name} onClick={handleClick}>
+      <InputTweetIcon
+        type={props.type}
+        name={props.name}
+        onClick={props.handleClick}
+      >
         <FontAwesomeIcon icon={props.icon} fixedWidth />
       </InputTweetIcon>
     );
   } else if (props.btnStyle === "feed-tweet-icon") {
     return (
-      <TweetTweetIcon type={props.type} name={props.name} onClick={handleClick}>
+      <TweetTweetIcon
+        type={props.type}
+        name={props.name}
+        onClick={props.handleClick}
+      >
         <FontAwesomeIcon icon={props.icon} size={props.size} fixedWidth />
       </TweetTweetIcon>
     );
   } else if (props.btnStyle === "profile-btn") {
     return (
-      <ProfileButton type={props.type} name={props.name} onClick={handleClick}>
+      <ProfileButton
+        type={props.type}
+        name={props.name}
+        onClick={props.handleClick}
+      >
         {props.label}
       </ProfileButton>
     );
