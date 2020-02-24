@@ -35,12 +35,14 @@ function Textarea(props) {
   return (
     <TextAreaBox>
       <TextAreaInput
+        ref={props.projectRef}
         name={props.name}
         type={props.type}
         placeholder={props.placeholder}
         autocomplete={props.autocomplete}
         value={props.value}
         wrap="soft"
+        onChange={props.onHandleChange}
       ></TextAreaInput>
     </TextAreaBox>
   );

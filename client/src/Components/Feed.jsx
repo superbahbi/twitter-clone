@@ -56,8 +56,9 @@ const FeedImage = styled.img`
   padding-top: 5px;
 `;
 function Feed(props) {
-  const iconList = ["comment", "retweet", "heart", "link"];
-
+  function onHandleClick() {
+    console.log("clicked");
+  }
   return props.tweet
     ? props.tweet.map((item, index) => (
         <TweetBox key={index}>
@@ -77,25 +78,62 @@ function Feed(props) {
               <FeedContent>{item.tweet_data.content}</FeedContent>
             </FeedBox>
             <FeedBox>
-              <FeedImage
-                src={
-                  "http://localhost:3001/uploads/" +
-                  item.tweet_data.img.filename
-                }
-              />
+              {item.tweet_data.img && (
+                <FeedImage
+                  src={
+                    "http://localhost:3001/uploads/" +
+                    item.tweet_data.img.filename
+                  }
+                />
+              )}
             </FeedBox>
             <FeedBox>
               <TweetContainer>
-                {iconList.map((item, index) => (
-                  <Button
-                    key={index}
-                    name="button"
-                    type="button"
-                    btnStyle="feed-tweet-icon"
-                    icon={item}
-                    size="2x"
-                  />
-                ))}
+                <Button
+                  key={index}
+                  name="button"
+                  type="button"
+                  btnStyle="feed-tweet-icon"
+                  icon="comment"
+                  size="2x"
+                  handleClick={onHandleClick}
+                />
+                <Button
+                  key={index}
+                  name="button"
+                  type="button"
+                  btnStyle="feed-tweet-icon"
+                  icon="retweet"
+                  size="2x"
+                  handleClick={onHandleClick}
+                />
+                <Button
+                  key={index}
+                  name="button"
+                  type="button"
+                  btnStyle="feed-tweet-icon"
+                  icon="heart"
+                  size="2x"
+                  handleClick={onHandleClick}
+                />
+                <Button
+                  key={index}
+                  name="button"
+                  type="button"
+                  btnStyle="feed-tweet-icon"
+                  icon="link"
+                  size="2x"
+                  handleClick={onHandleClick}
+                />
+                <Button
+                  key={index}
+                  name="button"
+                  type="button"
+                  btnStyle="feed-tweet-icon"
+                  icon="trash"
+                  size="2x"
+                  handleClick={onHandleClick}
+                />
               </TweetContainer>
             </FeedBox>
           </TweetContainer>

@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
+import { authContext } from "../Contexts/AuthContext";
 import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
 import Avatar from ".././Components/Avatar";
 import Header from ".././Components/Header";
+import formurlencoded from "form-urlencoded";
+
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -57,6 +60,12 @@ const AvatarBox = styled.div`
 `;
 
 function Tweet(props) {
+  const [tweet, setTweet] = useState();
+  const tweetData = useRef(null);
+
+  const handleChange = e => {
+    setTweet(e.target.value);
+  };
   return (
     <div>
       <Header page={props.page} />
@@ -68,63 +77,69 @@ function Tweet(props) {
           />
         </AvatarBox>
         <InputTweetBox>
-          <InputBox>
-            <Textarea
-              type="text"
-              placeholder="What's Happening"
-              autocomplete="off"
-            />
-          </InputBox>
-          {/* <div class="input-tweet-box input-tweet-img">
+          <form onSubmit={props.onHandleSubmit}>
+            <InputBox>
+              <Textarea
+                type="text"
+                name="Tweet"
+                value={props.value}
+                placeholder="What's Happening"
+                autocomplete="off"
+                onHandleChange={handleChange}
+                projectRef={props.prRef}
+              />
+            </InputBox>
+
+            {/* <div class="input-tweet-box input-tweet-img">
             <img id="img-preview" class="" />
           </div> */}
-          <InputBoxRow>
-            <InputBoxGroup>
-              <Button
-                name="button"
-                type="button"
-                btnStyle="input-tweet-icon"
-                icon="file"
-              />
-              {/* <input
+            <InputBoxRow>
+              <InputBoxGroup>
+                <Button
+                  name="button"
+                  type="button"
+                  btnStyle="input-tweet-icon"
+                  icon="file"
+                />
+                {/* <input
                 type="file"
                 id="upload-preview"
                 name="img"
                 accept="image/*"
               /> */}
-            </InputBoxGroup>
-            <InputBoxGroup>
+              </InputBoxGroup>
+              <InputBoxGroup>
+                <Button
+                  name="button"
+                  type="button"
+                  btnStyle="input-tweet-icon"
+                  icon="gift"
+                />
+              </InputBoxGroup>
+              <InputBoxGroup>
+                <Button
+                  name="button"
+                  type="button"
+                  btnStyle="input-tweet-icon"
+                  icon="poll"
+                />
+              </InputBoxGroup>
+              <InputBoxGroup>
+                <Button
+                  name="button"
+                  type="button"
+                  btnStyle="input-tweet-icon"
+                  icon="smile"
+                />
+              </InputBoxGroup>
               <Button
                 name="button"
-                type="button"
-                btnStyle="input-tweet-icon"
-                icon="gift"
+                type="submit"
+                btnStyle="signup-btn"
+                label="Tweet"
               />
-            </InputBoxGroup>
-            <InputBoxGroup>
-              <Button
-                name="button"
-                type="button"
-                btnStyle="input-tweet-icon"
-                icon="poll"
-              />
-            </InputBoxGroup>
-            <InputBoxGroup>
-              <Button
-                name="button"
-                type="button"
-                btnStyle="input-tweet-icon"
-                icon="smile"
-              />
-            </InputBoxGroup>
-            <Button
-              name="button"
-              type="submit"
-              btnStyle="signup-btn"
-              position={true}
-              label="Tweet"
-            />
-          </InputBoxRow>
+            </InputBoxRow>
+          </form>
         </InputTweetBox>
       </TweetBox>
       <TweetDivider></TweetDivider>
