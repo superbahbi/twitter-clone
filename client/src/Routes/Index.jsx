@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import { useHistory } from "react-router-dom";
 import Button from ".././Components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDog } from "@fortawesome/free-solid-svg-icons";
@@ -39,6 +39,7 @@ const SubLogin = styled.div`
 `;
 
 function Index() {
+  let history = useHistory();
   return (
     <SplitPage>
       <LeftSide></LeftSide>
@@ -52,14 +53,18 @@ function Index() {
             type="submit"
             label="Sign up"
             btnStyle="signup-btn"
-            to="/signup"
+            handleClick={() => {
+              history.push("/signup");
+            }}
           />
           <Button
             name="button"
             type="submit"
             label="Log in"
             btnStyle="login-btn"
-            to="/login"
+            handleClick={() => {
+              history.push("/login");
+            }}
           />
         </SubLogin>
       </RightSide>
