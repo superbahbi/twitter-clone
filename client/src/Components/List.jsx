@@ -7,10 +7,11 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 library.add(fas, far);
 
 const ListItem = styled.li`
+  display: flex;
   font-size: 16px;
   font-weight: 400;
   padding: 0.5em;
-  align-items: baseline;
+  margin-bottom: 0.5em;
   cursor: pointer;
   :hover {
     border-radius: 30px;
@@ -19,8 +20,13 @@ const ListItem = styled.li`
   }
 `;
 const ListText = styled.span`
-  padding: 0.5em;
-  align-self: center !important;
+  padding-left: 1em;
+  font-size: 20px;
+  font-weight: bolder;
+  color: black;
+  :hover {
+    color: #1da1f2;
+  }
 `;
 const ListIcon = styled.span`
   padding-right: 0.5em;
@@ -30,12 +36,7 @@ function List(props) {
   return (
     <ListItem id={props.id} onClick={props.onHandleClick}>
       <ListIcon>
-        <FontAwesomeIcon
-          icon={props.icon}
-          size="2x"
-          color={props.color}
-          fixedWidth
-        />
+        <FontAwesomeIcon icon={props.icon} size="2x" fixedWidth />
       </ListIcon>
       <ListText>{props.name}</ListText>
     </ListItem>

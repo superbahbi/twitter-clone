@@ -74,7 +74,7 @@ function Feed(props) {
 
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
-    return () => console.log("Tweet data unmounting...");
+    return () => console.log("Feed data unmounting...");
   });
   function onHandleClick(tweetId) {
     const request = async (id = 100) => {

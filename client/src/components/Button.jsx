@@ -89,13 +89,10 @@ const ProfileButton = styled.button`
 function Button(props) {
   let history = useHistory();
 
-  function handleClick() {
-    history.push(props.to);
-  }
-
   if (props.btnStyle === "login-btn") {
     return (
       <LoginButton
+        id={props.id}
         type={props.type}
         name={props.name}
         onClick={props.handleClick}
@@ -106,6 +103,7 @@ function Button(props) {
   } else if (props.btnStyle === "signup-btn") {
     return (
       <SignupButton
+        id={props.id}
         type={props.type}
         name={props.name}
         onClick={props.handleClick}
@@ -116,6 +114,7 @@ function Button(props) {
   } else if (props.btnStyle === "input-tweet-icon") {
     return (
       <InputTweetIcon
+        id={props.id}
         type={props.type}
         name={props.name}
         onClick={props.handleClick}
@@ -126,6 +125,7 @@ function Button(props) {
   } else if (props.btnStyle === "feed-tweet-icon") {
     return (
       <TweetTweetIcon
+        id={props.id}
         type={props.type}
         name={props.name}
         onClick={props.handleClick}
@@ -136,6 +136,7 @@ function Button(props) {
   } else if (props.btnStyle === "profile-btn") {
     return (
       <ProfileButton
+        id={props.id}
         type={props.type}
         name={props.name}
         onClick={props.handleClick}
