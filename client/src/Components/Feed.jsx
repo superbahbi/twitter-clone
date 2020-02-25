@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import Avatar from ".././Components/Avatar";
 import Button from "../Components/Button";
-
+import formurlencoded from "form-urlencoded";
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -56,11 +56,49 @@ const FeedImage = styled.img`
   padding-top: 5px;
 `;
 function Feed(props) {
-  function onHandleClick() {
-    console.log("clicked");
+  const [tweets, setTweets] = useState();
+  useEffect(() => {
+    // This gets called after every render, by default (the first one, and every one
+    // after that)
+    let url = process.env.REACT_APP_API_URL + "/api/tweet/";
+    if (props.location === "profile") {
+      url += props.profile;
+    }
+    console.log(url);
+    const request = async (id = 100) => {
+      const res2 = await fetch(url);
+      setTweets(await res2.json());
+    };
+    request();
+    props.setReload(false);
+
+    // If you want to implement componentWillUnmount, return a function from here,
+    // and React will call it prior to unmounting.
+    return () => console.log("Tweet data unmounting...");
+  });
+  function onHandleClick(tweetId) {
+    const request = async (id = 100) => {
+      let deleteTweet = await fetch(
+        process.env.REACT_APP_API_URL + "/api/tweet",
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/x-www-form-urlencoded",
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: "Bearer " + props.auth.token
+          },
+          body: formurlencoded({ id: tweetId })
+        }
+      );
+      await deleteTweet.json();
+      if (deleteTweet.status === 200 && tweetId) {
+        console.log("Delete tweet ID : " + tweetId);
+      }
+    };
+    request();
   }
-  return props.tweet
-    ? props.tweet.map((item, index) => (
+  return tweets
+    ? tweets.foundTweet.map((item, index) => (
         <TweetBox key={index}>
           <Avatar
             name={item.tweet_data.name}
@@ -90,50 +128,48 @@ function Feed(props) {
             <FeedBox>
               <TweetContainer>
                 <Button
-                  key={index}
                   name="button"
                   type="button"
                   btnStyle="feed-tweet-icon"
                   icon="comment"
                   size="2x"
-                  handleClick={onHandleClick}
                 />
-                <Button
-                  key={index}
+                {/* <Button
                   name="button"
                   type="button"
                   btnStyle="feed-tweet-icon"
                   icon="retweet"
                   size="2x"
-                  handleClick={onHandleClick}
-                />
+                /> */}
                 <Button
-                  key={index}
                   name="button"
                   type="button"
                   btnStyle="feed-tweet-icon"
                   icon="heart"
                   size="2x"
-                  handleClick={onHandleClick}
                 />
-                <Button
-                  key={index}
+                {/* <Button
                   name="button"
                   type="button"
                   btnStyle="feed-tweet-icon"
                   icon="link"
                   size="2x"
-                  handleClick={onHandleClick}
-                />
-                <Button
-                  key={index}
-                  name="button"
-                  type="button"
-                  btnStyle="feed-tweet-icon"
-                  icon="trash"
-                  size="2x"
-                  handleClick={onHandleClick}
-                />
+                /> */}
+                {props.auth.user.username === item.username ? (
+                  <Button
+                    id={item.tweet_data._id}
+                    value="test"
+                    name="button"
+                    type="button"
+                    btnStyle="feed-tweet-icon"
+                    icon="trash"
+                    size="2x"
+                    handleClick={() => {
+                      onHandleClick(item.tweet_data._id);
+                      props.setReload(item.tweet_data._id);
+                    }}
+                  />
+                ) : null}
               </TweetContainer>
             </FeedBox>
           </TweetContainer>
@@ -142,3 +178,7 @@ function Feed(props) {
     : null;
 }
 export default Feed;
+// handleClick={() => {
+//   props.setTweetId(item.tweet_data.id);
+//   props.onHandleClick();
+// }}

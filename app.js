@@ -132,11 +132,14 @@ app.get("/test", homeController.test);
 
 // Routes for react views
 app.post("/api/login", apiController.postLogin);
-app.get("/api/tweet", apiController.getAllTweet);
-app.get("/api/tweet/:username", apiController.getUserTweet);
 app.get("/api/user/:username", apiController.getUser);
 app.get("/api/login", apiController.postLogin);
+// Tweet  manipulation
+app.get("/api/tweet", apiController.getAllTweet);
+app.get("/api/tweet/:username", apiController.getUserTweet);
 app.post("/api/tweet", apiController.postTweet);
+app.delete("/api/tweet", apiController.deleteTweet);
+
 app.listen(process.env.SERVER_PORT || 3000, () => {
   console.log(
     "%s App is running at http://localhost:%d in %s mode",

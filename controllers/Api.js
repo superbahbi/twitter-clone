@@ -5,7 +5,7 @@ const validator = require("validator");
 const moment = require("moment");
 const _ = require("lodash");
 const jwt = require("jsonwebtoken");
-
+const authentication = require(".././models/authentication");
 exports.postSignup = (req, res) => {
   const strDate =
     moment()
@@ -297,5 +297,19 @@ exports.postTweet = (req, res, next) => {
   } else {
     res.status(401).json("Not authorize");
     return;
+  }
+};
+exports.deleteTweet = (req, res, next) => {
+  const response = authentication.verifyToken(req.headers["authorization"]);
+  if (response && response.username) {
+    Tweet.deleteOne({ _id: req.body.id }, function(err, result) {
+      if (err) {
+        return res.send(err);
+      } else {
+        return res.send(result);
+      }
+    });
+  } else {
+    res.send("cannot delete tweet");
   }
 };

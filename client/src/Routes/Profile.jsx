@@ -26,8 +26,9 @@ const SideBarContainer = styled.div`
 function Profile(props) {
   const profile = props.match.params.profile;
   const { auth } = useContext(authContext);
-  const [tweetData, setTweetData] = useState({});
   const [userData, setUserData] = useState({});
+  const [reload, setReload] = useState();
+
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
@@ -36,16 +37,13 @@ function Profile(props) {
         process.env.REACT_APP_API_URL + "/api/user/" + profile
       );
       setUserData(await res1.json());
-      const res2 = await fetch(
-        process.env.REACT_APP_API_URL + "/api/tweet/" + profile
-      );
-      setTweetData(await res2.json());
+
     };
     request();
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
     return () => console.log("unmounting...");
-  }, []);
+  });
   return (
     <Container>
       <NavContainer>
@@ -62,7 +60,13 @@ function Profile(props) {
             ))
           : null}
         <ProfileBox user={userData.foundUser} />
-        <Feed tweet={tweetData.foundTweet} auth={auth} />
+        <Feed
+          auth={auth.data}
+          reload={reload}
+          setReload={setReload}
+          location="profile"
+          profile={profile}
+        />
       </ProfileContainer>
       <SideBarContainer>
         <Sidebar />

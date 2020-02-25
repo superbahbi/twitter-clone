@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { authContext } from "../Contexts/AuthContext";
 import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
 import Avatar from ".././Components/Avatar";
 import Header from ".././Components/Header";
+import Feed from ".././Components/Feed";
+
 import formurlencoded from "form-urlencoded";
 
 const TweetBox = styled.div`
@@ -58,14 +59,38 @@ const TweetDivider = styled.div`
 const AvatarBox = styled.div`
   padding-top: 15px;
 `;
-
+const TweetButton = styled.div`
+  margin-left: auto !important;
+`;
 function Tweet(props) {
-  const [tweet, setTweet] = useState();
-  const tweetData = useRef(null);
+  const tweetData = useRef("");
+  const [reload, setReload] = useState();
 
-  const handleChange = e => {
-    setTweet(e.target.value);
-  };
+  function onFormSubmit(e) {
+    e.preventDefault();
+    const request = async (id = 100) => {
+      const postTweet = await fetch(
+        process.env.REACT_APP_API_URL + "/api/tweet",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/x-www-form-urlencoded",
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: "Bearer " + props.auth.token
+          },
+          body: formurlencoded({ Tweet: tweetData.current.value })
+        }
+      );
+      await postTweet.json();
+      if (postTweet.status === 200) {
+        console.log("Added new tweet");
+        setReload(true);
+      }
+    };
+    request();
+    e.target.reset();
+  }
+
   return (
     <div>
       <Header page={props.page} />
@@ -77,7 +102,7 @@ function Tweet(props) {
           />
         </AvatarBox>
         <InputTweetBox>
-          <form onSubmit={props.onHandleSubmit}>
+          <form onSubmit={onFormSubmit}>
             <InputBox>
               <Textarea
                 type="text"
@@ -85,8 +110,7 @@ function Tweet(props) {
                 value={props.value}
                 placeholder="What's Happening"
                 autocomplete="off"
-                onHandleChange={handleChange}
-                projectRef={props.prRef}
+                projectRef={tweetData}
               />
             </InputBox>
 
@@ -132,17 +156,20 @@ function Tweet(props) {
                   icon="smile"
                 />
               </InputBoxGroup>
-              <Button
-                name="button"
-                type="submit"
-                btnStyle="signup-btn"
-                label="Tweet"
-              />
+              <TweetButton>
+                <Button
+                  name="button"
+                  type="submit"
+                  btnStyle="signup-btn"
+                  label="Tweet"
+                />
+              </TweetButton>
             </InputBoxRow>
           </form>
         </InputTweetBox>
       </TweetBox>
       <TweetDivider></TweetDivider>
+      <Feed auth={props.auth} setReload={setReload} reload={reload} />
     </div>
   );
 }
