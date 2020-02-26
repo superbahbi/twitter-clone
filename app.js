@@ -12,6 +12,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const MongoStore = require("connect-mongo")(session);
 const multer = require("multer");
 const cors = require("cors");
+
 // SET STORAGE
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -48,7 +49,6 @@ mongoose.connection.on("error", err => {
   process.exit();
 });
 app.use(cors());
-
 app.use(
   session({
     resave: true,
@@ -137,7 +137,7 @@ app.get("/api/login", apiController.postLogin);
 // Tweet  manipulation
 app.get("/api/tweet", apiController.getAllTweet);
 app.get("/api/tweet/:username", apiController.getUserTweet);
-app.post("/api/tweet", apiController.postTweet);
+app.post("/api/tweet", upload.single("upload-img"), apiController.postTweet);
 app.delete("/api/tweet", apiController.deleteTweet);
 
 app.listen(process.env.SERVER_PORT || 3000, () => {

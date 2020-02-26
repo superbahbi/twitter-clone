@@ -5,9 +5,11 @@ import Button from ".././Components/Button";
 import Avatar from ".././Components/Avatar";
 import Header from ".././Components/Header";
 import Feed from ".././Components/Feed";
-
-import formurlencoded from "form-urlencoded";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+library.add(fas, far);
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -47,9 +49,17 @@ const InputBoxRow = styled.div`
   padding-top: 20px;
   display: flex;
 `;
-const InputBoxGroup = styled.div`
-  max-width: 45px;
-  max-height: 45px;
+const InputBoxGroup = styled.label`
+  display: flex;
+  align-items: center;
+
+  color: #71c9f8;
+  font-size: 2em;
+  padding: 0;
+  border: none;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
 `;
 
 const TweetDivider = styled.div`
@@ -62,35 +72,54 @@ const AvatarBox = styled.div`
 const TweetButton = styled.div`
   margin-left: auto !important;
 `;
+const ImgPreview = styled.img`
+  width: 100%;
+`;
+const InputFile = styled.input`
+  display: none;
+  width: 100%;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+`;
 function Tweet(props) {
   const tweetData = useRef("");
   const [reload, setReload] = useState();
-
+  const [imgPreview, setImgPreview] = useState("");
+  const [imgFile, setImgFile] = useState("");
   function onFormSubmit(e) {
     e.preventDefault();
+    const url = process.env.REACT_APP_API_URL + "/api/tweet";
+    const formData = new FormData();
+    formData.append("upload-img", imgFile);
+    formData.append("tweet", tweetData.current.value);
     const request = async (id = 100) => {
       const postTweet = await fetch(
         process.env.REACT_APP_API_URL + "/api/tweet",
         {
           method: "POST",
           headers: {
-            Accept: "application/x-www-form-urlencoded",
-            "Content-Type": "application/x-www-form-urlencoded",
             Authorization: "Bearer " + props.auth.token
           },
-          body: formurlencoded({ Tweet: tweetData.current.value })
+          body: formData
         }
       );
       await postTweet.json();
       if (postTweet.status === 200) {
         console.log("Added new tweet");
+        setImgPreview("");
         setReload(true);
       }
     };
     request();
     e.target.reset();
   }
-
+  function handleChange(event) {
+    console.log("changed");
+    setImgPreview(URL.createObjectURL(event.target.files[0]));
+    setImgFile(event.target.files[0]);
+  }
   return (
     <div>
       <Header page={props.page} />
@@ -113,47 +142,48 @@ function Tweet(props) {
                 projectRef={tweetData}
               />
             </InputBox>
-
-            {/* <div class="input-tweet-box input-tweet-img">
-            <img id="img-preview" class="" />
-          </div> */}
+            <InputBoxRow>
+              <ImgPreview src={imgPreview} />
+            </InputBoxRow>
             <InputBoxRow>
               <InputBoxGroup>
-                <Button
-                  name="button"
-                  type="button"
-                  btnStyle="input-tweet-icon"
-                  icon="file"
-                />
-                {/* <input
-                type="file"
-                id="upload-preview"
-                name="img"
-                accept="image/*"
-              /> */}
-              </InputBoxGroup>
-              <InputBoxGroup>
-                <Button
-                  name="button"
-                  type="button"
-                  btnStyle="input-tweet-icon"
-                  icon="gift"
+                <FontAwesomeIcon icon="file" fixedWidth />
+                <InputFile
+                  type="file"
+                  id="upload-preview"
+                  name="img"
+                  accept="image/*"
+                  onChange={event => handleChange(event)}
                 />
               </InputBoxGroup>
               <InputBoxGroup>
-                <Button
-                  name="button"
-                  type="button"
-                  btnStyle="input-tweet-icon"
-                  icon="poll"
+                <FontAwesomeIcon icon="gift" fixedWidth />
+                <InputFile
+                  type="file"
+                  id="upload-preview"
+                  name="img"
+                  accept="image/*"
+                  onChange={event => handleChange(event)}
                 />
               </InputBoxGroup>
               <InputBoxGroup>
-                <Button
-                  name="button"
-                  type="button"
-                  btnStyle="input-tweet-icon"
-                  icon="smile"
+                <FontAwesomeIcon icon="poll" fixedWidth />
+                <InputFile
+                  type="file"
+                  id="upload-preview"
+                  name="img"
+                  accept="image/*"
+                  onChange={event => handleChange(event)}
+                />
+              </InputBoxGroup>
+              <InputBoxGroup>
+                <FontAwesomeIcon icon="smile" fixedWidth />
+                <InputFile
+                  type="file"
+                  id="upload-preview"
+                  name="img"
+                  accept="image/*"
+                  onChange={event => handleChange(event)}
                 />
               </InputBoxGroup>
               <TweetButton>

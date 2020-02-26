@@ -224,9 +224,7 @@ exports.getUser = (req, res) => {
 };
 exports.postTweet = (req, res, next) => {
   // Get authentication token
-  console.log(req.body.Tweet);
   let token = req.headers["authorization"];
-
   if (token) {
     if (token.startsWith("Bearer ")) {
       // Remove Bearer from string
@@ -238,35 +236,7 @@ exports.postTweet = (req, res, next) => {
         // Invalid token return error message
         return res.status(406).json("Token is not valid");
       } else {
-        // Valid token
-        // Validating input data
-        // const validationErrors = [];
-        // if (validator.isEmpty(req.body.Tweet) && _.isEmpty(req.file)) {
-        //   // Input data is empty
-        //   validationErrors.push({
-        //     msg: "Tweet cannot be blank."
-        //   });
-        // }
-        // // File attachment is empty or invalid file type
-        // if (!_.isEmpty(req.file)) {
-        //   switch (req.file.mimetype) {
-        //     case "image/gif":
-        //     case "image/png":
-        //     case "image/jpeg":
-        //       tweet.img.filename = req.file.filename;
-        //       break;
-        //     default:
-        //       validationErrors.push({
-        //         msg: "Invalid file type."
-        //       });
-        //       break;
-        //   }
-        // }
-        // // Throw error message back to client
-        // if (validationErrors.length) {
-        //   res.status(400).json({ validationErrors });
-        //   return;
-        // }
+        // TODO: Data validator
         //Creating new tweet data
         let tweet = new Tweet();
         // Adding new tweet to mongodb
@@ -279,13 +249,24 @@ exports.postTweet = (req, res, next) => {
             tweet.username = user.username;
             tweet.name = user.profile.name;
             tweet.timestamp = new Date();
-            tweet.content = req.body.Tweet;
+            tweet.content = req.body.tweet;
+            if (!_.isEmpty(req.file)) {
+              switch (req.file.mimetype) {
+                case "image/gif":
+                case "image/png":
+                case "image/jpeg":
+                  tweet.img.filename = req.file.filename;
+                  break;
+                default:
+                  res.status(406).json("Invalid file");
+                  break;
+              }
+            }
             tweet.save(function(err, t) {
               if (err) {
                 res.status(400).json("Unable to save tweet");
                 return;
               } else {
-                console.log(t);
                 res.send(t);
                 return;
               }
