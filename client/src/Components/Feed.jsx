@@ -64,7 +64,7 @@ function Feed(props) {
     if (props.location === "profile") {
       url += props.profile;
     }
-    console.log(url);
+
     const request = async (id = 100) => {
       const res2 = await fetch(url);
       setTweets(await res2.json());
@@ -75,7 +75,7 @@ function Feed(props) {
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
     return () => console.log("Feed data unmounting...");
-  });
+  }, [props.reload]);
   function onHandleClick(tweetId) {
     const request = async (id = 100) => {
       let deleteTweet = await fetch(
