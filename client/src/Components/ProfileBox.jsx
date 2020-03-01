@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { authContext } from "../Contexts/AuthContext";
+import React from "react";
 import moment from "moment";
 import styled from "styled-components";
 import Button from ".././Components/Button";
@@ -78,7 +77,6 @@ function onHandleClick() {
   console.log("clicked");
 }
 function ProfileBox(props) {
-  const { auth } = useContext(authContext);
   const user = props.user;
   const imgUrl = process.env.REACT_APP_API_URL + "/uploads/";
   return (

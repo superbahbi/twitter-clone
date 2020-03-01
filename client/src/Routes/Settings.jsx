@@ -18,10 +18,6 @@ const HomeContainer = styled.div`
   padding: 0;
   max-width: 600px;
 `;
-const SideBarContainer = styled.div`
-  width: 15% !important;
-  padding: 0;
-`;
 const SettingsBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -92,8 +88,7 @@ function Settings() {
       };
       request();
     }
-  }, [imgFile]);
-  function handleChange(e, t) {}
+  }, [imgFile, auth.data.token, auth.data.user.username, type]);
   return (
     <Container>
       <NavContainer>

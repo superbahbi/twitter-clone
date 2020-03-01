@@ -88,6 +88,7 @@ function Tweet(props) {
   const [reload, setReload] = useState();
   const [imgPreview, setImgPreview] = useState("");
   const [imgFile, setImgFile] = useState("");
+  const imgUrl = process.env.REACT_APP_API_URL + "/uploads/";
   function onFormSubmit(e) {
     e.preventDefault();
     const url = process.env.REACT_APP_API_URL + "/api/tweet";
@@ -95,15 +96,13 @@ function Tweet(props) {
     formData.append("upload-img", imgFile);
     formData.append("tweet", tweetData.current.value);
     const request = async (id = 100) => {
-      const postTweet = await fetch(url,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + props.auth.token
-          },
-          body: formData
-        }
-      );
+      const postTweet = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + props.auth.token
+        },
+        body: formData
+      });
       await postTweet.json();
       if (postTweet.status === 200) {
         console.log("Added new tweet");
@@ -124,10 +123,7 @@ function Tweet(props) {
       <Header page={props.page} />
       <TweetBox>
         <AvatarBox>
-          <Avatar
-            name={props.username}
-            src={"http://localhost:3001/uploads/" + props.avatar}
-          />
+          <Avatar name={props.username} src={`${imgUrl}` + props.avatar} />
         </AvatarBox>
         <InputTweetBox>
           <form onSubmit={onFormSubmit}>

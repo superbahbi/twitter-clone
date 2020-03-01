@@ -30,8 +30,8 @@ const LoginContainer = styled.div`
   width: 40vh;
 `;
 const Login = ({ history }) => {
-  const { authData, setAuthData } = useContext(authContext);
-  const [hasError, setErrors] = useState(false);
+  const { setAuthData } = useContext(authContext);
+  const [ setErrors] = useState(false);
   const [credentials, setCredentials] = useState({
     username: "",
     password: ""

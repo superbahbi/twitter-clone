@@ -39,7 +39,7 @@ function Home() {
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
     return () => console.log("Feed data unmounting...");
-  }, []);
+  }, [auth.data.user.username]);
   return (
     <Container>
       <NavContainer>

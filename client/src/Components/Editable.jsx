@@ -1,7 +1,6 @@
 // Editable.js
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import formurlencoded from "form-urlencoded";
-import { authContext } from "../Contexts/AuthContext";
 // Component accept text, placeholder values and also pass what type of Input - input, textarea so that we can use it for styling accordingly
 const Editable = ({
   childRef,
@@ -15,7 +14,6 @@ const Editable = ({
   // Manage the state whether to show the label or the input box. By default, label will be shown.
   // Exercise: It can be made dynamic by accepting initial state as props outside the component
   const [isEditing, setEditing] = useState(false);
-  const { auth, setAuth } = useContext(authContext);
   useEffect(() => {
     if (childRef && childRef.current && isEditing === true) {
       childRef.current.focus();
@@ -47,7 +45,7 @@ const Editable = ({
       };
       request();
     }
-  }, [isEditing, childRef]);
+  }, [isEditing, childRef, props, name, text]);
   // Event handler while pressing any key while editing
   const handleKeyDown = (event, type) => {
     // Handle when key is pressed

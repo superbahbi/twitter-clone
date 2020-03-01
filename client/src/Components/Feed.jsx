@@ -58,7 +58,6 @@ const FeedImage = styled.img`
 function Feed(props) {
   const [tweets, setTweets] = useState();
   const reload = props.reload;
-  const tweetCount = props.tweetCount;
   const imgUrl = process.env.REACT_APP_API_URL + "/uploads/";
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
@@ -77,7 +76,7 @@ function Feed(props) {
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
     return () => console.log("Feed data unmounting...");
-  }, [reload]);
+  }, [reload, props]);
   function onHandleClick(tweetId) {
     const request = async (id = 100) => {
       let deleteTweet = await fetch(
@@ -107,7 +106,7 @@ function Feed(props) {
     ? tweets.foundTweet.map((item, index) => (
         <TweetBox key={index}>
           <Avatar
-            name={item.name}
+            name={item.username}
             src={`${imgUrl}` + item.user_data.profile.avatar.filename}
           />
           <TweetContainer>
@@ -119,9 +118,11 @@ function Feed(props) {
             <FeedBox>
               <FeedContent>{item.content}</FeedContent>
             </FeedBox>
-            <FeedBox>
-              {item.img && <FeedImage src={`${imgUrl}` + item.img.filename} />}
-            </FeedBox>
+            {item.img ? (
+              <FeedBox>
+                <FeedImage src={`${imgUrl}` + item.img.filename} />
+              </FeedBox>
+            ) : null}
             <FeedBox>
               <TweetContainer>
                 <Button
