@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
-const passport = require('passport');
+const mongoose = require("mongoose");
+const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 
 const userSchema = new mongoose.Schema({
+  _id: String,
   username: { type: String, unique: true },
   password: String,
   tweets: {
@@ -28,15 +29,21 @@ const userSchema = new mongoose.Schema({
     website: String,
     regDate: Number,
     avatar: {
-      filename: String,
+      filename: {
+        type: String,
+        default: "default.png"
+      }
     },
     cover: {
-      filename: String,
+      filename: {
+        type: String,
+        default: "default.png"
+      }
     }
   }
 });
 userSchema.plugin(passportLocalMongoose);
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 passport.use(User.createStrategy());
 passport.serializeUser(function(user, done) {
   done(null, user);
