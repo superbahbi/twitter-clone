@@ -17,9 +17,9 @@
 - [ ] Explore mode
 - [ ] Bookmarks
 # Demo Link
-Frontend
+## Frontend
 https://yetanothertwitterfrontend.herokuapp.com/
-Backend
+## Backend
 https://yetanothertwitter.herokuapp.com/
 # Screenshot
 ![image](https://i.gyazo.com/5fb9072f3ae50a5df31ba5066f460992.png)
