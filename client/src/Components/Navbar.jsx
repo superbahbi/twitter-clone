@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import List from "./List";
 import styled from "styled-components";
-import { authContext } from "../Contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 const Nav = styled.div`
   position: fixed;
@@ -18,10 +17,8 @@ const ListStyle = styled.ul`
   :hover {
   }
 `;
-function Navbar() {
+function Navbar(props) {
   let history = useHistory();
-  const { auth } = useContext(authContext);
-  const username = auth.data.user.username;
   function handleLogout(event) {
     event.preventDefault();
     // Remove the token from localStorage
@@ -93,7 +90,7 @@ function Navbar() {
           name="Profile"
           icon="circle"
           onHandleClick={() => {
-            history.push(username);
+            history.push(props.username);
           }}
         />
         <List

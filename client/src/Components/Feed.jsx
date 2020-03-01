@@ -57,6 +57,8 @@ const FeedImage = styled.img`
 `;
 function Feed(props) {
   const [tweets, setTweets] = useState();
+  const reload = props.reload;
+  const tweetCount = props.tweetCount;
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
@@ -64,7 +66,6 @@ function Feed(props) {
     if (props.location === "profile") {
       url += props.profile;
     }
-
     const request = async (id = 100) => {
       const res2 = await fetch(url);
       setTweets(await res2.json());
@@ -75,7 +76,7 @@ function Feed(props) {
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
     return () => console.log("Feed data unmounting...");
-  }, [props.reload]);
+  }, [reload]);
   function onHandleClick(tweetId) {
     const request = async (id = 100) => {
       let deleteTweet = await fetch(
@@ -97,31 +98,32 @@ function Feed(props) {
     };
     request();
   }
+  if (props.setTweetCount) {
+    props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
+  }
   return tweets
     ? tweets.foundTweet.map((item, index) => (
         <TweetBox key={index}>
           <Avatar
-            name={item.tweet_data.name}
+            name={item.name}
             src={
-              "http://localhost:3001/uploads/" + item.profile.avatar.filename
+              "http://localhost:3001/uploads/" +
+              item.user_data.profile.avatar.filename
             }
           />
           <TweetContainer>
             <FeedBox>
-              <FeedName>{item.tweet_data.name}</FeedName>
-              <FeedTag>{item.tweet_data.name}</FeedTag>
-              <FeedDate>{moment(item.tweet_data.timestamp).fromNow()}</FeedDate>
+              <FeedName>{item.name}</FeedName>
+              <FeedTag>{item.name}</FeedTag>
+              <FeedDate>{moment(item.timestamp).fromNow()}</FeedDate>
             </FeedBox>
             <FeedBox>
-              <FeedContent>{item.tweet_data.content}</FeedContent>
+              <FeedContent>{item.content}</FeedContent>
             </FeedBox>
             <FeedBox>
-              {item.tweet_data.img && (
+              {item.img && (
                 <FeedImage
-                  src={
-                    "http://localhost:3001/uploads/" +
-                    item.tweet_data.img.filename
-                  }
+                  src={"http://localhost:3001/uploads/" + item.img.filename}
                 />
               )}
             </FeedBox>
@@ -155,9 +157,9 @@ function Feed(props) {
                   icon="link"
                   size="2x"
                 /> */}
-                {props.auth.user.username === item.username ? (
+                {props.auth.user.username === item.user_data.username ? (
                   <Button
-                    id={item.tweet_data._id}
+                    id={item._id}
                     value="test"
                     name="button"
                     type="button"
@@ -165,8 +167,8 @@ function Feed(props) {
                     icon="trash"
                     size="2x"
                     handleClick={() => {
-                      onHandleClick(item.tweet_data._id);
-                      props.setReload(item.tweet_data._id);
+                      onHandleClick(item._id);
+                      props.setReload(item._id);
                     }}
                   />
                 ) : null}

@@ -4,7 +4,6 @@ import Input from ".././Components/Input";
 import Button from ".././Components/Button";
 import styled from "styled-components";
 import formurlencoded from "form-urlencoded";
-
 const SplitPage = styled.div`
   display: flex;
   height: 100vh;
@@ -26,33 +25,32 @@ const SubLogin = styled.div`
   justify-content: center;
   vertical-align: middle;
 `;
-
 const LoginContainer = styled.div`
   padding-top: 10em;
   width: 40vh;
 `;
-
 const Login = ({ history }) => {
-  const { setAuthData } = useContext(authContext);
+  const { authData, setAuthData } = useContext(authContext);
+  const [hasError, setErrors] = useState(false);
   const [credentials, setCredentials] = useState({
     username: "",
     password: ""
   });
-  function onFormSubmit(event) {
+  async function onFormSubmit(event) {
     event.preventDefault();
-    const request = async (id = 100) => {
-      const res1 = await fetch(process.env.REACT_APP_API_URL + "/api/login", {
-        method: "POST",
-        headers: {
-          Accept: "application/x-www-form-urlencoded",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: formurlencoded(credentials)
-      });
-      setAuthData(await res1.json());
-    };
-    request();
-    history.replace("/home");
+    const res = await fetch(process.env.REACT_APP_API_URL + "/api/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/x-www-form-urlencoded",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formurlencoded(credentials)
+    });
+    res
+      .json()
+      .then(res => setAuthData(res))
+      .catch(err => setErrors(err));
+    history.push("/home");
   }
   function handleChange(event) {
     const { name, value } = event.target;

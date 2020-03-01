@@ -95,8 +95,7 @@ function Tweet(props) {
     formData.append("upload-img", imgFile);
     formData.append("tweet", tweetData.current.value);
     const request = async (id = 100) => {
-      const postTweet = await fetch(
-        process.env.REACT_APP_API_URL + "/api/tweet",
+      const postTweet = await fetch(url,
         {
           method: "POST",
           headers: {
@@ -150,7 +149,6 @@ function Tweet(props) {
                 <FontAwesomeIcon icon="file" fixedWidth />
                 <InputFile
                   type="file"
-                  id="upload-preview"
                   name="img"
                   accept="image/*"
                   onChange={event => handleChange(event)}
@@ -160,7 +158,6 @@ function Tweet(props) {
                 <FontAwesomeIcon icon="gift" fixedWidth />
                 <InputFile
                   type="file"
-                  id="upload-preview"
                   name="img"
                   accept="image/*"
                   onChange={event => handleChange(event)}
@@ -170,7 +167,6 @@ function Tweet(props) {
                 <FontAwesomeIcon icon="poll" fixedWidth />
                 <InputFile
                   type="file"
-                  id="upload-preview"
                   name="img"
                   accept="image/*"
                   onChange={event => handleChange(event)}
@@ -180,7 +176,6 @@ function Tweet(props) {
                 <FontAwesomeIcon icon="smile" fixedWidth />
                 <InputFile
                   type="file"
-                  id="upload-preview"
                   name="img"
                   accept="image/*"
                   onChange={event => handleChange(event)}

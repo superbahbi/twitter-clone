@@ -5,6 +5,7 @@ import Login from "./Routes/Login";
 import Signup from "./Routes/Signup";
 import Home from "./Routes/Home";
 import Profile from "./Routes/Profile";
+import Settings from "./Routes/Settings";
 import Error from "./Routes/Error";
 import PrivateRoute from "./Routes/PrivateRoute";
 function Routes() {
@@ -15,6 +16,7 @@ function Routes() {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <PrivateRoute path="/home" component={Home} />
+        <PrivateRoute path="/settings" component={Settings} />
         <PrivateRoute path="/:profile" component={Profile} />
         <Route component={Error} />
       </Switch>
