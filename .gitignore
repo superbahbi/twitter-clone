@@ -105,3 +105,7 @@ dist
 
 # Upload file
 uploads
+
+# Package-lock.json
+package-lock.json
+client/package-lock.json
