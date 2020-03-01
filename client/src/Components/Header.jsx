@@ -59,7 +59,9 @@ function Header(props) {
       </ProfileArrow>
       <ProfileBox>
         <ProfileName>{props.name}</ProfileName>
-        <ProfileTweetCount>{props.tweetCount} Tweets</ProfileTweetCount>
+        <ProfileTweetCount>
+          {props.tweetCount && props.tweetCount + " Tweets"}
+        </ProfileTweetCount>
       </ProfileBox>
     </TweetBox>
   );
