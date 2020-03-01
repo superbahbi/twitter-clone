@@ -89,6 +89,10 @@ app.use("/uploads", express.static(process.cwd() + "/uploads"));
 // app.get("/test", homeController.test);
 
 // Routes for react views
+app.get(
+  "/",
+  res.json("https://github.com/superbahbi/twitter-clone api endpoint")
+);
 app.post("/api/login", apiController.postLogin);
 app.get("/api/user/:username", apiController.getUser);
 app.post("/api/signup", apiController.postSignup);
