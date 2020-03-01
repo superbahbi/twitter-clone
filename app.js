@@ -103,7 +103,7 @@ app.post(
 );
 app.delete("/api/tweet", authentication.checkToken, apiController.deleteTweet);
 app.put("/api/profile", authentication.checkToken, apiController.updateUser);
-app.listen(process.env.SERVER_PORT || 3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log(
     "%s App is running at http://localhost:%d in %s mode",
     chalk.green("✓"),
