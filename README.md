@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/superbahbi/twitter-clone.svg?branch=master)](https://travis-ci.org/superbahbi/twitter-clone)
 # To-Do
 - [x] Login
-- [x] Register
+- [ ] Register
 - [x] Feed list
 - [x] Profile
 - [x] Edit profile
@@ -10,12 +10,9 @@
 - [ ] Add a comment
 - [ ] Like a tweet
 - [ ] Retweet
-- [ ] Direct message
-- [ ] Treding
-- [ ] Who to follow
+- [ ] Trending
 - [ ] Notifactions
-- [ ] Explore mode
-- [ ] Bookmarks
+
 # Demo Link
 ## Frontend
 https://yetanothertwitterfrontend.herokuapp.com/
