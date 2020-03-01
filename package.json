@@ -51,6 +51,5 @@
     "react-router-dom": "^5.1.2",
     "react-spinners": "^0.8.0",
     "validator": "^12.2.0"
-  },
-  "proxy": "http://localhost:3001"
+  }
 }
