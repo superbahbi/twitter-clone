@@ -21,6 +21,7 @@ const ListItem = styled.li`
 `;
 const ListText = styled.span`
   padding-left: 1em;
+  padding-right: 1em;
   font-size: 20px;
   font-weight: bolder;
   color: black;
@@ -28,17 +29,13 @@ const ListText = styled.span`
     color: #1da1f2;
   }
 `;
-const ListIcon = styled.span`
-  padding-right: 0.5em;
-`;
+const ListIcon = styled.span``;
 
 function List(props) {
   return (
     <ListItem id={props.id} onClick={props.onHandleClick}>
-      <ListIcon>
-        <FontAwesomeIcon icon={props.icon} size="2x" fixedWidth />
-      </ListIcon>
-      <ListText>{props.name}</ListText>
+      <FontAwesomeIcon icon={props.icon} size="2x" fixedWidth />
+      {props.name && <ListText>{props.name}</ListText>}
     </ListItem>
   );
 }
