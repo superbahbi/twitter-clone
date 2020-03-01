@@ -59,6 +59,7 @@ function Feed(props) {
   const [tweets, setTweets] = useState();
   const reload = props.reload;
   const tweetCount = props.tweetCount;
+  const imgUrl = process.env.REACT_APP_API_URL + "/uploads/";
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
@@ -101,15 +102,13 @@ function Feed(props) {
   if (props.setTweetCount) {
     props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   }
+
   return tweets
     ? tweets.foundTweet.map((item, index) => (
         <TweetBox key={index}>
           <Avatar
             name={item.name}
-            src={
-              "http://localhost:3001/uploads/" +
-              item.user_data.profile.avatar.filename
-            }
+            src={`${imgUrl}` + item.user_data.profile.avatar.filename}
           />
           <TweetContainer>
             <FeedBox>
@@ -121,11 +120,7 @@ function Feed(props) {
               <FeedContent>{item.content}</FeedContent>
             </FeedBox>
             <FeedBox>
-              {item.img && (
-                <FeedImage
-                  src={"http://localhost:3001/uploads/" + item.img.filename}
-                />
-              )}
+              {item.img && <FeedImage src={`${imgUrl}` + item.img.filename} />}
             </FeedBox>
             <FeedBox>
               <TweetContainer>

@@ -1,6 +1,5 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { authContext } from "../Contexts/AuthContext";
-
 import Navbar from ".././Components/Navbar";
 import Header from ".././Components/Header";
 import Editable from ".././Components/Editable";
@@ -56,15 +55,45 @@ const SettingsItem = styled.div`
     text-align: right !important;
   } */}
 `;
-
+const InputFile = styled.input``;
 function Settings() {
   const { auth } = useContext(authContext);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
   const [website, setWebsite] = useState("");
+  const [imgFile, setImgFile] = useState("");
+  const [type, setType] = useState("");
   const inputRef = useRef();
   const user = auth.data.user;
+
+  useEffect(() => {
+    console.log(imgFile);
+    console.log(type);
+    if (imgFile) {
+      const url = "http://localhost:3001/api/upload";
+      const formData = new FormData();
+      formData.append("upload-img", imgFile);
+      formData.append("type", type);
+      formData.append("username", auth.data.user.username);
+      const request = async (id = 100) => {
+        const postUpload = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + auth.data.token
+          },
+          body: formData
+        });
+        await postUpload.json();
+        if (postUpload.status === 200) {
+          console.log(postUpload);
+          console.log("Upload avatar/cover");
+        }
+      };
+      request();
+    }
+  }, [imgFile]);
+  function handleChange(e, t) {}
   return (
     <Container>
       <NavContainer>
@@ -168,6 +197,33 @@ function Settings() {
                     onChange={e => setWebsite(e.target.value)}
                   />
                 </Editable>
+              </SettingsItem>
+            </List>
+            <List>
+              <SettingsItem>Profile</SettingsItem>
+              <SettingsItem>
+                <input
+                  type="file"
+                  name="avatar"
+                  onChange={event => {
+                    setType("avatar");
+                    setImgFile(event.target.files[0]);
+                  }}
+                />
+              </SettingsItem>
+            </List>
+            <List>
+              <SettingsItem>Cover</SettingsItem>
+              <SettingsItem>
+                <InputFile
+                  type="file"
+                  name="cover"
+                  accept="image/*"
+                  onChange={event => {
+                    setType("cover");
+                    setImgFile(event.target.files[0]);
+                  }}
+                />
               </SettingsItem>
             </List>
           </SettingsList>

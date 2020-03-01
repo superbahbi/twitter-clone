@@ -80,16 +80,16 @@ function onHandleClick() {
 function ProfileBox(props) {
   const { auth } = useContext(authContext);
   const user = props.user;
-  const url = process.env.REACT_APP_API_URL + "/uploads/";
+  const imgUrl = process.env.REACT_APP_API_URL + "/uploads/";
   return (
     <div>
       <TweetBox>
         <div>
           <ProfileCover
-            src={`${url}${user.profile && user.profile.cover.filename}`}
+            src={`${imgUrl}${user.profile && user.profile.cover.filename}`}
           />
           <ProfileAvatar
-            src={`${url}${user.profile && user.profile.avatar.filename}`}
+            src={`${imgUrl}${user.profile && user.profile.avatar.filename}`}
             alt=""
           />
           {props.auth ? (

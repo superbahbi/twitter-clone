@@ -243,3 +243,45 @@ exports.updateUser = async (req, res, next) => {
     }
   );
 };
+exports.uploadPhoto = async (req, res, next) => {
+  console.log("Change");
+  console.log(req.body);
+  console.log(req.file);
+  User.findOne(
+    {
+      username: req.body.username
+    },
+    function(err, user) {
+      if (!_.isEmpty(req.file)) {
+        switch (req.file.mimetype) {
+          case "image/gif":
+          case "image/png":
+          case "image/jpeg":
+            switch (req.body.type) {
+              case "avatar":
+                user.profile.avatar.filename = req.file.filename;
+                break;
+              case "cover":
+                user.profile.cover.filename = req.file.filename;
+                break;
+              default:
+                res.status(406).json("Invalid type");
+                break;
+            }
+            break;
+          default:
+            res.status(406).json("Invalid file");
+            break;
+        }
+      }
+
+      user.save(err => {
+        if (err) {
+          return next(err);
+        }
+
+        res.json("Success");
+      });
+    }
+  );
+};

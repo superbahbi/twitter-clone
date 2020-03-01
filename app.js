@@ -106,6 +106,13 @@ app.post(
 );
 app.delete("/api/tweet", authentication.checkToken, apiController.deleteTweet);
 app.put("/api/profile", authentication.checkToken, apiController.updateUser);
+
+app.post(
+  "/api/upload",
+  upload.single("upload-img"),
+  authentication.checkToken,
+  apiController.uploadPhoto
+);
 app.listen(process.env.PORT || 3000, () => {
   console.log(
     "%s App is running at http://localhost:%d in %s mode",

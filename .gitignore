@@ -107,3 +107,7 @@ dist
 # Package-lock.json
 package-lock.json
 client/package-lock.json
+
+#upload
+!uploads/default.png
+uploads
