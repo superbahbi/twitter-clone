@@ -78,11 +78,11 @@ function Navbar(props) {
           }}
         />
         <List
-          id="lists"
-          name="Lists"
-          icon="list"
+          id="settings"
+          name="Settings"
+          icon="sliders-h"
           onHandleClick={() => {
-            history.push("/lists");
+            history.push("/settings");
           }}
         />
         <List

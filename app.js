@@ -2,10 +2,8 @@ const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
-const ejs = require("ejs");
 const mongoose = require("mongoose");
 const chalk = require("chalk");
-const flash = require("express-flash");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
@@ -26,11 +24,7 @@ const upload = multer({ storage: storage });
 
 dotenv.config({ path: ".env" });
 
-const homeController = require(__dirname + "/controllers/home");
-const userController = require(__dirname + "/controllers/user");
-const tweetController = require(__dirname + "/controllers/tweet");
 const apiController = require(__dirname + "/controllers/api");
-const functionController = require(__dirname + "/models/function");
 const app = express();
 /**
  * Connect to MongoDB.
@@ -62,9 +56,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(flash());
-app.set("view engine", "ejs");
 app.use(
   bodyParser.urlencoded({
     extended: true
@@ -95,40 +86,7 @@ app.use(
 );
 app.use("/uploads", express.static(process.cwd() + "/uploads"));
 
-// Routes for ejs views
-app.get("/", homeController.index);
-app.post("/signup", userController.postSignup);
-app.get("/login", userController.getLogin);
-app.post("/login", userController.postLogin);
-app.get("/logout", userController.logout);
-app.get(
-  "/:profile",
-  functionController.isAuthenticated,
-  userController.profile
-);
-app.get(
-  "/:profile/status/:id",
-  functionController.isAuthenticated,
-  tweetController.tweetStatus
-);
-app.post(
-  "/tweet",
-  functionController.isAuthenticated,
-  upload.single("img"),
-  tweetController.tweet
-);
-app.post(
-  "/editprofile",
-  functionController.isAuthenticated,
-  userController.editprofile
-);
-app.post(
-  "/upload/photo",
-  functionController.isAuthenticated,
-  upload.single("upload-img"),
-  userController.upload
-);
-app.get("/test", homeController.test);
+// app.get("/test", homeController.test);
 
 // Routes for react views
 app.post("/api/login", apiController.postLogin);
