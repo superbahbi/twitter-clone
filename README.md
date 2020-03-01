@@ -22,4 +22,4 @@ https://yetanothertwitterfrontend.herokuapp.com/
 Backend
 https://yetanothertwitter.herokuapp.com/
 # Screenshot
-![image](https://i.gyazo.com/e17df3e5121547167b6b8d6a7f6ab243.png)
+![image](https://i.gyazo.com/5fb9072f3ae50a5df31ba5066f460992.png)
