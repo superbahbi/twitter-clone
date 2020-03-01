@@ -4,7 +4,6 @@ import Navbar from ".././Components/Navbar";
 import Header from ".././Components/Header";
 import Editable from ".././Components/Editable";
 import styled from "styled-components";
-
 const Container = styled.div`
   display: flex !important;
   flex-direction: row !important;
@@ -68,8 +67,9 @@ function Settings() {
     console.log(type);
     if (imgFile) {
       const url = "http://localhost:3001/api/upload";
+
       const formData = new FormData();
-      formData.append("upload-img", imgFile);
+      formData.append("image", imgFile);
       formData.append("type", type);
       formData.append("username", auth.data.user.username);
       const request = async (id = 100) => {
@@ -92,7 +92,7 @@ function Settings() {
   return (
     <Container>
       <NavContainer>
-        <Navbar />
+        <Navbar username={auth.data.user.username} />
       </NavContainer>
       <HomeContainer>
         <Header name="Settings" />

@@ -10,18 +10,9 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const MongoStore = require("connect-mongo")(session);
 const multer = require("multer");
 const cors = require("cors");
-const authentication = require("./models/authentication");
-// SET STORAGE
-var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, "uploads");
-  },
-  filename: function(req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  }
-});
-const upload = multer({ storage: storage });
-
+const authentication = require("./models/Authentication");
+const storage = multer.memoryStorage();
+const multerUploads = multer({ storage }).single("image");
 dotenv.config({ path: ".env" });
 
 const apiController = require(__dirname + "/controllers/api");
@@ -100,16 +91,15 @@ app.get("/api/tweet", apiController.getAllTweet);
 app.get("/api/tweet/:username", apiController.getUserTweet);
 app.post(
   "/api/tweet",
-  upload.single("upload-img"),
+  multerUploads,
   authentication.checkToken,
   apiController.postTweet
 );
 app.delete("/api/tweet", authentication.checkToken, apiController.deleteTweet);
 app.put("/api/profile", authentication.checkToken, apiController.updateUser);
-
 app.post(
   "/api/upload",
-  upload.single("upload-img"),
+  multerUploads,
   authentication.checkToken,
   apiController.uploadPhoto
 );

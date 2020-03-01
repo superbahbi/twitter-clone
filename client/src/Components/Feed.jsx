@@ -107,7 +107,7 @@ function Feed(props) {
         <TweetBox key={index}>
           <Avatar
             name={item.username}
-            src={`${imgUrl}` + item.user_data.profile.avatar.filename}
+            src={item.user_data.profile.avatar.filename}
           />
           <TweetContainer>
             <FeedBox>
@@ -120,7 +120,7 @@ function Feed(props) {
             </FeedBox>
             {item.img ? (
               <FeedBox>
-                <FeedImage src={`${imgUrl}` + item.img.filename} />
+                <FeedImage src={item.img.filename} />
               </FeedBox>
             ) : null}
             <FeedBox>

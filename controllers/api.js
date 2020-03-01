@@ -6,6 +6,7 @@ const validator = require("validator");
 const moment = require("moment");
 const _ = require("lodash");
 const jwt = require("jsonwebtoken");
+const upload = require("../models/Upload");
 
 exports.postSignup = (req, res) => {
   User.register(
@@ -182,22 +183,24 @@ exports.postTweet = (req, res, next) => {
           case "image/gif":
           case "image/png":
           case "image/jpeg":
-            tweet.img.filename = req.file.filename;
+            upload.uploadToCloud(req, (result, error) => {
+              tweet.img.filename = result.url;
+              tweet.save(function(err, t) {
+                if (err) {
+                  res.status(400).json(err);
+                  return;
+                } else {
+                  res.send(t);
+                  return;
+                }
+              });
+            });
             break;
           default:
             res.status(406).json("Invalid file");
             break;
         }
       }
-      tweet.save(function(err, t) {
-        if (err) {
-          res.status(400).json(err);
-          return;
-        } else {
-          res.send(t);
-          return;
-        }
-      });
     }
   );
 };
@@ -246,31 +249,43 @@ exports.updateUser = async (req, res, next) => {
 exports.uploadPhoto = async (req, res, next) => {
   console.log("Change");
   console.log(req.body);
-  console.log(req.file);
+
   User.findOne(
     {
       username: req.body.username
     },
     function(err, user) {
       if (!_.isEmpty(req.file)) {
+        if (err) {
+          res.status(400).json(err);
+        }
         switch (req.file.mimetype) {
           case "image/gif":
           case "image/png":
           case "image/jpeg":
-            switch (req.body.type) {
-              case "avatar":
-                user.profile.avatar.filename = req.file.filename;
-                break;
-              case "cover":
-                user.profile.cover.filename = req.file.filename;
-                break;
-              default:
-                res.status(406).json("Invalid type");
-                break;
-            }
+            upload.uploadToCloud(req, (result, error) => {
+              switch (req.body.type) {
+                case "avatar":
+                  user.profile.avatar.filename = result.url;
+                  break;
+                case "cover":
+                  user.profile.cover.filename = result.url;
+                  break;
+                default:
+                  res.status(400).json("Invalid type");
+                  break;
+              }
+              console.log(req.body.type);
+              console.log(result.url);
+              user.save(err => {
+                if (err) {
+                  return next(err);
+                }
+              });
+            });
             break;
           default:
-            res.status(406).json("Invalid file");
+            res.status(400).json("Invalid file");
             break;
         }
       }

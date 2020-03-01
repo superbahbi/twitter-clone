@@ -43,7 +43,7 @@ function Home() {
   return (
     <Container>
       <NavContainer>
-        <Navbar username={user && user.username} />
+        <Navbar username={auth.data.user.username} />
       </NavContainer>
       <HomeContainer>
         <Tweet

@@ -93,8 +93,9 @@ function Tweet(props) {
     e.preventDefault();
     const url = process.env.REACT_APP_API_URL + "/api/tweet";
     const formData = new FormData();
-    formData.append("upload-img", imgFile);
+    formData.append("image", imgFile);
     formData.append("tweet", tweetData.current.value);
+    formData.append("type", "tweetImg");
     const request = async (id = 100) => {
       const postTweet = await fetch(url, {
         method: "POST",
@@ -123,7 +124,7 @@ function Tweet(props) {
       <Header page={props.page} />
       <TweetBox>
         <AvatarBox>
-          <Avatar name={props.username} src={`${imgUrl}` + props.avatar} />
+          <Avatar name={props.username} src={props.avatar} />
         </AvatarBox>
         <InputTweetBox>
           <form onSubmit={onFormSubmit}>
