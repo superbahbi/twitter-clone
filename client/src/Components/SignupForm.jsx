@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Button from ".././Components/Button";
 import styled from "styled-components";
@@ -52,7 +53,8 @@ const SelectBox = styled.select`
   margin-left: 15px;
   padding: 15px;
 `;
-const SignupForm = ({ history }) => {
+function SignupForm() {
+  const history = useHistory();
   const [requestError, setRequestError] = useState();
 
   const { register, handleSubmit, errors, watch } = useForm(); // initialise the hook
@@ -185,5 +187,5 @@ const SignupForm = ({ history }) => {
       </form>
     </React.Fragment>
   );
-};
+}
 export default SignupForm;

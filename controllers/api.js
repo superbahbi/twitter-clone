@@ -93,16 +93,37 @@ exports.postSignup = (req, res) => {
  * Login request page.
  */
 exports.postLogin = (req, res, next) => {
+  console.log("Logging in....");
+  console.log(req.body);
+  const username = req.body.username || "";
+  const password = req.body.password || "";
+
+  const validationErrors = [];
+  if (validator.isEmpty(username))
+    validationErrors.push({
+      success: false,
+      message: "Please enter a username."
+    });
+
+  if (validator.isEmpty(password))
+    validationErrors.push({
+      success: false,
+      message: "Password cannot be blank."
+    });
+  if (validationErrors.length) {
+    return res.status(400).json(validationErrors);
+  }
   let user = new User({
-    username: req.body.username,
-    password: req.body.password
+    username: username,
+    password: password
   });
   req.login(user, function(err) {
     if (err) {
-      res.status(400).json({
+      validationErrors.push({
         success: false,
         message: "Authentication failed! Please check the request"
       });
+      res.status(400).json(validationErrors);
     } else {
       passport.authenticate("local", function(error, user, info) {
         if (user) {
@@ -121,10 +142,11 @@ exports.postLogin = (req, res, next) => {
             user: user
           });
         } else {
-          res.status(403).json({
+          validationErrors.push({
             success: false,
             message: "Incorrect username or password"
           });
+          res.status(400).json(validationErrors);
         }
       })(req, res, next);
     }

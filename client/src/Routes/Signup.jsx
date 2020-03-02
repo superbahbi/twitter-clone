@@ -1,5 +1,6 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
+
 import styled from "styled-components";
 import SignupForm from ".././Components/SignupForm";
 const SplitPage = styled.div`
