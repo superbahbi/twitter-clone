@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   },
   profile: {
     name: String,
-    email: String,
+    email: { type: String, unique: true },
     bio: String,
     gender: String,
     phone: String,
@@ -31,13 +31,15 @@ const userSchema = new mongoose.Schema({
     avatar: {
       filename: {
         type: String,
-        default: "default.png"
+        default:
+          "http://res.cloudinary.com/dlz6xmn1q/image/upload/v1583088333/avatar/gf5k6jlwwebdlgmtrq1g.png"
       }
     },
     cover: {
       filename: {
         type: String,
-        default: "default.png"
+        default:
+          "http://res.cloudinary.com/dlz6xmn1q/image/upload/v1583088333/avatar/gf5k6jlwwebdlgmtrq1g.png"
       }
     }
   }
