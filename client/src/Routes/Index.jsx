@@ -1,4 +1,5 @@
 import React from "react";
+import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Button from ".././Components/Button";
@@ -39,10 +40,13 @@ const SubLogin = styled.div`
 `;
 
 function Index() {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-device-width: 1224px)"
+  });
   let history = useHistory();
   return (
     <SplitPage>
-      <LeftSide></LeftSide>
+      {isDesktopOrLaptop && <LeftSide></LeftSide>}
       <RightSide>
         <SubLogin>
           <FontAwesomeIcon icon={faDog} size="4x" color="#1DA1F2" />

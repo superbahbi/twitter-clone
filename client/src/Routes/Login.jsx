@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useMediaQuery } from "react-responsive";
 import { authContext } from "../Contexts/AuthContext";
 import Input from ".././Components/Input";
 import Button from ".././Components/Button";
@@ -30,8 +31,11 @@ const LoginContainer = styled.div`
   width: 40vh;
 `;
 const Login = ({ history }) => {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-device-width: 1224px)"
+  });
   const { setAuthData } = useContext(authContext);
-  const [ setErrors] = useState(false);
+  const [setErrors] = useState(false);
   const [credentials, setCredentials] = useState({
     username: "",
     password: ""
@@ -64,7 +68,7 @@ const Login = ({ history }) => {
   return (
     <div>
       <SplitPage>
-        <LeftSide></LeftSide>
+        {isDesktopOrLaptop && <LeftSide></LeftSide>}
         <RightSide>
           <SubLogin>
             <LoginContainer>

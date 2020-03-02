@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import { authContext } from "../Contexts/AuthContext";
 import Navbar from ".././Components/Navbar";
 import Tweet from ".././Components/Tweet";
 import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
+
 const Container = styled.div`
   display: flex !important;
   flex-direction: row !important;
@@ -22,6 +24,10 @@ const SideBarContainer = styled.div`
   padding: 0;
 `;
 function Home() {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-device-width: 1224px)"
+  });
+  // const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const { auth } = useContext(authContext);
   const [user, setUser] = useState();
   useEffect(() => {
@@ -42,9 +48,11 @@ function Home() {
   }, [auth.data.user.username]);
   return (
     <Container>
-      <NavContainer>
-        <Navbar username={auth.data.user.username} />
-      </NavContainer>
+      {isDesktopOrLaptop && (
+        <NavContainer>
+          <Navbar username={auth.data.user.username} />
+        </NavContainer>
+      )}
       <HomeContainer>
         <Tweet
           username={user && user.username}
