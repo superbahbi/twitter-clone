@@ -66,8 +66,7 @@ function Settings() {
     console.log(imgFile);
     console.log(type);
     if (imgFile) {
-      const url = "http://localhost:3001/api/upload";
-
+      const url = process.env.REACT_APP_API_URL + "/api/upload";
       const formData = new FormData();
       formData.append("image", imgFile);
       formData.append("type", type);
