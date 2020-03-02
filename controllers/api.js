@@ -7,28 +7,83 @@ const moment = require("moment");
 const _ = require("lodash");
 const jwt = require("jsonwebtoken");
 const upload = require("../models/Upload");
-
 exports.postSignup = (req, res) => {
+  console.log(req.body);
+
+  const username = req.body.username || "";
+  const email = req.body.email || "";
+  const password = req.body.password || "";
+  const confirmpassword = req.body.confirmpassword || "";
+  const gender = req.body.gender || "";
+  const phone = req.body.phone || "";
+  const validationErrors = [];
+  if (validator.isEmpty(username))
+    validationErrors.push({
+      name: "username",
+      message: "Please enter a username."
+    });
+  if (!validator.isEmail(email))
+    validationErrors.push({
+      name: "email",
+      message: "Please enter a valid email address."
+    });
+  if (validator.isEmpty(password))
+    validationErrors.push({
+      name: "password",
+      message: "Password cannot be blank."
+    });
+  if (validator.isEmpty(confirmpassword))
+    validationErrors.push({
+      name: "confirmpassword",
+      message: "Confirm Password cannot be blank."
+    });
+  if (!validator.equals(password, confirmpassword))
+    validationErrors.push({
+      name: "password",
+      message: "Password is not match."
+    });
+  if (validator.isEmpty(gender))
+    validationErrors.push({
+      name: "gender",
+      message: "Please pick a gender."
+    });
+  if (!validator.equals(gender, "M") && !validator.equals(gender, "F"))
+    validationErrors.push({
+      name: "gender",
+      message: "Please pick a gender."
+    });
+
+  if (validator.isEmpty(phone))
+    validationErrors.push({
+      name: "phone",
+      message: "Please enter a phone number."
+    });
+
+  if (validationErrors.length) {
+    return res.status(400).json(validationErrors);
+  }
   User.register(
     new User({
       _id: new ObjectId(),
-      username: req.body.username,
+      username: username,
       profile: {
         name: null,
-        email: req.body.email,
+        email: email,
         bio: null,
-        gender: req.body.gender,
-        phone: req.body.phone,
-        birthday: req.body.birthday,
+        gender: gender,
+        phone: phone,
         regDate: Math.round(new Date().getTime() / 1000)
       }
     }),
-    req.body.password,
+    password,
     function(err, user) {
       if (err) {
-        res.json(err);
+        validationErrors.push(err);
+        res.status(400).json(validationErrors);
       } else {
-        res.json("Success");
+        return res
+          .status(200)
+          .json({ success: "User " + username + " created!" });
       }
     }
   );

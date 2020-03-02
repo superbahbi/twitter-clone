@@ -10,6 +10,8 @@ const InputBox = styled.div`
   margin-right: 15px;
   padding: 15px;
   border-bottom: 2px solid #657786;
+  width: 250px;
+  max-width: 250px;
   :hover {
     color: #71c9f8;
     border-color: #71c9f8;
@@ -32,8 +34,6 @@ const InputBoxInput = styled.input`
     outline: none;
     outline: none;
   }
-  width: 100%;
-  max-width: 100%;
 `;
 function Input(props) {
   return (
