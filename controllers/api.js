@@ -358,6 +358,7 @@ exports.uploadPhoto = async (req, res, next) => {
                 if (err) {
                   return next(err);
                 }
+                res.status(200).json("Uploaded data to server");
               });
             });
             break;
