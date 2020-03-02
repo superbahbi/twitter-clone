@@ -58,7 +58,6 @@ const FeedImage = styled.img`
 function Feed(props) {
   const [tweets, setTweets] = useState();
   const reload = props.reload;
-  const imgUrl = process.env.REACT_APP_API_URL + "/uploads/";
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)

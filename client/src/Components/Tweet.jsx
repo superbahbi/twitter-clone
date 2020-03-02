@@ -88,7 +88,6 @@ function Tweet(props) {
   const [reload, setReload] = useState();
   const [imgPreview, setImgPreview] = useState("");
   const [imgFile, setImgFile] = useState("");
-  const imgUrl = process.env.REACT_APP_API_URL + "/uploads/";
   function onFormSubmit(e) {
     e.preventDefault();
     const url = process.env.REACT_APP_API_URL + "/api/tweet";

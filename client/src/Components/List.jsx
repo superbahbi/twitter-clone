@@ -29,8 +29,6 @@ const ListText = styled.span`
     color: #1da1f2;
   }
 `;
-const ListIcon = styled.span``;
-
 function List(props) {
   return (
     <ListItem id={props.id} onClick={props.onHandleClick}>
