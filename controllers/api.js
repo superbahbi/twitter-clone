@@ -241,6 +241,7 @@ exports.getUser = (req, res) => {
   });
 };
 exports.postTweet = (req, res, next) => {
+  console.log(req.body);
   // TODO: Data validator
   //Creating new tweet data
   let tweet = new Tweet();
@@ -265,10 +266,8 @@ exports.postTweet = (req, res, next) => {
               tweet.save(function(err, t) {
                 if (err) {
                   res.status(400).json(err);
-                  return;
                 } else {
                   res.send(t);
-                  return;
                 }
               });
             });
@@ -277,6 +276,16 @@ exports.postTweet = (req, res, next) => {
             res.status(406).json("Invalid file");
             break;
         }
+      } else {
+        tweet.save(function(err, t) {
+          if (err) {
+            res.status(400).json(err);
+            return;
+          } else {
+            res.send(t);
+            return;
+          }
+        });
       }
     }
   );
@@ -377,5 +386,56 @@ exports.uploadPhoto = async (req, res, next) => {
     );
   } else {
     res.status(400).json("Incomplete request data");
+  }
+};
+
+exports.likeTweet = async (req, res, next) => {
+  const tweet_id = req.params.id;
+  const profile_id = req.body.profile_id;
+
+  if (tweet_id) {
+    Tweet.findOne(
+      {
+        _id: tweet_id
+      },
+
+      function(err, tweet) {
+        let deleted = false;
+        // console.log(tweet);
+        if (err) {
+          res.status(400).json(err);
+        }
+
+        Object.keys(tweet.likes).map((key, index) => {
+          if (tweet.likes[key]._id == profile_id) {
+            deleted = true;
+            // delete profile id from the like list
+            Tweet.findOneAndUpdate(
+              { _id: tweet_id },
+              { $pull: { likes: { _id: profile_id } } },
+              function(err, data) {
+                if (err) {
+                  return res
+                    .status(500)
+                    .json({ error: "error in deleting address" });
+                }
+              }
+            );
+          }
+        });
+
+        if (!deleted) {
+          tweet.likes.push(profile_id);
+          tweet.save(err => {
+            if (err) {
+              return next(err);
+            }
+            res.json(tweet);
+          });
+        }
+      }
+    );
+  } else {
+    res.status(400).json("Missing id");
   }
 };

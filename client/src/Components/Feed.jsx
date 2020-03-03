@@ -76,7 +76,7 @@ function Feed(props) {
     // and React will call it prior to unmounting.
     return () => console.log("Feed data unmounting...");
   }, [reload, props]);
-  function onHandleClick(tweetId) {
+  function onHandleDeleteClick(tweetId) {
     const request = async (id = 100) => {
       let deleteTweet = await fetch(
         process.env.REACT_APP_API_URL + "/api/tweet",
@@ -96,6 +96,38 @@ function Feed(props) {
       }
     };
     request();
+  }
+  function onHandleLikeClick(tweetId) {
+    const request = async (id = 100) => {
+      let likeTweet = await fetch(
+        process.env.REACT_APP_API_URL + "/api/like/" + tweetId,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/x-www-form-urlencoded",
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: "Bearer " + props.auth.token
+          },
+          body: formurlencoded({ profile_id: props.auth.user._id })
+        }
+      );
+      await likeTweet.json();
+      if (likeTweet.status === 200 && tweetId) {
+        console.log("Liked tweet ID : " + tweetId);
+      }
+    };
+    request();
+  }
+  function userlike(likes) {
+    let status = false;
+    Object.keys(likes).map((key, index) => {
+      if (likes[key]._id === props.auth.user._id) {
+        status = true;
+      }
+    });
+    return status;
+    // const l = likes && likes.map(i => console.log(i));
+    //return likes && likes.map(i => (i === props.auth.user._id ? true : false));
   }
   if (props.setTweetCount) {
     props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
@@ -142,8 +174,13 @@ function Feed(props) {
                   name="button"
                   type="button"
                   btnStyle="feed-tweet-icon"
+                  style={{ color: userlike(item.likes) && "red" }}
                   icon="heart"
                   size="2x"
+                  handleClick={() => {
+                    onHandleLikeClick(item._id);
+                    props.setReload(item._id);
+                  }}
                 />
                 {/* <Button
                   name="button"
@@ -162,7 +199,7 @@ function Feed(props) {
                     icon="trash"
                     size="2x"
                     handleClick={() => {
-                      onHandleClick(item._id);
+                      onHandleDeleteClick(item._id);
                       props.setReload(item._id);
                     }}
                   />
@@ -175,7 +212,3 @@ function Feed(props) {
     : null;
 }
 export default Feed;
-// handleClick={() => {
-//   props.setTweetId(item.tweet_data.id);
-//   props.onHandleClick();
-// }}

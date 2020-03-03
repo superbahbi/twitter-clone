@@ -10,10 +10,11 @@ const tweetSchema = new mongoose.Schema({
     type: String,
     default: 0
   },
-  likes: {
-    type: String,
-    default: 0
-  },
+  likes: [
+    {
+      user_id: String
+    }
+  ],
   img: {
     filename: String
   },

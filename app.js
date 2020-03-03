@@ -96,6 +96,7 @@ app.post(
   apiController.postTweet
 );
 app.delete("/api/tweet", authentication.checkToken, apiController.deleteTweet);
+app.put("/api/like/:id", authentication.checkToken, apiController.likeTweet);
 app.put("/api/profile", authentication.checkToken, apiController.updateUser);
 app.post(
   "/api/upload",

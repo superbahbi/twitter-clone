@@ -123,6 +123,7 @@ function Button(props) {
     return (
       <TweetTweetIcon
         id={props.id}
+        style={props.style}
         type={props.type}
         name={props.name}
         onClick={props.handleClick}
