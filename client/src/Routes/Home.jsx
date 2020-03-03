@@ -50,7 +50,10 @@ function Home() {
     <Container>
       {isDesktopOrLaptop && (
         <NavContainer>
-          <Navbar username={auth.data.user.username} />
+          <Navbar
+            username={auth.data.user.username}
+            avatar={user && user.profile.avatar.filename}
+          />
         </NavContainer>
       )}
       <HomeContainer>

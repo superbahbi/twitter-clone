@@ -32,7 +32,18 @@ const ListText = styled.span`
 function List(props) {
   return (
     <ListItem id={props.id} onClick={props.onHandleClick}>
-      <FontAwesomeIcon icon={props.icon} size="2x" fixedWidth />
+      {props.avatar ? (
+        <img
+          className="rounded-circle"
+          height="31"
+          width="31"
+          src={props.avatar}
+          alt=""
+        />
+      ) : (
+        <FontAwesomeIcon icon={props.icon} size="2x" fixedWidth />
+      )}
+
       {props.name && <ListText>{props.name}</ListText>}
     </ListItem>
   );
