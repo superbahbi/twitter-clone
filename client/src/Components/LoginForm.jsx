@@ -54,7 +54,7 @@ function LoginForm() {
   const { setAuthData } = useContext(authContext);
   const [requestError, setRequestError] = useState();
 
-  const { register, handleSubmit, errors, watch } = useForm(); // initialise the hook
+  const { register, handleSubmit, errors } = useForm(); // initialise the hook
   const onSubmit = async data => {
     const response = await fetch(process.env.REACT_APP_API_URL + "/api/login", {
       method: "POST",
