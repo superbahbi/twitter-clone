@@ -326,55 +326,56 @@ exports.updateUser = async (req, res, next) => {
 exports.uploadPhoto = async (req, res, next) => {
   console.log("Change");
   console.log(req.body);
-
-  User.findOne(
-    {
-      username: req.body.username
-    },
-    function(err, user) {
-      if (!_.isEmpty(req.file)) {
+  if (req.body.username && req.file && req.body.type) {
+    User.findOne(
+      {
+        username: req.body.username
+      },
+      function(err, user) {
         if (err) {
           res.status(400).json(err);
         }
-        switch (req.file.mimetype) {
-          case "image/gif":
-          case "image/png":
-          case "image/jpeg":
-            upload.uploadToCloud(req, (result, error) => {
-              switch (req.body.type) {
-                case "avatar":
-                  user.profile.avatar.filename = result.url;
-                  break;
-                case "cover":
-                  user.profile.cover.filename = result.url;
-                  break;
-                default:
-                  res.status(400).json("Invalid type");
-                  break;
-              }
-              console.log(req.body.type);
-              console.log(result.url);
-              user.save(err => {
-                if (err) {
+        if (!_.isEmpty(req.file)) {
+          if (err) {
+            res.status(400).json(err);
+          }
+          switch (req.file.mimetype) {
+            case "image/gif":
+            case "image/png":
+            case "image/jpeg":
+              upload.uploadToCloud(req, (result, error) => {
+                if (error) {
                   return next(err);
                 }
-                res.status(200).json("Uploaded data to server");
+                switch (req.body.type) {
+                  case "avatar":
+                    user.profile.avatar.filename = result.url;
+                    break;
+                  case "cover":
+                    user.profile.cover.filename = result.url;
+                    break;
+                  default:
+                    res.status(400).json("Invalid type");
+                    break;
+                }
+                console.log(req.body.type);
+                console.log(result.url);
+                user.save(err => {
+                  if (err) {
+                    return next(err);
+                  }
+                  res.status(200).json("Successfully updated the DB");
+                });
               });
-            });
-            break;
-          default:
-            res.status(400).json("Invalid file");
-            break;
+              break;
+            default:
+              res.status(400).json("Invalid file");
+              break;
+          }
         }
       }
-
-      user.save(err => {
-        if (err) {
-          return next(err);
-        }
-
-        res.json("Success");
-      });
-    }
-  );
+    );
+  } else {
+    res.status(400).json("Incomplete request data");
+  }
 };
