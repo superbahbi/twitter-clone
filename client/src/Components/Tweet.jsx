@@ -107,6 +107,7 @@ function Tweet(props) {
       if (postTweet.status === 200) {
         console.log("Added new tweet");
         setImgPreview("");
+        setImgFile("");
         setReload(true);
       }
     };
