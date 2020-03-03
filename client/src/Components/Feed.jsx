@@ -124,6 +124,7 @@ function Feed(props) {
       if (likes[key]._id === props.auth.user._id) {
         status = true;
       }
+      return null;
     });
     return status;
     // const l = likes && likes.map(i => console.log(i));
