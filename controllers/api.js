@@ -466,30 +466,30 @@ exports.postComment = async (req, res, next) => {
         _id: tweetId
       },
 
-      function(err, tweet) {
+      async function(err, tweet) {
         let deleted = false;
         // console.log(tweet);
         if (err) {
           res.status(400).json(err);
         }
 
-        Object.keys(tweet.comment).map((key, index) => {
-          if (tweet.comment[key]._id == profileId) {
-            deleted = true;
-            // delete profile id from the like list
-            Tweet.findOneAndUpdate(
-              { _id: tweetId },
-              { $pull: { likes: { _id: profileId } } },
-              function(err, data) {
-                if (err) {
-                  return res
-                    .status(500)
-                    .json({ error: "error in deleting address" });
-                }
-              }
-            );
-          }
-        });
+        // Object.keys(tweet.comment).map((key, index) => {
+        //   if (tweet.comment[key]._id == profileId) {
+        //     deleted = true;
+        //     // delete profile id from the like list
+        //     Tweet.findOneAndUpdate(
+        //       { _id: tweetId },
+        //       { $pull: { likes: { _id: profileId } } },
+        //       function(err, data) {
+        //         if (err) {
+        //           return res
+        //             .status(500)
+        //             .json({ error: "error in deleting address" });
+        //         }
+        //       }
+        //     );
+        //   }
+        // });
         // _id: String,
         // timestamp: Date,
         // content: String,
@@ -500,7 +500,7 @@ exports.postComment = async (req, res, next) => {
             content: comment
           };
           tweet.comment.push(data);
-          tweet.save(err => {
+          await tweet.save(err => {
             if (err) {
               res.status(400).json(err);
             }

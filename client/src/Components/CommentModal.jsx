@@ -53,7 +53,7 @@ function CommentModal(props) {
         body: formurlencoded({
           comment: commentData.current.value,
           tweetId: props.tweet && props.tweet._id,
-          profileID: props.auth && props.auth.user._id
+          profileId: props.auth && props.auth.user._id
         })
       });
       await postComment.json();
