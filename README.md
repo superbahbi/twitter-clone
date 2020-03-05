@@ -6,8 +6,9 @@
 - [x] Feed list
 - [x] Profile
 - [x] Edit profile
+- [ ] Thread page
 - [ ] Search a tweet
-- [ ] Add a comment
+- [x] Add a comment
 - [x] Like a tweet
 - [ ] Retweet
 - [ ] Trending
