@@ -20,11 +20,14 @@ const tweetSchema = new mongoose.Schema({
   },
   comment: [
     {
-      user_id: String,
+      _id: String,
       timestamp: Date,
       content: String,
       img: {
-        filename: String
+        filename: {
+          type: String,
+          default: "replaceme.jpg"
+        }
       }
     }
   ]

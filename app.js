@@ -89,12 +89,14 @@ app.post("/api/signup", apiController.postSignup);
 // Tweet  manipulation
 app.get("/api/tweet", apiController.getAllTweet);
 app.get("/api/tweet/:username", apiController.getUserTweet);
+app.post("/api/comment", authentication.checkToken, apiController.postComment);
 app.post(
   "/api/tweet",
   multerUploads,
   authentication.checkToken,
   apiController.postTweet
 );
+
 app.delete("/api/tweet", authentication.checkToken, apiController.deleteTweet);
 app.put("/api/like/:id", authentication.checkToken, apiController.likeTweet);
 app.put("/api/profile", authentication.checkToken, apiController.updateUser);

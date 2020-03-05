@@ -390,13 +390,13 @@ exports.uploadPhoto = async (req, res, next) => {
 };
 
 exports.likeTweet = async (req, res, next) => {
-  const tweet_id = req.params.id;
-  const profile_id = req.body.profile_id;
+  const tweetId = req.params.id;
+  const profileId = req.body.profile_id;
 
-  if (tweet_id) {
+  if (tweetId) {
     Tweet.findOne(
       {
-        _id: tweet_id
+        _id: tweetId
       },
 
       function(err, tweet) {
@@ -407,12 +407,12 @@ exports.likeTweet = async (req, res, next) => {
         }
 
         Object.keys(tweet.likes).map((key, index) => {
-          if (tweet.likes[key]._id == profile_id) {
+          if (tweet.likes[key]._id == profileId) {
             deleted = true;
             // delete profile id from the like list
             Tweet.findOneAndUpdate(
-              { _id: tweet_id },
-              { $pull: { likes: { _id: profile_id } } },
+              { _id: tweetId },
+              { $pull: { likes: { _id: profileId } } },
               function(err, data) {
                 if (err) {
                   return res
@@ -425,7 +425,7 @@ exports.likeTweet = async (req, res, next) => {
         });
 
         if (!deleted) {
-          tweet.likes.push(profile_id);
+          tweet.likes.push(profileId);
           tweet.save(err => {
             if (err) {
               return next(err);
@@ -437,5 +437,79 @@ exports.likeTweet = async (req, res, next) => {
     );
   } else {
     res.status(400).json("Missing id");
+  }
+};
+exports.postComment = async (req, res, next) => {
+  console.log(req.body);
+  const comment = req.body.comment || "";
+  const tweetId = req.body.tweetId || "";
+  const profileId = req.body.profileId || "";
+
+  // const validationErrors = [];
+  // if (validator.isEmpty(comment))
+  //   validationErrors.push({
+  //     success: false,
+  //     message: "Please enter a comment."
+  //   });
+  // if (validator.isEmpty(tweetId))
+  //   validationErrors.push({
+  //     success: false,
+  //     message: "Please enter a tweet id."
+  //   });
+
+  // if (validationErrors.length) {
+  //   return res.status(400).json(validationErrors);
+  // }
+  if (tweetId) {
+    Tweet.findOne(
+      {
+        _id: tweetId
+      },
+
+      function(err, tweet) {
+        let deleted = false;
+        // console.log(tweet);
+        if (err) {
+          res.status(400).json(err);
+        }
+
+        Object.keys(tweet.comment).map((key, index) => {
+          if (tweet.comment[key]._id == profileId) {
+            deleted = true;
+            // delete profile id from the like list
+            Tweet.findOneAndUpdate(
+              { _id: tweetId },
+              { $pull: { likes: { _id: profileId } } },
+              function(err, data) {
+                if (err) {
+                  return res
+                    .status(500)
+                    .json({ error: "error in deleting address" });
+                }
+              }
+            );
+          }
+        });
+        // _id: String,
+        // timestamp: Date,
+        // content: String,
+        if (!deleted) {
+          data = {
+            _id: new ObjectId(profileId),
+            timestamp: new Date(),
+            content: comment
+          };
+          tweet.comment.push(data);
+          tweet.save(err => {
+            if (err) {
+              res.status(400).json(err);
+            }
+            res.status(200).json("Success");
+          });
+        }
+      }
+    );
+  } else {
+    res.status(400).json("Missing comment");
   }
 };

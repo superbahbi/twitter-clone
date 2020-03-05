@@ -4,6 +4,8 @@ import moment from "moment";
 import Avatar from ".././Components/Avatar";
 import Button from "../Components/Button";
 import formurlencoded from "form-urlencoded";
+import CommentModal from ".././Components/CommentModal";
+
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -55,9 +57,14 @@ const FeedImage = styled.img`
   border-radius: 10px;
   padding-top: 5px;
 `;
+
 function Feed(props) {
   const [tweets, setTweets] = useState();
   const reload = props.reload;
+  const [show, setShow] = useState({
+    status: false,
+    id: ""
+  });
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
@@ -118,6 +125,20 @@ function Feed(props) {
     };
     request();
   }
+  function onHandleComment(id) {
+    setShow({
+      ...show,
+      status: true,
+      id: id
+    });
+  }
+  function onHandleCommentClose() {
+    setShow({
+      ...show,
+      status: false,
+      id: null
+    });
+  }
   function userlike(likes) {
     let status = false;
     Object.keys(likes).map((key, index) => {
@@ -144,8 +165,8 @@ function Feed(props) {
           <TweetContainer>
             <FeedBox>
               <FeedName>{item.name}</FeedName>
-              <FeedTag>{item.name}</FeedTag>
-              <FeedDate>{moment(item.timestamp).fromNow()}</FeedDate>
+              <FeedTag>@{item.name}</FeedTag>
+              <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
             </FeedBox>
             <FeedBox>
               <FeedContent>{item.content}</FeedContent>
@@ -158,19 +179,24 @@ function Feed(props) {
             <FeedBox>
               <TweetContainer>
                 <Button
+                  id={index}
+                  dataTarget={index}
                   name="button"
                   type="button"
                   btnStyle="feed-tweet-icon"
                   icon="comment"
                   size="2x"
+                  variant="primary"
+                  handleClick={() => {
+                    onHandleComment(index);
+                  }}
                 />
-                {/* <Button
-                  name="button"
-                  type="button"
-                  btnStyle="feed-tweet-icon"
-                  icon="retweet"
-                  size="2x"
-                /> */}
+                <CommentModal
+                  show={show.status}
+                  onHide={onHandleCommentClose}
+                  tweet={tweets.foundTweet[show.id]}
+                  auth={props.auth}
+                ></CommentModal>
                 <Button
                   name="button"
                   type="button"
