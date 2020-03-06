@@ -21,8 +21,11 @@ const tweetSchema = new mongoose.Schema({
   comment: [
     {
       _id: String,
+      name: String,
+      username: String,
       timestamp: Date,
       content: String,
+      avatar: String,
       img: {
         filename: {
           type: String,

@@ -51,9 +51,12 @@ function CommentModal(props) {
           Authorization: "Bearer " + props.auth.token
         },
         body: formurlencoded({
+          name: props.auth && props.auth.user.profile.name,
+          username: props.auth && props.auth.user.username,
           comment: commentData.current.value,
           tweetId: props.tweet && props.tweet._id,
-          profileId: props.auth && props.auth.user._id
+          profileId: props.auth && props.auth.user._id,
+          avatar: props.auth && props.auth.user.profile.avatar.filename
         })
       });
       await postComment.json();

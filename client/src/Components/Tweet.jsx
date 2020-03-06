@@ -191,7 +191,12 @@ function Tweet(props) {
         </InputTweetBox>
       </TweetBox>
       <TweetDivider></TweetDivider>
-      <Feed auth={props.auth} setReload={setReload} reload={reload} />
+      <Feed
+        auth={props.auth}
+        setReload={setReload}
+        reload={reload}
+        location="home"
+      />
     </div>
   );
 }

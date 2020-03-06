@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import Avatar from ".././Components/Avatar";
@@ -59,6 +60,7 @@ const FeedImage = styled.img`
 `;
 
 function Feed(props) {
+  let history = useHistory();
   const [tweets, setTweets] = useState();
   const reload = props.reload;
   const [show, setShow] = useState({
@@ -66,23 +68,46 @@ function Feed(props) {
     id: ""
   });
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     // This gets called after every render, by default (the first one, and every one
     // after that)
-    let url = process.env.REACT_APP_API_URL + "/api/tweet/";
-    if (props.location === "profile") {
-      url += props.profile;
+    let url = process.env.REACT_APP_API_URL;
+
+    switch (props.location) {
+      case "home":
+        url += "/api/tweet/";
+        break;
+      case "profile":
+        url += "/api/tweet/" + props.profile;
+        break;
+      case "thread":
+        url += "/api/thread/" + props.threadID;
+        break;
+      default:
+        url += "/api/tweet/";
+        break;
     }
-    const request = async (id = 100) => {
-      const res2 = await fetch(url);
-      setTweets(await res2.json());
-    };
-    request();
+
+    fetch(url, { signal })
+      .then(results => results.json())
+      .then(data => setTweets(data))
+      .catch(error => {
+        console.log(error);
+      });
     props.setReload(false);
 
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
-    return () => console.log("Feed data unmounting...");
-  }, [reload, props]);
+
+    return function() {
+      /**
+       * Add cleanup code here
+       */
+      console.log("Feed data unmounting...");
+      controller.abort();
+    };
+  }, [props, reload]);
   function onHandleDeleteClick(tweetId) {
     const request = async (id = 100) => {
       let deleteTweet = await fetch(
@@ -157,84 +182,115 @@ function Feed(props) {
 
   return tweets
     ? tweets.foundTweet.map((item, index) => (
-        <TweetBox key={index}>
-          <Avatar
-            name={item.username}
-            src={item.user_data.profile.avatar.filename}
-          />
-          <TweetContainer>
-            <FeedBox>
-              <FeedName>{item.name}</FeedName>
-              <FeedTag>@{item.name}</FeedTag>
-              <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
-            </FeedBox>
-            <FeedBox>
-              <FeedContent>{item.content}</FeedContent>
-            </FeedBox>
-            {item.img ? (
-              <FeedBox>
-                <FeedImage src={item.img.filename} />
+        <React.Fragment key={index}>
+          <TweetBox
+
+          // onClick={e => history.push("/status/" + item._id)}
+          >
+            <Avatar
+              name={item.username}
+              src={item.user_data.profile.avatar.filename}
+            />
+            <TweetContainer>
+              <FeedBox
+                onClick={() => {
+                  history.push("/status/" + item._id);
+                }}
+              >
+                <FeedName>{item.name}</FeedName>
+                <FeedTag>@{item.username}</FeedTag>
+                <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
               </FeedBox>
-            ) : null}
-            <FeedBox>
-              <TweetContainer>
-                <Button
-                  id={index}
-                  dataTarget={index}
-                  name="button"
-                  type="button"
-                  btnStyle="feed-tweet-icon"
-                  icon="comment"
-                  size="2x"
-                  variant="primary"
-                  handleClick={() => {
-                    onHandleComment(index);
-                  }}
-                />
-                <CommentModal
-                  show={show.status}
-                  onHide={onHandleCommentClose}
-                  tweet={tweets.foundTweet[show.id]}
-                  auth={props.auth}
-                ></CommentModal>
-                <Button
-                  name="button"
-                  type="button"
-                  btnStyle="feed-tweet-icon"
-                  style={{ color: userlike(item.likes) && "red" }}
-                  icon="heart"
-                  size="2x"
-                  handleClick={() => {
-                    onHandleLikeClick(item._id);
-                    props.setReload(item._id);
-                  }}
-                />
-                {/* <Button
+              <FeedBox>
+                <FeedContent>{item.content}</FeedContent>
+              </FeedBox>
+              {item.img ? (
+                <FeedBox>
+                  <FeedImage src={item.img.filename} />
+                </FeedBox>
+              ) : null}
+
+              <FeedBox>
+                <TweetContainer>
+                  <Button
+                    id={index}
+                    dataTarget={index}
+                    name="button"
+                    type="button"
+                    btnStyle="feed-tweet-icon"
+                    icon="comment"
+                    size="2x"
+                    variant="primary"
+                    handleClick={() => {
+                      onHandleComment(index);
+                    }}
+                  />
+                  <CommentModal
+                    show={show.status}
+                    onHide={onHandleCommentClose}
+                    tweet={tweets.foundTweet[show.id]}
+                    auth={props.auth}
+                  ></CommentModal>
+                  <Button
+                    name="button"
+                    type="button"
+                    btnStyle="feed-tweet-icon"
+                    style={{ color: userlike(item.likes) && "red" }}
+                    icon="heart"
+                    size="2x"
+                    handleClick={() => {
+                      onHandleLikeClick(item._id);
+                      props.setReload(item._id);
+                    }}
+                  />
+                  {/* <Button
                   name="button"
                   type="button"
                   btnStyle="feed-tweet-icon"
                   icon="link"
                   size="2x"
                 /> */}
-                {props.auth.user.username === item.user_data.username ? (
-                  <Button
-                    id={item._id}
-                    value="test"
-                    name="button"
-                    type="button"
-                    btnStyle="feed-tweet-icon"
-                    icon="trash"
-                    size="2x"
-                    handleClick={() => {
-                      onHandleDeleteClick(item._id);
-                      props.setReload(item._id);
-                    }}
-                  />
-                ) : null}
-              </TweetContainer>
-            </FeedBox>
-          </TweetContainer>
-        </TweetBox>
+                  {props.auth.user.username === item.user_data.username ? (
+                    <Button
+                      id={item._id}
+                      value="test"
+                      name="button"
+                      type="button"
+                      btnStyle="feed-tweet-icon"
+                      icon="trash"
+                      size="2x"
+                      handleClick={() => {
+                        onHandleDeleteClick(item._id);
+                        props.setReload(item._id);
+                      }}
+                    />
+                  ) : null}
+                </TweetContainer>
+              </FeedBox>
+            </TweetContainer>
+          </TweetBox>
+          {props.threadID
+            ? item.comment.map((comment, commentIndex) => (
+                <React.Fragment key={commentIndex}>
+                  <TweetBox>
+                    <Avatar name={comment.username} src={comment.avatar} />
+                    <TweetContainer>
+                      <FeedBox>
+                        <FeedName>{comment.name}</FeedName>
+                        <FeedTag>@{comment.username}</FeedTag>
+                        <FeedDate>
+                          · {moment(comment.timestamp).fromNow()}
+                        </FeedDate>
+                      </FeedBox>
+                      <FeedBox>
+                        <FeedContent>{comment.content}</FeedContent>
+                      </FeedBox>
+                    </TweetContainer>
+                  </TweetBox>
+                </React.Fragment>
+              ))
+            : null}
+        </React.Fragment>
       ))
     : null;
 }

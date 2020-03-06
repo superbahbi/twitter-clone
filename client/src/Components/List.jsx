@@ -41,7 +41,7 @@ function List(props) {
           alt=""
         />
       ) : (
-        <FontAwesomeIcon icon={props.icon} size="2x" fixedWidth />
+        props.icon && <FontAwesomeIcon icon={props.icon} size="2x" fixedWidth />
       )}
 
       {props.name && <ListText>{props.name}</ListText>}

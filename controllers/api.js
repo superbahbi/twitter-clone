@@ -441,10 +441,12 @@ exports.likeTweet = async (req, res, next) => {
 };
 exports.postComment = async (req, res, next) => {
   console.log(req.body);
+  const name = req.body.name || "";
+  const username = req.body.username || "";
   const comment = req.body.comment || "";
   const tweetId = req.body.tweetId || "";
   const profileId = req.body.profileId || "";
-
+  const avatar = req.body.avatar || "";
   // const validationErrors = [];
   // if (validator.isEmpty(comment))
   //   validationErrors.push({
@@ -497,7 +499,10 @@ exports.postComment = async (req, res, next) => {
           data = {
             _id: new ObjectId(profileId),
             timestamp: new Date(),
-            content: comment
+            content: comment,
+            name: name,
+            username: username,
+            avatar: avatar
           };
           tweet.comment.push(data);
           await tweet.save(err => {
@@ -507,6 +512,61 @@ exports.postComment = async (req, res, next) => {
             res.status(200).json("Success");
           });
         }
+      }
+    );
+  } else {
+    res.status(400).json("Missing comment");
+  }
+};
+exports.getThreadTweet = async (req, res, next) => {
+  const threadID = req.params.threadID || "";
+  // const validationErrors = [];
+  // if (validator.isEmpty(comment))
+  //   validationErrors.push({
+  //     success: false,
+  //     message: "Please enter a comment."
+  //   });
+  // if (validator.isEmpty(tweetId))
+  //   validationErrors.push({
+  //     success: false,
+  //     message: "Please enter a tweet id."
+  //   });
+
+  // if (validationErrors.length) {
+  //   return res.status(400).json(validationErrors);
+  // }
+  if (threadID) {
+    Tweet.aggregate(
+      [
+        { $match: { _id: new ObjectId(threadID) } },
+        {
+          $lookup: {
+            from: "users",
+            localField: "username",
+            foreignField: "username",
+            as: "user_data"
+          }
+        },
+        {
+          $project: {
+            "user_data.salt": 0,
+            "user_data.hash": 0
+          }
+        },
+        {
+          $unwind: {
+            path: "$user_data",
+            preserveNullAndEmptyArrays: true
+          }
+        }
+      ],
+      function(err, foundTweet) {
+        if (err) {
+          console.log(err);
+        }
+        res.status(200).json({
+          foundTweet
+        });
       }
     );
   } else {

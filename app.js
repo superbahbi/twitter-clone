@@ -88,6 +88,7 @@ app.get("/api/user/:username", apiController.getUser);
 app.post("/api/signup", apiController.postSignup);
 // Tweet  manipulation
 app.get("/api/tweet", apiController.getAllTweet);
+app.get("/api/thread/:threadID", apiController.getThreadTweet);
 app.get("/api/tweet/:username", apiController.getUserTweet);
 app.post("/api/comment", authentication.checkToken, apiController.postComment);
 app.post(
