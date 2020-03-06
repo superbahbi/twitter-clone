@@ -6,7 +6,7 @@
 - [x] Feed list
 - [x] Profile
 - [x] Edit profile
-- [ ] Thread page
+- [x] Thread page
 - [ ] Search a tweet
 - [x] Add a comment
 - [x] Like a tweet
