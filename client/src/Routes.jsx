@@ -1,14 +1,14 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Index from "./Routes/Index";
-import Login from "./Routes/Login";
-import Signup from "./Routes/Signup";
-import Home from "./Routes/Home";
-import Profile from "./Routes/Profile";
-import Settings from "./Routes/Settings";
-import Thread from "./Routes/Thread";
-import Error from "./Routes/Error";
-import PrivateRoute from "./Routes/PrivateRoute";
+import Index from "./Views/Index";
+import Login from "./Views/Login";
+import Signup from "./Views/Signup";
+import Home from "./Views/Home";
+import Profile from "./Views/Profile";
+import Settings from "./Views/Settings";
+import Thread from "./Views/Thread";
+import Error from "./Views/Error";
+import PrivateRoute from "./Views/PrivateRoute";
 function Routes() {
   return (
     <main>
