@@ -1,8 +1,8 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import moment from "moment";
 import styled from "styled-components";
 import Button from ".././Components/Button";
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -71,20 +71,38 @@ const ProfileButton = styled.div`
   display: flex;
   flex-direction: row;
 `;
-function onHandleClick() {
-  console.log("clicked");
-}
+
 function ProfileBox(props) {
+  function onHandleClick() {
+    console.log("clicked");
+    history.push("/settings");
+  }
+  const history = useHistory();
   const user = props.user;
+  const username = props.user.username;
   return (
     <div>
       <TweetBox>
         <div>
-          <ProfileCover src={user.profile && user.profile.cover.filename} />
-          <ProfileAvatar
-            src={user.profile && user.profile.avatar.filename}
-            alt=""
-          />
+          <Row className="ml-0 mr-0">
+            <ProfileCover src={user.profile && user.profile.cover.filename} />
+            <ProfileAvatar
+              src={user.profile && user.profile.avatar.filename}
+              alt=""
+            />
+            {props.username === username ? (
+              <Button
+                className="ml-auto"
+                id="tweets"
+                name="button"
+                type="submit"
+                btnStyle="login-btn"
+                block={false}
+                label="Edit profile"
+                handleClick={onHandleClick}
+              />
+            ) : null}
+          </Row>
           <ProfileContainer>
             <ProfileUser>
               <ProfileName>{user.profile && user.profile.name}</ProfileName>

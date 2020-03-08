@@ -7,10 +7,8 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 library.add(fas, far);
 
 const LoginButton = styled.button`
-  display: block;
-  width: 100%;
   color: #fff;
-  background-color: #1e2833;
+  background-color: #71c9f8;
   border-radius: 30px;
   border: 1px solid #1da1f2;
   text-align: center;
@@ -97,6 +95,7 @@ function Button(props) {
     return (
       <LoginButton
         id={props.id}
+        className={props.className}
         type={props.type}
         name={props.name}
         onClick={props.handleClick}

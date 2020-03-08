@@ -11,23 +11,6 @@ import { fetchDB } from "../Helper/fetch";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-// const Container = styled.div`
-//   display: flex !important;
-//   flex-direction: row !important;
-//   justify-content: center !important;
-// `;
-const NavContainer = styled.div`
-  width: 15% !important;
-`;
-const ProfileContainer = styled.div`
-  width: 50% !important;
-  padding: 0;
-  max-width: 600px;
-`;
-const SideBarContainer = styled.div`
-  width: 15% !important;
-  padding: 0;
-`;
 function Profile(props) {
   const profile = props.match.params.profile;
   const { auth } = useContext(authContext);
@@ -68,7 +51,7 @@ function Profile(props) {
               name={user.profile && user.profile.name}
               tweetCount={tweetCount}
             />
-            <ProfileBox user={user} />
+            <ProfileBox user={user} username={auth.data.user.username} />
             <Feed
               auth={auth.data}
               reload={reload}
