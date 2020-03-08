@@ -93,8 +93,6 @@ exports.postSignup = (req, res) => {
  * Login request page.
  */
 exports.postLogin = (req, res, next) => {
-  console.log("Logging in....");
-  console.log(req.body);
   const username = req.body.username || "";
   const password = req.body.password || "";
 
@@ -144,7 +142,8 @@ exports.postLogin = (req, res, next) => {
         } else {
           validationErrors.push({
             success: false,
-            message: "Incorrect username or password"
+            message:
+              "The username and password you entered did not match our records. Please double-check and try again."
           });
           res.status(400).json(validationErrors);
         }

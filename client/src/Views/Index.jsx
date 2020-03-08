@@ -1,5 +1,4 @@
 import React from "react";
-import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Button from ".././Components/Button";
@@ -80,33 +79,3 @@ function Index() {
   );
 }
 export default Index;
-{
-  /* <SplitPage>
-{isDesktopOrLaptop && <LeftSide></LeftSide>}
-<RightSide>
-  <SubLogin>
-    <FontAwesomeIcon icon={faDog} size="4x" color="#1DA1F2" />
-    <SubHeading>See what’s happening in the world right now</SubHeading>
-    <SubText>Join not twitter today.</SubText>
-    <Button
-      name="button"
-      type="submit"
-      label="Sign up"
-      btnStyle="signup-btn"
-      handleClick={() => {
-        history.push("/signup");
-      }}
-    />
-    <Button
-      name="button"
-      type="submit"
-      label="Log in"
-      btnStyle="login-btn"
-      handleClick={() => {
-        history.push("/login");
-      }}
-    />
-  </SubLogin>
-</RightSide>
-</SplitPage> */
-}

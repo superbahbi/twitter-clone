@@ -76,13 +76,21 @@ function Login() {
       },
       body: formurlencoded(data)
     };
-    const response = await fetchDB("/login", method);
-    console.log(response);
-    if (response.status === 200) {
-      setAuthData(response.data);
-      history.push("/home");
-    } else if (response.status === 400) {
-      setRequestError(response.data);
+    try {
+      const response = await fetchDB("/login", method);
+      if (response.status === 200) {
+        setAuthData(response.data);
+        history.push("/home");
+      } else if (response.status === 400) {
+        setRequestError(response.data);
+      }
+    } catch {
+      setRequestError([
+        {
+          name: "error",
+          message: "Unable to reach the server."
+        }
+      ]);
     }
   };
   return (
@@ -100,9 +108,8 @@ function Login() {
                       </LoginDarkIllustration>
                       {requestError &&
                         requestError.map((i, index) => (
-                          <Alert variant="danger">
-                            The username and password you entered did not match
-                            our records. Please double-check and try again.
+                          <Alert variant="danger" key={index}>
+                            {i.message}
                           </Alert>
                         ))}
                       <Form.Group>

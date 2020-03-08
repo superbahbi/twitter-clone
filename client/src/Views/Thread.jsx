@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { authContext } from "../Contexts/AuthContext";
 import Navbar from ".././Components/Navbar";
 import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
 import Header from "../Components/Header";
 import Feed from ".././Components/Feed";
-import { fetchDB } from "../Helper/fetch";
 const Container = styled.div`
   display: flex !important;
   flex-direction: row !important;

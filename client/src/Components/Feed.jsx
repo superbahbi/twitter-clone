@@ -187,9 +187,7 @@ function Feed(props) {
   if (props.setTweetCount) {
     props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   }
-  function order(a, b) {
-    return a < b ? -1 : a > b ? 1 : 0;
-  }
+  
   console.log(tweets);
   return tweets
     ? tweets.foundTweet.map((item, index) => (

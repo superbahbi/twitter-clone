@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { fetchDB } from "../Helper/fetch";
@@ -69,12 +69,20 @@ function Signup() {
       },
       body: formurlencoded(data)
     };
-    const response = await fetchDB("/signup", method);
-    console.log(response);
-    if (response.status === 200) {
-      history.push("/login");
-    } else if (response.status === 400) {
-      setRequestError(response.data);
+    try {
+      const response = await fetchDB("/signup", method);
+      if (response.status === 200) {
+        history.push("/login");
+      } else if (response.status === 400) {
+        setRequestError(response.data);
+      }
+    } catch {
+      setRequestError([
+        {
+          name: "error",
+          message: "Unable to reach the server."
+        }
+      ]);
     }
   };
 
@@ -105,6 +113,7 @@ function Signup() {
                           id="inputUsername"
                           placeholder="Enter username"
                           name="username"
+                          autoComplete="username"
                           ref={register({
                             required: true
                           })}
@@ -117,6 +126,7 @@ function Signup() {
                           id="inputPassword"
                           placeholder="Enter password"
                           name="password"
+                          autoComplete="new-password"
                           ref={register({
                             required: true,
                             validate: value =>
@@ -131,6 +141,7 @@ function Signup() {
                           id="inputConfirmPassword"
                           placeholder="Repeat Password"
                           name="confirmpassword"
+                          autoComplete="new-password"
                           ref={register({
                             required: true,
                             validate: value => value === watch("password")
