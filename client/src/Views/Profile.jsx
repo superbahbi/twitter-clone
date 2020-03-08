@@ -4,7 +4,6 @@ import { useMediaQuery } from "react-responsive";
 import Navbar from ".././Components/Navbar";
 import Feed from ".././Components/Feed";
 import Sidebar from ".././Components/Sidebar";
-import styled from "styled-components";
 import Header from "../Components/Header";
 import ProfileBox from "../Components/ProfileBox";
 import { fetchDB } from "../Helper/fetch";
