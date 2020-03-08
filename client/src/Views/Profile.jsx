@@ -49,7 +49,10 @@ function Profile(props) {
     user && (
       <Container>
         <NavContainer>
-          <Navbar />
+          <Navbar
+            username={user && user.username}
+            avatar={user.profile && user.profile.avatar.filename}
+          />
         </NavContainer>
         <ProfileContainer>
           <Header

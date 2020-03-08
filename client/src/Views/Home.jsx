@@ -6,23 +6,9 @@ import Tweet from ".././Components/Tweet";
 import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
 import { fetchDB } from "../Helper/fetch";
-const Container = styled.div`
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: center !important;
-`;
-const NavContainer = styled.div`
-  width: 15% !important;
-`;
-const HomeContainer = styled.div`
-  width: 50% !important;
-  padding: 0;
-  max-width: 600px;
-`;
-const SideBarContainer = styled.div`
-  width: 15% !important;
-  padding: 0;
-`;
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 function Home() {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
@@ -49,25 +35,27 @@ function Home() {
   }, [auth.data.user.username]);
   return (
     <Container>
-      {isDesktopOrLaptop && (
-        <NavContainer>
-          <Navbar
+      <Row>
+        {isDesktopOrLaptop && (
+          <Col md={3}>
+            <Navbar
+              username={user && user.username}
+              avatar={user && user.profile.avatar.filename}
+            />
+          </Col>
+        )}
+        <Col md={6}>
+          <Tweet
             username={user && user.username}
             avatar={user && user.profile.avatar.filename}
+            page="Home"
+            auth={auth.data}
           />
-        </NavContainer>
-      )}
-      <HomeContainer>
-        <Tweet
-          username={user && user.username}
-          avatar={user && user.profile.avatar.filename}
-          page="Home"
-          auth={auth.data}
-        />
-      </HomeContainer>
-      <SideBarContainer>
-        <Sidebar />
-      </SideBarContainer>
+        </Col>
+        <Col md={3}>
+          <Sidebar />
+        </Col>
+      </Row>
     </Container>
   );
 }

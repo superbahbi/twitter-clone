@@ -89,7 +89,10 @@ function Settings() {
   return (
     <Container>
       <NavContainer>
-        <Navbar username={auth.data.user.username} />
+        <Navbar
+          username={auth && auth.data.user.username}
+          avatar={auth && auth.data.user.profile.avatar.filename}
+        />
       </NavContainer>
       <HomeContainer>
         <Header name="Settings" />
