@@ -10,7 +10,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const MongoStore = require("connect-mongo")(session);
 const multer = require("multer");
 const cors = require("cors");
-const authentication = require("./models/Authentication");
+const authentication = require("./models/authentication");
 const storage = multer.memoryStorage();
 const multerUploads = multer({ storage }).single("image");
 dotenv.config({ path: ".env" });
