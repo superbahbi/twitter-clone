@@ -4,7 +4,6 @@ import { authContext } from "../Contexts/AuthContext";
 import Navbar from ".././Components/Navbar";
 import Tweet from ".././Components/Tweet";
 import Sidebar from ".././Components/Sidebar";
-import styled from "styled-components";
 import { fetchDB } from "../Helper/fetch";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -13,21 +12,21 @@ function Home() {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)"
   });
-  // const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const { auth } = useContext(authContext);
   const [user, setUser] = useState();
-  const request = async signal => {
-    const response = await fetchDB(
-      `/user/${auth.data.user.username}`,
-      null,
-      signal
-    );
-    setUser(response.data);
-  };
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    request(signal);
+    const request = async () => {
+      const response = await fetchDB(
+        `/user/${auth.data.user.username}`,
+        null,
+        signal
+      );
+      setUser(response.data);
+    };
+    request();
     return function() {
       console.log("Home data unmounting...");
       controller.abort();
@@ -52,9 +51,11 @@ function Home() {
             auth={auth.data}
           />
         </Col>
-        <Col md={3}>
-          <Sidebar />
-        </Col>
+        {isDesktopOrLaptop && (
+          <Col md={3}>
+            <Sidebar />
+          </Col>
+        )}
       </Row>
     </Container>
   );

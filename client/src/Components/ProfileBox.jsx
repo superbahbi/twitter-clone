@@ -2,11 +2,9 @@ import React from "react";
 import moment from "moment";
 import styled from "styled-components";
 import Button from ".././Components/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
-library.add(fas, far);
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 const TweetBox = styled.div`
   display: flex;
@@ -28,7 +26,7 @@ const ProfileCover = styled.img`
   background-size: 100% auto;
   border-bottom: 1px solid #e1e8ed;
   border-radius: 2px 2px 0 0;
-  width: 600px;
+  width: 100%;
   height: auto;
   max-height: 200px;
   object-fit: cover;
@@ -87,35 +85,28 @@ function ProfileBox(props) {
             src={user.profile && user.profile.avatar.filename}
             alt=""
           />
-          {props.auth ? (
-            <Button
-              name="button"
-              type="submit"
-              btnStyle="login-btn"
-              position={true}
-              label="Edit Profile"
-            />
-          ) : null}
           <ProfileContainer>
             <ProfileUser>
               <ProfileName>{user.profile && user.profile.name}</ProfileName>
               <ProfileTag>@{user.profile && user.username}</ProfileTag>
               <ProfileBio>{user.profile && user.profile.bio}</ProfileBio>
               <ProfileInfo>
-                <ProfileStat>
-                  <FontAwesomeIcon icon="map-marker-alt" fixedWidth />
-                  {user.profile && user.profile.location}
-                </ProfileStat>
-                <ProfileStat>
-                  <FontAwesomeIcon icon="link" fixedWidth />
-                  {user.profile && user.profile.website}
-                </ProfileStat>
-                <ProfileStat>
-                  <FontAwesomeIcon icon="calendar-alt" fixedWidth />
-                  {moment
-                    .unix(user.profile && user.profile.regDate)
-                    .format("MMMM YYYY")}
-                </ProfileStat>
+                <Row className="flex-fill">
+                  <Col sm>
+                    <i className="icon ion-ios-location-outline mr-1"></i>
+                    {user.profile && user.profile.location}
+                  </Col>
+                  <Col sm>
+                    <i className="icon ion-link mr-1"></i>
+                    {user.profile && user.profile.website}
+                  </Col>
+                  <Col sm>
+                    <i className="icon ion-ios-calendar-outline mr-1"></i>
+                    {moment
+                      .unix(user.profile && user.profile.regDate)
+                      .format("MMMM YYYY")}
+                  </Col>
+                </Row>
               </ProfileInfo>
               <ProfileInfo>
                 <ProfileStat>

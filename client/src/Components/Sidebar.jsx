@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 const SearchBar = styled.div`
   padding-top: 4px;
   input.form-control[type="text"]:focus:not([readonly]) {
@@ -148,9 +147,9 @@ function Sidebar() {
         </SideBarItem>
         <SideBarItem>
           <Footer>
-            <a href="#">Terms</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Cookies</a>
+            <a href="/">Terms</a>
+            <a href="/">Privacy Policy</a>
+            <a href="/">Cookies</a>
           </Footer>
           <Footer>
             <p>©2020 NotTwitter, Inc.</p>
