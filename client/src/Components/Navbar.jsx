@@ -10,10 +10,6 @@ const ListStyle = styled.ul`
   flex-direction: column;
   flex-wrap: wrap;
   padding-left: 0;
-  list-style: none;
-  text-align: center;
-  align-items: baseline;
-  margin-right: 50px;
   :hover {
   }
 `;
@@ -31,7 +27,7 @@ function Navbar(props) {
       <ListStyle>
         <List
           id="icon"
-          icon="dog"
+          icon="icon ion-ios-paw-outline"
           color="#1da1f2"
           onHandleClick={() => {
             history.push("/home");
@@ -40,7 +36,7 @@ function Navbar(props) {
         <List
           id="home"
           name="Home"
-          icon="home"
+          icon="icon ion-ios-home-outline"
           onHandleClick={() => {
             history.push("/home");
           }}
@@ -48,7 +44,7 @@ function Navbar(props) {
         <List
           id="explorer"
           name="Explorer"
-          icon="hashtag"
+          icon="icon ion-ios-location-outline"
           onHandleClick={() => {
             history.push("/explorer");
           }}
@@ -56,7 +52,7 @@ function Navbar(props) {
         <List
           id="notification"
           name="Notification"
-          icon="bell"
+          icon="icon ion-ios-bell-outline"
           onHandleClick={() => {
             history.push("/notification");
           }}
@@ -64,7 +60,7 @@ function Navbar(props) {
         <List
           id="messages"
           name="Messages"
-          icon="envelope"
+          icon="icon ion-ios-paperplane-outline"
           onHandleClick={() => {
             history.push("/messages");
           }}
@@ -72,7 +68,7 @@ function Navbar(props) {
         <List
           id="bookmarks"
           name="Bookmarks"
-          icon="bookmark"
+          icon="icon ion-ios-bookmarks-outline"
           onHandleClick={() => {
             history.push("/bookmarks");
           }}
@@ -80,7 +76,7 @@ function Navbar(props) {
         <List
           id="settings"
           name="Settings"
-          icon="sliders-h"
+          icon="icon ion-ios-gear-outline"
           onHandleClick={() => {
             history.push("/settings");
           }}
@@ -96,7 +92,7 @@ function Navbar(props) {
         <List
           id="logout"
           name="Logout"
-          icon="circle"
+          icon="icon ion-ios-loop"
           onHandleClick={handleLogout}
         />
       </ListStyle>

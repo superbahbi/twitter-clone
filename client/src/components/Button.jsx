@@ -89,6 +89,9 @@ const ProfileButton = styled.button`
     box-shadow: none;
   }
 `;
+const TweetIcon = styled.i`
+  font-size: 35px;
+`;
 function Button(props) {
   if (props.btnStyle === "login-btn") {
     return (
@@ -132,7 +135,7 @@ function Button(props) {
         name={props.name}
         onClick={props.handleClick}
       >
-        <FontAwesomeIcon icon={props.icon} size={props.size} fixedWidth />
+        <TweetIcon className={props.icon}></TweetIcon>
       </TweetTweetIcon>
     );
   } else if (props.btnStyle === "profile-btn") {

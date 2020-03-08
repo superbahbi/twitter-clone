@@ -58,7 +58,15 @@ const FeedImage = styled.img`
   border-radius: 10px;
   padding-top: 5px;
 `;
-
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const ButtonContainer = styled.div`
+  padding-right: 30px;
+  align-items: left;
+  justify-content: left;
+`;
 function Feed(props) {
   let history = useHistory();
   const [tweets, setTweets] = useState();
@@ -215,60 +223,61 @@ function Feed(props) {
 
               <FeedBox>
                 <TweetContainer>
-                  <Button
-                    id={index}
-                    dataTarget={index}
-                    name="button"
-                    type="button"
-                    btnStyle="feed-tweet-icon"
-                    icon="comment"
-                    size="2x"
-                    variant="primary"
-                    handleClick={() => {
-                      onHandleComment(index);
-                    }}
-                  />
-                  <CommentModal
-                    show={show.status}
-                    onHide={onHandleCommentClose}
-                    tweet={tweets.foundTweet[show.id]}
-                    auth={props.auth}
-                    setShow={setShow}
-                  ></CommentModal>
-                  <Button
-                    name="button"
-                    type="button"
-                    btnStyle="feed-tweet-icon"
-                    style={{ color: userlike(item.likes) && "red" }}
-                    icon="heart"
-                    size="2x"
-                    handleClick={() => {
-                      onHandleLikeClick(item._id);
-                      props.setReload(item._id);
-                    }}
-                  />
-                  {/* <Button
-                  name="button"
-                  type="button"
-                  btnStyle="feed-tweet-icon"
-                  icon="link"
-                  size="2x"
-                /> */}
-                  {props.auth.user.username === item.user_data.username ? (
-                    <Button
-                      id={item._id}
-                      value="test"
-                      name="button"
-                      type="button"
-                      btnStyle="feed-tweet-icon"
-                      icon="trash"
-                      size="2x"
-                      handleClick={() => {
-                        onHandleDeleteClick(item._id);
-                        props.setReload(item._id);
-                      }}
-                    />
-                  ) : null}
+                  <ButtonRow>
+                    <ButtonContainer>
+                      <Button
+                        id={index}
+                        dataTarget={index}
+                        name="button"
+                        type="button"
+                        btnStyle="feed-tweet-icon"
+                        icon="icon ion-ios-chatbubble-outline"
+                        size="2x"
+                        variant="primary"
+                        handleClick={() => {
+                          onHandleComment(index);
+                        }}
+                      />
+                      <CommentModal
+                        show={show.status}
+                        onHide={onHandleCommentClose}
+                        tweet={tweets.foundTweet[show.id]}
+                        auth={props.auth}
+                        setShow={setShow}
+                      />
+                    </ButtonContainer>
+                    <ButtonContainer>
+                      <Button
+                        name="button"
+                        type="button"
+                        btnStyle="feed-tweet-icon"
+                        style={{ color: userlike(item.likes) && "red" }}
+                        icon="icon ion-ios-heart-outline"
+                        size="2x"
+                        handleClick={() => {
+                          onHandleLikeClick(item._id);
+                          props.setReload(item._id);
+                        }}
+                      />
+                    </ButtonContainer>
+                    <ButtonContainer>
+                      {props.auth.user.username === item.user_data.username ? (
+                        <Button
+                          id={item._id}
+                          value="test"
+                          name="button"
+                          type="button"
+                          btnStyle="feed-tweet-icon"
+                          icon="icon ion-ios-trash-outline"
+                          size="2x"
+                          handleClick={() => {
+                            onHandleDeleteClick(item._id);
+                            props.setReload(item._id);
+                          }}
+                        />
+                      ) : null}
+                    </ButtonContainer>
+                  </ButtonRow>
                 </TweetContainer>
               </FeedBox>
             </TweetContainer>
