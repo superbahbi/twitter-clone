@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { authContext } from "../Contexts/AuthContext";
 import Button from ".././Components/Button";
 import styled from "styled-components";
-import formurlencoded from "form-urlencoded";
+import { fetchDB } from "../Helper/fetch";
 const LoginContainer = styled.div`
   padding-top: 10em;
   width: 40vh;
@@ -27,7 +27,6 @@ const InputBox = styled.div`
     border-color: #71c9f8;
   }
 `;
-
 const InputBoxLabel = styled.div`
   margin-bottom: 0;
 `;
@@ -48,7 +47,6 @@ const InputBoxInput = styled.input`
     outline: none;
   }
 `;
-
 function LoginForm() {
   const history = useHistory();
   const { setAuthData } = useContext(authContext);
@@ -56,27 +54,18 @@ function LoginForm() {
 
   const { register, handleSubmit, errors } = useForm(); // initialise the hook
   const onSubmit = async data => {
-    const response = await fetch(process.env.REACT_APP_API_URL + "/api/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: formurlencoded(data)
-    });
-    const res = await response.json();
-    console.log(res);
+    const response = await fetchDB("/login", "POST", data);
+    console.log(response);
     if (response.status === 200) {
-      setAuthData(res);
+      setAuthData(response.data);
       history.push("/home");
     } else if (response.status === 400) {
-      setRequestError(res);
+      setRequestError(response.data);
     }
   };
   return (
     <LoginContainer>
       <HeadingText>Login</HeadingText>
-
       {requestError &&
         requestError.map((i, index) => (
           <InputBox key={index}>{i.message}</InputBox>

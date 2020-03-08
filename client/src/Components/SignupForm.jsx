@@ -3,8 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Button from ".././Components/Button";
 import styled from "styled-components";
-import formurlencoded from "form-urlencoded";
-
+import { fetchDB } from "../Helper/fetch";
 const HeadingText = styled.h1``;
 const InputBox = styled.div`
   font-size: 15px;
@@ -23,7 +22,6 @@ const InputBox = styled.div`
     border-color: #71c9f8;
   }
 `;
-
 const InputBoxLabel = styled.div`
   margin-bottom: 0;
 `;
@@ -56,26 +54,14 @@ const SelectBox = styled.select`
 function SignupForm() {
   const history = useHistory();
   const [requestError, setRequestError] = useState();
-
   const { register, handleSubmit, errors, watch } = useForm(); // initialise the hook
   const onSubmit = async data => {
-    const response = await fetch(
-      process.env.REACT_APP_API_URL + "/api/signup",
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/x-www-form-urlencoded",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: formurlencoded(data)
-      }
-    );
-    const res = await response.json();
-    console.log(res);
+    const response = await fetchDB("/signup", "POST", data);
+    console.log(response);
     if (response.status === 200) {
       history.push("/login");
     } else if (response.status === 400) {
-      setRequestError(res);
+      setRequestError(response.data);
     }
   };
 

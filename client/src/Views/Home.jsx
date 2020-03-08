@@ -5,7 +5,7 @@ import Navbar from ".././Components/Navbar";
 import Tweet from ".././Components/Tweet";
 import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
-
+import { fetchDB } from "../Helper/fetch";
 const Container = styled.div`
   display: flex !important;
   flex-direction: row !important;
@@ -30,18 +30,14 @@ function Home() {
   // const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const { auth } = useContext(authContext);
   const [user, setUser] = useState();
+  const request = async () => {
+    const response = await fetchDB(`/user/${auth.data.user.username}`, "GET");
+    setUser(response.data);
+  };
   useEffect(() => {
     // This gets called after every render, by default (the first one, and every one
     // after that)
-    let url =
-      process.env.REACT_APP_API_URL + "/api/user/" + auth.data.user.username;
-
-    const request = async (id = 100) => {
-      const res2 = await fetch(url);
-      setUser(await res2.json());
-    };
     request();
-
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
     return () => console.log("Feed data unmounting...");
@@ -51,7 +47,7 @@ function Home() {
       {isDesktopOrLaptop && (
         <NavContainer>
           <Navbar
-            username={auth.data.user.username}
+            username={user && user.username}
             avatar={user && user.profile.avatar.filename}
           />
         </NavContainer>
