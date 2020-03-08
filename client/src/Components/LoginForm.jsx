@@ -2,10 +2,13 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { authContext } from "../Contexts/AuthContext";
-import Button from ".././Components/Button";
+
 import styled from "styled-components";
 import formurlencoded from "form-urlencoded";
 import { fetchDB } from "../Helper/fetch";
+import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 const LoginContainer = styled.div`
   padding-top: 10em;
   width: 40vh;
@@ -73,47 +76,44 @@ function LoginForm() {
     }
   };
   return (
-    <LoginContainer>
-      <HeadingText>Login</HeadingText>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       {requestError &&
         requestError.map((i, index) => (
-          <InputBox key={index}>{i.message}</InputBox>
+          <Alert variant="danger">
+            The username and password you entered did not match our records.
+            Please double-check and try again.
+          </Alert>
         ))}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <InputBox>
-          <InputBoxLabel>
-            Username
-            <InputBoxInput
-              name="username"
-              type="text"
-              ref={register({
-                required: true
-              })}
-            />
-            {errors.username && <ErrorBar></ErrorBar>}
-          </InputBoxLabel>
-        </InputBox>
-        <InputBox>
-          <InputBoxLabel>
-            Password
-            <InputBoxInput
-              name="password"
-              type="password"
-              ref={register({
-                required: true
-              })}
-            />
-            {errors.password && <ErrorBar></ErrorBar>}
-          </InputBoxLabel>
-        </InputBox>
-        <Button
-          name="button"
-          type="submit"
-          label="Login"
-          btnStyle="login-btn"
+      <Form.Group controlId="formUsername">
+        <Form.Control
+          type="text"
+          id="inputUsername"
+          placeholder="Enter Username..."
+          name="username"
+          ref={register({
+            required: true
+          })}
         />
-      </form>
-    </LoginContainer>
+      </Form.Group>
+      <Form.Group controlId="fromPassword">
+        <Form.Control
+          type="password"
+          id="inputPassword"
+          placeholder="Enter Password ..."
+          name="password"
+          ref={register({
+            required: true
+          })}
+        />
+      </Form.Group>
+      <Form.Group controlId="formCheckbox">
+        <Form.Check type="checkbox" label="Remember Me" />
+      </Form.Group>
+      <Button variant="primary" type="submit" block>
+        Login
+      </Button>
+      <hr />
+    </Form>
   );
 }
 export default LoginForm;
