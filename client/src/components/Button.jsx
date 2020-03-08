@@ -7,8 +7,10 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 library.add(fas, far);
 
 const LoginButton = styled.button`
-  color: #1da1f2;
-  background-color: #fff;
+  display: block;
+  width: 100%;
+  color: #fff;
+  background-color: #1e2833;
   border-radius: 30px;
   border: 1px solid #1da1f2;
   text-align: center;
@@ -19,8 +21,8 @@ const LoginButton = styled.button`
   margin: 0.25em;
   line-height: 1.5;
   :hover {
-    background-color: #e8f5fe;
-    color: #1da1f2;
+    background-color: #1da1f2;
+    color: #fff;
   }
 `;
 
@@ -44,6 +46,8 @@ const TweetTweetIcon = styled.button`
   flex: 1 1 auto !important;
 `;
 const SignupButton = styled.button`
+  display: block;
+  width: 100%;
   color: #fff;
   background-color: #1da1f2;
   border-radius: 30px;
