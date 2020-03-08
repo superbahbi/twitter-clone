@@ -1,62 +1,30 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Button from ".././Components/Button";
 import styled from "styled-components";
 import { fetchDB } from "../Helper/fetch";
-const HeadingText = styled.h1``;
-const InputBox = styled.div`
-  font-size: 15px;
-  color: #657786;
-  background-color: #f5f8fa;
-  border: 0 solid black;
-  box-sizing: border-box;
-  margin-right: 15px;
-  padding: 15px;
-  border-bottom: 2px solid;
-  border-color: #657786;
-  width: 250px;
-  max-width: 250px;
-  :hover {
-    color: #71c9f8;
-    border-color: #71c9f8;
-  }
-`;
-const InputBoxLabel = styled.div`
-  margin-bottom: 0;
-`;
+import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import formurlencoded from "form-urlencoded";
 const ErrorBar = styled.div`
   border-bottom: 2px solid;
   border-color: red;
-`;
-const InputBoxInput = styled.input`
-  align-items: stretch;
-  border: 0 solid black;
-  box-sizing: border-box;
-  background-color: #f5f8fa;
-  color: black;
-  display: block;
-  font-size: 20px;
-  :focus {
-    outline: none;
-    outline: none;
-  }
-`;
-const SelectBox = styled.select`
-  font-size: 15px;
-  color: #657786;
-  background-color: #f5f8fa;
-  border: 0 solid black;
-  box-sizing: border-box;
-  margin-left: 15px;
-  padding: 15px;
 `;
 function SignupForm() {
   const history = useHistory();
   const [requestError, setRequestError] = useState();
   const { register, handleSubmit, errors, watch } = useForm(); // initialise the hook
   const onSubmit = async data => {
-    const response = await fetchDB("/signup", "POST", data);
+    const method = {
+      method: "POST",
+      headers: {
+        Accept: "application/x-www-form-urlencoded",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formurlencoded(data)
+    };
+    const response = await fetchDB("/signup", method);
     console.log(response);
     if (response.status === 200) {
       history.push("/login");
@@ -66,112 +34,97 @@ function SignupForm() {
   };
 
   return (
-    <React.Fragment>
-      <HeadingText>Sign up</HeadingText>
-
+    <Form onSubmit={handleSubmit(onSubmit)}>
       {requestError &&
         requestError.map((i, index) => (
-          <InputBox key={index}>
+          <Alert variant="danger" key={index}>
             {i.code === 11000 ? "Email address already exist" : i.message}
-          </InputBox>
+          </Alert>
         ))}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <InputBox>
-          <InputBoxLabel>
-            Username
-            <InputBoxInput
-              name="username"
-              type="text"
-              ref={register({
-                required: true
-              })}
-            />
-            {errors.username && <ErrorBar></ErrorBar>}
-          </InputBoxLabel>
-        </InputBox>
-
-        <InputBox>
-          <InputBoxLabel>
-            Password
-            <InputBoxInput
-              name="password"
-              type="password"
-              ref={register({
-                required: true,
-                validate: value => value === watch("confirmpassword")
-              })}
-            />
-            {errors.password && <ErrorBar></ErrorBar>}
-          </InputBoxLabel>
-        </InputBox>
-
-        <InputBox>
-          <InputBoxLabel>
-            Confirm Password
-            <InputBoxInput
-              name="confirmpassword"
-              type="password"
-              ref={register({
-                required: true,
-                validate: value => value === watch("password")
-              })}
-            />
-            {errors.confirmpassword && <ErrorBar></ErrorBar>}
-          </InputBoxLabel>
-        </InputBox>
-
-        <InputBox>
-          <InputBoxLabel>
-            Email
-            <InputBoxInput
-              name="email"
-              type="text"
-              ref={register({ required: true, pattern: /^\S+@\S+$/i })}
-            />
-            {errors.email && <ErrorBar></ErrorBar>}
-          </InputBoxLabel>
-        </InputBox>
-        <InputBox>
-          <InputBoxLabel>
-            Gender
-            <SelectBox
-              name="gender"
-              ref={register({
-                required: true
-              })}
-            >
-              <option value="" disabled defaultValue hidden>
-                Select
-              </option>
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-            </SelectBox>
-          </InputBoxLabel>
-        </InputBox>
-        <InputBox>
-          <InputBoxLabel>
-            Phone
-            <InputBoxInput
-              name="phone"
-              type="text"
-              ref={register({
-                required: true,
-                minLength: 6,
-                maxLength: 12
-              })}
-            />
-            {errors.phone && <ErrorBar></ErrorBar>}
-          </InputBoxLabel>
-        </InputBox>
-
-        <Button
-          name="button"
-          type="submit"
-          label="Signup"
-          btnStyle="signup-btn"
+      <Form.Group>
+        <Form.Control
+          type="text"
+          id="inputUsername"
+          placeholder="Enter username..."
+          name="username"
+          ref={register({
+            required: true
+          })}
         />
-      </form>
-    </React.Fragment>
+        {errors.username && <ErrorBar></ErrorBar>}
+      </Form.Group>
+      <Form.Group>
+        <Form.Control
+          type="password"
+          id="inputPassword"
+          placeholder="Enter password ..."
+          name="password"
+          ref={register({
+            required: true,
+            validate: value => value === watch("confirmpassword")
+          })}
+        />
+        {errors.password && <ErrorBar></ErrorBar>}
+      </Form.Group>
+      <Form.Group>
+        <Form.Control
+          type="password"
+          id="inputConfirmPassword"
+          placeholder="Repeat Password ..."
+          name="confirmpassword"
+          ref={register({
+            required: true,
+            validate: value => value === watch("password")
+          })}
+        />
+        {errors.confirmpassword && <ErrorBar></ErrorBar>}
+      </Form.Group>
+      <Form.Group>
+        <Form.Control
+          type="email"
+          id="inputEmail"
+          placeholder="Enter email address..."
+          name="email"
+          ref={register({ required: true, pattern: /^\S+@\S+$/i })}
+        />
+        {errors.email && <ErrorBar></ErrorBar>}
+      </Form.Group>
+      <Form.Group>
+        <Form.Control
+          as="select"
+          name="gender"
+          ref={register({
+            required: true
+          })}
+        >
+          <option value="" defaultValue hidden>
+            Select
+          </option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </Form.Control>
+        {errors.gender && <ErrorBar></ErrorBar>}
+      </Form.Group>
+      <Form.Group>
+        <Form.Control
+          type="tel"
+          id="inputPhone"
+          placeholder="Enter phone number..."
+          name="phone"
+          ref={register({
+            required: true,
+            minLength: 6,
+            maxLength: 12
+          })}
+        />
+        {errors.phone && <ErrorBar></ErrorBar>}
+      </Form.Group>
+
+      <Button variant="primary" type="submit" block>
+        Signup
+      </Button>
+      <hr />
+    </Form>
   );
 }
 export default SignupForm;

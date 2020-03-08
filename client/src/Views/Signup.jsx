@@ -1,5 +1,8 @@
 import React from "react";
-import { useMediaQuery } from "react-responsive";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
 
 import styled from "styled-components";
 import SignupForm from ".././Components/SignupForm";
@@ -28,30 +31,35 @@ const SignupContainer = styled.div`
   padding-top: 10em;
   width: 40vh;
 `;
+const BackgroundGradient = styled.div`
+  height: 100vh;
+  background-color: #71c9f8;
+  background-size: cover;
+`;
 const Signup = ({ history }) => {
-  const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)"
-  });
-
   return (
-    <React.Fragment>
-      {isDesktopOrLaptop ? (
-        <SplitPage>
-          <LeftSide></LeftSide>
-          <RightSide>
-            <SubSignup>
-              <SignupContainer>
-                <SignupForm></SignupForm>
-              </SignupContainer>
-            </SubSignup>
-          </RightSide>
-        </SplitPage>
-      ) : (
-        <SubSignup>
-          <SignupForm></SignupForm>
-        </SubSignup>
-      )}
-    </React.Fragment>
+    <BackgroundGradient>
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col md={9} lg={6} xl={6}>
+            <Card className="shadow-lg o-hidden border-0 my-5">
+              <Card.Body className="p-0">
+                <Row>
+                  <Col lg={12}>
+                    <div className="p-5">
+                      <div className="text-center">
+                        <h4 className="text-dark mb-4">Create an Account!</h4>
+                      </div>
+                      <SignupForm></SignupForm>
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </BackgroundGradient>
   );
 };
 export default Signup;
