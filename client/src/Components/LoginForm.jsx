@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { authContext } from "../Contexts/AuthContext";
 import Button from ".././Components/Button";
 import styled from "styled-components";
+import formurlencoded from "form-urlencoded";
 import { fetchDB } from "../Helper/fetch";
 const LoginContainer = styled.div`
   padding-top: 10em;
@@ -54,7 +55,15 @@ function LoginForm() {
 
   const { register, handleSubmit, errors } = useForm(); // initialise the hook
   const onSubmit = async data => {
-    const response = await fetchDB("/login", "POST", data);
+    const method = {
+      method: "POST",
+      headers: {
+        Accept: "application/x-www-form-urlencoded",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formurlencoded(data)
+    };
+    const response = await fetchDB("/login", method);
     console.log(response);
     if (response.status === 200) {
       setAuthData(response.data);

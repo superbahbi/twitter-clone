@@ -179,7 +179,10 @@ function Feed(props) {
   if (props.setTweetCount) {
     props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   }
-
+  function order(a, b) {
+    return a < b ? -1 : a > b ? 1 : 0;
+  }
+  console.log(tweets);
   return tweets
     ? tweets.foundTweet.map((item, index) => (
         <React.Fragment key={index}>
@@ -230,6 +233,7 @@ function Feed(props) {
                     onHide={onHandleCommentClose}
                     tweet={tweets.foundTweet[show.id]}
                     auth={props.auth}
+                    setShow={setShow}
                   ></CommentModal>
                   <Button
                     name="button"
@@ -269,26 +273,33 @@ function Feed(props) {
               </FeedBox>
             </TweetContainer>
           </TweetBox>
+
           {props.threadID
-            ? item.comment.map((comment, commentIndex) => (
-                <React.Fragment key={commentIndex}>
-                  <TweetBox>
-                    <Avatar name={comment.username} src={comment.avatar} />
-                    <TweetContainer>
-                      <FeedBox>
-                        <FeedName>{comment.name}</FeedName>
-                        <FeedTag>@{comment.username}</FeedTag>
-                        <FeedDate>
-                          · {moment(comment.timestamp).fromNow()}
-                        </FeedDate>
-                      </FeedBox>
-                      <FeedBox>
-                        <FeedContent>{comment.content}</FeedContent>
-                      </FeedBox>
-                    </TweetContainer>
-                  </TweetBox>
-                </React.Fragment>
-              ))
+            ? item.comment
+                .sort(function(a, b) {
+                  console.log("A" + a.timestamp);
+                  console.log("B" + b.timestamp);
+                  return b.timestamp - a.timestamp;
+                })
+                .map((comment, commentIndex) => (
+                  <React.Fragment key={commentIndex}>
+                    <TweetBox>
+                      <Avatar name={comment.username} src={comment.avatar} />
+                      <TweetContainer>
+                        <FeedBox>
+                          <FeedName>{comment.name}</FeedName>
+                          <FeedTag>@{comment.username}</FeedTag>
+                          <FeedDate>
+                            · {moment(comment.timestamp).fromNow()}
+                          </FeedDate>
+                        </FeedBox>
+                        <FeedBox>
+                          <FeedContent>{comment.content}</FeedContent>
+                        </FeedBox>
+                      </TweetContainer>
+                    </TweetBox>
+                  </React.Fragment>
+                ))
             : null}
         </React.Fragment>
       ))

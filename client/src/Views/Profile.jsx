@@ -6,6 +6,7 @@ import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
 import Header from "../Components/Header";
 import ProfileBox from "../Components/ProfileBox";
+import { fetchDB } from "../Helper/fetch";
 const Container = styled.div`
   display: flex !important;
   flex-direction: row !important;
@@ -29,21 +30,21 @@ function Profile(props) {
   const [reload, setReload] = useState();
   const [user, setUser] = useState({});
   const [tweetCount, setTweetCount] = useState();
+
+  const request = async signal => {
+    const response = await fetchDB(`/user/${profile}`, null, signal);
+    setUser(response.data);
+  };
   useEffect(() => {
-    // This gets called after every render, by default (the first one, and every one
-    // after that)
-    let url = process.env.REACT_APP_API_URL + "/api/user/" + profile;
-
-    const request = async (id = 100) => {
-      const res2 = await fetch(url);
-      setUser(await res2.json());
+    const controller = new AbortController();
+    const signal = controller.signal;
+    request(signal);
+    return function() {
+      console.log("Profile data unmounting...");
+      controller.abort();
     };
-    request();
-
-    // If you want to implement componentWillUnmount, return a function from here,
-    // and React will call it prior to unmounting.
-    return () => console.log("Feed data unmounting...");
   }, [profile]);
+
   return (
     user && (
       <Container>

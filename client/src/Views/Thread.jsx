@@ -5,6 +5,7 @@ import Sidebar from ".././Components/Sidebar";
 import styled from "styled-components";
 import Header from "../Components/Header";
 import Feed from ".././Components/Feed";
+import { fetchDB } from "../Helper/fetch";
 const Container = styled.div`
   display: flex !important;
   flex-direction: row !important;
@@ -25,41 +26,7 @@ const SideBarContainer = styled.div`
 function Thread(props) {
   const threadID = props.match.params.threadID;
   const { auth } = useContext(authContext);
-  const [thread, setThread] = useState({});
-  const [reload, setReload] = useState();
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    let method = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer " + auth.data.token
-      }
-    };
-    // This gets called after every render, by default (the first one, and every one
-    // after that)
-    if (threadID) {
-      let url = process.env.REACT_APP_API_URL + "/api/thread/" + threadID;
-      fetch(url, method, { signal })
-        .then(results => results.json())
-        .then(data => setThread(data))
-        .catch(error => {
-          console.log(error);
-        });
-    }
-    // If you want to implement componentWillUnmount, return a function from here,
-    // and React will call it prior to unmounting.
-
-    return function() {
-      /**
-       * Add cleanup code here
-       */
-      console.log("Thread data unmounting...");
-      controller.abort();
-    };
-  }, [props]);
-  console.log(thread);
+  const [reload, setReload] = useState(false);
   return (
     <Container>
       <NavContainer>

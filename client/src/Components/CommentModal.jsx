@@ -5,7 +5,7 @@ import Button from "../Components/Button";
 import Textarea from ".././Components/Textarea";
 import styled from "styled-components";
 import moment from "moment";
-
+import { useHistory } from "react-router-dom";
 import formurlencoded from "form-urlencoded";
 const TweetContainer = styled.div`
   padding: 0.5em;
@@ -38,6 +38,7 @@ const FeedContent = styled.span`
 `;
 
 function CommentModal(props) {
+  const history = useHistory();
   const commentData = useRef("");
   function onFormSubmit(e) {
     e.preventDefault();
@@ -62,8 +63,12 @@ function CommentModal(props) {
       await postComment.json();
       if (postComment.status === 200) {
         console.log("Added new comment");
-
-        // setReload(true);
+        history.push();
+        props.setShow({
+          ...props.show,
+          status: false,
+          id: null
+        });
       }
     };
     request();
@@ -123,7 +128,7 @@ function CommentModal(props) {
             </TweetContainer>
           </FeedBox>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer closeButton>
           <Button
             name="button"
             type="submit"

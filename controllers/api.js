@@ -554,6 +554,12 @@ exports.getThreadTweet = async (req, res, next) => {
           }
         },
         {
+          $sort: {
+            "comment.timestamp": -1
+          }
+        },
+
+        {
           $unwind: {
             path: "$user_data",
             preserveNullAndEmptyArrays: true

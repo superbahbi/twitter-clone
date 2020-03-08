@@ -63,8 +63,6 @@ function Settings() {
   const user = auth.data.user;
 
   useEffect(() => {
-    console.log(imgFile);
-    console.log(type);
     if (imgFile) {
       const url = process.env.REACT_APP_API_URL + "/api/upload";
       const formData = new FormData();

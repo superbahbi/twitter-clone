@@ -30,17 +30,22 @@ function Home() {
   // const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const { auth } = useContext(authContext);
   const [user, setUser] = useState();
-  const request = async () => {
-    const response = await fetchDB(`/user/${auth.data.user.username}`, "GET");
+  const request = async signal => {
+    const response = await fetchDB(
+      `/user/${auth.data.user.username}`,
+      null,
+      signal
+    );
     setUser(response.data);
   };
   useEffect(() => {
-    // This gets called after every render, by default (the first one, and every one
-    // after that)
-    request();
-    // If you want to implement componentWillUnmount, return a function from here,
-    // and React will call it prior to unmounting.
-    return () => console.log("Feed data unmounting...");
+    const controller = new AbortController();
+    const signal = controller.signal;
+    request(signal);
+    return function() {
+      console.log("Home data unmounting...");
+      controller.abort();
+    };
   }, [auth.data.user.username]);
   return (
     <Container>
