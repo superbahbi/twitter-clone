@@ -3,7 +3,7 @@ export async function fetchDB(param, method, signal) {
   if (process.env.ON_HEROKU) {
     api_url = "https://yetanothertwitter.herokuapp.com";
   } else {
-    api_url = process.env.REACT_APP_API_URL;
+    api_url = "https://yetanothertwitter.herokuapp.com";
   }
   console.log(api_url);
   const response = await fetch(`${api_url}/api${param}`, method, { signal });
