@@ -9,14 +9,6 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-const NavContainer = styled.div`
-  width: 15% !important;
-`;
-const HomeContainer = styled.div`
-  width: 50% !important;
-  padding: 0;
-  max-width: 600px;
-`;
 const SettingsBox = styled.div`
   display: flex;
   flex-direction: row;
