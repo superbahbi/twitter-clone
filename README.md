@@ -51,7 +51,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 <div align="center">
-  <img width="256" height="256" src="https://user-images.githubusercontent.com/1689092/170743579-ebe6acd8-201c-4e4d-8507-edf252b6e044.png">
+  <img width="400" height="400" src="https://user-images.githubusercontent.com/1689092/170743579-ebe6acd8-201c-4e4d-8507-edf252b6e044.png">
 </div>
 
 ### Built With
