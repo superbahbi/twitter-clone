@@ -88,7 +88,7 @@ const ProfileButton = styled.button`
   }
 `;
 const TweetIcon = styled.i`
-  font-size: 35px;
+  font-size: 25px;
 `;
 function Button(props) {
   if (props.btnStyle === "login-btn") {

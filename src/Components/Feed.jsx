@@ -108,7 +108,7 @@ function Feed(props) {
     // If you want to implement componentWillUnmount, return a function from here,
     // and React will call it prior to unmounting.
 
-    return function() {
+    return function () {
       /**
        * Add cleanup code here
        */
@@ -187,129 +187,129 @@ function Feed(props) {
   if (props.setTweetCount) {
     props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   }
-  
+
   console.log(tweets);
   return tweets
     ? tweets.foundTweet.map((item, index) => (
-        <React.Fragment key={index}>
-          <TweetBox
+      <React.Fragment key={index}>
+        <TweetBox
 
-          // onClick={e => history.push("/status/" + item._id)}
-          >
-            <Avatar
-              name={item.username}
-              src={item.user_data.profile.avatar.filename}
-            />
-            <TweetContainer>
-              <FeedBox
-                onClick={() => {
-                  history.push("/status/" + item._id);
-                }}
-              >
-                <FeedName>{item.name}</FeedName>
-                <FeedTag>@{item.username}</FeedTag>
-                <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
-              </FeedBox>
+        // onClick={e => history.push("/status/" + item._id)}
+        >
+          <Avatar
+            name={item.username}
+            src={item.user_data.profile.avatar.filename}
+          />
+          <TweetContainer>
+            <FeedBox
+              onClick={() => {
+                history.push("/status/" + item._id);
+              }}
+            >
+              <FeedName>{item.name}</FeedName>
+              <FeedTag>@{item.username}</FeedTag>
+              <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
+            </FeedBox>
+            <FeedBox>
+              <FeedContent>{item.content}</FeedContent>
+            </FeedBox>
+            {item.img ? (
               <FeedBox>
-                <FeedContent>{item.content}</FeedContent>
+                <FeedImage src={item.img.filename} />
               </FeedBox>
-              {item.img ? (
-                <FeedBox>
-                  <FeedImage src={item.img.filename} />
-                </FeedBox>
-              ) : null}
+            ) : null}
 
-              <FeedBox>
-                <TweetContainer>
-                  <ButtonRow>
-                    <ButtonContainer>
+            <FeedBox>
+              <TweetContainer>
+                <ButtonRow>
+                  <ButtonContainer>
+                    <Button
+                      id={index}
+                      dataTarget={index}
+                      name="button"
+                      type="button"
+                      btnStyle="feed-tweet-icon"
+                      icon="icon ion-ios-chatbubble-outline"
+                      size="2x"
+                      variant="primary"
+                      handleClick={() => {
+                        onHandleComment(index);
+                      }}
+                    />
+                    <CommentModal
+                      show={show.status}
+                      onHide={onHandleCommentClose}
+                      tweet={tweets.foundTweet[show.id]}
+                      auth={props.auth}
+                      setShow={setShow}
+                    />
+                  </ButtonContainer>
+                  <ButtonContainer>
+                    <Button
+                      name="button"
+                      type="button"
+                      btnStyle="feed-tweet-icon"
+                      style={{ color: userlike(item.likes) && "red" }}
+                      icon="icon ion-ios-heart-outline"
+                      size="2x"
+                      handleClick={() => {
+                        onHandleLikeClick(item._id);
+                        props.setReload(item._id);
+                      }}
+                    />
+                  </ButtonContainer>
+                  <ButtonContainer>
+                    {props.auth.user.username === item.user_data.username ? (
                       <Button
-                        id={index}
-                        dataTarget={index}
+                        id={item._id}
+                        value="test"
                         name="button"
                         type="button"
                         btnStyle="feed-tweet-icon"
-                        icon="icon ion-ios-chatbubble-outline"
-                        size="2x"
-                        variant="primary"
-                        handleClick={() => {
-                          onHandleComment(index);
-                        }}
-                      />
-                      <CommentModal
-                        show={show.status}
-                        onHide={onHandleCommentClose}
-                        tweet={tweets.foundTweet[show.id]}
-                        auth={props.auth}
-                        setShow={setShow}
-                      />
-                    </ButtonContainer>
-                    <ButtonContainer>
-                      <Button
-                        name="button"
-                        type="button"
-                        btnStyle="feed-tweet-icon"
-                        style={{ color: userlike(item.likes) && "red" }}
-                        icon="icon ion-ios-heart-outline"
+                        icon="icon ion-ios-trash-outline"
                         size="2x"
                         handleClick={() => {
-                          onHandleLikeClick(item._id);
+                          onHandleDeleteClick(item._id);
                           props.setReload(item._id);
                         }}
                       />
-                    </ButtonContainer>
-                    <ButtonContainer>
-                      {props.auth.user.username === item.user_data.username ? (
-                        <Button
-                          id={item._id}
-                          value="test"
-                          name="button"
-                          type="button"
-                          btnStyle="feed-tweet-icon"
-                          icon="icon ion-ios-trash-outline"
-                          size="2x"
-                          handleClick={() => {
-                            onHandleDeleteClick(item._id);
-                            props.setReload(item._id);
-                          }}
-                        />
-                      ) : null}
-                    </ButtonContainer>
-                  </ButtonRow>
-                </TweetContainer>
-              </FeedBox>
-            </TweetContainer>
-          </TweetBox>
+                    ) : null}
+                  </ButtonContainer>
+                </ButtonRow>
+              </TweetContainer>
+            </FeedBox>
+          </TweetContainer>
+        </TweetBox>
 
-          {props.threadID
-            ? item.comment
-                .sort(function(a, b) {
-                  console.log("A" + a.timestamp);
-                  console.log("B" + b.timestamp);
-                  return b.timestamp - a.timestamp;
-                })
-                .map((comment, commentIndex) => (
-                  <React.Fragment key={commentIndex}>
-                    <TweetBox>
-                      <Avatar name={comment.username} src={comment.avatar} />
-                      <TweetContainer>
-                        <FeedBox>
-                          <FeedName>{comment.name}</FeedName>
-                          <FeedTag>@{comment.username}</FeedTag>
-                          <FeedDate>
-                            · {moment(comment.timestamp).fromNow()}
-                          </FeedDate>
-                        </FeedBox>
-                        <FeedBox>
-                          <FeedContent>{comment.content}</FeedContent>
-                        </FeedBox>
-                      </TweetContainer>
-                    </TweetBox>
-                  </React.Fragment>
-                ))
-            : null}
-        </React.Fragment>
-      ))
+        {props.threadID
+          ? item.comment
+            .sort(function (a, b) {
+              console.log("A" + a.timestamp);
+              console.log("B" + b.timestamp);
+              return b.timestamp - a.timestamp;
+            })
+            .map((comment, commentIndex) => (
+              <React.Fragment key={commentIndex}>
+                <TweetBox>
+                  <Avatar name={comment.username} src={comment.avatar} />
+                  <TweetContainer>
+                    <FeedBox>
+                      <FeedName>{comment.name}</FeedName>
+                      <FeedTag>@{comment.username}</FeedTag>
+                      <FeedDate>
+                        · {moment(comment.timestamp).fromNow()}
+                      </FeedDate>
+                    </FeedBox>
+                    <FeedBox>
+                      <FeedContent>{comment.content}</FeedContent>
+                    </FeedBox>
+                  </TweetContainer>
+                </TweetBox>
+              </React.Fragment>
+            ))
+          : null}
+      </React.Fragment>
+    ))
     : null;
 }
 export default Feed;
