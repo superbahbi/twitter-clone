@@ -34,10 +34,10 @@
   </a>
 
 
-<h3 align="center">Wordle</h3>
+<h3 align="center">Twitter Clone</h3>
 
   <p align="center">
-    Guess the WORDLE in six tries.
+    It's what's happening
     <br />
     <br />
     <a href="https://twitter.bahbi.net/">View Demo</a>
@@ -130,10 +130,6 @@ Bobby Kugler- [@bahbilee](https://twitter.com/bahbilee) - bahbi@bahbi.net
 Project Link: [https://github.com/superbahbi/twitter-clone-web](https://github.com/superbahbi/twitter-clone-web)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
