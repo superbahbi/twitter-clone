@@ -112,7 +112,7 @@ function Feed(props) {
       /**
        * Add cleanup code here
        */
-      console.log("Feed data unmounting...");
+      // console.log("Feed data unmounting...");
       controller.abort();
     };
   }, [props, reload]);
@@ -152,9 +152,9 @@ function Feed(props) {
         }
       );
       await likeTweet.json();
-      if (likeTweet.status === 200 && tweetId) {
-        console.log("Liked tweet ID : " + tweetId);
-      }
+      // if (likeTweet.status === 200 && tweetId) {
+      //   console.log("Liked tweet ID : " + tweetId);
+      // }
     };
     request();
   }
@@ -187,8 +187,6 @@ function Feed(props) {
   if (props.setTweetCount) {
     props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   }
-
-  console.log(tweets);
   return tweets
     ? tweets.foundTweet.map((item, index) => (
       <React.Fragment key={index}>
@@ -230,7 +228,6 @@ function Feed(props) {
                       type="button"
                       btnStyle="feed-tweet-icon"
                       icon="icon ion-ios-chatbubble-outline"
-                      size="2x"
                       variant="primary"
                       handleClick={() => {
                         onHandleComment(index);
@@ -250,8 +247,7 @@ function Feed(props) {
                       type="button"
                       btnStyle="feed-tweet-icon"
                       style={{ color: userlike(item.likes) && "red" }}
-                      icon="icon ion-ios-heart-outline"
-                      size="2x"
+                      icon={userlike(item.likes) ? "icon ion-ios-heart" : "icon ion-ios-heart-outline"}
                       handleClick={() => {
                         onHandleLikeClick(item._id);
                         props.setReload(item._id);
