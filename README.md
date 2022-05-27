@@ -51,12 +51,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/1689092/170743579-ebe6acd8-201c-4e4d-8507-edf252b6e044.png">
+  <img width="256" height="256" src="https://user-images.githubusercontent.com/1689092/170743579-ebe6acd8-201c-4e4d-8507-edf252b6e044.png">
 </div>
 
 ### Built With
 
 * [React.js](https://reactjs.org/)
+* [React-strap](https://github.com/reactstrap/reactstrap/)
+* [Styled-components](https://github.com/styled-components/styled-components)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
