@@ -1,1 +1,0 @@
-web: react-scripts start
