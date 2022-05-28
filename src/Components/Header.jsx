@@ -15,7 +15,7 @@ const TweetBox = styled.div`
   border-style: solid;
   border-width: 1px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  padding: 0 16px 0 16px;
+  padding: 0 8px 0 8px;
   :hover {
     background-color: #f5f8fa;
   }
