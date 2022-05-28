@@ -152,7 +152,7 @@ function Sidebar() {
             <a href="/">Cookies</a>
           </Footer>
           <Footer>
-            <p>©2020 NotTwitter, Inc.</p>
+            <p>©{new Date().getFullYear()} Twitter Clone, Inc.</p>
           </Footer>
         </SideBarItem>
       </Row>
