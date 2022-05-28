@@ -65,6 +65,28 @@ const SignupButton = styled.button`
   }
   ${"" /* margin-left: ${props.position ? "auto!important" : "null"}; */}
 `;
+const LargeButton = styled.button`
+  display: block;
+  width: 100%;
+  color: #fff;
+  background-color: #1da1f2;
+  border-radius: 9999px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  padding 16px 32px 16px 32px;
+  margin: 0.25em;
+  line-height: 1.5;
+  border: none;
+  :focus {
+    text-decoration: none;
+    outline: none;
+  }
+  :hover {
+    background-color: #1a91da;
+  }
+  ${"" /* margin-left: ${props.position ? "auto!important" : "null"}; */}
+`;
 const ProfileButton = styled.button`
   font-weight: bold;
   color: #657786;
@@ -148,6 +170,18 @@ function Button(props) {
         {props.label}
       </ProfileButton>
     );
+  } else if (props.btnStyle === "large-btn") {
+    return (
+      <LargeButton
+        id={props.id}
+        type={props.type}
+        name={props.name}
+        onClick={props.handleClick}
+      >
+        {props.label}
+      </LargeButton>
+    );
+
   } else {
     return null;
   }
