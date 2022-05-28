@@ -27,7 +27,7 @@ function Profile(props) {
       setUser(response.data);
     };
     request();
-    return function() {
+    return function () {
       console.log("Profile data unmounting...");
       controller.abort();
     };

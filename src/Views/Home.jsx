@@ -27,7 +27,7 @@ function Home() {
       setUser(response.data);
     };
     request();
-    return function() {
+    return function () {
       console.log("Home data unmounting...");
       controller.abort();
     };
