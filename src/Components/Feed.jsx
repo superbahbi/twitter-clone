@@ -181,8 +181,6 @@ function Feed(props) {
       return null;
     });
     return status;
-    // const l = likes && likes.map(i => console.log(i));
-    //return likes && likes.map(i => (i === props.auth.user._id ? true : false));
   }
   if (props.setTweetCount) {
     props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
