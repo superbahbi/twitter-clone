@@ -16,6 +16,7 @@ const SettingsBox = styled.div`
   border-style: solid;
   border-width: 1px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  height: 100vh;
 `;
 const SettingsList = styled.ul`
   flex: 1 1 auto;
