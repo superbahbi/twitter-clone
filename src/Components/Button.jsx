@@ -26,7 +26,7 @@ const LoginButton = styled.button`
 
 const InputTweetIcon = styled.button`
   color: #71c9f8;
-  font-size: 2em;
+  font-size: 1.5em;
   padding: 0;
   border: none;
   background: none;
