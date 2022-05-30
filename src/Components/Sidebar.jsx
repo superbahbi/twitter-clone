@@ -133,7 +133,7 @@ function Sidebar() {
               <SideBarIcon>
                 <img
                   src="https://via.placeholder.com/49"
-                  class="rounded-circle"
+                  className="rounded-circle"
                   alt=""
                 />
               </SideBarIcon>
