@@ -1,17 +1,15 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { authContext } from "../Contexts/AuthContext";
 import { useMediaQuery } from "react-responsive";
 import Navbar from ".././Components/Navbar";
 import Header from ".././Components/Header";
-import styled from "styled-components";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-const InputFile = styled.input``;
 function Explorer() {
     const { auth } = useContext(authContext);
-    const user = auth.data.user;
+    // const user = auth.data.user;
     const isDesktopOrLaptop = useMediaQuery({
         query: "(min-device-width: 1224px)"
     });
