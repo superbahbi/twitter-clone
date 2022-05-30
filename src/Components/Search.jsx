@@ -2,16 +2,13 @@ import React from "react";
 import styled from "styled-components";
 const SearchContainer = styled.div`
     display: flex;
-    padding:20px
 `;
 const SearchInput = styled.input`
     width: 100%;
-    border-radius: 9999px;
-    border-color: rgb(239, 243, 244);
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
+    border-radius: 2px;
+    border: 1px solid rgb(239, 243, 244);
     padding: 10px;
+    margin: 0px;
     :hover {
         border-color: #71c9f8;
         color: none;
@@ -22,10 +19,10 @@ const SearchInput = styled.input`
     }
 `;
 
-function Search(props) {
+function Search({ placeholder, onChange }) {
     return (
         <SearchContainer>
-            <SearchInput placeholder={props.placeholder} />
+            <SearchInput placeholder={placeholder} onChange={onChange} />
         </SearchContainer>
     );
 }
