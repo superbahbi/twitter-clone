@@ -19,10 +19,10 @@ const SearchInput = styled.input`
     }
 `;
 
-function Search({ placeholder, onChange }) {
+function Search({ placeholder, onHandleChange }) {
     return (
         <SearchContainer>
-            <SearchInput placeholder={placeholder} onChange={onChange} />
+            <SearchInput placeholder={placeholder} onChange={onHandleChange} />
         </SearchContainer>
     );
 }
