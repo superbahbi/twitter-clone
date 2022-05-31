@@ -14,6 +14,21 @@ function Bookmarks() {
         query: "(min-device-width: 1224px)"
     });
     useEffect(() => {
+        const controller = new AbortController();
+        // const signal = controller.signal;
+        const request = async () => {
+            // const response = await fetchDB(
+            //     `/user/${auth.data.user.username}`,
+            //     null,
+            //     signal
+            // );
+            // setUser(response.data);
+        };
+        request();
+        return function () {
+            console.log("Bookmarks data unmounting...");
+            controller.abort();
+        };
     }, []);
     return (
         <Container>
