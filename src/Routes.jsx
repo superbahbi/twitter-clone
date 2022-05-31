@@ -24,7 +24,7 @@ function Routes() {
         <PrivateRoute path="/explorer" component={Explorer} />
         <PrivateRoute path="/notification" component={Notification} />
         <PrivateRoute path="/messages" component={Messages} />
-        <privateRoute path="/bookmarks" component={Bookmarks} />
+        <PrivateRoute path="/bookmarks" component={Bookmarks} />
         <PrivateRoute path="/settings" component={Settings} />
         <PrivateRoute path="/:profile" component={Profile} />
         <PrivateRoute path="/status/:threadID" component={Thread} />
