@@ -58,6 +58,8 @@ function Settings() {
     query: "(min-device-width: 1224px)"
   });
   useEffect(() => {
+    const controller = new AbortController();
+    // const signal = controller.signal;
     if (imgFile) {
       const url = process.env.REACT_APP_API_URL + "/api/upload";
       const formData = new FormData();
@@ -80,6 +82,10 @@ function Settings() {
       };
       request();
     }
+    return function () {
+      console.log("Settings data unmounting...");
+      controller.abort();
+    };
   }, [imgFile, auth.data.token, auth.data.user.username, type]);
   return (
     <Container>
