@@ -3,18 +3,29 @@ import styled from "styled-components";
 const IconContainer = styled.div`
   padding: 0.5em;
 `;
-function Avatar(props) {
+function Avatar({ src, name, nohref }) {
   return (
     <IconContainer>
-      <a href={props.name}>
+      {nohref ?
         <img
           className="rounded-circle"
-          src={props.src}
+          src={src}
           height="49"
           width="49"
-          alt={props.name}
+          alt={name}
         />
-      </a>
+        :
+        <a href={name}>
+          <img
+            className="rounded-circle"
+            src={src}
+            height="49"
+            width="49"
+            alt={name}
+          />
+        </a>
+      }
+
     </IconContainer>
   );
 }
