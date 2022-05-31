@@ -14,28 +14,14 @@ const SearchListGroupItem = styled(ListGroupItem)`
     border-radius: 0px;
     cursor: pointer;
 `;
-function SearchWithList({ placeholder, data }) {
-    const [search, setSearch] = useState("");
-    const [filterUsers, setFilterUsers] = useState([]);
-    let temp = [];
-    useEffect(() => {
-        console.log({ data })
-        console.log(search)
-        data.map(user => {
-            if (String(user.profile.name).toLowerCase().includes(search.toLowerCase())) {
-                temp.push(user);
-            }
-        })
-        setFilterUsers(temp);
-    }, [search]);
+function SearchWithList({ placeholder, filterUsers, onHandleChange, onHandleSearchClick }) {
     return (<>
-
         <div>
-            <Search placeholder={placeholder} value="search" onChange={e => setSearch(e.target.value)} />
+            <Search placeholder={placeholder} value="search" onHandleChange={onHandleChange} />
             <SearchListGroup>
                 {filterUsers.map((user, key) => {
                     return <SearchListGroupItem id={user._id} key={user._id}
-                        onClick={() => { console.log(user._id) }}>
+                        onClick={() => onHandleSearchClick(user._id)}>
                         {user.profile.name}
                     </SearchListGroupItem>
                 })}
