@@ -8,12 +8,27 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function Notification() {
+    const controller = new AbortController();
+    // const signal = controller.signal;
     const { auth } = useContext(authContext);
     // const user = auth.data.user;
     const isDesktopOrLaptop = useMediaQuery({
         query: "(min-device-width: 1224px)"
     });
     useEffect(() => {
+        const request = async () => {
+            // const response = await fetchDB(
+            //     `/user/${auth.data.user.username}`,
+            //     null,
+            //     signal
+            // );
+            // setUser(response.data);
+        };
+        request();
+        return function () {
+            console.log("Notification data unmounting...");
+            controller.abort();
+        };
     }, []);
     return (
         <Container>
