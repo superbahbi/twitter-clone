@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
 import Search from '../Components/Search';
-import ListGroup from 'react-bootstrap/ListGroup';
-import ListGroupItem from 'react-bootstrap/ListGroupItem';
+import {
+    Row,
+    Col,
+    ListGroup,
+    ListGroupItem
+} from 'react-bootstrap';
+import Avatar from '../Components/Avatar';
 const SearchListGroup = styled(ListGroup)`
     :active {
         all: unset;
@@ -21,8 +26,15 @@ function SearchWithList({ placeholder, filterUsers, onHandleChange, onHandleSear
             <SearchListGroup>
                 {filterUsers.map((user, key) => {
                     return <SearchListGroupItem id={user._id} key={user._id}
-                        onClick={() => onHandleSearchClick(user._id)}>
-                        {user.profile.name}
+                        onClick={() => onHandleSearchClick(user)}>
+                        <Row>
+                            <Col xs={4} className="p-0">
+                                <Avatar name={user.profile.name} src={user.profile.avatar.filename} nohref={true} />
+                            </Col>
+                            <Col>
+                                {user.profile.name}
+                            </Col>
+                        </Row>
                     </SearchListGroupItem>
                 })}
             </SearchListGroup>
