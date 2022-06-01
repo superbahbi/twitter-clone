@@ -23,7 +23,7 @@ function Routes() {
         <PrivateRoute path="/home" component={Home} />
         <PrivateRoute path="/explorer" component={Explorer} />
         <PrivateRoute path="/notification" component={Notification} />
-        <PrivateRoute path="/messages" component={Messages} />
+        <PrivateRoute path="/messages/:id?" component={Messages} />
         <PrivateRoute path="/bookmarks" component={Bookmarks} />
         <PrivateRoute path="/settings" component={Settings} />
         <PrivateRoute path="/:profile" component={Profile} />
