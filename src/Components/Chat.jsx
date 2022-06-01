@@ -89,9 +89,7 @@ const StyledFormControl = styled(Form.Control)`
     
     }
 `;
-const Chat = ({ user }) => {
-    const name = user.profile.name
-
+const Chat = ({ user, receiverData }) => {
     const { register, handleSubmit } = useForm(); // initialise the hook
     const messagesRef = useRef(null)
     const [response, setResponse] = useState("");
@@ -112,7 +110,7 @@ const Chat = ({ user }) => {
         const data = {
             id: uuidv4(),
             channel: "channel1",
-            user: name,
+            user: receiverData.name,
             body: msg.message,
             time: Date.now(),
         };
@@ -141,25 +139,13 @@ const Chat = ({ user }) => {
         <>
             <MessageArea>
                 <MessageHeader>
-                    <h5>Joey D</h5>
+                    <h5>{receiverData.name}</h5>
                     <p><time dateTime={response}>{response}</time></p>
                 </MessageHeader>
                 <ChatBox>
                     <ChatHistory>
-                        <OutgoingMsg>
-                            <SentMsg>
-                                <Message right>Test</Message>
-                                <Time>Today, 11:01 AM</Time>
-                            </SentMsg>
-                        </OutgoingMsg>
-                        <IncomingMsg>
-                            <ReceivedMsg>
-                                <Message>Test</Message>
-                                <Time>Today, 11:01 AM</Time>
-                            </ReceivedMsg>
-                        </IncomingMsg>
                         {messages.map((data, key) => (
-                            name === data.user ?
+                            receiverData.name === data.user ?
                                 <OutgoingMsg key={key}>
                                     <SentMsg>
                                         <Message right>{data.body}</Message>
