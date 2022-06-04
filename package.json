@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.27.2",
     "bootstrap": "^4.4.1",
+    "bson": "^4.6.4",
     "form-urlencoded": "^6.0.6",
     "ionicons": "^5.0.1",
     "jquery": "^3.4.1",
