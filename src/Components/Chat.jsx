@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import moment from "moment";
-import { v4 as uuidv4 } from "uuid";
 import { ObjectID } from "bson";
 const MessageHeader = styled.div`
     display: flex;
@@ -87,13 +86,14 @@ const StyledFormControl = styled(Form.Control)`
     
     }
 `;
-const Chat = ({ socket, user, receiverData }) => {
+const Chat = ({
+    socket,
+    receiverData,
+    messagesHistory,
+    onUpdateMessage }) => {
     const { register, handleSubmit } = useForm(); // initialise the hook
     const messagesRef = useRef(null)
-    const [response, setResponse] = useState("");
     const [message, setMessage] = useState("");
-    const [messages, setMessages] = useState([]);
-
 
     const scrollToBottom = () => {
         messagesRef.current.scrollIntoView({
@@ -106,50 +106,45 @@ const Chat = ({ socket, user, receiverData }) => {
         if (!msg) return;
         e.preventDefault();
         const data = {
-            id: new ObjectID().toString(),
+            _id: new ObjectID().toString(),
             user: receiverData.name,
             body: msg.message,
             createdAt: Date.now(),
         };
         socket.emit("emitMessage", data);
-        setMessages(prevState => [...prevState, data]);
-        scrollToBottom();
+        onUpdateMessage(data);
         setMessage("");
-
     };
 
     useEffect(() => {
         socket.on("onMessage", msg => {
-            console.log(msg)
-            setMessages(prevState => [...prevState, msg]);
-            scrollToBottom();
+            onUpdateMessage(msg);
         });
         return () => socket.disconnect();
     }, []);
     useEffect(() => {
         scrollToBottom();
-    }, [])
+    })
     return (
         <>
             <MessageArea>
                 <MessageHeader>
                     <h5>{receiverData.name}</h5>
-                    <p><time dateTime={response}>{response}</time></p>
                 </MessageHeader>
                 <ChatBox>
                     <ChatHistory>
-                        {messages.map((data, key) => (
+                        {messagesHistory.map((data, key) => (
                             receiverData.name === data.user ?
                                 <OutgoingMsg key={key}>
                                     <SentMsg>
                                         <Message right>{data.body}</Message>
-                                        <Time>{moment(data.time).fromNow()}</Time>
+                                        <Time>{moment(data.createdAt).fromNow()}</Time>
                                     </SentMsg>
                                 </OutgoingMsg> :
                                 <IncomingMsg key={key}>
                                     <ReceivedMsg>
                                         <Message>{data.body}</Message>
-                                        <Time>{moment(data.time).fromNow()}</Time>
+                                        <Time>{moment(data.createdAt).fromNow()}</Time>
                                     </ReceivedMsg>
                                 </IncomingMsg>
                         ))}

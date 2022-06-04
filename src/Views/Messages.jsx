@@ -99,6 +99,7 @@ function Messages() {
     const [show, setShow] = useState({ status: false, id: "" });
     const [channel, setChannel] = useState("");
     const [socket, setSocket] = useState(null)
+    const [messagesHistory, setMessagesHistory] = useState([]);
 
     const isDesktopOrLaptop = useMediaQuery({
         query: "(min-device-width: 1224px)"
@@ -106,10 +107,6 @@ function Messages() {
     useEffect(() => {
         const newSocket = socketIOClient(ENDPOINT);
         setSocket(newSocket);
-        // if (roomid) {
-        //     setChannel(roomid);
-        //     newSocket.emit("join", roomid);
-        // }
         return () => newSocket.disconnect();
     }, []);
     useEffect(() => {
@@ -158,8 +155,8 @@ function Messages() {
         };
     }, []);
 
-    let temp = [];
     useEffect(() => {
+        let temp = [];
         allUser.map(user => {
             if (String(user.profile.name).toLowerCase().includes(search.toLowerCase())) {
                 temp.push(user);
@@ -178,47 +175,67 @@ function Messages() {
     function onHandleModalClose() {
         setShow({
             ...show,
-            status: false,
-            id: null
+            status: false
         });
-
     }
-    const onHandleSearchClick = async (receiverData) => {
-        // const url = process.env.REACT_APP_API_URL + "/api/createChatRoom";
-        // const data = {
-        //     _id: user._id + "-" + receiverData._id,
-        //     senderID: user._id,
-        //     receiverID: receiverData._id,
-        //     name: receiverData.profile.name,
-        //     avatar: receiverData.profile.avatar.filename
-        // }
-        // const createChatRoom = await fetch(url, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/x-www-form-urlencoded",
-        //         Authorization: "Bearer " + auth.data.token
-        //     },
-        //     body: formurlencoded(data)
-        // });
-        // await createChatRoom.json();
-        // if (createChatRoom.status === 200) {
-        //     setSelectMessage(receiverData)
-        //     setChatRoom(prev => [...prev, data])
-        //     onHandleModalClose()
-        //     setChannel(data._id);
-        //     socket.emit("join", data._id);
-        //     history.push("/messages/" + data._id);
-        //     console.log("Chat room created");
-        // }
-
+    const onHandleSearchClick = (receiverData) => {
+        const url = process.env.REACT_APP_API_URL + "/api/createChatRoom";
+        const id = user._id + "-" + receiverData._id;
+        let split = id.split('-'); // ['user_id1', 'user_id2']
+        let unique = [...new Set(split)].sort((a, b) => (a < b ? -1 : 1)); // ['username1', 'username2']
+        let updatedRoomName = `${unique[0]}-${unique[1]}`; // 'username1--with--username2'
         const data = {
-            _id: user._id + "-" + receiverData._id,
+            _id: updatedRoomName,
             sender: user,
             receiver: receiverData,
         }
-        socket.emit("join", data);
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                Authorization: "Bearer " + auth.data.token
+            },
+            body: formurlencoded(data)
+        });
 
-        onHandleModalClose()
+        const updateChatData = {
+            _id: updatedRoomName,
+            sender: user._id,
+            receiver: receiverData._id,
+            avatar: receiverData.profile.avatar.filename,
+            name: receiverData.profile.name,
+        };
+        onHandleModalClose();
+        setSelectMessage(receiverData)
+        setChannel(updatedRoomName);
+        setChatRoom(prev => [...prev, updateChatData])
+        socket.emit("join", data);
+        history.push("/messages/" + updatedRoomName);
+        console.log("Chat room created");
+    }
+    const onHandleRoomClick = (room) => {
+        let url = process.env.REACT_APP_API_URL;
+        setMessagesHistory([]);
+        fetch(`${url}/api/getMessages/${room._id}`, {
+            headers: {
+                Accept: "application/x-www-form-urlencoded",
+                "Content-Type": "application/x-www-form-urlencoded",
+                Authorization: "Bearer " + auth.data.token
+            }
+        })
+            .then(results => results.json())
+            .then(data => {
+                setMessagesHistory(data)
+            })
+
+        setChannel(room._id);
+        setSelectMessage(room)
+        socket.emit("join", { _id: room._id });
+        history.push("/messages/" + room._id);
+    }
+    const onUpdateMessage = (data) => {
+        console.log(data);
+        setMessagesHistory(prev => [...prev, data])
     }
     return (
         <MessageContainer>
@@ -253,11 +270,7 @@ function Messages() {
                                 />
                                 <ListGroup>
                                     {chatRoom.map((room, key) => {
-                                        return <ListGroupItemMessage key={key} style={{ cursor: "pointer" }} onClick={() => {
-                                            setChannel(room._id);
-                                            socket.emit("join", { _id: room._id });
-                                            history.push("/messages/" + room._id);
-                                        }}>
+                                        return <ListGroupItemMessage key={key} style={{ cursor: "pointer" }} onClick={() => onHandleRoomClick(room)}>
                                             <Row name={room._id}>
                                                 <Col xs={4} className="p-0">
                                                     <Avatar name={room.name} src={room.avatar} nohref={true} />
@@ -268,10 +281,8 @@ function Messages() {
                                                     </span>
                                                 </Col>
                                             </Row>
-
                                         </ListGroupItemMessage>
                                     })}
-
                                 </ListGroup>
                             </>
                             :
@@ -299,7 +310,14 @@ function Messages() {
                 <MessageCol md={5} className='p-0'>
                     <MessagesBox>
                         {channel ?
-                            <Chat socket={socket} user={user} receiverData={selectMessage} chatData="" />
+                            <Chat
+                                socket={socket}
+                                user={user}
+                                receiverData={selectMessage}
+                                channel={channel}
+                                messagesHistory={messagesHistory}
+                                onUpdateMessage={onUpdateMessage}
+                            />
                             :
                             <SelectMessage>
                                 <Col>
