@@ -234,7 +234,6 @@ function Messages() {
         history.push("/messages/" + room._id);
     }
     const onUpdateMessage = (data) => {
-        console.log(data);
         setMessagesHistory(prev => [...prev, data])
     }
     return (
