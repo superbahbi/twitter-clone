@@ -7,9 +7,7 @@ import { useForm } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
-import socketIOClient from "socket.io-client";
-const ENDPOINT = process.env.REACT_APP_API_URL;
-
+import { ObjectID } from "bson";
 const MessageHeader = styled.div`
     display: flex;
     flex-direction: row;
@@ -89,13 +87,13 @@ const StyledFormControl = styled(Form.Control)`
     
     }
 `;
-const Chat = ({ user, receiverData }) => {
+const Chat = ({ socket, user, receiverData }) => {
     const { register, handleSubmit } = useForm(); // initialise the hook
     const messagesRef = useRef(null)
     const [response, setResponse] = useState("");
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
-    const socket = socketIOClient(ENDPOINT);
+
 
     const scrollToBottom = () => {
         messagesRef.current.scrollIntoView({
@@ -105,33 +103,29 @@ const Chat = ({ user, receiverData }) => {
         });
     }
     const onSubmit = (msg, e) => {
-        // if (!message) return;
+        if (!msg) return;
         e.preventDefault();
         const data = {
-            id: uuidv4(),
-            channel: "channel1",
+            id: new ObjectID().toString(),
             user: receiverData.name,
             body: msg.message,
-            time: Date.now(),
+            createdAt: Date.now(),
         };
-        // setMessages((messages) => [...messages, data]);
-        socket.emit('chat', data);
+        socket.emit("emitMessage", data);
+        setMessages(prevState => [...prevState, data]);
+        scrollToBottom();
         setMessage("");
 
     };
+
     useEffect(() => {
-
-        socket.on("FromAPI", data => {
-            setResponse(data);
-        });
-        socket.on('updatechat', function (msg) {
-
-            setMessages(messages => [...messages, msg]);
+        socket.on("onMessage", msg => {
+            console.log(msg)
+            setMessages(prevState => [...prevState, msg]);
             scrollToBottom();
         });
-
         return () => socket.disconnect();
-    }, [response, messages]);
+    }, []);
     useEffect(() => {
         scrollToBottom();
     }, [])
