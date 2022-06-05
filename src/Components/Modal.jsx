@@ -4,26 +4,18 @@ import styled from "styled-components";
 
 // import { useHistory } from "react-router-dom";
 const CustomModal = styled(ReactModal)`
-    height: 650px;
+    
+`;
+const CustomModalBody = styled(ReactModal.Body)`
+max-height: 500px;
+overflow: hidden;
+overflow-y: scroll;
 `;
 function Modal(props) {
-    // const history = useHistory();
     function onFormSubmit(e) {
         e.preventDefault();
-        // const url = process.env.REACT_APP_API_URL + "/api/comment";
 
         const request = async (id = 100) => {
-
-            //   if (postComment.status === 200) {
-            //     console.log("Added user");
-            //     history.push();
-            //     props.setShow({
-            //       ...props.show,
-            //       status: false,
-            //       id: null
-            //     });
-            //   }
-
             request();
             e.target.reset();
         }
@@ -39,7 +31,7 @@ function Modal(props) {
         >
             <form onSubmit={onFormSubmit}>
                 <ReactModal.Header closeButton>{props.title}</ReactModal.Header>
-                <ReactModal.Body>{props.body}</ReactModal.Body>
+                <CustomModalBody>{props.body}</CustomModalBody>
                 {props.footer &&
                     <ReactModal.Footer closeButton>
                         {/* <Button

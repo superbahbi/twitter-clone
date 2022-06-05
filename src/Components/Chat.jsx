@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import moment from "moment";
-import { ObjectID } from "bson";
+
 const MessageHeader = styled.div`
     display: flex;
     flex-direction: row;
@@ -28,6 +28,7 @@ const ChatHistory = styled.div`
 `;
 // Message bubble
 const Message = styled.p`
+    width: auto;
     padding: 10px 20px 10px 20px;
     margin-bottom: 0px;
     ${props => props.right ? "border-radius: 9999px 9999px 0px 9999px; background-color: #71c9f8;" : "border-radius: 9999px 9999px 9999px 0px; background-color: #eff3f4;"}
@@ -40,6 +41,7 @@ const OutgoingMsg = styled.div`
 const SentMsg = styled.div`
     float: right;
     margin-left: 20px
+    
 `;
 const ReceivedMsg = styled.div`
     display: inline-block;
@@ -49,7 +51,9 @@ const ReceivedMsg = styled.div`
 `;
 // Time
 const Time = styled.span`
-font-size: 12px;
+    font-size: 12px;
+    float: right;
+    padding-bottom: 2px
 `;
 // Form for sending messages
 const MessageForm = styled(Form)`
@@ -87,43 +91,19 @@ const StyledFormControl = styled(Form.Control)`
     }
 `;
 const Chat = ({
-    socket,
     receiverData,
     messagesHistory,
-    onUpdateMessage }) => {
+    onUpdateMessageSubmit }) => {
     const { register, handleSubmit } = useForm(); // initialise the hook
     const messagesRef = useRef(null)
     const [message, setMessage] = useState("");
 
-    const scrollToBottom = () => {
+    useEffect(() => {
         messagesRef.current.scrollIntoView({
             behavior: "smooth",
             block: "nearest",
             inline: "start"
         });
-    }
-    const onSubmit = (msg, e) => {
-        if (!msg) return;
-        e.preventDefault();
-        const data = {
-            _id: new ObjectID().toString(),
-            user: receiverData.name,
-            body: msg.message,
-            createdAt: Date.now(),
-        };
-        socket.emit("emitMessage", data);
-        onUpdateMessage(data);
-        setMessage("");
-    };
-
-    useEffect(() => {
-        socket.on("onMessage", msg => {
-            onUpdateMessage(msg);
-        });
-        return () => socket.disconnect();
-    }, []);
-    useEffect(() => {
-        scrollToBottom();
     })
     return (
         <>
@@ -152,7 +132,10 @@ const Chat = ({
                     </ChatHistory>
                 </ChatBox>
             </MessageArea>
-            <MessageForm onSubmit={handleSubmit(onSubmit)}>
+            <MessageForm onSubmit={handleSubmit((data) => {
+                onUpdateMessageSubmit(data)
+                setMessage("")
+            })}>
                 <FormRow>
                     <FormCol sm={10}>
                         <FormGroup>

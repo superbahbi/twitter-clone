@@ -9,19 +9,21 @@ import {
     ListGroupItem
 } from 'react-bootstrap';
 import Avatar from '../Components/Avatar';
+const SearchContainer = styled.div`
+    width: 100%;
+`;
 const SearchListGroup = styled(ListGroup)`
-    :active {
-        all: unset;
-    }
+
 `;
 const SearchListGroupItem = styled(ListGroupItem)`
     border: 1px solid rgb(239, 243, 244) !important;
     border-radius: 0px;
     cursor: pointer;
+    width: 100%;
 `;
 function SearchWithList({ placeholder, filterUsers, onHandleChange, onHandleSearchClick }) {
     return (<>
-        <div>
+        <SearchContainer >
             <Search placeholder={placeholder} value="search" onHandleChange={onHandleChange} />
             <SearchListGroup>
                 {filterUsers.map((user, key) => {
@@ -29,16 +31,16 @@ function SearchWithList({ placeholder, filterUsers, onHandleChange, onHandleSear
                         onClick={() => onHandleSearchClick(user)}>
                         <Row>
                             <Col xs={4} className="p-0">
-                                <Avatar name={user.profile.name} src={user.profile.avatar.filename} nohref={true} />
+                                <Avatar name={user.name ? user.name : user.profile.name} src={user.avatar ? user.avatar : user.profile.avatar.filename} nohref={true} />
                             </Col>
                             <Col>
-                                {user.profile.name}
+                                {user.name ? user.name : user.profile.name}
                             </Col>
                         </Row>
                     </SearchListGroupItem>
                 })}
             </SearchListGroup>
-        </div>
+        </SearchContainer>
     </>);
 }
 

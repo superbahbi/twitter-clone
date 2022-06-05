@@ -34,6 +34,7 @@ const MessageContainer = styled(Container)`
 const MessageCol = styled(Col)`
     height: 100vh;
     border: 1px solid rgb(239, 243, 244);
+
 `;
 const MessageHeader = styled.div`
     display: flex;
@@ -42,9 +43,16 @@ const MessageHeader = styled.div`
     line-height: 16px;
     padding: 10px 10px 10px 10px;
     `;
+const MessageHeaderText = styled.span`
+    font-size: 25px;
+`;
+const NewMessageButton = styled(Button)`
+    float: right;
+`;
 const MessagesBox = styled.div`
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
+    padding-top: 20px 
 `;
 // const MessageArea = styled.div`
 //     padding-left: 30px;
@@ -72,7 +80,7 @@ const MessageP = styled.p`
 const SearchBox = styled(Select)`
     // border-radius: 999px;
     // border: 1px solid rgb(239, 243, 244);
-    padding-right: 10px;
+    width: 100%;
 `;
 const SelectMessage = styled.div`
 display: flex;
@@ -81,9 +89,47 @@ display: flex;
     padding-left: 50px;
     padding-right: 60px;
 `;
-const ListGroupItemMessage = styled(ListGroupItem)`
-    padding; 0px;
+const ListGroupMessageRow = styled(Row)`
+    padding-left: 0px;
 `;
+const ListGroupMessage = styled(ListGroup)`
+    padding: 0px;
+    width: 100%;
+`;
+const ListGroupItemMessage = styled(ListGroupItem)`
+    // padding: 0px;
+    border: none;
+    cursor: pointer;
+    :first-child {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+    :last-child {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+    :hover{
+        background-color: #eff3f4;
+        border-radius: 0px;
+        border-right: 3px solid #71c9f8;
+    }
+    &.active{
+        color: #212529;
+        background-color: #fff;
+        border-radius: 0px;
+        border-right: 3px solid #71c9f8;
+    }
+    
+`;
+const ListGroupItemMessageActive = styled(ListGroupItem)`
+    border: none;
+    cursor: pointer;
+    color: #212529;
+    background-color: #fff;
+    border-radius: 0px;
+    border-right: 3px solid #71c9f8;
+`;
+
 function Messages() {
 
     const history = useHistory();
@@ -96,6 +142,7 @@ function Messages() {
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectUser, setSelectUser] = useState({});
     const [filterUsers, setFilterUsers] = useState([]);
+    const [dmUsers, setDmUsers] = useState([]);
     const [search, setSearch] = useState("");
     const [show, setShow] = useState({ status: false, id: "" });
     const [channel, setChannel] = useState("");
@@ -131,6 +178,7 @@ function Messages() {
                 .then(data => {
                     setChatRoom(data)
                     if (data.length > 0) {
+                        setDmUsers(data)
                         setSelectUser(data[0])
                     }
                 })
@@ -150,7 +198,11 @@ function Messages() {
         let url = process.env.REACT_APP_API_URL;
         fetch(`${url}/api/getAllUser`, { signal })
             .then(results => results.json())
-            .then(data => setAllUser(data))
+            .then(data => {
+                setAllUser(data)
+                setFilterUsers(data)
+            }
+            )
             .catch(error => {
                 console.log(error);
             });
@@ -159,7 +211,6 @@ function Messages() {
             controller.abort();
         };
     }, []);
-
     useEffect(() => {
         let temp = [];
         allUser.map(user => {
@@ -169,7 +220,15 @@ function Messages() {
         })
         setFilterUsers(temp);
     }, [search]);
-
+    useEffect(() => {
+        let temp = [];
+        chatRoom.map(user => {
+            if (String(user.name).toLowerCase().includes(search.toLowerCase())) {
+                temp.push(user);
+            }
+        })
+        setDmUsers(temp);
+    }, [search]);
     function onHandleModal() {
         setShow({
             ...show,
@@ -213,6 +272,7 @@ function Messages() {
         onHandleModalClose();
         setSelectUser(receiverData)
         setChannel(updatedRoomName);
+        setDmUsers([...dmUsers, updateChatData]);
         setChatRoom(prev => [...prev, updateChatData])
         socket.emit("join", data);
         history.push("/messages/" + updatedRoomName);
@@ -260,44 +320,45 @@ function Messages() {
                         />
                     </Col>
                 )}
-                <MessageCol md={3} className='pr-0'>
-                    <Col>
-                        <MessageHeader>
-                            <h5>Messages</h5>
-                        </MessageHeader>
-                        {chatRoom.length > 0 ?
-                            <>
-                                <SearchBox
-                                    placeholder="Search Direct Messages"
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    isSearchable={true}
-                                    name="color"
-                                    defaultValue={selectedOption}
-                                    onChange={setSelectedOption}
-                                    options={
-                                        chatRoom.map(user => {
-                                            return ({ value: user._id, label: user.name, avatar: user.avatar })
-                                        })}
+                <MessageCol md={3}>
+                    <Col className="p-0">
+                        <div class="row justify-content-between">
+                            <div class="col-6">
+                                <MessageHeaderText>Messages</MessageHeaderText>
+
+                            </div>
+                            <div class="col-2 p-0">
+                                <NewMessageButton
+                                    btnStyle="input-tweet-icon"
+                                    icon="envelope"
+                                    handleClick={() => {
+                                        onHandleModal();
+                                    }}
                                 />
-                                <ListGroup>
-                                    {chatRoom.map((room, key) => {
-                                        return <ListGroupItemMessage key={key} style={{ cursor: "pointer" }} onClick={() => onHandleRoomClick(room)}>
-                                            <Row name={room._id}>
-                                                <Col xs={4} className="p-0">
-                                                    <Avatar name={room.name} src={room.avatar} nohref={true} />
-                                                </Col>
-                                                <Col className="p-0" style={{ "margin": "auto" }}>
-                                                    <span className="">
-                                                        {room.name}
-                                                    </span>
-                                                </Col>
-                                            </Row>
-                                        </ListGroupItemMessage>
+                            </div>
+                        </div>
+                        <div class="row">
+                            {/* <SearchBox
+                                placeholder="Search Direct Messages"
+                                className="basic-single"
+                                classNamePrefix="select"
+                                isSearchable={true}
+                                name="color"
+                                defaultValue={selectedOption}
+                                onChange={setSelectedOption}
+                                options={
+                                    chatRoom.map(user => {
+                                        return ({ value: user._id, label: user.name, avatar: user.avatar })
                                     })}
-                                </ListGroup>
-                            </>
-                            :
+                            /> */}
+                            <SearchWithList
+                                placeholder="Search Direct Messages"
+                                filterUsers={dmUsers}
+                                onHandleChange={e => setSearch(e.target.value)}
+                                onHandleSearchClick={onHandleRoomClick} />
+                        </div>
+
+                        {chatRoom.length === 0 ?
                             <MessagesBox>
                                 <MessageH1>Welcome to your inbox!</MessageH1>
                                 <MessageP>Drop a line, share Tweets and more with private conversations between you and others on Twitter.</MessageP>
@@ -316,7 +377,7 @@ function Messages() {
                                     />
                                 </MessageButton>
                             </MessagesBox>
-                        }
+                            : null}
                     </Col>
                 </MessageCol>
                 <MessageCol md={5} className='p-0'>
