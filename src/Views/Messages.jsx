@@ -14,6 +14,7 @@ import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import Select from 'react-select';
 import formurlencoded from "form-urlencoded";
+import { ObjectID } from "bson";
 
 // Local components
 // import Search from ".././Components/Search";
@@ -93,7 +94,7 @@ function Messages() {
     const [allUser, setAllUser] = useState([]);
     const [chatRoom, setChatRoom] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [selectMessage, setSelectMessage] = useState({});
+    const [selectUser, setSelectUser] = useState({});
     const [filterUsers, setFilterUsers] = useState([]);
     const [search, setSearch] = useState("");
     const [show, setShow] = useState({ status: false, id: "" });
@@ -107,8 +108,12 @@ function Messages() {
     useEffect(() => {
         const newSocket = socketIOClient(ENDPOINT);
         setSocket(newSocket);
+        newSocket.on("onMessage", msg => {
+            setMessagesHistory(prev => [...prev, msg])
+        });
         return () => newSocket.disconnect();
     }, []);
+
     useEffect(() => {
         const controller = new AbortController();
         const signal = controller.signal;
@@ -126,7 +131,7 @@ function Messages() {
                 .then(data => {
                     setChatRoom(data)
                     if (data.length > 0) {
-                        setSelectMessage(data[0])
+                        setSelectUser(data[0])
                     }
                 })
                 .catch(error => {
@@ -206,7 +211,7 @@ function Messages() {
             name: receiverData.profile.name,
         };
         onHandleModalClose();
-        setSelectMessage(receiverData)
+        setSelectUser(receiverData)
         setChannel(updatedRoomName);
         setChatRoom(prev => [...prev, updateChatData])
         socket.emit("join", data);
@@ -229,12 +234,20 @@ function Messages() {
             })
 
         setChannel(room._id);
-        setSelectMessage(room)
+        setSelectUser(room)
         socket.emit("join", { _id: room._id });
         history.push("/messages/" + room._id);
     }
-    const onUpdateMessage = (data) => {
-        setMessagesHistory(prev => [...prev, data])
+    const onUpdateMessageSubmit = (data, e) => {
+        if (!data) return;
+        const msg = {
+            _id: new ObjectID().toString(),
+            user: selectUser.name,
+            body: data.message,
+            createdAt: Date.now(),
+        };
+        socket.emit("emitMessage", msg);
+        setMessagesHistory(prev => [...prev, msg])
     }
     return (
         <MessageContainer>
@@ -262,10 +275,10 @@ function Messages() {
                                     name="color"
                                     defaultValue={selectedOption}
                                     onChange={setSelectedOption}
-                                // options={
-                                //     allUser.map(user => {
-                                //         return ({ value: user._id, label: user.profile.name, avatar: user.profile.avatar.filename })
-                                //     })}
+                                    options={
+                                        chatRoom.map(user => {
+                                            return ({ value: user._id, label: user.name, avatar: user.avatar })
+                                        })}
                                 />
                                 <ListGroup>
                                     {chatRoom.map((room, key) => {
@@ -312,10 +325,10 @@ function Messages() {
                             <Chat
                                 socket={socket}
                                 user={user}
-                                receiverData={selectMessage}
+                                receiverData={selectUser}
                                 channel={channel}
                                 messagesHistory={messagesHistory}
-                                onUpdateMessage={onUpdateMessage}
+                                onUpdateMessageSubmit={onUpdateMessageSubmit}
                             />
                             :
                             <SelectMessage>
