@@ -58,7 +58,7 @@
 <summary>Home page</summary>
 <img width="800" src="https://user-images.githubusercontent.com/1689092/170743579-ebe6acd8-201c-4e4d-8507-edf252b6e044.png">
 </div>
-
+</details>
 
 ### Built With
 
