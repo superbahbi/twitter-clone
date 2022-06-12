@@ -1,32 +1,23 @@
 import React from "react";
 import styled from "styled-components";
-const IconContainer = styled.div`
+
+// Styled Components
+const AvatarContainer = styled.div`
   padding: 0.5em;
 `;
-function Avatar({ src, name, nohref }) {
-  return (
-    <IconContainer>
-      {nohref ?
-        <img
-          className="rounded-circle"
-          src={src}
-          height="49"
-          width="49"
-          alt={name}
-        />
-        :
-        <a href={name}>
-          <img
-            className="rounded-circle"
-            src={src}
-            height="49"
-            width="49"
-            alt={name}
-          />
-        </a>
-      }
 
-    </IconContainer>
+function Avatar({ src, name, nohref }) {
+  const img = (
+    <img
+      className="rounded-circle"
+      src={src}
+      height="49"
+      width="49"
+      alt={name}
+    />
+  );
+  return (
+    <AvatarContainer>{nohref ? img : <a href={name}>{img}</a>}</AvatarContainer>
   );
 }
 export default Avatar;
