@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'Chirp';
+    src: local('Chirp'), url(./assets/fonts/chirp-regular-web.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Chirp';
+    font-weight: 700;
+    src: local('Chirp'), url(./assets/fonts/chirp-bold-web.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Chirp';
+    font-weight: 900;
+    src: local('Chirp'), url(./assets/fonts/chirp-heavy-web.woff) format('opentype');
+}
