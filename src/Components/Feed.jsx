@@ -224,7 +224,6 @@ function Feed(props) {
                         dataTarget={index}
                         name="button"
                         type="button"
-                        btnStyle="feed-tweet-icon"
                         icon="icon ion-ios-chatbubble-outline"
                         variant="primary"
                         handleClick={() => {
@@ -243,7 +242,6 @@ function Feed(props) {
                       <IconButton
                         name="button"
                         type="button"
-                        btnStyle="feed-tweet-icon"
                         style={{ color: userlike(item.likes) && "red" }}
                         icon={
                           userlike(item.likes)
@@ -263,9 +261,7 @@ function Feed(props) {
                           value="test"
                           name="button"
                           type="button"
-                          btnStyle="feed-tweet-icon"
                           icon="icon ion-ios-trash-outline"
-                          size="2x"
                           handleClick={() => {
                             onHandleDeleteClick(item._id);
                             props.setReload(item._id);

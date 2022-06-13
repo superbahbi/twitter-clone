@@ -7,7 +7,8 @@ const StyledIconButton = styled.button`
   border: none;
   background: none;
   flex: 1 1 auto !important;
-  font-size: 25px;
+  font-size: ${(props) => props.size || "25px"};
+  color: ${(props) => props.color};
 `;
 
 const TweetIcon = styled.i``;
@@ -21,6 +22,8 @@ function IconButton(props) {
       name={props.name}
       onClick={props.handleClick}
       className={props.icon}
+      color={props.color}
+      size={props.size}
     />
   );
 }

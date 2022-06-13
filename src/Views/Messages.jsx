@@ -15,6 +15,7 @@ import Navbar from ".././Components/Navbar";
 import Button from "../Components/Button";
 import Chat from ".././Components/Chat";
 import Modal from ".././Components/Modal";
+import IconButton from "../Components/IconButton";
 import SearchWithList from "../Components/SearchWithList";
 // Local helper functions
 // import { fetchDB } from "../Helper/fetch";
@@ -29,7 +30,7 @@ const MessageCol = styled(Col)`
 const MessageHeaderText = styled.span`
   font-size: 25px;
 `;
-const NewMessageButton = styled(Button)`
+const NewMessageButton = styled(IconButton)`
   float: right;
 `;
 const MessagesBox = styled.div`
@@ -262,8 +263,9 @@ function Messages() {
               </div>
               <div className="col-2 p-0">
                 <NewMessageButton
-                  btnStyle="input-tweet-icon"
-                  icon="envelope"
+                  icon="icon ion-ios-email-outline"
+                  color="#1da1f2"
+                  size="30px"
                   handleClick={() => {
                     onHandleModal();
                   }}

@@ -6,17 +6,14 @@ const StyledButton = styled.button`
   color: ${(props) => (props.secondary && "#657786") || "#fff"};
   background-color: ${(props) => (props.secondary && "#fff") || "#1da1f2"};
   text-align: center;
+  /// Float right if right is true
   ${(props) => {
     return props.right && `position: absolute; right: 20px; top: 235px`;
   }};
   font-size: ${(props) => (props.large && "24px") || "16px"};
   border-radius: ${(props) =>
-    (props.primary && "30px") ||
-    (props.secondary && "0px") ||
-    (props.large && "9999px") ||
-    "0px"};
-  padding: ${(props) =>
-    (props.primary && "0.5rem") || (props.large && "1rem 2rem") || ".5rem"};
+    (props.primary && "30px") || (props.large && "9999px") || "0px"};
+  padding: ${(props) => (props.large && "1rem 2rem") || ".5rem"};
   margin: ${(props) => (props.secondary && "0rem") || "0.25em;"};
   line-height: 1.5;
   border: none;
