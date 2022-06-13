@@ -1,189 +1,61 @@
 import React from "react";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
-library.add(fas, far);
 
-const LoginButton = styled.button`
-  color: #fff;
-  background-color: #71c9f8;
-  border-radius: 30px;
-  border: 1px solid #1da1f2;
+const StyledButton = styled.button`
+  width: ${(props) => props.width || "100%"};
+  color: ${(props) => (props.secondary && "#657786") || "#fff"};
+  background-color: ${(props) => (props.secondary && "#fff") || "#1da1f2"};
   text-align: center;
-  font-size: 15px;
-  font-weight: 600;
-
-  padding: 0.375rem 0.75rem;
-  margin: 0.25em;
-  line-height: 1.5;
-  :hover {
-    background-color: #1da1f2;
-    color: #fff;
-  }
-`;
-
-const InputTweetIcon = styled.button`
-  color: #71c9f8;
-  font-size: 1.5em;
-  padding: 0;
-  border: none;
-  background: none;
-  padding: 0 5px 0 5px;
-  width: 45px;
-  height: 45px;
-  cursor: pointer;
-`;
-
-const TweetTweetIcon = styled.button`
-  color: #657786;
-  padding: 0;
-  border: none;
-  background: none;
-  flex: 1 1 auto !important;
-`;
-const SignupButton = styled.button`
-  display: block;
-  width: 100%;
-  color: #fff;
-  background-color: #1da1f2;
-  border-radius: 30px;
-  text-align: center;
-  font-size: 15px;
-  font-weight: 600;
-  padding: 0.375rem 0.75rem;
-  margin: 0.25em;
+  ${(props) => {
+    return props.right && `position: absolute; right: 20px; top: 235px`;
+  }};
+  font-size: ${(props) => (props.large && "24px") || "16px"};
+  border-radius: ${(props) =>
+    (props.primary && "30px") ||
+    (props.secondary && "0px") ||
+    (props.large && "9999px") ||
+    "0px"};
+  padding: ${(props) =>
+    (props.primary && "0.5rem") || (props.large && "1rem 2rem") || ".5rem"};
+  margin: ${(props) => (props.secondary && "0rem") || "0.25em;"};
   line-height: 1.5;
   border: none;
+  border-bottom: ${(props) => (props.secondary && "2px solid") || "none"};
   :focus {
     text-decoration: none;
     outline: none;
   }
   :hover {
-    background-color: #1a91da;
-  }
-  ${"" /* margin-left: ${props.position ? "auto!important" : "null"}; */}
-`;
-const LargeButton = styled.button`
-  display: block;
-  width: 100%;
-  color: #fff;
-  background-color: #1da1f2;
-  border-radius: 9999px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 800;
-  padding 16px 32px 16px 32px;
-  margin: 0.25em;
-  line-height: 1.5;
-  border: none;
-  :focus {
-    text-decoration: none;
-    outline: none;
-  }
-  :hover {
-    background-color: #1a91da;
-  }
-  ${"" /* margin-left: ${props.position ? "auto!important" : "null"}; */}
-`;
-const ProfileButton = styled.button`
-  font-weight: bold;
-  color: #657786;
-  background-color: #fff;
-  border-style: none;
-  border-radius: 0;
-  padding: 0.5em;
-  flex: 1 1 auto !important;
-  border-bottom: 2px solid;
-  :hover {
-    background-color: #e8f5fe;
-    color: #1da1f2;
+    background-color: ${(props) => (props.secondary && "#e8f5fe") || "#1a91da"};
   }
   :focus {
-    background-color: #e8f5fe;
-    color: #1da1f2;
-    border-bottom: 2px solid #1da1f2;
+    background-color: ${(props) => (props.secondary && "#e8f5fe") || "#1a91da"};
+    color: ${(props) => (props.secondary && "#1da1f2") || "#fff"};
+    border-bottom: ${(props) =>
+      (props.secondary && "2px solid #1da1f2") || "none"};
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
   }
 `;
-const TweetIcon = styled.i`
-  font-size: 25px;
-`;
-function Button(props) {
-  if (props.btnStyle === "login-btn") {
-    return (
-      <LoginButton
-        id={props.id}
-        className={props.className}
-        type={props.type}
-        name={props.name}
-        onClick={props.handleClick}
-      >
-        {props.label}
-      </LoginButton>
-    );
-  } else if (props.btnStyle === "signup-btn") {
-    return (
-      <SignupButton
-        id={props.id}
-        type={props.type}
-        name={props.name}
-        onClick={props.handleClick}
-      >
-        {props.label}
-      </SignupButton>
-    );
-  } else if (props.btnStyle === "input-tweet-icon") {
-    return (
-      <InputTweetIcon
-        id={props.id}
-        type={props.type}
-        name={props.name}
-        onClick={props.handleClick}
-      >
-        <FontAwesomeIcon icon={props.icon} fixedWidth />
-      </InputTweetIcon>
-    );
-  } else if (props.btnStyle === "feed-tweet-icon") {
-    return (
-      <TweetTweetIcon
-        id={props.id}
-        style={props.style}
-        type={props.type}
-        name={props.name}
-        onClick={props.handleClick}
-      >
-        <TweetIcon className={props.icon}></TweetIcon>
-      </TweetTweetIcon>
-    );
-  } else if (props.btnStyle === "profile-btn") {
-    return (
-      <ProfileButton
-        id={props.id}
-        type={props.type}
-        name={props.name}
-        onClick={props.handleClick}
-      >
-        {props.label}
-      </ProfileButton>
-    );
-  } else if (props.btnStyle === "large-btn") {
-    return (
-      <LargeButton
-        id={props.id}
-        type={props.type}
-        name={props.name}
-        onClick={props.handleClick}
-      >
-        {props.label}
-      </LargeButton>
-    );
 
-  } else {
-    return null;
-  }
+function Button(props) {
+  console.log(props);
+  return (
+    <StyledButton
+      primary={props.primary}
+      secondary={props.secondary}
+      profile={props.profile}
+      large={props.large}
+      width={props.width}
+      right={props.right}
+      id={props.id}
+      type={props.type}
+      name={props.name}
+      onClick={props.handleClick}
+    >
+      {props.label}
+    </StyledButton>
+  );
 }
 export default Button;
