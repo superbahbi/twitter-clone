@@ -99,9 +99,9 @@ function Tweet(props) {
       const postTweet = await fetch(url, {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + props.auth.token
+          Authorization: "Bearer " + props.auth.token,
         },
-        body: formData
+        body: formData,
       });
       await postTweet.json();
       if (postTweet.status === 200) {
@@ -148,7 +148,7 @@ function Tweet(props) {
                   type="file"
                   name="img"
                   accept="image/*"
-                  onChange={event => handleChange(event)}
+                  onChange={(event) => handleChange(event)}
                 />
               </InputBoxGroup>
               <InputBoxGroup>
@@ -157,7 +157,7 @@ function Tweet(props) {
                   type="file"
                   name="img"
                   accept="image/*"
-                  onChange={event => handleChange(event)}
+                  onChange={(event) => handleChange(event)}
                 />
               </InputBoxGroup>
               <InputBoxGroup>
@@ -166,7 +166,7 @@ function Tweet(props) {
                   type="file"
                   name="img"
                   accept="image/*"
-                  onChange={event => handleChange(event)}
+                  onChange={(event) => handleChange(event)}
                 />
               </InputBoxGroup>
               <InputBoxGroup>
@@ -175,16 +175,11 @@ function Tweet(props) {
                   type="file"
                   name="img"
                   accept="image/*"
-                  onChange={event => handleChange(event)}
+                  onChange={(event) => handleChange(event)}
                 />
               </InputBoxGroup>
               <TweetButton>
-                <Button
-                  name="button"
-                  type="submit"
-                  btnStyle="signup-btn"
-                  label="Tweet"
-                />
+                <Button primary name="button" type="submit" label="Tweet" />
               </TweetButton>
             </InputBoxRow>
           </form>

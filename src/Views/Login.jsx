@@ -67,14 +67,14 @@ function Login() {
   const [requestError, setRequestError] = useState();
 
   const { register, handleSubmit, errors } = useForm(); // initialise the hook
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     const method = {
       method: "POST",
       headers: {
         Accept: "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: formurlencoded(data)
+      body: formurlencoded(data),
     };
     try {
       const response = await fetchDB("/login", method);
@@ -88,8 +88,8 @@ function Login() {
       setRequestError([
         {
           name: "error",
-          message: "Unable to reach the server."
-        }
+          message: "Unable to reach the server.",
+        },
       ]);
     }
   };
@@ -119,7 +119,7 @@ function Login() {
                           placeholder="Enter Username..."
                           name="username"
                           ref={register({
-                            required: true
+                            required: true,
                           })}
                         />
                         {errors.username && <ErrorBar></ErrorBar>}
@@ -131,7 +131,7 @@ function Login() {
                           placeholder="Enter Password ..."
                           name="password"
                           ref={register({
-                            required: true
+                            required: true,
                           })}
                         />
                         {errors.password && <ErrorBar></ErrorBar>}
@@ -139,11 +139,7 @@ function Login() {
                       <Form.Group>
                         <StyleCheckbox type="checkbox" label="Remember Me" />
                       </Form.Group>
-                      <Button
-                        btnStyle="signup-btn"
-                        label="Login"
-                        type="submit"
-                      />
+                      <Button primary label="Login" type="submit" />
                       <hr />
                       <div className="text-center">
                         <Text href="forgot">Forgot Password?</Text>

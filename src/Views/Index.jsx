@@ -52,19 +52,19 @@ function Index() {
                   </SubHeading>
                   <SubText>Join not twitter today.</SubText>
                   <Button
+                    primary
                     name="button"
                     type="submit"
                     label="Sign up"
-                    btnStyle="signup-btn"
                     handleClick={() => {
                       history.push("/signup");
                     }}
                   />
                   <Button
+                    primary
                     name="button"
                     type="submit"
                     label="Log in"
-                    btnStyle="signup-btn"
                     handleClick={() => {
                       history.push("/login");
                     }}

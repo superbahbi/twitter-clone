@@ -92,12 +92,12 @@ function ProfileBox(props) {
             />
             {props.username === username ? (
               <Button
-                className="ml-auto"
+                primary
+                right
+                width="100px"
                 id="tweets"
                 name="button"
                 type="submit"
-                btnStyle="login-btn"
-                block={false}
                 label="Edit profile"
                 handleClick={onHandleClick}
               />
@@ -137,32 +137,32 @@ function ProfileBox(props) {
             </ProfileUser>
             <ProfileButton>
               <Button
+                secondary
                 id="tweets"
                 name="button"
                 type="submit"
-                btnStyle="profile-btn"
                 label="Tweets"
                 onClick={onHandleClick}
               />
               <Button
+                secondary
                 id="tweetsnreplies"
                 name="button"
                 type="submit"
-                btnStyle="profile-btn"
                 label="Tweets & replies"
               />
               <Button
+                secondary
                 id="media"
                 name="button"
                 type="submit"
-                btnStyle="profile-btn"
                 label="Media"
               />
               <Button
+                secondary
                 id="likes"
                 name="button"
                 type="submit"
-                btnStyle="profile-btn"
                 label="Likes"
               />
             </ProfileButton>

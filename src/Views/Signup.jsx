@@ -60,14 +60,14 @@ function Signup() {
   const history = useHistory();
   const [requestError, setRequestError] = useState();
   const { register, handleSubmit, errors, watch } = useForm(); // initialise the hook
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     const method = {
       method: "POST",
       headers: {
         Accept: "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: formurlencoded(data)
+      body: formurlencoded(data),
     };
     try {
       const response = await fetchDB("/signup", method);
@@ -80,8 +80,8 @@ function Signup() {
       setRequestError([
         {
           name: "error",
-          message: "Unable to reach the server."
-        }
+          message: "Unable to reach the server.",
+        },
       ]);
     }
   };
@@ -115,7 +115,7 @@ function Signup() {
                           name="username"
                           autoComplete="username"
                           ref={register({
-                            required: true
+                            required: true,
                           })}
                         />
                         {errors.username && <ErrorBar></ErrorBar>}
@@ -129,8 +129,8 @@ function Signup() {
                           autoComplete="new-password"
                           ref={register({
                             required: true,
-                            validate: value =>
-                              value === watch("confirmpassword")
+                            validate: (value) =>
+                              value === watch("confirmpassword"),
                           })}
                         />
                         {errors.password && <ErrorBar></ErrorBar>}
@@ -144,7 +144,7 @@ function Signup() {
                           autoComplete="new-password"
                           ref={register({
                             required: true,
-                            validate: value => value === watch("password")
+                            validate: (value) => value === watch("password"),
                           })}
                         />
                         {errors.confirmpassword && <ErrorBar></ErrorBar>}
@@ -157,7 +157,7 @@ function Signup() {
                           name="email"
                           ref={register({
                             required: true,
-                            pattern: /^\S+@\S+$/i
+                            pattern: /^\S+@\S+$/i,
                           })}
                         />
                         {errors.email && <ErrorBar></ErrorBar>}
@@ -167,7 +167,7 @@ function Signup() {
                           as="select"
                           name="gender"
                           ref={register({
-                            required: true
+                            required: true,
                           })}
                         >
                           <option value="" hidden>
@@ -187,17 +187,13 @@ function Signup() {
                           ref={register({
                             required: true,
                             minLength: 6,
-                            maxLength: 12
+                            maxLength: 12,
                           })}
                         />
                         {errors.phone && <ErrorBar></ErrorBar>}
                       </Form.Group>
 
-                      <Button
-                        btnStyle="signup-btn"
-                        label="Signup"
-                        type="submit"
-                      >
+                      <Button primary label="Signup" type="submit">
                         Signup
                       </Button>
                       <hr />

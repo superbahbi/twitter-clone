@@ -9,14 +9,11 @@ const SearchInput = styled.input`
     border: 1px solid rgb(239, 243, 244);
     padding: 10px;
     margin: 0px;
+
     :hover {
         border-color: #71c9f8;
         color: none;
       }
-    :focus {
-        outline: none !important;
-        border-color: #719ECE;
-    }
 `;
 
 function Search({ placeholder, onHandleChange }) {
