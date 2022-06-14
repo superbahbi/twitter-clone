@@ -1,55 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 const ListItem = styled.li`
   display: flex;
-  font-size: 16px;
-  font-weight: 400;
-  padding: 0.5em 1em 0.5em 1em;
-  margin-bottom: 0.5em;
+  font-weight: ${(props) => (props.active ? "bold" : "normal")};
+  color: ${(props) => (props.brand ? "#1da1f2" : "#000")};
+  padding: 0.2em 1em 0.2em 1em;
   cursor: pointer;
-  :hover {
-    border-radius: 30px;
-    background-color: #e8f5fe;
-    color: #1da1f2;
-  }
-  :hover i {
-    color: #1da1f2;
-  }
-  :hover span {
-    color: #1da1f2;
-  }
 `;
-const ListText = styled.span`
+const ListContainer = styled.div`
+  display: inline-flex;
   padding-left: 1em;
   padding-right: 1em;
+  :hover {
+    border-radius: 30px;
+    background-color: ${(props) => (props.brand ? "#e8f5fe" : "#E7E7E8")};
+  }
+`;
+const ListText = styled.p`
   font-size: 20px;
-  font-weight: bolder;
-  color: #434a52;
+  padding-left: 10px;
+  margin: auto;
 `;
 const ListIcon = styled.i`
-  margin-let: 10px;
-  display: flex;
-  font-size: 35px;
-  width: 35px;
-  color: #434a52;
+  font-size: 36px;
+  text-align: center;
 `;
 
 function List(props) {
   return (
-    <ListItem id={props.id} onClick={props.onHandleClick}>
-      {props.avatar ? (
-        <img
-          className="rounded-circle"
-          height="35"
-          width="35"
-          src={props.avatar}
-          alt=""
-        />
-      ) : (
-        props.icon && <ListIcon className={props.icon}></ListIcon>
+    <ListItem
+      id={props.id}
+      brand={props.brand}
+      active={props.active}
+      onClick={props.onHandleClick}
+    >
+      {props.icon && (
+        <ListContainer brand={props.brand}>
+          {props.icon && (
+            <ListIcon
+              className={`${props.icon}${!props.active ? "-outline" : ""}`}
+            />
+          )}
+          {props.name && <ListText>{props.name}</ListText>}
+        </ListContainer>
       )}
-
-      {props.name && <ListText>{props.name}</ListText>}
     </ListItem>
   );
 }

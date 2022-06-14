@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import List from "./List";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
@@ -13,7 +13,17 @@ const ListStyle = styled.ul`
   :hover {
   }
 `;
+const navList = [
+  { id: "home", name: "Home", icon: "ion-ios-home" },
+  { id: "explorer", name: "Explorer", icon: "ion-ios-location" },
+  { id: "notification", name: "Notification", icon: "ion-ios-bell" },
+  { id: "messages", name: "Messages", icon: "ion-ios-email" },
+  { id: "bookmarks", name: "Bookmarks", icon: "ion-ios-bookmarks" },
+  { id: "settings", name: "Settings", icon: "ion-ios-gear" },
+  { id: "profile", name: "Profile", icon: "ion-ios-people" },
+];
 function Navbar(props) {
+  const [isActive, setIsActive] = useState("home");
   let history = useHistory();
   function handleLogout(event) {
     event.preventDefault();
@@ -21,78 +31,39 @@ function Navbar(props) {
     localStorage.removeItem("authData");
     history.push("/");
   }
-
+  function onHandleClick(id) {
+    setIsActive(id);
+    history.push(`/${id}`);
+  }
   return (
     <Nav>
       <ListStyle>
         <List
+          brand={true}
           id="icon"
-          icon="icon ion-ios-paw-outline"
+          icon="icon ion-ios-paw"
           color="#1da1f2"
           onHandleClick={() => {
             history.push("/home");
           }}
         />
-        <List
-          id="home"
-          name="Home"
-          icon="icon ion-ios-home-outline"
-          onHandleClick={() => {
-            history.push("/home");
-          }}
-        />
-        <List
-          id="explorer"
-          name="Explorer"
-          icon="icon ion-ios-location-outline"
-          onHandleClick={() => {
-            history.push("/explorer");
-          }}
-        />
-        <List
-          id="notification"
-          name="Notification"
-          icon="icon ion-ios-bell-outline"
-          onHandleClick={() => {
-            history.push("/notification");
-          }}
-        />
-        <List
-          id="messages"
-          name="Messages"
-          icon="icon ion-ios-paperplane-outline"
-          onHandleClick={() => {
-            history.push("/messages");
-          }}
-        />
-        <List
-          id="bookmarks"
-          name="Bookmarks"
-          icon="icon ion-ios-bookmarks-outline"
-          onHandleClick={() => {
-            history.push("/bookmarks");
-          }}
-        />
-        <List
-          id="settings"
-          name="Settings"
-          icon="icon ion-ios-gear-outline"
-          onHandleClick={() => {
-            history.push("/settings");
-          }}
-        />
-        <List
-          id="profile"
-          name="Profile"
-          icon="icon ion-ios-people-outline"
-          onHandleClick={() => {
-            history.push(props.username);
-          }}
-        />
+
+        {navList.map((item, index) => {
+          return (
+            <List
+              active={isActive === item.id ? true : false}
+              key={index}
+              id={item.id}
+              name={item.name}
+              icon={item.icon}
+              onHandleClick={() => onHandleClick(item.id)}
+            />
+          );
+        })}
         <List
           id="logout"
           name="Logout"
-          icon="icon ion-ios-loop"
+          icon="icon ion-ios-refresh"
           onHandleClick={handleLogout}
         />
       </ListStyle>
