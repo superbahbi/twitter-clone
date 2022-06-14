@@ -13,18 +13,19 @@ const ListStyle = styled.ul`
   :hover {
   }
 `;
-const navList = [
-  { id: "home", name: "Home", icon: "ion-ios-home" },
-  { id: "explorer", name: "Explorer", icon: "ion-ios-location" },
-  { id: "notification", name: "Notification", icon: "ion-ios-bell" },
-  { id: "messages", name: "Messages", icon: "ion-ios-email" },
-  { id: "bookmarks", name: "Bookmarks", icon: "ion-ios-bookmarks" },
-  { id: "settings", name: "Settings", icon: "ion-ios-gear" },
-  { id: "profile", name: "Profile", icon: "ion-ios-people" },
-];
+
 function Navbar(props) {
   const [isActive, setIsActive] = useState("home");
   let history = useHistory();
+  const navList = [
+    { id: "home", name: "Home", icon: "ion-ios-home" },
+    { id: "explorer", name: "Explorer", icon: "ion-ios-location" },
+    { id: "notification", name: "Notification", icon: "ion-ios-bell" },
+    { id: "messages", name: "Messages", icon: "ion-ios-email" },
+    { id: "bookmarks", name: "Bookmarks", icon: "ion-ios-bookmarks" },
+    { id: "settings", name: "Settings", icon: "ion-ios-gear" },
+    { id: props.username, name: "Profile", icon: "ion-ios-people" },
+  ];
   function handleLogout(event) {
     event.preventDefault();
     // Remove the token from localStorage
