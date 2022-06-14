@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { authContext } from "../Contexts/AuthContext";
 import { useMediaQuery } from "react-responsive";
-import Navbar from ".././Components/Navbar";
 import Feed from ".././Components/Feed";
-import Sidebar from ".././Components/Sidebar";
 import Header from "../Components/Header";
 import ProfileBox from "../Components/ProfileBox";
+import Sidebar from "../Components/Sidebar";
 import { fetchDB } from "../Helper/fetch";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 function Profile(props) {
   const profile = props.match.params.profile;
@@ -17,7 +14,7 @@ function Profile(props) {
   const [user, setUser] = useState({});
   const [tweetCount, setTweetCount] = useState();
   const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)"
+    query: "(min-device-width: 1224px)",
   });
   useEffect(() => {
     const controller = new AbortController();
@@ -34,18 +31,10 @@ function Profile(props) {
   }, [profile]);
 
   return (
-    user && (
-      <Container>
-        <Row>
-          {isDesktopOrLaptop && (
-            <Col md={3}>
-              <Navbar
-                username={user && user.username}
-                avatar={user.profile && user.profile.avatar.filename}
-              />
-            </Col>
-          )}
-          <Col md={6}>
+    <>
+      <Col xs={12} md={8} lg={6}>
+        {user && (
+          <>
             <Header
               name={user.profile && user.profile.name}
               tweetCount={tweetCount}
@@ -60,15 +49,15 @@ function Profile(props) {
               location="profile"
               profile={profile}
             />
-          </Col>
-          {isDesktopOrLaptop && (
-            <Col md={3}>
-              <Sidebar />
-            </Col>
-          )}
-        </Row>
-      </Container>
-    )
+          </>
+        )}
+      </Col>
+      {isDesktopOrLaptop && (
+        <Col lg={3}>
+          <Sidebar />
+        </Col>
+      )}
+    </>
   );
 }
 export default Profile;

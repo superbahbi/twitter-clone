@@ -34,7 +34,6 @@ function SearchWithList({
   onHandleChange,
   onHandleSearchClick,
 }) {
-  console.log(selectUser);
   return (
     <SearchContainer>
       <Search

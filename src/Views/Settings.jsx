@@ -1,12 +1,10 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { authContext } from "../Contexts/AuthContext";
 import { useMediaQuery } from "react-responsive";
-import Navbar from ".././Components/Navbar";
+import Sidebar from "../Components/Sidebar";
 import Header from ".././Components/Header";
 import Editable from ".././Components/Editable";
 import styled from "styled-components";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 const SettingsBox = styled.div`
@@ -39,9 +37,11 @@ const SettingsItem = styled.div`
   flex: 1 1 auto;
   text-align: left;
 
-  ${"" /* :nth-last-child(1) {
+  ${
+    "" /* :nth-last-child(1) {
     text-align: right !important;
-  } */}
+  } */
+  }
 `;
 const InputFile = styled.input``;
 function Settings() {
@@ -55,7 +55,7 @@ function Settings() {
   const inputRef = useRef();
   const user = auth.data.user;
   const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)"
+    query: "(min-device-width: 1224px)",
   });
   useEffect(() => {
     const controller = new AbortController();
@@ -70,9 +70,9 @@ function Settings() {
         const postUpload = await fetch(url, {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + auth.data.token
+            Authorization: "Bearer " + auth.data.token,
           },
-          body: formData
+          body: formData,
         });
         await postUpload.json();
         if (postUpload.status === 200) {
@@ -88,148 +88,143 @@ function Settings() {
     };
   }, [imgFile, auth.data.token, auth.data.user.username, type]);
   return (
-    <Container>
-      <Row>
-        {isDesktopOrLaptop && (
-          <Col md={3}>
-            <Navbar
-              username={auth && auth.data.user.username}
-              avatar={auth && auth.data.user.profile.avatar.filename}
-            />
-          </Col>
-        )}
-        <Col md={6}>
-          <Header name="Settings" />
-          <SettingsBox>
-            <SettingsList>
-              <List>
-                <SettingsItem>Name</SettingsItem>
-                <SettingsItem>
-                  <Editable
-                    username={user.username}
-                    text={name}
-                    db="profile"
+    <>
+      <Col xs={12} md={8} lg={6}>
+        <Header name="Settings" />
+        <SettingsBox>
+          <SettingsList>
+            <List>
+              <SettingsItem>Name</SettingsItem>
+              <SettingsItem>
+                <Editable
+                  username={user.username}
+                  text={name}
+                  db="profile"
+                  name="name"
+                  placeholder={user.profile.name}
+                  type="input"
+                  childRef={inputRef}
+                  auth={auth.data}
+                >
+                  <input
+                    ref={inputRef}
+                    type="text"
                     name="name"
                     placeholder={user.profile.name}
-                    type="input"
-                    childRef={inputRef}
-                    auth={auth.data}
-                  >
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      name="name"
-                      placeholder={user.profile.name}
-                      value={name}
-                      onChange={e => setName(e.target.value)}
-                    />
-                  </Editable>
-                </SettingsItem>
-              </List>
-              <List>
-                <SettingsItem>Bio</SettingsItem>
-                <SettingsItem>
-                  <Editable
-                    username={user.username}
-                    text={bio}
-                    db="profile"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </Editable>
+              </SettingsItem>
+            </List>
+            <List>
+              <SettingsItem>Bio</SettingsItem>
+              <SettingsItem>
+                <Editable
+                  username={user.username}
+                  text={bio}
+                  db="profile"
+                  name="bio"
+                  placeholder={user.profile.bio}
+                  type="input"
+                  childRef={inputRef}
+                  auth={auth.data}
+                >
+                  <input
+                    ref={inputRef}
+                    type="text"
                     name="bio"
                     placeholder={user.profile.bio}
-                    type="input"
-                    childRef={inputRef}
-                    auth={auth.data}
-                  >
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      name="bio"
-                      placeholder={user.profile.bio}
-                      value={bio}
-                      onChange={e => setBio(e.target.value)}
-                    />
-                  </Editable>
-                </SettingsItem>
-              </List>
-              <List>
-                <SettingsItem>Location</SettingsItem>
-                <SettingsItem>
-                  <Editable
-                    username={user.username}
-                    text={location}
-                    db="profile"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                  />
+                </Editable>
+              </SettingsItem>
+            </List>
+            <List>
+              <SettingsItem>Location</SettingsItem>
+              <SettingsItem>
+                <Editable
+                  username={user.username}
+                  text={location}
+                  db="profile"
+                  name="location"
+                  placeholder={user.profile.location}
+                  type="input"
+                  childRef={inputRef}
+                  auth={auth.data}
+                >
+                  <input
+                    ref={inputRef}
+                    type="text"
                     name="location"
                     placeholder={user.profile.location}
-                    type="input"
-                    childRef={inputRef}
-                    auth={auth.data}
-                  >
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      name="location"
-                      placeholder={user.profile.location}
-                      value={location}
-                      onChange={e => setLocation(e.target.value)}
-                    />
-                  </Editable>
-                </SettingsItem>
-              </List>
-              <List>
-                <SettingsItem>Website</SettingsItem>
-                <SettingsItem>
-                  <Editable
-                    username={user.username}
-                    text={website}
-                    db="profile"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                  />
+                </Editable>
+              </SettingsItem>
+            </List>
+            <List>
+              <SettingsItem>Website</SettingsItem>
+              <SettingsItem>
+                <Editable
+                  username={user.username}
+                  text={website}
+                  db="profile"
+                  name="website"
+                  placeholder={user.profile.website}
+                  type="input"
+                  childRef={inputRef}
+                  auth={auth.data}
+                >
+                  <input
+                    ref={inputRef}
+                    type="text"
                     name="website"
                     placeholder={user.profile.website}
-                    type="input"
-                    childRef={inputRef}
-                    auth={auth.data}
-                  >
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      name="website"
-                      placeholder={user.profile.website}
-                      value={website}
-                      onChange={e => setWebsite(e.target.value)}
-                    />
-                  </Editable>
-                </SettingsItem>
-              </List>
-              <List>
-                <SettingsItem>Profile</SettingsItem>
-                <SettingsItem>
-                  <input
-                    type="file"
-                    name="avatar"
-                    onChange={event => {
-                      setType("avatar");
-                      setImgFile(event.target.files[0]);
-                    }}
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
                   />
-                </SettingsItem>
-              </List>
-              <List>
-                <SettingsItem>Cover</SettingsItem>
-                <SettingsItem>
-                  <InputFile
-                    type="file"
-                    name="cover"
-                    accept="image/*"
-                    onChange={event => {
-                      setType("cover");
-                      setImgFile(event.target.files[0]);
-                    }}
-                  />
-                </SettingsItem>
-              </List>
-            </SettingsList>
-          </SettingsBox>
+                </Editable>
+              </SettingsItem>
+            </List>
+            <List>
+              <SettingsItem>Profile</SettingsItem>
+              <SettingsItem>
+                <input
+                  type="file"
+                  name="avatar"
+                  onChange={(event) => {
+                    setType("avatar");
+                    setImgFile(event.target.files[0]);
+                  }}
+                />
+              </SettingsItem>
+            </List>
+            <List>
+              <SettingsItem>Cover</SettingsItem>
+              <SettingsItem>
+                <InputFile
+                  type="file"
+                  name="cover"
+                  accept="image/*"
+                  onChange={(event) => {
+                    setType("cover");
+                    setImgFile(event.target.files[0]);
+                  }}
+                />
+              </SettingsItem>
+            </List>
+          </SettingsList>
+        </SettingsBox>
+      </Col>
+      {isDesktopOrLaptop && (
+        <Col lg={3}>
+          <Sidebar />
         </Col>
-      </Row>
-    </Container>
+      )}
+    </>
   );
 }
 export default Settings;

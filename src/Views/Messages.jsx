@@ -3,15 +3,12 @@ import { useHistory } from "react-router-dom";
 import { authContext } from "../Contexts/AuthContext";
 
 // NPM components
-import { Container, Row, Col } from "react-bootstrap";
-import { useMediaQuery } from "react-responsive";
+import { Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 import formurlencoded from "form-urlencoded";
 import { ObjectID } from "bson";
 
 // Local components
-// import Search from ".././Components/Search";
-import Navbar from ".././Components/Navbar";
 import Button from "../Components/Button";
 import Chat from ".././Components/Chat";
 import Modal from ".././Components/Modal";
@@ -22,7 +19,6 @@ import SearchWithList from "../Components/SearchWithList";
 import socketIOClient from "socket.io-client";
 const ENDPOINT = process.env.REACT_APP_API_URL;
 
-const MessageContainer = styled(Container)``;
 const MessageCol = styled(Col)`
   height: 100vh;
   border: 1px solid rgb(239, 243, 244);
@@ -76,9 +72,6 @@ function Messages() {
   const [socket, setSocket] = useState(null);
   const [messagesHistory, setMessagesHistory] = useState([]);
 
-  const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)",
-  });
   useEffect(() => {
     const newSocket = socketIOClient(ENDPOINT);
     setSocket(newSocket);
@@ -143,25 +136,21 @@ function Messages() {
   }, []);
   useEffect(() => {
     let temp = [];
-    allUser.map((user) => {
-      if (
-        String(user.profile.name).toLowerCase().includes(search.toLowerCase())
-      ) {
-        temp.push(user);
-      }
-      return;
-    });
+    allUser.map((user) =>
+      String(user.profile.name).toLowerCase().includes(search.toLowerCase())
+        ? temp.push(user)
+        : null
+    );
     setFilterUsers(temp);
   }, [search]);
   useEffect(() => {
     let temp = [];
-    chatRoom.map((user) => {
-      if (
-        String(user.name).toLowerCase().includes(searchChatRoom.toLowerCase())
-      ) {
-        temp.push(user);
-      }
-    });
+    chatRoom.map((user) =>
+      String(user.name).toLowerCase().includes(searchChatRoom.toLowerCase())
+        ? temp.push(user)
+        : null
+    );
+
     setDmUsers(temp);
   }, [searchChatRoom]);
   function onHandleModal() {
@@ -245,17 +234,9 @@ function Messages() {
     setMessagesHistory((prev) => [...prev, msg]);
   };
   return (
-    <MessageContainer>
+    <Col>
       <Row>
-        {isDesktopOrLaptop && (
-          <Col md={3}>
-            <Navbar
-              username={auth && auth.data.user.username}
-              avatar={auth && auth.data.user.profile.avatar.filename}
-            />
-          </Col>
-        )}
-        <MessageCol md={3}>
+        <MessageCol md={4}>
           <Col className="p-0">
             <div className="row justify-content-between">
               <div className="col-6">
@@ -308,7 +289,7 @@ function Messages() {
             ) : null}
           </Col>
         </MessageCol>
-        <MessageCol md={6} className="p-0">
+        <MessageCol className="p-0">
           <MessagesBox>
             {channel ? (
               <Chat
@@ -360,7 +341,7 @@ function Messages() {
         setShow={setShow}
         title="New Message"
       />
-    </MessageContainer>
+    </Col>
   );
 }
 export default Messages;

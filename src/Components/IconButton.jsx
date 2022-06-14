@@ -10,10 +10,7 @@ const StyledIconButton = styled.button`
   font-size: ${(props) => props.size || "25px"};
   color: ${(props) => props.color};
 `;
-
-const TweetIcon = styled.i``;
 function IconButton(props) {
-  console.log(props);
   return (
     <StyledIconButton
       id={props.id}

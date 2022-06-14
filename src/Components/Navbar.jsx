@@ -84,7 +84,7 @@ function Navbar(props) {
         <List
           id="profile"
           name="Profile"
-          avatar={props.avatar}
+          icon="icon ion-ios-people-outline"
           onHandleClick={() => {
             history.push(props.username);
           }}
