@@ -29,7 +29,7 @@ function Bookmarks() {
   return (
     <>
       <Col xs={12} md={8} lg={6}>
-        <Header name="Bookmarks" />
+        <Header name="Bookmarks" iconLeft iconRight="ion-ios-gear-outline" />
       </Col>
       {isDesktopOrLaptop && (
         <Col lg={3}>

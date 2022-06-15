@@ -29,7 +29,7 @@ function Notification() {
   return (
     <>
       <Col xs={12} md={8} lg={6}>
-        <Header name="Notification" />
+        <Header name="Notification" iconLeft iconRight="ion-ios-gear-outline" />
       </Col>
       {isDesktopOrLaptop && (
         <Col lg={3}>

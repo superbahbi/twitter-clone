@@ -12,6 +12,7 @@ import { ObjectID } from "bson";
 import Button from "../Components/Button";
 import Chat from ".././Components/Chat";
 import Modal from ".././Components/Modal";
+import Header from "../Components/Header";
 import IconButton from "../Components/IconButton";
 import SearchWithList from "../Components/SearchWithList";
 // Local helper functions
@@ -22,12 +23,6 @@ const ENDPOINT = process.env.REACT_APP_API_URL;
 const MessageCol = styled(Col)`
   height: 100vh;
   border: 1px solid rgb(239, 243, 244);
-`;
-const MessageHeaderText = styled.span`
-  font-size: 25px;
-`;
-const NewMessageButton = styled(IconButton)`
-  float: right;
 `;
 const MessagesBox = styled.div`
   display: flex;
@@ -234,99 +229,88 @@ function Messages() {
     setMessagesHistory((prev) => [...prev, msg]);
   };
   return (
-    <Col>
-      <Row>
-        <MessageCol md={4}>
-          <Col className="p-0">
-            <div className="row justify-content-between">
-              <div className="col-6">
-                <MessageHeaderText>Messages</MessageHeaderText>
-              </div>
-              <div className="col-2 p-0">
-                <NewMessageButton
-                  icon="icon ion-ios-email-outline"
-                  color="#1da1f2"
-                  size="30px"
-                  handleClick={() => {
-                    onHandleModal();
-                  }}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <SearchWithList
-                placeholder="Search Direct Messages"
-                filterUsers={dmUsers}
-                selectUser={selectUser}
-                onHandleChange={(e) => setSearchChatRoom(e.target.value)}
-                onHandleSearchClick={onHandleRoomClick}
-              />
-            </div>
-
-            {chatRoom.length === 0 ? (
-              <MessagesBox>
-                <MessageH1>Welcome to your inbox!</MessageH1>
-                <MessageP>
-                  Drop a line, share Tweets and more with private conversations
-                  between you and others on Twitter.
-                </MessageP>
-                <MessageButton>
-                  <Button
-                    large
-                    className=""
-                    id="tweets"
-                    name="button"
-                    type="submit"
-                    btnStyle="large-btn"
-                    label="Write a message"
-                    footer={false}
-                    handleClick={() => {
-                      onHandleModal();
-                    }}
-                  />
-                </MessageButton>
-              </MessagesBox>
-            ) : null}
-          </Col>
-        </MessageCol>
-        <MessageCol className="p-0">
+    <>
+      <MessageCol lg={3} className="p-0">
+        <Header
+          name="Messages"
+          iconRight="ion-ios-email-outline"
+          onHandleIconRightButton={() => {
+            onHandleModal();
+          }}
+        />
+        <SearchWithList
+          placeholder="Search Direct Messages"
+          filterUsers={dmUsers}
+          selectUser={selectUser}
+          onHandleChange={(e) => setSearchChatRoom(e.target.value)}
+          onHandleSearchClick={onHandleRoomClick}
+        />
+        {chatRoom.length === 0 ? (
           <MessagesBox>
-            {channel ? (
-              <Chat
-                socket={socket}
-                user={user}
-                receiverData={selectUser}
-                channel={channel}
-                messagesHistory={messagesHistory}
-                onUpdateMessageSubmit={onUpdateMessageSubmit}
+            <MessageH1>Welcome to your inbox!</MessageH1>
+            <MessageP>
+              Drop a line, share Tweets and more with private conversations
+              between you and others on Twitter.
+            </MessageP>
+            <MessageButton>
+              <Button
+                large
+                className=""
+                id="tweets"
+                name="button"
+                type="submit"
+                btnStyle="large-btn"
+                label="Write a message"
+                footer={false}
+                handleClick={() => {
+                  onHandleModal();
+                }}
               />
-            ) : (
-              <SelectMessage>
-                <Col>
-                  <h2>Select a message</h2>
-                  <MessageP>
-                    Choose from your existing conversations, start a new one, or
-                    just keep swimming.
-                  </MessageP>
-                  <MessageButton>
-                    <Button
-                      large
-                      id="tweets"
-                      name="button"
-                      type="submit"
-                      label="New message"
-                      footer={false}
-                      handleClick={() => {
-                        onHandleModal();
-                      }}
-                    />
-                  </MessageButton>
-                </Col>
-              </SelectMessage>
-            )}
+            </MessageButton>
           </MessagesBox>
-        </MessageCol>
-      </Row>
+        ) : null}
+      </MessageCol>
+      <MessageCol xs={12} md={8} lg={6}>
+        <Row>
+          <MessageCol className="p-0">
+            <MessagesBox>
+              {channel ? (
+                <Chat
+                  socket={socket}
+                  user={user}
+                  receiverData={selectUser}
+                  channel={channel}
+                  messagesHistory={messagesHistory}
+                  onUpdateMessageSubmit={onUpdateMessageSubmit}
+                />
+              ) : (
+                <SelectMessage>
+                  <Col>
+                    <h2>Select a message</h2>
+                    <MessageP>
+                      Choose from your existing conversations, start a new one,
+                      or just keep swimming.
+                    </MessageP>
+                    <MessageButton>
+                      <Button
+                        large
+                        id="tweets"
+                        name="button"
+                        type="submit"
+                        label="New message"
+                        footer={false}
+                        handleClick={() => {
+                          onHandleModal();
+                        }}
+                      />
+                    </MessageButton>
+                  </Col>
+                </SelectMessage>
+              )}
+            </MessagesBox>
+          </MessageCol>
+        </Row>
+      </MessageCol>
       <Modal
         show={show.status}
         onHide={onHandleModalClose}
@@ -341,7 +325,7 @@ function Messages() {
         setShow={setShow}
         title="New Message"
       />
-    </Col>
+    </>
   );
 }
 export default Messages;

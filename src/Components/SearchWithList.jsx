@@ -3,8 +3,9 @@ import styled from "styled-components";
 import Search from "../Components/Search";
 import { Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import Avatar from "../Components/Avatar";
-const SearchContainer = styled.div`
-  width: 100%;
+const SearchContainer = styled(Col)`
+  padding: 0;
+  border: 1px solid rgb(239, 243, 244);
 `;
 const SearchListGroup = styled(ListGroup)``;
 const SearchListGroupItem = styled(ListGroupItem)`
@@ -30,7 +31,6 @@ const SearchListGroupText = styled.p`
 function SearchWithList({
   placeholder,
   filterUsers,
-  selectUser,
   onHandleChange,
   onHandleSearchClick,
 }) {
@@ -47,7 +47,6 @@ function SearchWithList({
             <SearchListGroupItem
               id={user._id}
               key={user._id}
-              // active={selectUser._id === user._id ? true : false}
               onClick={() => onHandleSearchClick(user)}
             >
               <Row>

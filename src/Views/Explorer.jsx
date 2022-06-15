@@ -29,7 +29,7 @@ function Explorer() {
   return (
     <>
       <Col xs={12} md={8} lg={6}>
-        <Header name="Explorer" />
+        <Header name="Explorer" iconLeft iconRight="ion-ios-gear-outline" />
       </Col>
       {isDesktopOrLaptop && (
         <Col lg={3}>

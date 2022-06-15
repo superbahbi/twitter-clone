@@ -4,6 +4,7 @@ import { useMediaQuery } from "react-responsive";
 import Col from "react-bootstrap/Col";
 import Tweet from ".././Components/Tweet";
 import Sidebar from "../Components/Sidebar";
+import Header from "../Components/Header";
 import { fetchDB } from "../Helper/fetch";
 
 function Home() {
@@ -32,6 +33,7 @@ function Home() {
   return (
     <>
       <Col xs={12} md={8} lg={6}>
+        <Header name="Home" />
         <Tweet
           username={user && user.username}
           avatar={user && user.profile.avatar.filename}

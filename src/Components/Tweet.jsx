@@ -121,7 +121,6 @@ function Tweet(props) {
   }
   return (
     <div>
-      <Header page={props.page} />
       <TweetBox>
         <AvatarBox>
           <Avatar name={props.username} src={props.avatar} />

@@ -90,7 +90,7 @@ function Settings() {
   return (
     <>
       <Col xs={12} md={8} lg={6}>
-        <Header name="Settings" />
+        <Header name="Settings" iconLeft iconRight="ion-ios-gear-outline" />
         <SettingsBox>
           <SettingsList>
             <List>

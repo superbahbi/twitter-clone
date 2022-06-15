@@ -8,7 +8,7 @@ const StyledButton = styled.button`
   text-align: center;
   /// Float right if right is true
   ${(props) => {
-    return props.right && `position: absolute; right: 20px; top: 235px`;
+    return props.right && `position: absolute; right: 20px; top: 245px`;
   }};
   font-size: ${(props) => (props.large && "24px") || "16px"};
   border-radius: ${(props) =>

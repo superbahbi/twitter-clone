@@ -24,7 +24,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   const { auth } = useContext(authContext);
   const { loading } = auth;
   const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 768px)",
+    query: "(min-device-width: 1224px)",
   });
   if (loading) {
     return (
@@ -49,7 +49,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
           <Container>
             <Row>
               {isDesktopOrLaptop && (
-                <Col md={4} lg={3}>
+                <Col lg={3}>
                   <Navbar username={auth.data && auth.data.user.username} />
                 </Col>
               )}
