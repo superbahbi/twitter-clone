@@ -23,6 +23,7 @@ const Spinner = styled.div`
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { auth } = useContext(authContext);
   const { loading } = auth;
+
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)",
   });

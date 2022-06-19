@@ -1,13 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import IconButton from "../Components/IconButton";
 import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 library.add(fas, far);
 const HeaderContainer = styled.div`
   display: flex;
@@ -72,38 +70,6 @@ function Header(props) {
         )}
       </Col>
     </HeaderContainer>
-    // <TweetBox>
-    //   {/* <ProfileArrow
-    //     onClick={() => {
-    //       history.goBack();
-    //     }}
-    //   >
-    //     <FontAwesomeIcon icon="arrow-left" fixedWidth />
-    //   </ProfileArrow> */}
-
-    //   <ProfileBox>
-    //     <ProfileIconButton
-    //       icon="icon ion-ios-arrow-left"
-    //       color="#1da1f2"
-    //       size="30px"
-    //       handleClick={() => {
-    //         history.goBack();
-    //       }}
-    //     />
-    //     <ProfileName>{props.name}</ProfileName>
-    // <ProfileTweetCount>
-    //   {props.tweetCount && props.tweetCount + " Tweets"}
-    // </ProfileTweetCount>
-    //     <ProfileIconButton
-    //       icon="icon ion-ios-email-outline"
-    //       color="#1da1f2"
-    //       size="30px"
-    //       handleClick={() => {
-    //         // onHandleModal();
-    //       }}
-    //     />
-    //   </ProfileBox>
-    // </TweetBox>
   );
 }
 export default Header;

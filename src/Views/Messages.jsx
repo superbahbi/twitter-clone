@@ -13,7 +13,6 @@ import Button from "../Components/Button";
 import Chat from ".././Components/Chat";
 import Modal from ".././Components/Modal";
 import Header from "../Components/Header";
-import IconButton from "../Components/IconButton";
 import SearchWithList from "../Components/SearchWithList";
 // Local helper functions
 // import { fetchDB } from "../Helper/fetch";

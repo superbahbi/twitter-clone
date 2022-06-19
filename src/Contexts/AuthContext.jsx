@@ -5,14 +5,14 @@ export const authContext = createContext({});
 const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({ loading: true, data: null });
 
-  const setAuthData = data => {
+  const setAuthData = (data) => {
     setAuth({ data: data });
   };
 
   useEffect(() => {
     setAuth({
       loading: false,
-      data: JSON.parse(window.localStorage.getItem("authData"))
+      data: JSON.parse(window.localStorage.getItem("authData")),
     });
   }, []);
   //2. if object with key 'authData' exists in localStorage, we are putting its value in auth.data and we set loading to false.
