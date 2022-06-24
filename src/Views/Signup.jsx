@@ -56,6 +56,11 @@ const StyledFormControl = styled(Form.Control)`
     background: #1e2833;
   }
 `;
+const Text = styled.a`
+  color: #1da1f2;
+  font-size: 100%;
+  font-weight: 400;
+`;
 function Signup() {
   const history = useHistory();
   const [requestError, setRequestError] = useState();
@@ -197,6 +202,11 @@ function Signup() {
                         Signup
                       </Button>
                       <hr />
+
+                      <div className="text-center">
+                        Have an account already?
+                        <Text href="login"> Log in</Text>
+                      </div>
                     </StyledForm>
                   </Col>
                 </Row>

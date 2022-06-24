@@ -59,45 +59,16 @@ const StyleCheckbox = styled(Form.Check)`
 `;
 const Text = styled.a`
   color: #1da1f2;
-  font-size: 80%;
+  font-size: 100%;
   font-weight: 400;
 `;
 function Login() {
   const history = useHistory();
   const { setAuthData } = useContext(authContext);
   const { state, signin, clearErrorMessage } = useContext(AuthReducerContext);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [requestError, setRequestError] = useState();
 
-  const { register, handleSubmit, errors } = useForm(); // initialise the hook
-  // const onSubmit = async (data) => {
-  //   const method = {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "application/x-www-form-urlencoded",
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     body: formurlencoded(data),
-  //   };
-  //   try {
-  //     const response = await fetchDB("/login", method);
-  //     if (response.status === 200) {
-  //       setAuthData(response.data);
-  //       history.push("/home");
-  //     } else if (response.status === 400) {
-  //       setRequestError(response.data);
-  //     }
-  //   } catch {
-  //     setRequestError([
-  //       {
-  //         name: "error",
-  //         message: "Unable to reach the server.",
-  //       },
-  //     ]);
-  //   }
-  // };
-
+  const { register, handleSubmit, errors } = useForm();
   return (
     <BackgroundGradient>
       <Container>
@@ -111,12 +82,9 @@ function Login() {
                       <LoginDarkIllustration>
                         <i className="icon ion-ios-locked-outline"></i>
                       </LoginDarkIllustration>
-                      {requestError &&
-                        requestError.map((i, index) => (
-                          <Alert variant="danger" key={index}>
-                            {i.message}
-                          </Alert>
-                        ))}
+                      {state.errorMessage ? (
+                        <Alert variant="danger">{state.errorMessage}</Alert>
+                      ) : null}
                       <Form.Group>
                         <StyledFormControl
                           type="text"
@@ -150,7 +118,8 @@ function Login() {
                         <Text href="forgot">Forgot Password?</Text>
                       </div>
                       <div className="text-center">
-                        <Text href="signup">Create an Account!</Text>
+                        Don't have an account?
+                        <Text href="signup"> Sign up</Text>
                       </div>
                     </StyledForm>
                   </Col>

@@ -1,8 +1,7 @@
 import createDataContext from "./createDataContext";
-import axios from "axios";
 import api from "../Helper/api";
-
 import formurlencoded from "form-urlencoded";
+
 const authReducer = (state, action) => {
   switch (action.type) {
     case "add_error":
@@ -28,7 +27,8 @@ const signin = (dispatch) => async (data) => {
     console.log(err);
     dispatch({
       type: "add_error",
-      payload: "Something went wrong with sign in",
+      payload:
+        "The email and password don't belong to the same account. Check the inputs and try again.",
     });
   }
 };
