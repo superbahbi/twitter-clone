@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { authContext } from "../Contexts/AuthContext";
+import { Context as AuthReducerContext } from "../Contexts/AuthReducerContext";
 import { fetchDB } from "../Helper/fetch";
 import formurlencoded from "form-urlencoded";
 import styled from "styled-components";
@@ -64,35 +65,39 @@ const Text = styled.a`
 function Login() {
   const history = useHistory();
   const { setAuthData } = useContext(authContext);
+  const { state, signin, clearErrorMessage } = useContext(AuthReducerContext);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [requestError, setRequestError] = useState();
 
   const { register, handleSubmit, errors } = useForm(); // initialise the hook
-  const onSubmit = async (data) => {
-    const method = {
-      method: "POST",
-      headers: {
-        Accept: "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: formurlencoded(data),
-    };
-    try {
-      const response = await fetchDB("/login", method);
-      if (response.status === 200) {
-        setAuthData(response.data);
-        history.push("/home");
-      } else if (response.status === 400) {
-        setRequestError(response.data);
-      }
-    } catch {
-      setRequestError([
-        {
-          name: "error",
-          message: "Unable to reach the server.",
-        },
-      ]);
-    }
-  };
+  // const onSubmit = async (data) => {
+  //   const method = {
+  //     method: "POST",
+  //     headers: {
+  //       Accept: "application/x-www-form-urlencoded",
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //     },
+  //     body: formurlencoded(data),
+  //   };
+  //   try {
+  //     const response = await fetchDB("/login", method);
+  //     if (response.status === 200) {
+  //       setAuthData(response.data);
+  //       history.push("/home");
+  //     } else if (response.status === 400) {
+  //       setRequestError(response.data);
+  //     }
+  //   } catch {
+  //     setRequestError([
+  //       {
+  //         name: "error",
+  //         message: "Unable to reach the server.",
+  //       },
+  //     ]);
+  //   }
+  // };
+
   return (
     <BackgroundGradient>
       <Container>
@@ -102,7 +107,7 @@ function Login() {
               <Card.Body className="p-0">
                 <Row>
                   <Col lg={12}>
-                    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+                    <StyledForm onSubmit={handleSubmit((data) => signin(data))}>
                       <LoginDarkIllustration>
                         <i className="icon ion-ios-locked-outline"></i>
                       </LoginDarkIllustration>
