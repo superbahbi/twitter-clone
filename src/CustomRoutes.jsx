@@ -44,13 +44,30 @@ function CustomRoutes() {
           }
         />
         <Route
+          path="/messages"
+          element={
+            <PrivateRoute>
+              <Messages />
+            </PrivateRoute>
+          }
+        >
+          <Route
+            path=":id"
+            element={
+              <PrivateRoute>
+                <Messages />
+              </PrivateRoute>
+            }
+          />
+        </Route>
+        {/* <Route
           path="/messages/:roomid?"
           element={
             <PrivateRoute>
               <Messages />
             </PrivateRoute>
           }
-        />
+        /> */}
         <Route
           path="/bookmarks"
           element={

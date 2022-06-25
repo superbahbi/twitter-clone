@@ -1,12 +1,11 @@
 import createDataContext from "./createDataContext";
 import api from "../Helper/api";
-import formurlencoded from "form-urlencoded";
 
 const tweetReducer = (state, action) => {
   switch (action.type) {
     case "add_error":
       return { ...state, errorMessage: action.payload };
-    case "fetch_tweet":
+    case "fetch_tweets":
       return { errorMessage: "", tweets: action.payload };
     default:
       return state;
@@ -15,7 +14,7 @@ const tweetReducer = (state, action) => {
 const getTweet = (dispatch) => async () => {
   try {
     const response = await api.get("/api/tweet");
-    dispatch({ type: "fetch_tweet", payload: response.data });
+    dispatch({ type: "fetch_tweets", payload: response.data });
   } catch (error) {
     dispatch({
       type: "add_error",
@@ -28,5 +27,5 @@ const getTweet = (dispatch) => async () => {
 export const { Provider, Context } = createDataContext(
   tweetReducer,
   { getTweet },
-  { tweets: null }
+  { tweets: null, errorMessage: "" }
 );

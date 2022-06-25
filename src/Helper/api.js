@@ -8,7 +8,7 @@ instance.interceptors.request.use(
     const token = localStorage.getItem("token");
     if (token) {
       config.headers["Access-Control-Allow-Origin"] = "*";
-      config.headers["Authorization"] = "Bearer " + token;
+      config.headers["Authorization"] = `Bearer ${JSON.parse(token)}`;
     }
     return config;
   },

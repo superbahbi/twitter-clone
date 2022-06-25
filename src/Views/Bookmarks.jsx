@@ -1,33 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import { useMediaQuery } from "react-responsive";
+import Navbar from "../Components/Navbar";
 import Header from ".././Components/Header";
 import Sidebar from ".././Components/Sidebar";
 import Col from "react-bootstrap/Col";
 function Bookmarks() {
-  const controller = new AbortController();
-  // const signal = controller.signal;
-  // const { auth } = useContext(authContext);
-  // const user = auth.data.user;
+  const { state } = useContext(AuthContext);
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
   });
-  useEffect(() => {
-    const request = async () => {
-      // const response = await fetchDB(
-      //     `/user/${auth.data.user.username}`,
-      //     null,
-      //     signal
-      // );
-      // setUser(response.data);
-    };
-    request();
-    return function () {
-      console.log("Bookmarks data unmounting...");
-      controller.abort();
-    };
-  }, []);
   return (
     <>
+      {isDesktopOrLaptop && (
+        <Col lg={3}>
+          <Navbar username={state.data && state.user.username} />
+        </Col>
+      )}
       <Col xs={12} md={8} lg={6}>
         <Header name="Bookmarks" iconLeft iconRight="ion-ios-gear-outline" />
       </Col>
