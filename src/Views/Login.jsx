@@ -66,11 +66,10 @@ function Login() {
 
   useEffect(() => {
     tryLocalSignin();
-    if (state.token) {
-      navigate("/home");
-    }
-  }, [state]);
-
+  }, []);
+  if (state.token) {
+    navigate("/home");
+  }
   const onSubmit = (data, event) => {
     event.preventDefault();
     signin(data);

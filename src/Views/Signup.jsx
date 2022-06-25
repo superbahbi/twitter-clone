@@ -10,7 +10,6 @@ import styled from "styled-components";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from ".././Components/Button";
-import formurlencoded from "form-urlencoded";
 const ErrorBar = styled.div`
   border-bottom: 2px solid;
   border-color: red;
@@ -67,10 +66,10 @@ function Signup() {
   const { register, handleSubmit, errors, watch } = useForm(); // initialise the hook
   useEffect(() => {
     tryLocalSignin();
-    if (state.token) {
-      navigate("/home");
-    }
-  }, [state]);
+  }, []);
+  if (state.token) {
+    navigate("/home");
+  }
 
   const onSubmit = async (data, event) => {
     event.preventDefault();

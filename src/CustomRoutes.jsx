@@ -60,14 +60,6 @@ function CustomRoutes() {
             }
           />
         </Route>
-        {/* <Route
-          path="/messages/:roomid?"
-          element={
-            <PrivateRoute>
-              <Messages />
-            </PrivateRoute>
-          }
-        /> */}
         <Route
           path="/bookmarks"
           element={
