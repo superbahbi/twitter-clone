@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { Context as TweetContext } from "../Contexts/TweetContext";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import styled from "styled-components";
 import moment from "moment";
 import Avatar from ".././Components/Avatar";
 import IconButton from "../Components/IconButton";
-import formurlencoded from "form-urlencoded";
-import CommentModal from ".././Components/CommentModal";
-
+import CommentModal from "../Components/CommentModal";
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -69,58 +68,24 @@ const ButtonContainer = styled.div`
   justify-content: left;
 `;
 function Feed({ token, user, id, setReload, reload }) {
-  const { getTweet, state } = useContext(TweetContext);
+  const {
+    state: tweetState,
+    getTweet,
+    deleteTweet,
+    editTweet,
+    likeTweet,
+  } = useContext(TweetContext);
+  const { state: authState } = useContext(AuthContext);
   const [show, setShow] = useState({
     status: false,
     id: "",
   });
   useEffect(() => {
+    console.log("reload", reload);
     getTweet();
-    // setReload(false);
-  }, []); // add reload later
+    setReload(false);
+  }, [reload]); // add reload later
 
-  // function onHandleDeleteClick(tweetId) {
-  //   const request = async (id = 100) => {
-  //     let deleteTweet = await fetch(
-  //       process.env.REACT_APP_API_URL + "/api/tweet",
-  //       {
-  //         method: "DELETE",
-  //         headers: {
-  //           Accept: "application/x-www-form-urlencoded",
-  //           "Content-Type": "application/x-www-form-urlencoded",
-  //           Authorization: "Bearer " + props.token,
-  //         },
-  //         body: formurlencoded({ id: tweetId }),
-  //       }
-  //     );
-  //     await deleteTweet.json();
-  //     if (deleteTweet.status === 200 && tweetId) {
-  //       console.log("Delete tweet ID : " + tweetId);
-  //     }
-  //   };
-  //   request();
-  // }
-  // function onHandleLikeClick(tweetId) {
-  //   const request = async (id = 100) => {
-  //     let likeTweet = await fetch(
-  //       process.env.REACT_APP_API_URL + "/api/like/" + tweetId,
-  //       {
-  //         method: "PUT",
-  //         headers: {
-  //           Accept: "application/x-www-form-urlencoded",
-  //           "Content-Type": "application/x-www-form-urlencoded",
-  //           Authorization: "Bearer " + props.token,
-  //         },
-  //         body: formurlencoded({ profile_id: props.auth.user._id }),
-  //       }
-  //     );
-  //     await likeTweet.json();
-  //     // if (likeTweet.status === 200 && tweetId) {
-  //     //   console.log("Liked tweet ID : " + tweetId);
-  //     // }
-  //   };
-  //   request();
-  //}
   function onHandleComment(id) {
     setShow({
       ...show,
@@ -135,26 +100,23 @@ function Feed({ token, user, id, setReload, reload }) {
       id: null,
     });
   }
-  // function userlike(likes) {
-  //   let status = false;
-  //   Object.keys(likes).map((key, index) => {
-  //     if (likes[key]._id === props.auth.user._id) {
-  //       status = true;
-  //     }
-  //     return null;
-  //   });
-  //   return status;
-  // }
+  function userlike(likes) {
+    let status = false;
+    Object.keys(likes).map((key, index) => {
+      if (likes[key]._id === authState.user._id) {
+        status = true;
+      }
+      return null;
+    });
+    return status;
+  }
   // if (props.setTweetCount) {
   //   props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   // }
-  return state.tweets
-    ? state.tweets.foundTweet.map((item, index) => (
+  return tweetState.tweets
+    ? tweetState.tweets.foundTweet.map((item, index) => (
         <React.Fragment key={index}>
-          <TweetBox
-
-          // onClick={e => Navigate("/status/" + item._id)}
-          >
+          <TweetBox>
             <Avatar
               name={item.username}
               src={item.user_data.profile.avatar.filename}
@@ -193,28 +155,25 @@ function Feed({ token, user, id, setReload, reload }) {
                           onHandleComment(index);
                         }}
                       />
-                      {/* <CommentModal
+                      <CommentModal
                         show={show.status}
                         onHide={onHandleCommentClose}
-                        tweet={tweets.foundTweet[show.id]}
-                        auth={token}
+                        tweet={tweetState.tweets.foundTweet[show.id]}
+                        auth={authState}
                         setShow={setShow}
-                      /> */}
+                      />
                     </ButtonContainer>
                     <ButtonContainer>
                       <IconButton
                         name="button"
                         type="button"
-                        // style={{ color: userlike(item.likes) && "red" }}
-                        // icon={
-                        //   userlike(item.likes)
-                        //     ? "icon ion-ios-heart"
-                        //     : "icon ion-ios-heart-outline"
-                        // }
-                        // handleClick={() => {
-                        //   onHandleLikeClick(item._id);
-                        //   props.setReload(item._id);
-                        // }}
+                        style={{ color: userlike(item.likes) ? "red" : null }}
+                        icon={
+                          userlike(item.likes)
+                            ? "icon ion-ios-heart"
+                            : "icon ion-ios-heart-outline"
+                        }
+                        handleClick={async () => await likeTweet(item._id)}
                       />
                     </ButtonContainer>
                     <ButtonContainer>
@@ -225,10 +184,7 @@ function Feed({ token, user, id, setReload, reload }) {
                           name="button"
                           type="button"
                           icon="icon ion-ios-trash-outline"
-                          handleClick={() => {
-                            // onHandleDeleteClick(item._id);
-                            // props.setReload(item._id);
-                          }}
+                          handleClick={async () => await deleteTweet(item._id)}
                         />
                       ) : null}
                     </ButtonContainer>
@@ -238,7 +194,7 @@ function Feed({ token, user, id, setReload, reload }) {
             </TweetContainer>
           </TweetBox>
 
-          {/* {props.threadID
+          {/* {item
             ? item.comment
                 .sort(function (a, b) {
                   console.log("A" + a.timestamp);

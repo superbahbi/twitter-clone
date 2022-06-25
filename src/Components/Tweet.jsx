@@ -1,4 +1,5 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
+import { Context as TweetContext } from "../Contexts/TweetContext";
 import styled from "styled-components";
 import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
@@ -83,38 +84,29 @@ const InputFile = styled.input`
   box-sizing: border-box;
 `;
 function Tweet({ token, user, id, username, avatar }) {
+  const { state, addTweet, clearAddTweet } = useContext(TweetContext);
   const tweetData = useRef("");
   const [reload, setReload] = useState();
   const [imgPreview, setImgPreview] = useState("");
   const [imgFile, setImgFile] = useState("");
-  function onFormSubmit(e) {
+  useEffect(() => {
+    if (state.newTweet && state.newTweet.status === 200) {
+      setImgPreview("");
+      setImgFile("");
+      tweetData.current.value = "";
+      setReload(true);
+      clearAddTweet();
+    }
+  }, [state]);
+  const onFormSubmit = (e) => {
     e.preventDefault();
-    // const url = process.env.REACT_APP_API_URL + "/api/tweet";
-    // const formData = new FormData();
-    // formData.append("image", imgFile);
-    // formData.append("tweet", tweetData.current.value);
-    // formData.append("type", "tweetImg");
-    // const request = async (id = 100) => {
-    //   const postTweet = await fetch(url, {
-    //     method: "POST",
-    //     headers: {
-    //       Authorization: "Bearer " + props.auth.token,
-    //     },
-    //     body: formData,
-    //   });
-    //   await postTweet.json();
-    //   if (postTweet.status === 200) {
-    //     console.log("Added new tweet");
-    //     setImgPreview("");
-    //     setImgFile("");
-    //     setReload(true);
-    //   }
-    // };
-    // request();
-    // e.target.reset();
-  }
+    const formData = new FormData();
+    formData.append("image", imgFile);
+    formData.append("tweet", tweetData.current.value);
+    formData.append("type", "tweetImg");
+    addTweet(formData);
+  };
   function handleChange(event) {
-    console.log("changed");
     setImgPreview(URL.createObjectURL(event.target.files[0]));
     setImgFile(event.target.files[0]);
   }

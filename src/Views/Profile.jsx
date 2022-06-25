@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
-import { authContext } from "../Contexts/AuthContext";
+import { useParams } from "react-router-dom";
+import { Context as AuthContext } from "../Contexts/AuthContext";
+import { Context as UserContext } from "../Contexts/UserContext";
 import { useMediaQuery } from "react-responsive";
+import Navbar from "../Components/Navbar";
 import Feed from ".././Components/Feed";
 import Header from "../Components/Header";
 import ProfileBox from "../Components/ProfileBox";
 import Sidebar from "../Components/Sidebar";
-import { fetchDB } from "../Helper/fetch";
 import Col from "react-bootstrap/Col";
 function Profile(props) {
-  const profile = props.match.params.profile;
-  // const { state } = useContext(authContext);
+  // const profile = props.match.params.profile;
+  let { profile } = useParams();
+  const { state: authState } = useContext(AuthContext);
+  const { state: userState, getUser } = useContext(UserContext);
   const [reload, setReload] = useState();
   const [user, setUser] = useState({});
   const [tweetCount, setTweetCount] = useState();
@@ -17,21 +21,16 @@ function Profile(props) {
     query: "(min-device-width: 1224px)",
   });
   // useEffect(() => {
-  //   const controller = new AbortController();
-  //   const signal = controller.signal;
-  //   const request = async () => {
-  //     const response = await fetchDB(`/user/${profile}`, null, signal);
-  //     setUser(response.data);
-  //   };
-  //   request();
-  //   return function () {
-  //     console.log("Profile data unmounting...");
-  //     controller.abort();
-  //   };
+  //   getUser(profile);
   // }, [profile]);
 
   return (
     <>
+      {isDesktopOrLaptop && (
+        <Col lg={3}>
+          <Navbar username={authState && authState.user.username} />
+        </Col>
+      )}
       <Col xs={12} md={8} lg={6}>
         {user && (
           <>
@@ -39,9 +38,13 @@ function Profile(props) {
               name={user.profile && user.profile.name}
               tweetCount={tweetCount}
             />
-            <ProfileBox user={user} username={"auth.data.user.username"} />
+            <ProfileBox
+              user={authState.user}
+              username={authState.user.username}
+            />
             <Feed
-              auth={"auth.data"}
+              token={authState.token}
+              user={authState.user}
               reload={reload}
               setReload={setReload}
               tweetCount={tweetCount}

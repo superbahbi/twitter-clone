@@ -40,10 +40,11 @@ function Index() {
   const { state, tryLocalSignin } = useContext(AuthContext);
   useEffect(() => {
     tryLocalSignin();
-  }, []);
-  if (state.token) {
-    navigate("/home");
-  }
+    if (state.token) {
+      navigate("/home");
+    }
+  }, [state]);
+
   return (
     <BackgroundGradient>
       <Container>

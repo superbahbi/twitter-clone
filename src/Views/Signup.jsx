@@ -67,16 +67,14 @@ function Signup() {
   const { register, handleSubmit, errors, watch } = useForm(); // initialise the hook
   useEffect(() => {
     tryLocalSignin();
-  }, []);
-  if (state.token) {
-    navigate("/home");
-  }
+    if (state.token) {
+      navigate("/home");
+    }
+  }, [state]);
+
   const onSubmit = async (data, event) => {
     event.preventDefault();
     signup(data);
-    if (state.token && state.user) {
-      navigate("/home");
-    }
   };
   return (
     <BackgroundGradient>

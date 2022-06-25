@@ -6,7 +6,17 @@ const userReducer = (state, action) => {
     case "add_error":
       return { ...state, errorMessage: action.payload };
     case "fetch_users":
-      return { ...state, errorMessage: "", allUser: action.payload };
+      return {
+        ...state,
+        errorMessage: "",
+        allUser: action.payload,
+      };
+    case "fetch_user":
+      return {
+        ...state,
+        errorMessage: "",
+        getUser: action.payload,
+      };
     case "fetch_messages":
       return { ...state, errorMessage: "", messages: action.payload };
     default:
@@ -37,9 +47,20 @@ const getUserMessage = (dispatch) => async (id) => {
     });
   }
 };
-
+const getUser = (dispatch) => async (id) => {
+  try {
+    const response = await api.get("/api/user/" + id);
+    dispatch({ type: "fetch_user", payload: response.data });
+  } catch (error) {
+    dispatch({
+      type: "add_error",
+      payload:
+        "Cannot fetch user. Please check your internet connection and try again.",
+    });
+  }
+};
 export const { Provider, Context } = createDataContext(
   userReducer,
-  { getAllUser, getUserMessage },
-  { allUser: null, messages: null, errorMessage: "" }
+  { getAllUser, getUserMessage, getUser },
+  { allUser: null, messages: null, getUser: null, errorMessage: "" }
 );

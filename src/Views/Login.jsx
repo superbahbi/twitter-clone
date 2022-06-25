@@ -66,16 +66,14 @@ function Login() {
 
   useEffect(() => {
     tryLocalSignin();
-  }, []);
-  if (state.token) {
-    navigate("/home");
-  }
+    if (state.token) {
+      navigate("/home");
+    }
+  }, [state]);
+
   const onSubmit = (data, event) => {
     event.preventDefault();
     signin(data);
-    if (state.token && state.user) {
-      navigate("/home");
-    }
   };
   return (
     <BackgroundGradient>

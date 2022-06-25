@@ -85,7 +85,7 @@ function CustomRoutes() {
           }
         />
         <Route
-          path="/:profile?"
+          path="/:profile"
           element={
             <PrivateRoute>
               <Profile />

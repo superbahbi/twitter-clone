@@ -28,9 +28,9 @@ function Navbar(props) {
     { id: "settings", name: "Settings", icon: "ion-ios-gear" },
     { id: props.username, name: "Profile", icon: "ion-ios-people" },
   ];
-  function handleLogout(event) {
-    event.preventDefault();
-    logout();
+  async function handleLogout() {
+    console.log("logout");
+    await logout();
     nagivate("/login");
   }
   function onHandleClick(id) {

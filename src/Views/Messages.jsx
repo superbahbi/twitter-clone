@@ -160,23 +160,25 @@ function Messages() {
     console.log("Chat room created");
   };
   const onHandleRoomClick = (room) => {
+    setMessagesHistory([]);
     messages(room._id);
-    setMessagesHistory(userState.messages);
+
+    socket.emit("join", { _id: room._id });
     setChannel(room._id);
     setSelectUser(room);
-    socket.emit("join", { _id: room._id });
-    // navigate("/messages/" + room._id);
+    setMessagesHistory(userState.messages);
+    navigate("/messages/" + room._id);
   };
   const onUpdateMessageSubmit = (data, e) => {
-    // if (!data) return;
-    // const msg = {
-    //   _id: new ObjectID().toString(),
-    //   user: selectUser.name,
-    //   body: data.message,
-    //   createdAt: Date.now(),
-    // };
-    // socket.emit("emitMessage", msg);
-    // setMessagesHistory((prev) => [...prev, msg]);
+    if (!data) return;
+    const msg = {
+      _id: new ObjectID().toString(),
+      user: selectUser.name,
+      body: data.message,
+      createdAt: Date.now(),
+    };
+    socket.emit("emitMessage", msg);
+    setMessagesHistory((prev) => [...prev, msg]);
   };
   return (
     <>
@@ -229,13 +231,13 @@ function Messages() {
         <Row>
           <MessageCol className="p-0">
             <MessagesBox>
-              {messagesHistory ? (
+              {channel && messagesHistory ? (
                 <Chat
                   socket={socket}
                   user={userState}
                   receiverData={selectUser}
                   channel={channel}
-                  messagesHistory={messagesHistory}
+                  messagesHistory={userState.messages}
                   onUpdateMessageSubmit={onUpdateMessageSubmit}
                 />
               ) : (
