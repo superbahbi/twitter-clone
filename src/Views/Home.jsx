@@ -1,44 +1,34 @@
-import React, { useContext, useState, useEffect } from "react";
-import { authContext } from "../Contexts/AuthContext";
+import React, { useContext } from "react";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import { useMediaQuery } from "react-responsive";
 import Col from "react-bootstrap/Col";
 import Tweet from ".././Components/Tweet";
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
-import { fetchDB } from "../Helper/fetch";
+import Navbar from "../Components/Navbar";
 
 function Home() {
-  const { auth } = useContext(authContext);
-  const [user, setUser] = useState();
+  const { state } = useContext(AuthContext);
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
   });
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    const request = async () => {
-      const response = await fetchDB(
-        `/user/${auth.data.user.username}`,
-        null,
-        signal
-      );
-      setUser(response.data);
-    };
-    request();
-    return function () {
-      console.log("Home data unmounting...");
-      controller.abort();
-    };
-  }, [auth.data.user.username]);
+
   return (
     <>
+      {isDesktopOrLaptop && (
+        <Col lg={3}>
+          <Navbar username={state.data && state.user.username} />
+        </Col>
+      )}
       <Col xs={12} md={8} lg={6}>
         <Header name="Home" />
         <Tweet
-          username={user && user.username}
-          avatar={user && user.profile.avatar.filename}
+          token={state.token}
+          user={state.user}
+          id={state.user._id}
+          username={state.user.username}
+          avatar={state.user.profile.avatar.filename}
           page="Home"
-          auth={auth.data}
         />
       </Col>
       {isDesktopOrLaptop && (

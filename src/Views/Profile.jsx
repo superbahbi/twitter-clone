@@ -9,26 +9,26 @@ import { fetchDB } from "../Helper/fetch";
 import Col from "react-bootstrap/Col";
 function Profile(props) {
   const profile = props.match.params.profile;
-  const { auth } = useContext(authContext);
+  // const { state } = useContext(authContext);
   const [reload, setReload] = useState();
   const [user, setUser] = useState({});
   const [tweetCount, setTweetCount] = useState();
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)",
   });
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    const request = async () => {
-      const response = await fetchDB(`/user/${profile}`, null, signal);
-      setUser(response.data);
-    };
-    request();
-    return function () {
-      console.log("Profile data unmounting...");
-      controller.abort();
-    };
-  }, [profile]);
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
+  //   const request = async () => {
+  //     const response = await fetchDB(`/user/${profile}`, null, signal);
+  //     setUser(response.data);
+  //   };
+  //   request();
+  //   return function () {
+  //     console.log("Profile data unmounting...");
+  //     controller.abort();
+  //   };
+  // }, [profile]);
 
   return (
     <>
@@ -39,9 +39,9 @@ function Profile(props) {
               name={user.profile && user.profile.name}
               tweetCount={tweetCount}
             />
-            <ProfileBox user={user} username={auth.data.user.username} />
+            <ProfileBox user={user} username={"auth.data.user.username"} />
             <Feed
-              auth={auth.data}
+              auth={"auth.data"}
               reload={reload}
               setReload={setReload}
               tweetCount={tweetCount}

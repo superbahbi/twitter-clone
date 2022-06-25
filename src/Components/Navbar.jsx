@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import List from "./List";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 const Nav = styled.div`
   position: fixed;
 `;
@@ -15,8 +16,9 @@ const ListStyle = styled.ul`
 `;
 
 function Navbar(props) {
+  const nagivate = useNavigate();
+  const { logout } = useContext(AuthContext);
   const [isActive, setIsActive] = useState("home");
-  let history = useHistory();
   const navList = [
     { id: "home", name: "Home", icon: "ion-ios-home" },
     { id: "explorer", name: "Explorer", icon: "ion-ios-location" },
@@ -28,13 +30,12 @@ function Navbar(props) {
   ];
   function handleLogout(event) {
     event.preventDefault();
-    // Remove the token from localStorage
-    localStorage.removeItem("authData");
-    history.push("/");
+    logout();
+    nagivate("/login");
   }
   function onHandleClick(id) {
     setIsActive(id);
-    history.push(`/${id}`);
+    nagivate(`/${id}`);
   }
   return (
     <Nav>
@@ -45,7 +46,7 @@ function Navbar(props) {
           icon="icon ion-ios-paw"
           color="#1da1f2"
           onHandleClick={() => {
-            history.push("/home");
+            nagivate("/home");
           }}
         />
 

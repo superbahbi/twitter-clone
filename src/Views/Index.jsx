@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from ".././Components/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -35,7 +36,14 @@ const LoginDarkIllustration = styled.div`
   color: #1da1f2;
 `;
 function Index() {
-  let history = useHistory();
+  const navigate = useNavigate();
+  const { state, tryLocalSignin } = useContext(AuthContext);
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
+  if (state.token) {
+    navigate("/home");
+  }
   return (
     <BackgroundGradient>
       <Container>
@@ -56,18 +64,14 @@ function Index() {
                     name="button"
                     type="submit"
                     label="Sign up"
-                    handleClick={() => {
-                      history.push("/signup");
-                    }}
+                    handleClick={() => navigate("/signup")}
                   />
                   <Button
                     primary
                     name="button"
                     type="submit"
                     label="Log in"
-                    handleClick={() => {
-                      history.push("/login");
-                    }}
+                    handleClick={() => navigate("/login")}
                   />
                 </Col>
               </Row>

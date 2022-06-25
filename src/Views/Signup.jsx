@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import { fetchDB } from "../Helper/fetch";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -56,41 +56,28 @@ const StyledFormControl = styled(Form.Control)`
     background: #1e2833;
   }
 `;
-const Text = styled.a`
+const TextLink = styled(Link)`
   color: #1da1f2;
   font-size: 100%;
   font-weight: 400;
 `;
 function Signup() {
-  const history = useHistory();
-  const [requestError, setRequestError] = useState();
+  const navigate = useNavigate();
+  const { state, signup, tryLocalSignin } = useContext(AuthContext);
   const { register, handleSubmit, errors, watch } = useForm(); // initialise the hook
-  const onSubmit = async (data) => {
-    const method = {
-      method: "POST",
-      headers: {
-        Accept: "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: formurlencoded(data),
-    };
-    try {
-      const response = await fetchDB("/signup", method);
-      if (response.status === 200) {
-        history.push("/login");
-      } else if (response.status === 400) {
-        setRequestError(response.data);
-      }
-    } catch {
-      setRequestError([
-        {
-          name: "error",
-          message: "Unable to reach the server.",
-        },
-      ]);
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
+  if (state.token) {
+    navigate("/home");
+  }
+  const onSubmit = async (data, event) => {
+    event.preventDefault();
+    signup(data);
+    if (state.token && state.user) {
+      navigate("/home");
     }
   };
-
   return (
     <BackgroundGradient>
       <Container>
@@ -104,14 +91,14 @@ function Signup() {
                       <LoginDarkIllustration>
                         <i className="icon ion-ios-paper-outline"></i>
                       </LoginDarkIllustration>
-                      {requestError &&
+                      {/* {requestError &&
                         requestError.map((i, index) => (
                           <Alert variant="danger" key={index}>
                             {i.code === 11000
                               ? "Email address already exist"
                               : i.message}
                           </Alert>
-                        ))}
+                        ))} */}
                       <Form.Group>
                         <StyledFormControl
                           type="text"
@@ -205,7 +192,7 @@ function Signup() {
 
                       <div className="text-center">
                         Have an account already?
-                        <Text href="login"> Log in</Text>
+                        <TextLink to="/login"> Log in</TextLink>
                       </div>
                     </StyledForm>
                   </Col>

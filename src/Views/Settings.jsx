@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import { authContext } from "../Contexts/AuthContext";
+// import { authContext } from "../Contexts/AuthContex";
 import { useMediaQuery } from "react-responsive";
 import Sidebar from "../Components/Sidebar";
 import Header from ".././Components/Header";
@@ -45,7 +45,8 @@ const SettingsItem = styled.div`
 `;
 const InputFile = styled.input``;
 function Settings() {
-  const { auth } = useContext(authContext);
+  // const { state } = useContext(authContext);
+  const state = "";
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
@@ -53,40 +54,40 @@ function Settings() {
   const [imgFile, setImgFile] = useState("");
   const [type, setType] = useState("");
   const inputRef = useRef();
-  const user = auth.data.user;
+  const user = state.data.user;
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)",
   });
-  useEffect(() => {
-    const controller = new AbortController();
-    // const signal = controller.signal;
-    if (imgFile) {
-      const url = process.env.REACT_APP_API_URL + "/api/upload";
-      const formData = new FormData();
-      formData.append("image", imgFile);
-      formData.append("type", type);
-      formData.append("username", auth.data.user.username);
-      const request = async (id = 100) => {
-        const postUpload = await fetch(url, {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + auth.data.token,
-          },
-          body: formData,
-        });
-        await postUpload.json();
-        if (postUpload.status === 200) {
-          console.log(postUpload);
-          console.log("Upload avatar/cover");
-        }
-      };
-      request();
-    }
-    return function () {
-      console.log("Settings data unmounting...");
-      controller.abort();
-    };
-  }, [imgFile, auth.data.token, auth.data.user.username, type]);
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   // const signal = controller.signal;
+  //   if (imgFile) {
+  //     const url = process.env.REACT_APP_API_URL + "/api/upload";
+  //     const formData = new FormData();
+  //     formData.append("image", imgFile);
+  //     formData.append("type", type);
+  //     formData.append("username", auth.data.user.username);
+  //     const request = async (id = 100) => {
+  //       const postUpload = await fetch(url, {
+  //         method: "POST",
+  //         headers: {
+  //           Authorization: "Bearer " + auth.data.token,
+  //         },
+  //         body: formData,
+  //       });
+  //       await postUpload.json();
+  //       if (postUpload.status === 200) {
+  //         console.log(postUpload);
+  //         console.log("Upload avatar/cover");
+  //       }
+  //     };
+  //     request();
+  //   }
+  //   return function () {
+  //     console.log("Settings data unmounting...");
+  //     controller.abort();
+  //   };
+  // }, [imgFile, auth.data.token, auth.data.user.username, type]);
   return (
     <>
       <Col xs={12} md={8} lg={6}>
@@ -104,7 +105,7 @@ function Settings() {
                   placeholder={user.profile.name}
                   type="input"
                   childRef={inputRef}
-                  auth={auth.data}
+                  auth={state.data}
                 >
                   <input
                     ref={inputRef}
@@ -128,7 +129,7 @@ function Settings() {
                   placeholder={user.profile.bio}
                   type="input"
                   childRef={inputRef}
-                  auth={auth.data}
+                  auth={state.data}
                 >
                   <input
                     ref={inputRef}
@@ -152,7 +153,7 @@ function Settings() {
                   placeholder={user.profile.location}
                   type="input"
                   childRef={inputRef}
-                  auth={auth.data}
+                  auth={state.data}
                 >
                   <input
                     ref={inputRef}
@@ -176,7 +177,7 @@ function Settings() {
                   placeholder={user.profile.website}
                   type="input"
                   childRef={inputRef}
-                  auth={auth.data}
+                  auth={state.data}
                 >
                   <input
                     ref={inputRef}

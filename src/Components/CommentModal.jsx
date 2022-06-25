@@ -5,7 +5,7 @@ import Button from "../Components/Button";
 import Textarea from ".././Components/Textarea";
 import styled from "styled-components";
 import moment from "moment";
-import { useHistory } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import formurlencoded from "form-urlencoded";
 const TweetContainer = styled.div`
   padding: 0.5em;
@@ -38,7 +38,6 @@ const FeedContent = styled.span`
 `;
 
 function CommentModal(props) {
-  const history = useHistory();
   const commentData = useRef("");
   function onFormSubmit(e) {
     e.preventDefault();
@@ -49,7 +48,7 @@ function CommentModal(props) {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: "Bearer " + props.auth.token
+          Authorization: "Bearer " + props.auth.token,
         },
         body: formurlencoded({
           name: props.auth && props.auth.user.profile.name,
@@ -57,17 +56,17 @@ function CommentModal(props) {
           comment: commentData.current.value,
           tweetId: props.tweet && props.tweet._id,
           profileId: props.auth && props.auth.user._id,
-          avatar: props.auth && props.auth.user.profile.avatar.filename
-        })
+          avatar: props.auth && props.auth.user.profile.avatar.filename,
+        }),
       });
       await postComment.json();
       if (postComment.status === 200) {
         console.log("Added new comment");
-        history.push();
+        Navigate();
         props.setShow({
           ...props.show,
           status: false,
-          id: null
+          id: null,
         });
       }
     };

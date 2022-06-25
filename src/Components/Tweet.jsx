@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
@@ -82,36 +82,36 @@ const InputFile = styled.input`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 `;
-function Tweet(props) {
+function Tweet({ token, user, id, username, avatar }) {
   const tweetData = useRef("");
   const [reload, setReload] = useState();
   const [imgPreview, setImgPreview] = useState("");
   const [imgFile, setImgFile] = useState("");
   function onFormSubmit(e) {
     e.preventDefault();
-    const url = process.env.REACT_APP_API_URL + "/api/tweet";
-    const formData = new FormData();
-    formData.append("image", imgFile);
-    formData.append("tweet", tweetData.current.value);
-    formData.append("type", "tweetImg");
-    const request = async (id = 100) => {
-      const postTweet = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + props.auth.token,
-        },
-        body: formData,
-      });
-      await postTweet.json();
-      if (postTweet.status === 200) {
-        console.log("Added new tweet");
-        setImgPreview("");
-        setImgFile("");
-        setReload(true);
-      }
-    };
-    request();
-    e.target.reset();
+    // const url = process.env.REACT_APP_API_URL + "/api/tweet";
+    // const formData = new FormData();
+    // formData.append("image", imgFile);
+    // formData.append("tweet", tweetData.current.value);
+    // formData.append("type", "tweetImg");
+    // const request = async (id = 100) => {
+    //   const postTweet = await fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //       Authorization: "Bearer " + props.auth.token,
+    //     },
+    //     body: formData,
+    //   });
+    //   await postTweet.json();
+    //   if (postTweet.status === 200) {
+    //     console.log("Added new tweet");
+    //     setImgPreview("");
+    //     setImgFile("");
+    //     setReload(true);
+    //   }
+    // };
+    // request();
+    // e.target.reset();
   }
   function handleChange(event) {
     console.log("changed");
@@ -122,7 +122,7 @@ function Tweet(props) {
     <div>
       <TweetBox>
         <AvatarBox>
-          <Avatar name={props.username} src={props.avatar} />
+          <Avatar name={username} src={avatar} />
         </AvatarBox>
         <InputTweetBox>
           <form onSubmit={onFormSubmit}>
@@ -130,7 +130,7 @@ function Tweet(props) {
               <Textarea
                 type="text"
                 name="Tweet"
-                value={props.value}
+                // value={props.value}
                 placeholder="What's Happening"
                 autocomplete="off"
                 projectRef={tweetData}
@@ -185,10 +185,11 @@ function Tweet(props) {
       </TweetBox>
       <TweetDivider></TweetDivider>
       <Feed
-        auth={props.auth}
+        token={token}
+        user={user}
+        id={id}
         setReload={setReload}
         reload={reload}
-        location="home"
       />
     </div>
   );

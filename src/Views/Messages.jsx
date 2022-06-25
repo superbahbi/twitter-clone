@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { authContext } from "../Contexts/AuthContext";
+import { Navigate } from "react-router-dom";
+// import { authContext } from "../Contexts/AuthContex";
 
 // NPM components
 import { Row, Col } from "react-bootstrap";
@@ -51,9 +51,9 @@ const SelectMessage = styled.div`
 `;
 
 function Messages() {
-  const history = useHistory();
-  const { auth } = useContext(authContext);
-  const user = auth.data.user;
+  // const { state } = useContext(authContext);
+  const state = "";
+  const user = state.data.user;
   const [allUser, setAllUser] = useState([]);
   const [chatRoom, setChatRoom] = useState([]);
   const [selectUser, setSelectUser] = useState({});
@@ -87,7 +87,7 @@ function Messages() {
           method: "GET",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: "Bearer " + auth.data.token,
+            Authorization: "Bearer " + state.token,
           },
         },
         { signal }
@@ -175,7 +175,7 @@ function Messages() {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer " + auth.data.token,
+        Authorization: "Bearer " + state.token,
       },
       body: formurlencoded(data),
     });
@@ -193,7 +193,7 @@ function Messages() {
     setDmUsers([...dmUsers, updateChatData]);
     setChatRoom((prev) => [...prev, updateChatData]);
     socket.emit("join", data);
-    history.push("/messages/" + updatedRoomName);
+    Navigate("/messages/" + updatedRoomName);
     console.log("Chat room created");
   };
   const onHandleRoomClick = (room) => {
@@ -203,7 +203,7 @@ function Messages() {
       headers: {
         Accept: "application/x-www-form-urlencoded",
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer " + auth.data.token,
+        Authorization: "Bearer " + state.token,
       },
     })
       .then((results) => results.json())
@@ -214,7 +214,7 @@ function Messages() {
     setChannel(room._id);
     setSelectUser(room);
     socket.emit("join", { _id: room._id });
-    history.push("/messages/" + room._id);
+    Navigate("/messages/" + room._id);
   };
   const onUpdateMessageSubmit = (data, e) => {
     if (!data) return;

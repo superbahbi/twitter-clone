@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import moment from "moment";
 import styled from "styled-components";
 import Button from ".././Components/Button";
@@ -74,10 +74,8 @@ const ProfileButton = styled.div`
 
 function ProfileBox(props) {
   function onHandleClick() {
-    console.log("clicked");
-    history.push("/settings");
+    Navigate("/settings");
   }
-  const history = useHistory();
   const user = props.user;
   const username = props.user.username;
   return (

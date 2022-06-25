@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
@@ -37,7 +37,7 @@ const ProfileTweetCount = styled.div`
   padding-left: 10px;
 `;
 function Header(props) {
-  let history = useHistory();
+  const navigate = useNavigate();
   return (
     <HeaderContainer>
       {props.iconLeft && (
@@ -47,7 +47,7 @@ function Header(props) {
             color="#1da1f2"
             size="30px"
             handleClick={() => {
-              history.goBack();
+              navigate(-1);
             }}
           />
         </Col>

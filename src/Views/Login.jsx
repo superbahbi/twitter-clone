@@ -1,10 +1,7 @@
-import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { authContext } from "../Contexts/AuthContext";
-import { Context as AuthReducerContext } from "../Contexts/AuthReducerContext";
-import { fetchDB } from "../Helper/fetch";
-import formurlencoded from "form-urlencoded";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import styled from "styled-components";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -57,18 +54,29 @@ const StyledFormControl = styled(Form.Control)`
 const StyleCheckbox = styled(Form.Check)`
   color: #6c757d;
 `;
-const Text = styled.a`
+const TextLink = styled(Link)`
   color: #1da1f2;
   font-size: 100%;
   font-weight: 400;
 `;
 function Login() {
-  const history = useHistory();
-  const { setAuthData } = useContext(authContext);
-  const { state, signin, clearErrorMessage } = useContext(AuthReducerContext);
-  const [requestError, setRequestError] = useState();
-
+  const navigate = useNavigate();
+  const { state, signin, tryLocalSignin } = useContext(AuthContext);
   const { register, handleSubmit, errors } = useForm();
+
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
+  if (state.token) {
+    navigate("/home");
+  }
+  const onSubmit = (data, event) => {
+    event.preventDefault();
+    signin(data);
+    if (state.token && state.user) {
+      navigate("/home");
+    }
+  };
   return (
     <BackgroundGradient>
       <Container>
@@ -78,7 +86,7 @@ function Login() {
               <Card.Body className="p-0">
                 <Row>
                   <Col lg={12}>
-                    <StyledForm onSubmit={handleSubmit((data) => signin(data))}>
+                    <StyledForm onSubmit={handleSubmit(onSubmit)}>
                       <LoginDarkIllustration>
                         <i className="icon ion-ios-locked-outline"></i>
                       </LoginDarkIllustration>
@@ -115,11 +123,11 @@ function Login() {
                       <Button primary label="Login" type="submit" />
                       <hr />
                       <div className="text-center">
-                        <Text href="forgot">Forgot Password?</Text>
+                        <TextLink to="/forgot">Forgot Password?</TextLink>
                       </div>
                       <div className="text-center">
                         Don't have an account?
-                        <Text href="signup"> Sign up</Text>
+                        <TextLink to="/signup"> Sign up</TextLink>
                       </div>
                     </StyledForm>
                   </Col>

@@ -5,7 +5,6 @@ const instance = axios.create({
 });
 instance.interceptors.request.use(
   async (config) => {
-    console.log(config);
     const token = localStorage.getItem("token");
     if (token) {
       config.headers["Access-Control-Allow-Origin"] = "*";

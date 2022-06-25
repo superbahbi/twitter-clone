@@ -1,18 +1,18 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import Routes from "./Routes";
-import AuthProvider from "./Contexts/AuthContext";
-import { Provider as AuthReducerContext } from "./Contexts/AuthReducerContext";
+import CustomRoutes from "./CustomRoutes";
+import { Provider as AuthProvider } from "./Contexts/AuthContext";
+import { Provider as TweetProvider } from "./Contexts/TweetContext";
 
 function App() {
   return (
-    <AuthReducerContext>
-      <AuthProvider>
+    <AuthProvider>
+      <TweetProvider>
         <BrowserRouter>
-          <Routes />
+          <CustomRoutes />
         </BrowserRouter>
-      </AuthProvider>
-    </AuthReducerContext>
+      </TweetProvider>
+    </AuthProvider>
   );
 }
 
