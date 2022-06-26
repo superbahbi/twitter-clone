@@ -8,6 +8,7 @@ import Bookmarks from "./bookmarks";
 import Lists from "./lists";
 import Profile from "./profile";
 import More from "./more";
+import Threedot from "./threedot";
 export {
   Paw,
   Twitter,
@@ -19,4 +20,5 @@ export {
   Lists,
   Profile,
   More,
+  Threedot,
 };

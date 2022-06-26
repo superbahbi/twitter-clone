@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import Button from "../Components/Button";
+import List from "../Components/List";
+import Avatar from "./Avatar";
 import Col from "react-bootstrap/Col";
 import {
   Twitter,
@@ -14,9 +16,11 @@ import {
   Lists,
   Profile,
   More,
+  Threedot,
 } from "../Assets/Icon";
 const NavbarContainer = styled(Col)`
   padding: 0px 12px;
+  height: 100vh;
 `;
 const Nav = styled.nav`
   position: fixed;
@@ -32,38 +36,60 @@ const ListStyle = styled.ul`
   :hover {
   }
 `;
-const ListItem = styled.li`
+const NavProfileContainer = styled.div`
   display: flex;
   height: 58.25px
-
-  color: ${(props) => (props.brand ? "#1da1f2" : "#000")};
-
+  color:"#000"
   cursor: pointer;
-
+  position: fixed;
+  bottom: 0;
+  padding: 12px 0px;
 `;
-const ListContainer = styled.div`
-  display: inline-flex;
+const NavProfile = styled.div`
+  display: flex;
   padding: 12px 12px;
-  svg {
-    width: ${(props) => (props.brand ? "30px" : "26.25px")};
-    height: ${(props) => (props.brand ? "30px" : "26.25px")};
-    fill: ${(props) => (props.brand ? "#1da1f2" : "#000")};
-  }
+  width: 251px;
   :hover {
     border-radius: 30px;
     background-color: ${(props) => (props.brand ? "#e8f5fe" : "#E7E7E8")};
   }
+  .text {
+    display: grid;
+    vertical-align: middle;
+    padding: 0px 12px;
+  }
+  .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f1419;
+    height: 15px;
+  }
+  .username {
+    font-size: 15px;
+    font-weight: 300;
+    color: #436471;
+    height: 15px;
+  }
+  .threedot {
+    align-self: center;
+    margin-left: auto;
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: #0f1419;
+    }
+  }
 `;
-const ListText = styled.p`
-  font-size: 20px;
-  padding: 0px 12px;
-  margin: auto;
-  font-weight: ${(props) => (props.active ? "bold" : "normal")};
-`;
-
 function Navbar() {
   const nagivate = useNavigate();
   const { state, logout } = useContext(AuthContext);
+  const {
+    username,
+    profile: { name },
+    profile: {
+      avatar: { filename },
+    },
+  } = state.user;
   const [isActive, setIsActive] = useState("home");
 
   function handleLogout() {
@@ -89,66 +115,67 @@ function Navbar() {
           />
 
           <List
-            active={isActive === "Home" ? true : false}
-            id="Home"
+            active={isActive === "home" ? true : false}
+            id="home"
             name="Home"
-            icon={<Home active={isActive === "Home" ? true : false} />}
-            onHandleClick={() => onHandleClick("Home")}
+            icon={<Home active={isActive === "home" ? true : false} />}
+            onHandleClick={() => onHandleClick("home")}
           />
           <List
-            active={isActive === "Explorer" ? true : false}
-            id="Explorer"
+            active={isActive === "explorer" ? true : false}
+            id="explorer"
             name="Explorer"
-            icon={<Explorer active={isActive === "Explorer" ? true : false} />}
-            onHandleClick={() => onHandleClick("Explorer")}
+            icon={<Explorer active={isActive === "explorer" ? true : false} />}
+            onHandleClick={() => onHandleClick("explorer")}
           />
           <List
-            active={isActive === "Notification" ? true : false}
-            id="Notification"
+            active={isActive === "notification" ? true : false}
+            id="notification"
             name="Notification"
             icon={
               <Notification
-                active={isActive === "Notification" ? true : false}
+                active={isActive === "notification" ? true : false}
               />
             }
-            onHandleClick={() => onHandleClick("Notification")}
+            onHandleClick={() => onHandleClick("notification")}
           />
           <List
-            active={isActive === "Messages" ? true : false}
-            id="Messages"
+            active={isActive === "messages" ? true : false}
+            id="messages"
             name="Messages"
-            icon={<Messages active={isActive === "Messages" ? true : false} />}
-            onHandleClick={() => onHandleClick("Messages")}
+            icon={<Messages active={isActive === "messages" ? true : false} />}
+            onHandleClick={() => onHandleClick("messages")}
           />
           <List
-            active={isActive === "Bookmarks" ? true : false}
-            id="Bookmarks"
+            active={isActive === "bookmarks" ? true : false}
+            id="bookmarks"
             name="Bookmarks"
             icon={
-              <Bookmarks active={isActive === "Bookmarks" ? true : false} />
+              <Bookmarks active={isActive === "bookmarks" ? true : false} />
             }
-            onHandleClick={() => onHandleClick("Bookmarks")}
+            onHandleClick={() => onHandleClick("bookmarks")}
           />
           <List
-            active={isActive === "Lists" ? true : false}
-            id="Lists"
+            active={isActive === "lists" ? true : false}
+            id="lists"
             name="Lists"
-            icon={<Lists active={isActive === "Lists" ? true : false} />}
-            onHandleClick={() => onHandleClick("Lists")}
+            icon={<Lists active={isActive === "lists" ? true : false} />}
+            onHandleClick={() => onHandleClick("lists")}
           />
           <List
-            active={isActive === "Profile" ? true : false}
-            id="Profile"
+            active={isActive === "profile" ? true : false}
+            id="profile"
             name="Profile"
-            icon={<Profile active={isActive === "Profile" ? true : false} />}
-            onHandleClick={() => onHandleClick("Profile")}
+            icon={<Profile active={isActive === "profile" ? true : false} />}
+            onHandleClick={() => onHandleClick("profile")}
           />
           <List
             // active={isActive === "Settings" ? true : false}
-            id="More"
+            id="more"
             name="More"
             icon={<More />}
             onHandleClick={() => onHandleClick("Settings")}
+            paddingBottom="5px"
           />
 
           {/* <List
@@ -159,7 +186,7 @@ function Navbar() {
           /> */}
           <Button
             large
-            id="tweets"
+            id="tweet"
             name="button"
             type="submit"
             label="Tweet"
@@ -170,17 +197,24 @@ function Navbar() {
           />
         </ListStyle>
       </Nav>
+      <NavProfileContainer>
+        <NavProfile>
+          <div>
+            <Avatar mini src={filename} height="40px" width="40px" />
+          </div>
+
+          <div className="text">
+            <span className="name">{name}</span>
+            <span className="username">@{username}</span>
+          </div>
+
+          <span className="threedot">
+            <Threedot />
+          </span>
+        </NavProfile>
+      </NavProfileContainer>
     </NavbarContainer>
   );
 }
-function List(props) {
-  return (
-    <ListItem id={props.id} brand={props.brand} onClick={props.onHandleClick}>
-      <ListContainer brand={props.brand}>
-        <i>{props.icon}</i>
-        {props.name && <ListText active={props.active}>{props.name}</ListText>}
-      </ListContainer>
-    </ListItem>
-  );
-}
+
 export default Navbar;
