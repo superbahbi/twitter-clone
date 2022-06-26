@@ -162,7 +162,7 @@ const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
           </FormCol>
           <FormCol sm={2}>
             <SendIconButton
-              icon="ion-ios-arrow-left"
+              icon="ion-ios-paperplane-outline"
               color="#1da1f2"
               size="30px"
               type="submit"

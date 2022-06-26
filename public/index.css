@@ -1,5 +1,6 @@
 @font-face {
     font-family: 'Chirp';
+    font-weight: 300;
     src: local('Chirp'), url(./assets/fonts/chirp-regular-web.woff) format('woff');
 }
 

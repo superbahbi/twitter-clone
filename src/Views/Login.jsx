@@ -1,9 +1,7 @@
-import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { authContext } from "../Contexts/AuthContext";
-import { fetchDB } from "../Helper/fetch";
-import formurlencoded from "form-urlencoded";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import styled from "styled-components";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -56,42 +54,25 @@ const StyledFormControl = styled(Form.Control)`
 const StyleCheckbox = styled(Form.Check)`
   color: #6c757d;
 `;
-const Text = styled.a`
+const TextLink = styled(Link)`
   color: #1da1f2;
-  font-size: 80%;
+  font-size: 100%;
   font-weight: 400;
 `;
 function Login() {
-  const history = useHistory();
-  const { setAuthData } = useContext(authContext);
-  const [requestError, setRequestError] = useState();
+  const navigate = useNavigate();
+  const { state, signin, tryLocalSignin } = useContext(AuthContext);
+  const { register, handleSubmit, errors } = useForm();
 
-  const { register, handleSubmit, errors } = useForm(); // initialise the hook
-  const onSubmit = async (data) => {
-    const method = {
-      method: "POST",
-      headers: {
-        Accept: "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: formurlencoded(data),
-    };
-    try {
-      const response = await fetchDB("/login", method);
-      if (response.status === 200) {
-        setAuthData(response.data);
-        history.push("/home");
-      } else if (response.status === 400) {
-        setRequestError(response.data);
-      }
-    } catch {
-      setRequestError([
-        {
-          name: "error",
-          message: "Unable to reach the server.",
-        },
-      ]);
-    }
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
+  if (state.token) {
+    navigate("/home");
+  }
+  const onSubmit = (data, event) => {
+    event.preventDefault();
+    signin(data);
   };
   return (
     <BackgroundGradient>
@@ -106,12 +87,9 @@ function Login() {
                       <LoginDarkIllustration>
                         <i className="icon ion-ios-locked-outline"></i>
                       </LoginDarkIllustration>
-                      {requestError &&
-                        requestError.map((i, index) => (
-                          <Alert variant="danger" key={index}>
-                            {i.message}
-                          </Alert>
-                        ))}
+                      {state.errorMessage ? (
+                        <Alert variant="danger">{state.errorMessage}</Alert>
+                      ) : null}
                       <Form.Group>
                         <StyledFormControl
                           type="text"
@@ -142,10 +120,11 @@ function Login() {
                       <Button primary label="Login" type="submit" />
                       <hr />
                       <div className="text-center">
-                        <Text href="forgot">Forgot Password?</Text>
+                        <TextLink to="/forgot">Forgot Password?</TextLink>
                       </div>
                       <div className="text-center">
-                        <Text href="signup">Create an Account!</Text>
+                        Don't have an account?
+                        <TextLink to="/signup"> Sign up</TextLink>
                       </div>
                     </StyledForm>
                   </Col>

@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
-import Navbar from ".././Components/Navbar";
+import React, { useContext, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { Route, Redirect } from "react-router-dom";
-import { authContext } from "../Contexts/AuthContext";
-import ClipLoader from "react-spinners/ClipLoader";
-
+import { Navigate } from "react-router-dom";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import { useMediaQuery } from "react-responsive";
+import ClipLoader from "react-spinners/ClipLoader";
+import styled from "styled-components";
+import Navbar from "../Components/Navbar";
+
 const Spinner = styled.div`
   position: absolute;
   height: 100px;
@@ -19,50 +18,32 @@ const Spinner = styled.div`
   margin-top: -50px;
   background-size: 100%;
 `;
-
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { auth } = useContext(authContext);
-  const { loading } = auth;
-
+function PrivateRoute({ children }) {
+  const { state, tryLocalSignin } = useContext(AuthContext);
   const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-device-width: 1224px)",
+    query: "(min-width: 1224px)",
   });
-  if (loading) {
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
+  if (state.loading) {
     return (
-      <Route
-        {...rest}
-        render={() => {
-          return (
-            <Spinner>
-              <ClipLoader size={150} color={"#1DA1F2"} loading={loading} />
-            </Spinner>
-          );
-        }}
-      />
+      <Spinner>
+        <ClipLoader size={150} color={"#1DA1F2"} loading={state.loading} />
+      </Spinner>
     );
   }
-  // if loading is set to true (when our function useEffect(() => {}, []) is not executed), we are rendering a loading component;
-  return (
-    <Route
-      {...rest}
-      render={(routeProps) => {
-        return auth.data ? (
-          <Container>
-            <Row>
-              {isDesktopOrLaptop && (
-                <Col lg={3}>
-                  <Navbar username={auth.data && auth.data.user.username} />
-                </Col>
-              )}
-              <Component {...routeProps} />
-            </Row>
-          </Container>
-        ) : (
-          <Redirect to="/login" />
-        );
-      }}
-    />
+
+  return state.token && state.user ? (
+    <Container>
+      <Row>
+        {isDesktopOrLaptop && <Navbar username={state.user.username} />}
+        {children}
+      </Row>
+    </Container>
+  ) : (
+    <Navigate to="/login" />
   );
-};
+}
 
 export default PrivateRoute;

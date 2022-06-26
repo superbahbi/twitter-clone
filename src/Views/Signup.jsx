@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import { fetchDB } from "../Helper/fetch";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,7 +10,6 @@ import styled from "styled-components";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from ".././Components/Button";
-import formurlencoded from "form-urlencoded";
 const ErrorBar = styled.div`
   border-bottom: 2px solid;
   border-color: red;
@@ -56,36 +55,26 @@ const StyledFormControl = styled(Form.Control)`
     background: #1e2833;
   }
 `;
+const TextLink = styled(Link)`
+  color: #1da1f2;
+  font-size: 100%;
+  font-weight: 400;
+`;
 function Signup() {
-  const history = useHistory();
-  const [requestError, setRequestError] = useState();
+  const navigate = useNavigate();
+  const { state, signup, tryLocalSignin } = useContext(AuthContext);
   const { register, handleSubmit, errors, watch } = useForm(); // initialise the hook
-  const onSubmit = async (data) => {
-    const method = {
-      method: "POST",
-      headers: {
-        Accept: "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: formurlencoded(data),
-    };
-    try {
-      const response = await fetchDB("/signup", method);
-      if (response.status === 200) {
-        history.push("/login");
-      } else if (response.status === 400) {
-        setRequestError(response.data);
-      }
-    } catch {
-      setRequestError([
-        {
-          name: "error",
-          message: "Unable to reach the server.",
-        },
-      ]);
-    }
-  };
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
+  if (state.token) {
+    navigate("/login");
+  }
 
+  const onSubmit = async (data, event) => {
+    event.preventDefault();
+    signup(data);
+  };
   return (
     <BackgroundGradient>
       <Container>
@@ -99,14 +88,14 @@ function Signup() {
                       <LoginDarkIllustration>
                         <i className="icon ion-ios-paper-outline"></i>
                       </LoginDarkIllustration>
-                      {requestError &&
+                      {/* {requestError &&
                         requestError.map((i, index) => (
                           <Alert variant="danger" key={index}>
                             {i.code === 11000
                               ? "Email address already exist"
                               : i.message}
                           </Alert>
-                        ))}
+                        ))} */}
                       <Form.Group>
                         <StyledFormControl
                           type="text"
@@ -151,6 +140,19 @@ function Signup() {
                       </Form.Group>
                       <Form.Group>
                         <StyledFormControl
+                          type="text"
+                          id="inputName"
+                          placeholder="Enter name"
+                          name="name"
+                          autoComplete="name"
+                          ref={register({
+                            required: true,
+                          })}
+                        />
+                        {errors.name && <ErrorBar></ErrorBar>}
+                      </Form.Group>
+                      <Form.Group>
+                        <StyledFormControl
                           type="email"
                           id="inputEmail"
                           placeholder="Enter email address"
@@ -178,25 +180,16 @@ function Signup() {
                         </StyledFormControl>
                         {errors.gender && <ErrorBar></ErrorBar>}
                       </Form.Group>
-                      <Form.Group>
-                        <StyledFormControl
-                          type="number"
-                          id="inputPhone"
-                          placeholder="Enter phone number"
-                          name="phone"
-                          ref={register({
-                            required: true,
-                            minLength: 6,
-                            maxLength: 12,
-                          })}
-                        />
-                        {errors.phone && <ErrorBar></ErrorBar>}
-                      </Form.Group>
 
                       <Button primary label="Signup" type="submit">
                         Signup
                       </Button>
                       <hr />
+
+                      <div className="text-center">
+                        Have an account already?
+                        <TextLink to="/login"> Log in</TextLink>
+                      </div>
                     </StyledForm>
                   </Col>
                 </Row>

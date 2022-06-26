@@ -1,9 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
+import { Context as TweetContext } from "../Contexts/TweetContext";
 import styled from "styled-components";
 import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
 import Avatar from ".././Components/Avatar";
 import Feed from ".././Components/Feed";
+import MediaFrame from "./MediaFrame";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -82,47 +84,63 @@ const InputFile = styled.input`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 `;
-function Tweet(props) {
+function Tweet({ token, user, id, username, avatar }) {
+  const { state, addTweet, clearAddTweet } = useContext(TweetContext);
   const tweetData = useRef("");
   const [reload, setReload] = useState();
   const [imgPreview, setImgPreview] = useState("");
   const [imgFile, setImgFile] = useState("");
-  function onFormSubmit(e) {
+  const [videoPreview, setVideoPreview] = useState("");
+  const [videoLink, setVideoLink] = useState("");
+  useEffect(() => {
+    if (state.newTweet && state.newTweet.status === 200) {
+      setImgPreview("");
+      setImgFile("");
+      setVideoPreview("");
+      setVideoLink("");
+      tweetData.current.value = "";
+      setReload(true);
+      clearAddTweet();
+    }
+  }, [state]);
+  const onFormSubmit = (e) => {
     e.preventDefault();
-    const url = process.env.REACT_APP_API_URL + "/api/tweet";
     const formData = new FormData();
     formData.append("image", imgFile);
     formData.append("tweet", tweetData.current.value);
     formData.append("type", "tweetImg");
-    const request = async (id = 100) => {
-      const postTweet = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + props.auth.token,
-        },
-        body: formData,
+    formData.append("link", videoLink);
+    addTweet(formData);
+  };
+  function linkify(text) {
+    return text
+      .split(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi)
+      .filter(Boolean)
+      .filter((x) => {
+        return x.indexOf(".") > 0;
       });
-      await postTweet.json();
-      if (postTweet.status === 200) {
-        console.log("Added new tweet");
-        setImgPreview("");
-        setImgFile("");
-        setReload(true);
-      }
-    };
-    request();
-    e.target.reset();
+  }
+  function youtube_parser(url) {
+    var regExp =
+      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return match && match[7].length == 11 ? match[7] : false;
   }
   function handleChange(event) {
-    console.log("changed");
     setImgPreview(URL.createObjectURL(event.target.files[0]));
     setImgFile(event.target.files[0]);
   }
+  const textareaHandleChange = (event) => {
+    let id = youtube_parser(event.target.value);
+    let link = linkify(event.target.value);
+    setVideoPreview(id);
+    setVideoLink(link);
+  };
   return (
     <div>
       <TweetBox>
         <AvatarBox>
-          <Avatar name={props.username} src={props.avatar} />
+          <Avatar name={username} src={avatar} />
         </AvatarBox>
         <InputTweetBox>
           <form onSubmit={onFormSubmit}>
@@ -130,15 +148,34 @@ function Tweet(props) {
               <Textarea
                 type="text"
                 name="Tweet"
-                value={props.value}
+                // value={props.value}
                 placeholder="What's Happening"
                 autocomplete="off"
                 projectRef={tweetData}
+                onHandleChange={(event) => textareaHandleChange(event)}
               />
             </InputBox>
-            <InputBoxRow>
-              <ImgPreview src={imgPreview} />
-            </InputBoxRow>
+
+            {imgPreview && (
+              <InputBoxRow>
+                <MediaFrame onHandleMediaClose={() => setImgPreview("")}>
+                  <ImgPreview src={imgPreview} />
+                </MediaFrame>
+              </InputBoxRow>
+            )}
+
+            {videoPreview && (
+              <InputBoxRow>
+                <MediaFrame onHandleMediaClose={() => setVideoPreview("")}>
+                  <iframe
+                    width={300}
+                    src={`https://www.youtube.com/embed/${videoPreview}?autoplay=1&modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=0`}
+                    frameBorder="0"
+                  ></iframe>
+                </MediaFrame>
+              </InputBoxRow>
+            )}
+
             <InputBoxRow>
               <InputBoxGroup>
                 <FontAwesomeIcon icon="file" fixedWidth />
@@ -185,10 +222,11 @@ function Tweet(props) {
       </TweetBox>
       <TweetDivider></TweetDivider>
       <Feed
-        auth={props.auth}
+        token={token}
+        user={user}
+        id={id}
         setReload={setReload}
         reload={reload}
-        location="home"
       />
     </div>
   );

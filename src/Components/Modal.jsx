@@ -1,8 +1,6 @@
 import React from "react";
 import ReactModal from "react-bootstrap/Modal";
 import styled from "styled-components";
-
-// import { useHistory } from "react-router-dom";
 const CustomModal = styled(ReactModal)``;
 const CustomModalBody = styled(ReactModal.Body)`
   max-height: 500px;

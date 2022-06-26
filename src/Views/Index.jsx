@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from ".././Components/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -15,6 +16,9 @@ const BackgroundGradient = styled.div`
 const StyleCard = styled(Card)`
   background: none;
   border: none;
+  .button {
+    padding: 4px 0px;
+  }
 `;
 const SubHeading = styled.p`
   font-size: 2em;
@@ -35,7 +39,15 @@ const LoginDarkIllustration = styled.div`
   color: #1da1f2;
 `;
 function Index() {
-  let history = useHistory();
+  const navigate = useNavigate();
+  const { state, tryLocalSignin } = useContext(AuthContext);
+  useEffect(() => {
+    tryLocalSignin();
+    if (state.token) {
+      navigate("/home");
+    }
+  }, [state]);
+
   return (
     <BackgroundGradient>
       <Container>
@@ -51,24 +63,24 @@ function Index() {
                     See what’s happening in the world right now
                   </SubHeading>
                   <SubText>Join not twitter today.</SubText>
-                  <Button
-                    primary
-                    name="button"
-                    type="submit"
-                    label="Sign up"
-                    handleClick={() => {
-                      history.push("/signup");
-                    }}
-                  />
-                  <Button
-                    primary
-                    name="button"
-                    type="submit"
-                    label="Log in"
-                    handleClick={() => {
-                      history.push("/login");
-                    }}
-                  />
+                  <div className="button">
+                    <Button
+                      primary
+                      name="button"
+                      type="submit"
+                      label="Sign up"
+                      handleClick={() => navigate("/signup")}
+                    />
+                  </div>
+                  <div className="button">
+                    <Button
+                      primary
+                      name="button"
+                      type="submit"
+                      label="Log in"
+                      handleClick={() => navigate("/login")}
+                    />
+                  </div>
                 </Col>
               </Row>
             </StyleCard>

@@ -3,20 +3,24 @@ import styled from "styled-components";
 
 const StyledButton = styled.button`
   width: ${(props) => props.width || "100%"};
+  height: ${(props) => (props.large && "52px") || "30px"};
+  line-height: ${(props) => (props.large && "52px") || "30px"};
+
   color: ${(props) => (props.secondary && "#657786") || "#fff"};
   background-color: ${(props) => (props.secondary && "#fff") || "#1da1f2"};
-  text-align: center;
+
   /// Float right if right is true
   ${(props) => {
     return props.right && `position: absolute; right: 20px; top: 245px`;
   }};
-  font-size: ${(props) => (props.large && "24px") || "16px"};
+  font-size: ${(props) => (props.large && "17px") || "12px"};
+  font-weight: ${(props) => (props.large && "600") || "300"};
+  // padding: ${(props) => (props.large && "1rem 2rem") || ".5rem"};
+  // margin: ${(props) => (props.secondary && "0rem") || "0.25em;"};
+
+  border: none;
   border-radius: ${(props) =>
     (props.primary && "30px") || (props.large && "9999px") || "0px"};
-  padding: ${(props) => (props.large && "1rem 2rem") || ".5rem"};
-  margin: ${(props) => (props.secondary && "0rem") || "0.25em;"};
-  line-height: 1.5;
-  border: none;
   border-bottom: ${(props) => (props.secondary && "2px solid") || "none"};
   :focus {
     text-decoration: none;

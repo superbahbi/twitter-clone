@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import { authContext } from "../Contexts/AuthContext";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 import { useMediaQuery } from "react-responsive";
+import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import Header from ".././Components/Header";
 import Editable from ".././Components/Editable";
@@ -45,7 +46,7 @@ const SettingsItem = styled.div`
 `;
 const InputFile = styled.input``;
 function Settings() {
-  const { auth } = useContext(authContext);
+  const { state: authState } = useContext(AuthContext);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
@@ -53,7 +54,7 @@ function Settings() {
   const [imgFile, setImgFile] = useState("");
   const [type, setType] = useState("");
   const inputRef = useRef();
-  const user = auth.data.user;
+  const user = authState.user;
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)",
   });
@@ -65,12 +66,12 @@ function Settings() {
       const formData = new FormData();
       formData.append("image", imgFile);
       formData.append("type", type);
-      formData.append("username", auth.data.user.username);
+      formData.append("username", authState.user.username);
       const request = async (id = 100) => {
         const postUpload = await fetch(url, {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + auth.data.token,
+            Authorization: "Bearer " + authState.token,
           },
           body: formData,
         });
@@ -86,7 +87,7 @@ function Settings() {
       console.log("Settings data unmounting...");
       controller.abort();
     };
-  }, [imgFile, auth.data.token, auth.data.user.username, type]);
+  }, [imgFile, authState, type]);
   return (
     <>
       <Col xs={12} md={8} lg={6}>
@@ -104,7 +105,7 @@ function Settings() {
                   placeholder={user.profile.name}
                   type="input"
                   childRef={inputRef}
-                  auth={auth.data}
+                  auth={authState}
                 >
                   <input
                     ref={inputRef}
@@ -128,7 +129,7 @@ function Settings() {
                   placeholder={user.profile.bio}
                   type="input"
                   childRef={inputRef}
-                  auth={auth.data}
+                  auth={authState}
                 >
                   <input
                     ref={inputRef}
@@ -152,7 +153,7 @@ function Settings() {
                   placeholder={user.profile.location}
                   type="input"
                   childRef={inputRef}
-                  auth={auth.data}
+                  auth={authState}
                 >
                   <input
                     ref={inputRef}
@@ -176,7 +177,7 @@ function Settings() {
                   placeholder={user.profile.website}
                   type="input"
                   childRef={inputRef}
-                  auth={auth.data}
+                  auth={authState}
                 >
                   <input
                     ref={inputRef}

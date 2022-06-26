@@ -1,7 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { authContext } from "../Contexts/AuthContext";
-
+import { useNavigate } from "react-router-dom";
+import { Context as AuthContext } from "../Contexts/AuthContext";
+import { Context as UserContext } from "../Contexts/UserContext";
+import { useMediaQuery } from "react-responsive";
+// Local use hooks
+import useGetMessages from "../Hooks/useGetMessages";
 // NPM components
 import { Row, Col } from "react-bootstrap";
 import styled from "styled-components";
@@ -13,6 +16,7 @@ import Button from "../Components/Button";
 import Chat from ".././Components/Chat";
 import Modal from ".././Components/Modal";
 import Header from "../Components/Header";
+import Navbar from "../Components/Navbar";
 import SearchWithList from "../Components/SearchWithList";
 // Local helper functions
 // import { fetchDB } from "../Helper/fetch";
@@ -51,13 +55,17 @@ const SelectMessage = styled.div`
 `;
 
 function Messages() {
-  const history = useHistory();
-  const { auth } = useContext(authContext);
-  const user = auth.data.user;
+  const navigate = useNavigate();
+  const { state: authState } = useContext(AuthContext);
+  const { state: userState, getAllUser } = useContext(UserContext);
+  const [messages] = useGetMessages();
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
   const [allUser, setAllUser] = useState([]);
   const [chatRoom, setChatRoom] = useState([]);
   const [selectUser, setSelectUser] = useState({});
-  const [filterUsers, setFilterUsers] = useState([]);
+  const [filterUsers, setFilterUsers] = useState();
   const [dmUsers, setDmUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [searchChatRoom, setSearchChatRoom] = useState("");
@@ -74,67 +82,23 @@ function Messages() {
     });
     return () => newSocket.disconnect();
   }, []);
-
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    const request = async (id = 100) => {
-      const url = `${process.env.REACT_APP_API_URL}/api/getCurrentUserChatRoom/${user._id}`;
-      fetch(
-        url,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: "Bearer " + auth.data.token,
-          },
-        },
-        { signal }
-      )
-        .then((results) => results.json())
-        .then((data) => {
-          setChatRoom(data);
-          if (data.length > 0) {
-            setDmUsers(data);
-            setSelectUser(data[0]);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    request();
-    return function () {
-      console.log("Chat room data unmounting...");
-      controller.abort();
-    };
-  }, []);
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    let url = process.env.REACT_APP_API_URL;
-    fetch(`${url}/api/getAllUser`, { signal })
-      .then((results) => results.json())
-      .then((data) => {
-        setAllUser(data);
-        setFilterUsers(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return function () {
-      console.log("Messages data unmounting...");
-      controller.abort();
-    };
-  }, []);
+    getAllUser();
+    setChatRoom(authState.user.chatroom);
+    if (authState.user.chatroom.length > 0) {
+      setDmUsers(authState.user.chatroom);
+      setSelectUser(authState.user.chatroom[0]);
+    }
+  }, [chatRoom]);
   useEffect(() => {
     let temp = [];
-    allUser.map((user) =>
-      String(user.profile.name).toLowerCase().includes(search.toLowerCase())
-        ? temp.push(user)
-        : null
-    );
+    if (userState.allUser) {
+      userState.allUser.map((user) =>
+        String(user.profile.name).toLowerCase().includes(search.toLowerCase())
+          ? temp.push(user)
+          : null
+      );
+    }
     setFilterUsers(temp);
   }, [search]);
   useEffect(() => {
@@ -144,7 +108,6 @@ function Messages() {
         ? temp.push(user)
         : null
     );
-
     setDmUsers(temp);
   }, [searchChatRoom]);
   function onHandleModal() {
@@ -161,60 +124,50 @@ function Messages() {
     });
   }
   const onHandleSearchClick = (receiverData) => {
-    const url = process.env.REACT_APP_API_URL + "/api/createChatRoom";
-    const id = user._id + "-" + receiverData._id;
-    let split = id.split("-"); // ['user_id1', 'user_id2']
-    let unique = [...new Set(split)].sort((a, b) => (a < b ? -1 : 1)); // ['username1', 'username2']
-    let updatedRoomName = `${unique[0]}-${unique[1]}`; // 'username1--with--username2'
-    const data = {
-      _id: updatedRoomName,
-      sender: user,
-      receiver: receiverData,
-    };
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer " + auth.data.token,
-      },
-      body: formurlencoded(data),
-    });
+    // const url = process.env.REACT_APP_API_URL + "/api/createChatRoom";
+    // const id = user._id + "-" + receiverData._id;
+    // let split = id.split("-"); // ['user_id1', 'user_id2']
+    // let unique = [...new Set(split)].sort((a, b) => (a < b ? -1 : 1)); // ['username1', 'username2']
+    // let updatedRoomName = `${unique[0]}-${unique[1]}`; // 'username1--with--username2'
+    // const data = {
+    //   _id: updatedRoomName,
+    //   sender: user,
+    //   receiver: receiverData,
+    // };
+    // fetch(url, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/x-www-form-urlencoded",
+    //     Authorization: "Bearer " + state.token,
+    //   },
+    //   body: formurlencoded(data),
+    // });
 
-    const updateChatData = {
-      _id: updatedRoomName,
-      sender: user._id,
-      receiver: receiverData._id,
-      avatar: receiverData.profile.avatar.filename,
-      name: receiverData.profile.name,
-    };
-    onHandleModalClose();
-    setSelectUser(receiverData);
-    setChannel(updatedRoomName);
-    setDmUsers([...dmUsers, updateChatData]);
-    setChatRoom((prev) => [...prev, updateChatData]);
-    socket.emit("join", data);
-    history.push("/messages/" + updatedRoomName);
+    // const updateChatData = {
+    //   _id: updatedRoomName,
+    //   sender: user._id,
+    //   receiver: receiverData._id,
+    //   avatar: receiverData.profile.avatar.filename,
+    //   name: receiverData.profile.name,
+    // };
+    // onHandleModalClose();
+    // setSelectUser(receiverData);
+    // setChannel(updatedRoomName);
+    // setDmUsers([...dmUsers, updateChatData]);
+    // setChatRoom((prev) => [...prev, updateChatData]);
+    // socket.emit("join", data);
+    // Navigate("/messages/" + updatedRoomName);
     console.log("Chat room created");
   };
   const onHandleRoomClick = (room) => {
-    let url = process.env.REACT_APP_API_URL;
     setMessagesHistory([]);
-    fetch(`${url}/api/getMessages/${room._id}`, {
-      headers: {
-        Accept: "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer " + auth.data.token,
-      },
-    })
-      .then((results) => results.json())
-      .then((data) => {
-        setMessagesHistory(data);
-      });
+    messages(room._id);
 
+    socket.emit("join", { _id: room._id });
     setChannel(room._id);
     setSelectUser(room);
-    socket.emit("join", { _id: room._id });
-    history.push("/messages/" + room._id);
+    setMessagesHistory(userState.messages);
+    navigate("/messages/" + room._id);
   };
   const onUpdateMessageSubmit = (data, e) => {
     if (!data) return;
@@ -273,13 +226,13 @@ function Messages() {
         <Row>
           <MessageCol className="p-0">
             <MessagesBox>
-              {channel ? (
+              {channel && messagesHistory ? (
                 <Chat
                   socket={socket}
-                  user={user}
+                  user={userState}
                   receiverData={selectUser}
                   channel={channel}
-                  messagesHistory={messagesHistory}
+                  messagesHistory={userState.messages}
                   onUpdateMessageSubmit={onUpdateMessageSubmit}
                 />
               ) : (
