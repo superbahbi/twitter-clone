@@ -1,6 +1,5 @@
 import createDataContext from "./createDataContext";
 import api from "../Helper/api";
-import formurlencoded from "form-urlencoded";
 
 const tweetReducer = (state, action) => {
   switch (action.type) {
@@ -71,7 +70,7 @@ const likeTweet = (dispatch) => async (id) => {
 const addComment = (dispatch) => async (data) => {
   try {
     const response = await api.post("/api/comment", data);
-    // dispatch({ type: "add_tweet", payload: response });
+    dispatch({ type: "add_tweet", payload: response });
   } catch (error) {
     dispatch({
       type: "add_error",

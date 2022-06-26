@@ -41,7 +41,7 @@ const CommentTextarea = styled(Textarea)`
 `;
 
 function CommentModal({ auth, tweet, show, setShow, onHide }) {
-  const { state, addComment } = useContext(TweetContext);
+  const { addComment } = useContext(TweetContext);
   const commentData = useRef("");
 
   function onFormSubmit(e) {

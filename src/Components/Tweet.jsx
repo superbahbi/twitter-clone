@@ -76,36 +76,6 @@ const TweetButton = styled.div`
 const ImgPreview = styled.img`
   width: 100%;
 `;
-const VideoPreview = styled.div`
-  position: relative;
-  width: 300px;
-  .close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 25px;
-    height: 25px;
-    font-size: 0;
-  }
-  .close:before,
-  .close:after {
-    position: absolute;
-    width: 5px;
-    height: 20px;
-    background-color: white;
-    transform: rotate(45deg) translate(-50%, -50%);
-    transform-origin: top left;
-    transition: all 420ms;
-    content: "";
-  }
-  .close:after {
-    transform: rotate(-45deg) translate(-50%, -50%);
-  }
-  .close:hover:before,
-  .close:hover:after {
-    background-color: $close-color-hover;
-  }
-`;
 const InputFile = styled.input`
   display: none;
   width: 100%;
@@ -142,11 +112,6 @@ function Tweet({ token, user, id, username, avatar }) {
     formData.append("link", videoLink);
     addTweet(formData);
   };
-  function isUrl(s) {
-    var regexp =
-      /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-    return regexp.test(s);
-  }
   function linkify(text) {
     return text
       .split(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi)
@@ -262,7 +227,6 @@ function Tweet({ token, user, id, username, avatar }) {
         id={id}
         setReload={setReload}
         reload={reload}
-        youtube_parser={youtube_parser}
       />
     </div>
   );

@@ -33,12 +33,7 @@ const Frame = styled.div`
 const MediaFrame = ({ children, onHandleMediaClose }) => {
   return (
     <Frame>
-      <button
-        className="close"
-        tabIndex="0"
-        role="button"
-        onClick={onHandleMediaClose}
-      >
+      <button className="close" tabIndex="0" onClick={onHandleMediaClose}>
         close
       </button>
       {children}

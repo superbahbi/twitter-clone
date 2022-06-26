@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import { Context as UserContext } from "../Contexts/UserContext";
+// import { Context as UserContext } from "../Contexts/UserContext";
 import { useMediaQuery } from "react-responsive";
 import Navbar from "../Components/Navbar";
 import Feed from ".././Components/Feed";
@@ -9,11 +9,11 @@ import Header from "../Components/Header";
 import ProfileBox from "../Components/ProfileBox";
 import Sidebar from "../Components/Sidebar";
 import Col from "react-bootstrap/Col";
-function Profile(props) {
+function Profile() {
   // const profile = props.match.params.profile;
   let { profile } = useParams();
   const { state: authState } = useContext(AuthContext);
-  const { state: userState, getUser } = useContext(UserContext);
+  // const { state: userState, getUser } = useContext(UserContext);
   const [reload, setReload] = useState();
   const [user, setUser] = useState({});
   const [tweetCount, setTweetCount] = useState();
@@ -32,11 +32,11 @@ function Profile(props) {
         </Col>
       )}
       <Col xs={12} md={8} lg={6}>
-        {user && (
+        {authState.user && (
           <>
             <Header
-              name={user.profile && user.profile.name}
-              tweetCount={tweetCount}
+              name={authState.user && authState.user.profile.name}
+              tweetCount={authState.user.tweets}
             />
             <ProfileBox
               user={authState.user}
