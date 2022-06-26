@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
@@ -6,6 +6,9 @@ import Button from "../Components/Button";
 import List from "../Components/List";
 import Avatar from "./Avatar";
 import Col from "react-bootstrap/Col";
+import Overlay from "react-bootstrap/Overlay";
+import Popover from "react-bootstrap/Popover";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import {
   Twitter,
   Home,
@@ -32,14 +35,10 @@ const ListStyle = styled.ul`
   flex-direction: column;
   flex-wrap: wrap;
   padding: 0;
-  margin: 0
-  :hover {
-  }
+  margin: 0;
 `;
 const NavProfileContainer = styled.div`
   display: flex;
-  height: 58.25px
-  color:"#000"
   cursor: pointer;
   position: fixed;
   bottom: 0;
@@ -80,8 +79,25 @@ const NavProfile = styled.div`
     }
   }
 `;
+const TooltipContainer = styled.div`
+  background-color: white;
+  border-radius: 5px;
+  color: #0f1419;
+  height: 52px;
+  width: 300px;
+  -webkit-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.2);
+  div {
+    padding: 16px 16px;
+    text-align: left;
+    margin: auto;
+    cursor: pointer;
+  }
+`;
 function Navbar() {
   const nagivate = useNavigate();
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
   const { state, logout } = useContext(AuthContext);
   const {
     username,
@@ -100,6 +116,7 @@ function Navbar() {
     setIsActive(id);
     nagivate(`/${id}`);
   }
+
   return (
     <NavbarContainer lg={3}>
       <Nav>
@@ -170,20 +187,13 @@ function Navbar() {
             onHandleClick={() => onHandleClick("profile")}
           />
           <List
-            // active={isActive === "Settings" ? true : false}
             id="more"
             name="More"
             icon={<More />}
             onHandleClick={() => onHandleClick("Settings")}
-            paddingBottom="5px"
+            paddingBottom="20px"
           />
 
-          {/* <List
-            id="logout"
-            name="Logout"
-            icon="icon ion-ios-refresh"
-            onHandleClick={handleLogout}
-          /> */}
           <Button
             large
             id="tweet"
@@ -197,8 +207,16 @@ function Navbar() {
           />
         </ListStyle>
       </Nav>
+
       <NavProfileContainer>
-        <NavProfile>
+        <Overlay target={target.current} show={show} placement="top">
+          {({ placement, arrowProps, show: _show, popper, ...props }) => (
+            <TooltipContainer {...props}>
+              <div onClick={handleLogout}>Log out @{username}</div>
+            </TooltipContainer>
+          )}
+        </Overlay>
+        <NavProfile ref={target} onClick={() => setShow(!show)}>
           <div>
             <Avatar mini src={filename} height="40px" width="40px" />
           </div>
