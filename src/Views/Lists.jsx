@@ -3,14 +3,14 @@ import { useMediaQuery } from "react-responsive";
 import Header from ".././Components/Header";
 import Sidebar from ".././Components/Sidebar";
 import Col from "react-bootstrap/Col";
-function Bookmarks() {
+function Lists() {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
   });
   return (
     <>
       <Col xs={12} md={8} lg={6}>
-        <Header name="Bookmarks" iconLeft iconRight="ion-ios-gear-outline" />
+        <Header name="Lists" iconLeft iconRight="ion-ios-gear-outline" />
       </Col>
       {isDesktopOrLaptop && (
         <Col lg={3}>
@@ -20,4 +20,4 @@ function Bookmarks() {
     </>
   );
 }
-export default Bookmarks;
+export default Lists;

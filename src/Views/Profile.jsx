@@ -26,11 +26,6 @@ function Profile() {
 
   return (
     <>
-      {isDesktopOrLaptop && (
-        <Col lg={3}>
-          <Navbar username={authState && authState.user.username} />
-        </Col>
-      )}
       <Col xs={12} md={8} lg={6}>
         {authState.user && (
           <>

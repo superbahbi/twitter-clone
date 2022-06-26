@@ -1,10 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import { Navigate, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
+import { useMediaQuery } from "react-responsive";
 import ClipLoader from "react-spinners/ClipLoader";
 import styled from "styled-components";
+import Navbar from "../Components/Navbar";
+
 const Spinner = styled.div`
   position: absolute;
   height: 100px;
@@ -17,6 +20,9 @@ const Spinner = styled.div`
 `;
 function PrivateRoute({ children }) {
   const { state, tryLocalSignin } = useContext(AuthContext);
+  const isDesktopOrLaptop = useMediaQuery({
+    query: "(min-width: 1224px)",
+  });
   useEffect(() => {
     tryLocalSignin();
   }, []);
@@ -30,7 +36,10 @@ function PrivateRoute({ children }) {
 
   return state.token && state.user ? (
     <Container>
-      <Row>{children}</Row>
+      <Row>
+        {isDesktopOrLaptop && <Navbar username={state.user.username} />}
+        {children}
+      </Row>
     </Container>
   ) : (
     <Navigate to="/login" />

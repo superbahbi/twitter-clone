@@ -8,6 +8,7 @@ import Explorer from "./Views/Explorer";
 import Notification from "./Views/Notification";
 import Messages from "./Views/Messages";
 import Bookmarks from "./Views/Bookmarks";
+import Lists from "./Views/Lists";
 import Settings from "./Views/Settings";
 import Profile from "./Views/Profile";
 import Error from "./Views/Error";
@@ -65,6 +66,14 @@ function CustomRoutes() {
           element={
             <PrivateRoute>
               <Bookmarks />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/lists"
+          element={
+            <PrivateRoute>
+              <Lists />
             </PrivateRoute>
           }
         />

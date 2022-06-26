@@ -182,11 +182,6 @@ function Messages() {
   };
   return (
     <>
-      {isDesktopOrLaptop && (
-        <Col lg={3}>
-          <Navbar username={authState.user && authState.user.username} />
-        </Col>
-      )}
       <MessageCol lg={3} className="p-0">
         <Header
           name="Messages"

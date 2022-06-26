@@ -5,7 +5,6 @@ import Col from "react-bootstrap/Col";
 import Tweet from ".././Components/Tweet";
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
-import Navbar from "../Components/Navbar";
 
 function Home() {
   const { state } = useContext(AuthContext);
@@ -15,11 +14,6 @@ function Home() {
 
   return (
     <>
-      {isDesktopOrLaptop && (
-        <Col lg={3}>
-          <Navbar username={state.data && state.user.username} />
-        </Col>
-      )}
       <Col xs={12} md={8} lg={6}>
         <Header name="Home" />
         <Tweet
