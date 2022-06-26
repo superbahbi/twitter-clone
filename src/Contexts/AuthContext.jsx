@@ -56,11 +56,11 @@ const signin = (dispatch) => async (data) => {
   }
 };
 const signup = (dispatch) => async (data) => {
-  console.log(data);
   try {
     // TO DO
     // Check if token is expired
     const response = await api.post("/api/signup", formurlencoded(data));
+    console.log(response);
     if (response.data.token && response.data.user) {
       await localStorage.setItem("token", JSON.stringify(response.data.token));
       await localStorage.setItem("user", JSON.stringify(response.data.user));

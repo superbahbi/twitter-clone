@@ -68,7 +68,7 @@ function Signup() {
     tryLocalSignin();
   }, []);
   if (state.token) {
-    navigate("/home");
+    navigate("/login");
   }
 
   const onSubmit = async (data, event) => {
@@ -140,6 +140,19 @@ function Signup() {
                       </Form.Group>
                       <Form.Group>
                         <StyledFormControl
+                          type="text"
+                          id="inputName"
+                          placeholder="Enter name"
+                          name="name"
+                          autoComplete="name"
+                          ref={register({
+                            required: true,
+                          })}
+                        />
+                        {errors.name && <ErrorBar></ErrorBar>}
+                      </Form.Group>
+                      <Form.Group>
+                        <StyledFormControl
                           type="email"
                           id="inputEmail"
                           placeholder="Enter email address"
@@ -166,20 +179,6 @@ function Signup() {
                           <option value="F">&#160;&#160;Female</option>
                         </StyledFormControl>
                         {errors.gender && <ErrorBar></ErrorBar>}
-                      </Form.Group>
-                      <Form.Group>
-                        <StyledFormControl
-                          type="number"
-                          id="inputPhone"
-                          placeholder="Enter phone number"
-                          name="phone"
-                          ref={register({
-                            required: true,
-                            minLength: 6,
-                            maxLength: 12,
-                          })}
-                        />
-                        {errors.phone && <ErrorBar></ErrorBar>}
                       </Form.Group>
 
                       <Button primary label="Signup" type="submit">
