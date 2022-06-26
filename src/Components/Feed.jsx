@@ -7,6 +7,7 @@ import moment from "moment";
 import Avatar from ".././Components/Avatar";
 import IconButton from "../Components/IconButton";
 import CommentModal from "../Components/CommentModal";
+import MediaFrame from "./MediaFrame";
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -67,7 +68,7 @@ const ButtonContainer = styled.div`
   align-items: left;
   justify-content: left;
 `;
-function Feed({ token, user, id, setReload, reload }) {
+function Feed({ token, user, id, setReload, reload, youtube_parser }) {
   const {
     state: tweetState,
     getTweet,
@@ -131,9 +132,23 @@ function Feed({ token, user, id, setReload, reload }) {
                 <FeedTag>@{item.username}</FeedTag>
                 <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
               </FeedBox>
-              <FeedBox>
-                <FeedContent>{item.content}</FeedContent>
-              </FeedBox>
+              {youtube_parser(item.content) ? (
+                <FeedBox>
+                  <FeedContent>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${youtube_parser(
+                        item.content
+                      )}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=0`}
+                      frameBorder="0"
+                    ></iframe>{" "}
+                  </FeedContent>
+                </FeedBox>
+              ) : (
+                <FeedBox>
+                  <FeedContent>{item.content}</FeedContent>
+                </FeedBox>
+              )}
+
               {item.img ? (
                 <FeedBox>
                   <FeedImage src={item.img.filename} />

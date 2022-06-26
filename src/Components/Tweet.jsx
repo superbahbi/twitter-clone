@@ -5,6 +5,7 @@ import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
 import Avatar from ".././Components/Avatar";
 import Feed from ".././Components/Feed";
+import MediaFrame from "./MediaFrame";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -75,6 +76,36 @@ const TweetButton = styled.div`
 const ImgPreview = styled.img`
   width: 100%;
 `;
+const VideoPreview = styled.div`
+  position: relative;
+  width: 300px;
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    font-size: 0;
+  }
+  .close:before,
+  .close:after {
+    position: absolute;
+    width: 5px;
+    height: 20px;
+    background-color: white;
+    transform: rotate(45deg) translate(-50%, -50%);
+    transform-origin: top left;
+    transition: all 420ms;
+    content: "";
+  }
+  .close:after {
+    transform: rotate(-45deg) translate(-50%, -50%);
+  }
+  .close:hover:before,
+  .close:hover:after {
+    background-color: $close-color-hover;
+  }
+`;
 const InputFile = styled.input`
   display: none;
   width: 100%;
@@ -89,10 +120,14 @@ function Tweet({ token, user, id, username, avatar }) {
   const [reload, setReload] = useState();
   const [imgPreview, setImgPreview] = useState("");
   const [imgFile, setImgFile] = useState("");
+  const [videoPreview, setVideoPreview] = useState("");
+  const [videoLink, setVideoLink] = useState("");
   useEffect(() => {
     if (state.newTweet && state.newTweet.status === 200) {
       setImgPreview("");
       setImgFile("");
+      setVideoPreview("");
+      setVideoLink("");
       tweetData.current.value = "";
       setReload(true);
       clearAddTweet();
@@ -104,12 +139,38 @@ function Tweet({ token, user, id, username, avatar }) {
     formData.append("image", imgFile);
     formData.append("tweet", tweetData.current.value);
     formData.append("type", "tweetImg");
+    formData.append("link", videoLink);
     addTweet(formData);
   };
+  function isUrl(s) {
+    var regexp =
+      /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+    return regexp.test(s);
+  }
+  function linkify(text) {
+    return text
+      .split(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi)
+      .filter(Boolean)
+      .filter((x) => {
+        return x.indexOf(".") > 0;
+      });
+  }
+  function youtube_parser(url) {
+    var regExp =
+      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return match && match[7].length == 11 ? match[7] : false;
+  }
   function handleChange(event) {
     setImgPreview(URL.createObjectURL(event.target.files[0]));
     setImgFile(event.target.files[0]);
   }
+  const textareaHandleChange = (event) => {
+    let id = youtube_parser(event.target.value);
+    let link = linkify(event.target.value);
+    setVideoPreview(id);
+    setVideoLink(link);
+  };
   return (
     <div>
       <TweetBox>
@@ -126,11 +187,30 @@ function Tweet({ token, user, id, username, avatar }) {
                 placeholder="What's Happening"
                 autocomplete="off"
                 projectRef={tweetData}
+                onHandleChange={(event) => textareaHandleChange(event)}
               />
             </InputBox>
-            <InputBoxRow>
-              <ImgPreview src={imgPreview} />
-            </InputBoxRow>
+
+            {imgPreview && (
+              <InputBoxRow>
+                <MediaFrame onHandleMediaClose={() => setImgPreview("")}>
+                  <ImgPreview src={imgPreview} />
+                </MediaFrame>
+              </InputBoxRow>
+            )}
+
+            {videoPreview && (
+              <InputBoxRow>
+                <MediaFrame onHandleMediaClose={() => setVideoPreview("")}>
+                  <iframe
+                    width={300}
+                    src={`https://www.youtube.com/embed/${videoPreview}?autoplay=1&modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=0`}
+                    frameBorder="0"
+                  ></iframe>
+                </MediaFrame>
+              </InputBoxRow>
+            )}
+
             <InputBoxRow>
               <InputBoxGroup>
                 <FontAwesomeIcon icon="file" fixedWidth />
@@ -182,6 +262,7 @@ function Tweet({ token, user, id, username, avatar }) {
         id={id}
         setReload={setReload}
         reload={reload}
+        youtube_parser={youtube_parser}
       />
     </div>
   );
