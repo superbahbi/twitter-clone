@@ -14,7 +14,7 @@ const StyledButton = styled.button`
     return props.right && `position: absolute; right: 20px; top: 245px`;
   }};
   font-size: ${(props) => (props.large && "17px") || "12px"};
-  font-weight: 600;
+  font-weight: ${(props) => (props.large && "600") || "300"};
   // padding: ${(props) => (props.large && "1rem 2rem") || ".5rem"};
   // margin: ${(props) => (props.secondary && "0rem") || "0.25em;"};
 

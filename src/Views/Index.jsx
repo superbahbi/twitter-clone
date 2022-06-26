@@ -16,6 +16,9 @@ const BackgroundGradient = styled.div`
 const StyleCard = styled(Card)`
   background: none;
   border: none;
+  .button {
+    padding: 4px 0px;
+  }
 `;
 const SubHeading = styled.p`
   font-size: 2em;
@@ -60,20 +63,24 @@ function Index() {
                     See what’s happening in the world right now
                   </SubHeading>
                   <SubText>Join not twitter today.</SubText>
-                  <Button
-                    primary
-                    name="button"
-                    type="submit"
-                    label="Sign up"
-                    handleClick={() => navigate("/signup")}
-                  />
-                  <Button
-                    primary
-                    name="button"
-                    type="submit"
-                    label="Log in"
-                    handleClick={() => navigate("/login")}
-                  />
+                  <div className="button">
+                    <Button
+                      primary
+                      name="button"
+                      type="submit"
+                      label="Sign up"
+                      handleClick={() => navigate("/signup")}
+                    />
+                  </div>
+                  <div className="button">
+                    <Button
+                      primary
+                      name="button"
+                      type="submit"
+                      label="Log in"
+                      handleClick={() => navigate("/login")}
+                    />
+                  </div>
                 </Col>
               </Row>
             </StyleCard>
