@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as AuthContext } from "../Contexts/AuthContext";
@@ -7,7 +7,7 @@ import moment from "moment";
 import Avatar from ".././Components/Avatar";
 import IconButton from "../Components/IconButton";
 import CommentModal from "../Components/CommentModal";
-import MediaFrame from "./MediaFrame";
+// import MediaFrame from "./MediaFrame";
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -68,24 +68,13 @@ const ButtonContainer = styled.div`
   align-items: left;
   justify-content: left;
 `;
-function Feed({ token, user, id, setReload, reload, youtube_parser }) {
-  const {
-    state: tweetState,
-    getTweet,
-    deleteTweet,
-    editTweet,
-    likeTweet,
-  } = useContext(TweetContext);
+function Feed({ user, id, tweets, setReload, reload }) {
+  const { deleteTweet, likeTweet } = useContext(TweetContext);
   const { state: authState } = useContext(AuthContext);
   const [show, setShow] = useState({
     status: false,
     id: "",
   });
-  useEffect(() => {
-    console.log("reload", reload);
-    getTweet();
-    setReload(false);
-  }, [reload]); // add reload later
 
   function onHandleComment(id) {
     setShow({
@@ -109,19 +98,24 @@ function Feed({ token, user, id, setReload, reload, youtube_parser }) {
       }
       return null;
     });
+    // setReload(true);
     return status;
   }
   function youtube_parser(url) {
     var regExp =
       /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
-    return match && match[7].length == 11 ? match[7] : false;
+    return match && match[7].length === 11 ? match[7] : false;
   }
   // if (props.setTweetCount) {
   //   props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   // }
-  return tweetState.tweets
-    ? tweetState.tweets.foundTweet.map((item, index) => (
+  const handleLike = async (id) => {
+    await likeTweet(id);
+    setReload(true);
+  };
+  return tweets
+    ? tweets.foundTweet.map((item, index) => (
         <React.Fragment key={index}>
           <TweetBox>
             <Avatar
@@ -142,6 +136,7 @@ function Feed({ token, user, id, setReload, reload, youtube_parser }) {
                 <FeedBox>
                   <FeedContent>
                     <iframe
+                      title="linkPostFeed"
                       src={`https://www.youtube.com/embed/${youtube_parser(
                         item.content
                       )}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=1`}
@@ -179,7 +174,7 @@ function Feed({ token, user, id, setReload, reload, youtube_parser }) {
                       <CommentModal
                         show={show.status}
                         onHide={onHandleCommentClose}
-                        tweet={tweetState.tweets.foundTweet[show.id]}
+                        tweet={tweets.foundTweet[show.id]}
                         auth={authState}
                         setShow={setShow}
                       />
@@ -194,7 +189,7 @@ function Feed({ token, user, id, setReload, reload, youtube_parser }) {
                             ? "icon ion-ios-heart"
                             : "icon ion-ios-heart-outline"
                         }
-                        handleClick={async () => await likeTweet(item._id)}
+                        handleClick={handleLike(item._id)}
                       />
                     </ButtonContainer>
                     <ButtonContainer>

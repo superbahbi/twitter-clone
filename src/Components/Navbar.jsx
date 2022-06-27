@@ -7,8 +7,6 @@ import List from "../Components/List";
 import Avatar from "./Avatar";
 import Col from "react-bootstrap/Col";
 import Overlay from "react-bootstrap/Overlay";
-import Popover from "react-bootstrap/Popover";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import {
   Twitter,
   Home,
@@ -22,7 +20,8 @@ import {
   Threedot,
 } from "../Assets/Icon";
 const NavbarContainer = styled(Col)`
-  padding: 0px 12px;
+  padding: 0;
+  max-width: 251px;
   height: 100vh;
 `;
 const Nav = styled.nav`
@@ -118,7 +117,7 @@ function Navbar() {
   }
 
   return (
-    <NavbarContainer lg={3}>
+    <NavbarContainer>
       <Nav>
         <ListStyle>
           <List
@@ -206,31 +205,30 @@ function Navbar() {
             }}
           />
         </ListStyle>
+        <NavProfileContainer>
+          <Overlay target={target.current} show={show} placement="top">
+            {({ placement, arrowProps, show: _show, popper, ...props }) => (
+              <TooltipContainer {...props}>
+                <div onClick={handleLogout}>Log out @{username}</div>
+              </TooltipContainer>
+            )}
+          </Overlay>
+          <NavProfile ref={target} onClick={() => setShow(!show)}>
+            <div>
+              <Avatar mini src={filename} height="40px" width="40px" />
+            </div>
+
+            <div className="text">
+              <span className="name">{name}</span>
+              <span className="username">@{username}</span>
+            </div>
+
+            <span className="threedot">
+              <Threedot />
+            </span>
+          </NavProfile>
+        </NavProfileContainer>
       </Nav>
-
-      <NavProfileContainer>
-        <Overlay target={target.current} show={show} placement="top">
-          {({ placement, arrowProps, show: _show, popper, ...props }) => (
-            <TooltipContainer {...props}>
-              <div onClick={handleLogout}>Log out @{username}</div>
-            </TooltipContainer>
-          )}
-        </Overlay>
-        <NavProfile ref={target} onClick={() => setShow(!show)}>
-          <div>
-            <Avatar mini src={filename} height="40px" width="40px" />
-          </div>
-
-          <div className="text">
-            <span className="name">{name}</span>
-            <span className="username">@{username}</span>
-          </div>
-
-          <span className="threedot">
-            <Threedot />
-          </span>
-        </NavProfile>
-      </NavProfileContainer>
     </NavbarContainer>
   );
 }

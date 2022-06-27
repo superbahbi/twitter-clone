@@ -1,7 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import { useMediaQuery } from "react-responsive";
-import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import Header from ".././Components/Header";
 import Editable from ".././Components/Editable";

@@ -1,13 +1,28 @@
 import React, { useContext, useEffect } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
 import { Navigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import { useMediaQuery } from "react-responsive";
 import ClipLoader from "react-spinners/ClipLoader";
 import styled from "styled-components";
 import Navbar from "../Components/Navbar";
-
+import Sidebar from "../Components/Sidebar";
+const Container = styled.div`
+  width: 1200px;
+  display: grid;
+  grid-template-areas: "navbar main sidebar";
+  grid-template-columns: 251px 600px 350fr;
+  gap: 20px;
+  margin: 0 auto;
+`;
+const NavbarContainer = styled.div`
+  grid-area: navbar;
+`;
+const MainContainer = styled.div`
+  grid-area: main;
+`;
+const SidebarContainer = styled.div`
+  grid-area: sidebar;
+`;
 const Spinner = styled.div`
   position: absolute;
   height: 100px;
@@ -36,10 +51,17 @@ function PrivateRoute({ children }) {
 
   return state.token && state.user ? (
     <Container>
-      <Row>
-        {isDesktopOrLaptop && <Navbar username={state.user.username} />}
-        {children}
-      </Row>
+      {isDesktopOrLaptop && (
+        <NavbarContainer>
+          <Navbar username={state.user.username} />
+        </NavbarContainer>
+      )}
+      <MainContainer>{children}</MainContainer>
+      {isDesktopOrLaptop && (
+        <SidebarContainer>
+          <Sidebar />
+        </SidebarContainer>
+      )}
     </Container>
   ) : (
     <Navigate to="/login" />

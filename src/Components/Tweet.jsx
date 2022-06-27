@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
 import Avatar from ".././Components/Avatar";
-import Feed from ".././Components/Feed";
+
 import MediaFrame from "./MediaFrame";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -63,10 +63,6 @@ const InputBoxGroup = styled.label`
   cursor: pointer;
 `;
 
-const TweetDivider = styled.div`
-  flex: 1 1 auto !important;
-  border: 5px solid rgb(230, 236, 240);
-`;
 const AvatarBox = styled.div`
   padding-top: 15px;
 `;
@@ -84,10 +80,10 @@ const InputFile = styled.input`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 `;
-function Tweet({ token, user, id, username, avatar }) {
+function Tweet({ token, user, id, username, avatar, setReload }) {
   const { state, addTweet, clearAddTweet } = useContext(TweetContext);
   const tweetData = useRef("");
-  const [reload, setReload] = useState();
+  // const [reload, setReload] = useState();
   const [imgPreview, setImgPreview] = useState("");
   const [imgFile, setImgFile] = useState("");
   const [videoPreview, setVideoPreview] = useState("");
@@ -111,6 +107,7 @@ function Tweet({ token, user, id, username, avatar }) {
     formData.append("type", "tweetImg");
     formData.append("link", videoLink);
     addTweet(formData);
+    setReload(true);
   };
   function linkify(text) {
     return text
@@ -124,7 +121,7 @@ function Tweet({ token, user, id, username, avatar }) {
     var regExp =
       /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
-    return match && match[7].length == 11 ? match[7] : false;
+    return match && match[7].length === 11 ? match[7] : false;
   }
   function handleChange(event) {
     setImgPreview(URL.createObjectURL(event.target.files[0]));
@@ -168,6 +165,7 @@ function Tweet({ token, user, id, username, avatar }) {
               <InputBoxRow>
                 <MediaFrame onHandleMediaClose={() => setVideoPreview("")}>
                   <iframe
+                    title="linkPost"
                     width={300}
                     src={`https://www.youtube.com/embed/${videoPreview}?autoplay=1&modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=0`}
                     frameBorder="0"
@@ -220,14 +218,6 @@ function Tweet({ token, user, id, username, avatar }) {
           </form>
         </InputTweetBox>
       </TweetBox>
-      <TweetDivider></TweetDivider>
-      <Feed
-        token={token}
-        user={user}
-        id={id}
-        setReload={setReload}
-        reload={reload}
-      />
     </div>
   );
 }

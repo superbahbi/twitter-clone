@@ -9,6 +9,7 @@ import Lists from "./lists";
 import Profile from "./profile";
 import More from "./more";
 import Threedot from "./threedot";
+import Loading from "./loading";
 export {
   Paw,
   Twitter,
@@ -21,4 +22,5 @@ export {
   Profile,
   More,
   Threedot,
+  Loading,
 };

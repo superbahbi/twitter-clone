@@ -2,13 +2,11 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import { Context as UserContext } from "../Contexts/UserContext";
-import { useMediaQuery } from "react-responsive";
 // Local use hooks
 import useGetMessages from "../Hooks/useGetMessages";
 // NPM components
 import { Row, Col } from "react-bootstrap";
 import styled from "styled-components";
-import formurlencoded from "form-urlencoded";
 import { ObjectID } from "bson";
 
 // Local components
@@ -16,7 +14,6 @@ import Button from "../Components/Button";
 import Chat from ".././Components/Chat";
 import Modal from ".././Components/Modal";
 import Header from "../Components/Header";
-import Navbar from "../Components/Navbar";
 import SearchWithList from "../Components/SearchWithList";
 // Local helper functions
 // import { fetchDB } from "../Helper/fetch";
@@ -59,10 +56,8 @@ function Messages() {
   const { state: authState } = useContext(AuthContext);
   const { state: userState, getAllUser } = useContext(UserContext);
   const [messages] = useGetMessages();
-  const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-width: 1224px)",
-  });
-  const [allUser, setAllUser] = useState([]);
+
+  // const [allUser, setAllUser] = useState([]);
   const [chatRoom, setChatRoom] = useState([]);
   const [selectUser, setSelectUser] = useState({});
   const [filterUsers, setFilterUsers] = useState();

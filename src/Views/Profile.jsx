@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 // import { Context as UserContext } from "../Contexts/UserContext";
 import { useMediaQuery } from "react-responsive";
-import Navbar from "../Components/Navbar";
 import Feed from ".././Components/Feed";
 import Header from "../Components/Header";
 import ProfileBox from "../Components/ProfileBox";
@@ -15,7 +14,7 @@ function Profile() {
   const { state: authState } = useContext(AuthContext);
   // const { state: userState, getUser } = useContext(UserContext);
   const [reload, setReload] = useState();
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [tweetCount, setTweetCount] = useState();
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-device-width: 1224px)",

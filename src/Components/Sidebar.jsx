@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+const MainContainer = styled.div``;
 const SearchBar = styled.div`
   padding-top: 4px;
   input.form-control[type="text"]:focus:not([readonly]) {
@@ -87,7 +87,7 @@ const Footer = styled.div`
 `;
 function Sidebar() {
   return (
-    <Container>
+    <MainContainer>
       <Row>
         <SideBarItem>
           <form action="/search" role="search">
@@ -156,7 +156,7 @@ function Sidebar() {
           </Footer>
         </SideBarItem>
       </Row>
-    </Container>
+    </MainContainer>
   );
 }
 export default Sidebar;
