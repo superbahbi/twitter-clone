@@ -73,7 +73,7 @@ function Login() {
     navigate("/home");
   }
   const onSubmit = (data, event) => {
-    event.preventDefault();
+    // event.preventDefault();
     setLoading(true);
     signin(data);
   };

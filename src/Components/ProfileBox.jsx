@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 import moment from "moment";
 import styled from "styled-components";
 import Button from ".././Components/Button";
@@ -74,7 +74,7 @@ const ProfileButton = styled.div`
 
 function ProfileBox(props) {
   function onHandleClick() {
-    Navigate("/settings");
+    // Navigate("/settings");
   }
   const user = props.user;
   const username = props.user.username;

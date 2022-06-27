@@ -5,26 +5,21 @@ import styled from "styled-components";
 import Header from "../Components/Header";
 import Tweet from ".././Components/Tweet";
 import Feed from ".././Components/Feed";
+import useTweet from "../Hooks/useTweet";
+
 const TweetDivider = styled.div`
   flex: 1 1 auto !important;
   border: 5px solid rgb(230, 236, 240);
 `;
 function Home() {
-  const { state } = useContext(AuthContext);
-  const { token, user } = state;
-  const {
-    state: tweetState,
-    getTweet,
-    // deleteTweet,
-    // editTweet,
-    // likeTweet,
-  } = useContext(TweetContext);
-  const [reload, setReload] = useState();
+  const { state: authState } = useContext(AuthContext);
+  const { token, user } = authState;
+  const { state: tweetState } = useContext(TweetContext);
+  const [getTweets] = useTweet();
+  const [reload, setReload] = useState("");
   useEffect(() => {
-    console.log("reload", reload);
-    getTweet();
-    setReload(false);
-  }, [reload]); // add reload later
+    getTweets();
+  }, [reload]);
   return (
     <>
       <Header name="Home" />
@@ -41,7 +36,7 @@ function Home() {
       <TweetDivider></TweetDivider>
       <Feed
         user={user}
-        tweets={tweetState.tweets}
+        tweets={tweetState && tweetState.tweets}
         // id={id}
         setReload={setReload}
         reload={reload}

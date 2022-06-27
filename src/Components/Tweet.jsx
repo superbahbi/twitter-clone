@@ -80,7 +80,7 @@ const InputFile = styled.input`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 `;
-function Tweet({ token, user, id, username, avatar, setReload }) {
+function Tweet({ token, user, id, username, avatar, setReload, reload }) {
   const { state, addTweet, clearAddTweet } = useContext(TweetContext);
   const tweetData = useRef("");
   // const [reload, setReload] = useState();
@@ -95,19 +95,19 @@ function Tweet({ token, user, id, username, avatar, setReload }) {
       setVideoPreview("");
       setVideoLink("");
       tweetData.current.value = "";
-      setReload(true);
+      // setReload(true);
       clearAddTweet();
     }
   }, [state]);
-  const onFormSubmit = (e) => {
+  const onFormSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("image", imgFile);
     formData.append("tweet", tweetData.current.value);
     formData.append("type", "tweetImg");
     formData.append("link", videoLink);
-    addTweet(formData);
-    setReload(true);
+    await addTweet(formData);
+    setReload(!reload);
   };
   function linkify(text) {
     return text

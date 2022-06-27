@@ -110,10 +110,7 @@ function Feed({ user, id, tweets, setReload, reload }) {
   // if (props.setTweetCount) {
   //   props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   // }
-  const handleLike = async (id) => {
-    await likeTweet(id);
-    setReload(true);
-  };
+
   return tweets
     ? tweets.foundTweet.map((item, index) => (
         <React.Fragment key={index}>
@@ -124,9 +121,9 @@ function Feed({ user, id, tweets, setReload, reload }) {
             />
             <TweetContainer>
               <FeedBox
-                onClick={() => {
-                  Navigate("/status/" + item._id);
-                }}
+              // onClick={() => {
+              //   // Navigate("/status/" + item._id);
+              // }}
               >
                 <FeedName>{item.name}</FeedName>
                 <FeedTag>@{item.username}</FeedTag>
@@ -167,9 +164,9 @@ function Feed({ user, id, tweets, setReload, reload }) {
                         type="button"
                         icon="icon ion-ios-chatbubble-outline"
                         variant="primary"
-                        handleClick={() => {
-                          onHandleComment(index);
-                        }}
+                        // handleClick={() => {
+                        //   onHandleComment(index);
+                        // }}
                       />
                       <CommentModal
                         show={show.status}
@@ -189,7 +186,10 @@ function Feed({ user, id, tweets, setReload, reload }) {
                             ? "icon ion-ios-heart"
                             : "icon ion-ios-heart-outline"
                         }
-                        handleClick={handleLike(item._id)}
+                        handleClick={async () => {
+                          await likeTweet(item._id);
+                          setReload(!reload);
+                        }}
                       />
                     </ButtonContainer>
                     <ButtonContainer>
@@ -200,7 +200,10 @@ function Feed({ user, id, tweets, setReload, reload }) {
                           name="button"
                           type="button"
                           icon="icon ion-ios-trash-outline"
-                          handleClick={async () => await deleteTweet(item._id)}
+                          handleClick={async () => {
+                            await deleteTweet(item._id);
+                            setReload(!reload);
+                          }}
                         />
                       ) : null}
                     </ButtonContainer>
