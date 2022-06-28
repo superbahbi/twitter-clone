@@ -22,7 +22,7 @@ function Home() {
   }, [reload]);
   return (
     <>
-      <Header name="Home" />
+      <Header name="Home" iconRight="ion-ios-gear-outline" />
       <Tweet
         page="Home"
         token={token}

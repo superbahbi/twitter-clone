@@ -10,18 +10,22 @@ library.add(fas, far);
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
-
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  padding: 0 8px 0 8px;
-  border: 1px solid rgb(239, 243, 244);
-  :hover {
-    background-color: #f5f8fa;
+  padding: 0 16px;
+  height: 53px;
+  .left-icon {
+    align-self: center;
+    padding-right 16px;
+  }
+  .right-icon {
+    align-self: center;
+    margin-left: auto;
   }
 `;
 const HeaderName = styled.div`
-  padding-left: ${(props) => !props.iconLeft && "10px"};
-  font-size: 24px;
-  font-weight: bold;
+  // padding-left: ${(props) => !props.iconLeft && "16px"};
+  font-size: 20px;
+  font-weight: 600;
+  align-self: center;
 `;
 
 const HeaderIconButton = styled(IconButton)`
@@ -29,6 +33,8 @@ const HeaderIconButton = styled(IconButton)`
   color: #1da1f2;
   padding: 0.5em;
   cursor: pointer;
+
+  max-width: 45px;
 `;
 const ProfileTweetCount = styled.div`
   color: #657786;
@@ -41,7 +47,7 @@ function Header(props) {
   return (
     <HeaderContainer>
       {props.iconLeft && (
-        <Col md={1}>
+        <div className="left-icon">
           <HeaderIconButton
             icon="icon ion-ios-arrow-left"
             color="#1da1f2"
@@ -50,25 +56,24 @@ function Header(props) {
               navigate(-1);
             }}
           />
-        </Col>
+        </div>
       )}
 
-      <Col md={10}>
-        <HeaderName>{props.name}</HeaderName>
-        <ProfileTweetCount>
-          {props.tweetCount && props.tweetCount + " Tweets"}
-        </ProfileTweetCount>
-      </Col>
-      <Col md={1}>
-        {props.iconRight && (
+      <HeaderName>{props.name}</HeaderName>
+      {props.tweetCount && (
+        <ProfileTweetCount>{props.tweetCount + " Tweets"}</ProfileTweetCount>
+      )}
+
+      {props.iconRight && (
+        <div className="right-icon">
           <HeaderIconButton
             icon={props.iconRight}
             color="#1da1f2"
             size="30px"
             handleClick={props.onHandleIconRightButton}
           />
-        )}
-      </Col>
+        </div>
+      )}
     </HeaderContainer>
   );
 }

@@ -19,6 +19,10 @@ const NavbarContainer = styled.div`
 `;
 const MainContainer = styled.div`
   grid-area: main;
+  border-color: rgb(239, 243, 244);
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 `;
 const SidebarContainer = styled.div`
   grid-area: sidebar;

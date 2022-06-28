@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import styled from "styled-components";
@@ -13,10 +13,7 @@ const TweetBox = styled.div`
   flex-direction: row;
   font-size: 12px;
   line-height: 16px;
-  border-color: #eee #ddd #bbb;
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+
   padding: 0 16px 0 16px;
   :hover {
     background-color: #f5f8fa;
@@ -69,6 +66,7 @@ const ButtonContainer = styled.div`
   justify-content: left;
 `;
 function Feed({ user, id, tweets, setReload, reload }) {
+  const navigate = useNavigate();
   const { deleteTweet, likeTweet } = useContext(TweetContext);
   const { state: authState } = useContext(AuthContext);
   const [show, setShow] = useState({
@@ -121,9 +119,12 @@ function Feed({ user, id, tweets, setReload, reload }) {
             />
             <TweetContainer>
               <FeedBox
-              // onClick={() => {
-              //   // Navigate("/status/" + item._id);
-              // }}
+                onClick={(event) => {
+                  event.preventDefault();
+                  navigate(`/${item.username}/status/${item._id}`, {
+                    replace: true,
+                  });
+                }}
               >
                 <FeedName>{item.name}</FeedName>
                 <FeedTag>@{item.username}</FeedTag>

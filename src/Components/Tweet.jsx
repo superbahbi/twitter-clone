@@ -17,10 +17,6 @@ const TweetBox = styled.div`
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
-  border-color: #eee #ddd #bbb;
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   padding: 0 16px 0 16px;
 `;
 
