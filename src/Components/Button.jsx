@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const StyledButton = styled.button`
   width: ${(props) => props.width || "100%"};
-  height: ${(props) => (props.large && "52px") || "30px"};
-  line-height: ${(props) => (props.large && "52px") || "30px"};
+  height: ${(props) => (props.large && "52px") || "34px"};
+  line-height: ${(props) => (props.large && "52px") || "34px"};
 
   color: ${(props) => (props.secondary && "#657786") || "#fff"};
   background-color: ${(props) => (props.secondary && "#fff") || "#1da1f2"};
@@ -13,15 +13,17 @@ const StyledButton = styled.button`
   ${(props) => {
     return props.right && `position: absolute; right: 20px; top: 245px`;
   }};
-  font-size: ${(props) => (props.large && "17px") || "12px"};
-  font-weight: ${(props) => (props.large && "600") || "300"};
-  // padding: ${(props) => (props.large && "1rem 2rem") || ".5rem"};
+  font-size: ${(props) => (props.large && "17px") || "15px"};
+  font-weight: ${(props) => (props.large && "600") || "600"};
+  padding: ${(props) => (props.large && "0px 32px") || "0px 16px"};
   // margin: ${(props) => (props.secondary && "0rem") || "0.25em;"};
 
   border: none;
   border-radius: ${(props) =>
     (props.primary && "30px") || (props.large && "9999px") || "0px"};
   border-bottom: ${(props) => (props.secondary && "2px solid") || "none"};
+
+  opacity: ${(props) => (props.disabled && "0.5") || "1"};
   :focus {
     text-decoration: none;
     outline: none;
@@ -52,6 +54,7 @@ function Button(props) {
       id={props.id}
       type={props.type}
       name={props.name}
+      disabled={props.disabled}
       onClick={props.handleClick}
     >
       {props.label}

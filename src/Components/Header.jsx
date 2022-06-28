@@ -75,7 +75,6 @@ function Header({
           <HeaderIconButton
             icon={iconRight}
             iconRightComponent={iconRightComponent}
-            color="#1da1f2"
             size="30px"
             handleClick={onHandleIconRightButton}
           />

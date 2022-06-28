@@ -11,6 +11,12 @@ import More from "./more";
 import Threedot from "./threedot";
 import Loading from "./loading";
 import Stars from "./stars";
+import TweetUpload from "./tweet-upload";
+import TweetGif from "./tweet-gif";
+import TweetPoll from "./tweet-poll";
+import TweetEmoji from "./tweet-emoji";
+import TweetSchedule from "./tweet-schedule";
+import TweetLocation from "./tweet-location";
 export {
   Paw,
   Twitter,
@@ -25,4 +31,10 @@ export {
   Threedot,
   Loading,
   Stars,
+  TweetUpload,
+  TweetGif,
+  TweetPoll,
+  TweetEmoji,
+  TweetSchedule,
+  TweetLocation,
 };

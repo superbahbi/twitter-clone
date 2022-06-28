@@ -22,11 +22,7 @@ function Home() {
   }, [reload]);
   return (
     <>
-      <Header
-        name="Home"
-        // iconRight="ion-ios-gear-outline"
-        iconRightComponent={<Stars />}
-      />
+      <Header name="Home" iconRightComponent={<Stars />} />
       <Tweet
         page="Home"
         token={token}

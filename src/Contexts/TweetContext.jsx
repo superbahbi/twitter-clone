@@ -58,7 +58,7 @@ const editTweet = (dispatch) => async (id, data) => {};
 const likeTweet = (dispatch) => async (id) => {
   try {
     const response = await api.put("/api/like/" + id);
-    console.log(response);
+
     dispatch({ type: "add_tweet", payload: response });
   } catch (error) {
     dispatch({

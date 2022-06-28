@@ -12,16 +12,18 @@ const StyledIconButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 35px;
-    height: 35px;
+    width: 36px;
+    height: 36px;
+    opacity: ${(props) => (props.disabled ? 0.5 : 1)};
     svg {
       width: 20px;
       height: 20px;
-      fill: #0f1419;
+      fill: ${(props) => (props.color ? props.color : "#000")};
     }
     :hover {
       border-radius: 30px;
-      background-color: #e7e7e8;
+      background-color: ${(props) =>
+        props.hoverColor ? props.hoverColor : "#e7e7e8"};
     }
   }
 `;
@@ -35,10 +37,15 @@ function IconButton(props) {
       onClick={props.handleClick}
       className={props.icon}
       color={props.color}
+      hoverColor={props.hoverColor}
       size={props.size}
+      disabled={props.disabled}
     >
       {props.iconRightComponent && (
-        <div className="icon-right">{props.iconRightComponent}</div>
+        <label className="icon-right">
+          {props.iconRightComponent}
+          {props.children}
+        </label>
       )}
     </StyledIconButton>
   );
