@@ -74,13 +74,13 @@ function Feed({ user, id, tweets, setReload, reload }) {
     id: "",
   });
 
-  function onHandleComment(id) {
-    setShow({
-      ...show,
-      status: true,
-      id: id,
-    });
-  }
+  // function onHandleComment(id) {
+  //   setShow({
+  //     ...show,
+  //     status: true,
+  //     id: id,
+  //   });
+  // }
   function onHandleCommentClose() {
     setShow({
       ...show,

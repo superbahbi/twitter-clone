@@ -6,7 +6,7 @@ import Header from "../Components/Header";
 import Tweet from ".././Components/Tweet";
 import Feed from ".././Components/Feed";
 import useTweet from "../Hooks/useTweet";
-
+import { Stars } from "../Assets/Icon";
 const TweetDivider = styled.div`
   flex: 1 1 auto !important;
   border: 5px solid rgb(230, 236, 240);
@@ -22,7 +22,11 @@ function Home() {
   }, [reload]);
   return (
     <>
-      <Header name="Home" iconRight="ion-ios-gear-outline" />
+      <Header
+        name="Home"
+        // iconRight="ion-ios-gear-outline"
+        iconRightComponent={<Stars />}
+      />
       <Tweet
         page="Home"
         token={token}

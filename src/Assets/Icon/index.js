@@ -10,6 +10,7 @@ import Profile from "./profile";
 import More from "./more";
 import Threedot from "./threedot";
 import Loading from "./loading";
+import Stars from "./stars";
 export {
   Paw,
   Twitter,
@@ -23,4 +24,5 @@ export {
   More,
   Threedot,
   Loading,
+  Stars,
 };

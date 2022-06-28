@@ -22,25 +22,21 @@ const TweetBox = styled.div`
 
 const InputTweetBox = styled.div`
   flex: 1 1 auto !important;
-  padding: 0.5em;
 `;
 const InputBox = styled.div`
   font-size: 20px;
-  padding-top: 15px;
-  :input {
-    align-items: stretch;
-    border: 0 solid black;
-    box-sizing: border-box;
-  }
-  &:focus {
-    outline: none;
-    border: none;
-  }
-  :input::placeholder {
-    font-weight: 400;
-    position: relative;
-    top: -0.3rem;
-  }
+  // :input {
+  //   align-items: stretch;
+  // }
+  // &:focus {
+  //   outline: none;
+  //   border: none;
+  // }
+  // :input::placeholder {
+  //   font-weight: 400;
+  //   position: relative;
+  //   top: -0.3rem;
+  // }
 `;
 const InputBoxRow = styled.div`
   padding-top: 20px;
@@ -60,7 +56,8 @@ const InputBoxGroup = styled.label`
 `;
 
 const AvatarBox = styled.div`
-  padding-top: 15px;
+  padding-top: 4px;
+  margin-right: 12px;
 `;
 const TweetButton = styled.div`
   margin-left: auto !important;
@@ -79,19 +76,23 @@ const InputFile = styled.input`
 function Tweet({ token, user, id, username, avatar, setReload, reload }) {
   const { state, addTweet, clearAddTweet } = useContext(TweetContext);
   const tweetData = useRef("");
-  // const [reload, setReload] = useState();
+  const [tweetText, setTweetText] = useState("");
   const [imgPreview, setImgPreview] = useState("");
   const [imgFile, setImgFile] = useState("");
   const [videoPreview, setVideoPreview] = useState("");
   const [videoLink, setVideoLink] = useState("");
   useEffect(() => {
+    const textWrapper = document.getElementsByClassName("textarea");
+
+    console.log(textWrapper);
     if (state.newTweet && state.newTweet.status === 200) {
       setImgPreview("");
       setImgFile("");
       setVideoPreview("");
       setVideoLink("");
-      tweetData.current.value = "";
+      setTweetText("");
       // setReload(true);
+      textWrapper[0].textContent = "";
       clearAddTweet();
     }
   }, [state]);
@@ -99,7 +100,7 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
     e.preventDefault();
     const formData = new FormData();
     formData.append("image", imgFile);
-    formData.append("tweet", tweetData.current.value);
+    formData.append("tweet", tweetText);
     formData.append("type", "tweetImg");
     formData.append("link", videoLink);
     await addTweet(formData);
@@ -124,8 +125,9 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
     setImgFile(event.target.files[0]);
   }
   const textareaHandleChange = (event) => {
-    let id = youtube_parser(event.target.value);
-    let link = linkify(event.target.value);
+    setTweetText(event.currentTarget.textContent);
+    let id = youtube_parser(event.currentTarget.textContent);
+    let link = linkify(event.currentTarget.textContent);
     setVideoPreview(id);
     setVideoLink(link);
   };
@@ -141,7 +143,6 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
               <Textarea
                 type="text"
                 name="Tweet"
-                // value={props.value}
                 placeholder="What's Happening"
                 autocomplete="off"
                 projectRef={tweetData}

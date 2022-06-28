@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
 const StyledIconButton = styled.button`
   color: #657786;
   padding: 0;
@@ -9,6 +8,13 @@ const StyledIconButton = styled.button`
   flex: 1 1 auto !important;
   font-size: ${(props) => props.size || "25px"};
   color: ${(props) => props.color};
+  .icon-right {
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: #0f1419;
+    }
+  }
 `;
 function IconButton(props) {
   return (
@@ -21,7 +27,11 @@ function IconButton(props) {
       className={props.icon}
       color={props.color}
       size={props.size}
-    />
+    >
+      {props.iconRightComponent && (
+        <div className="icon-right">{props.iconRightComponent}</div>
+      )}
+    </StyledIconButton>
   );
 }
 export default IconButton;

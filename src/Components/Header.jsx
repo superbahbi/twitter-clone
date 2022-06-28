@@ -5,7 +5,6 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import IconButton from "../Components/IconButton";
-import Col from "react-bootstrap/Col";
 library.add(fas, far);
 const HeaderContainer = styled.div`
   display: flex;
@@ -42,11 +41,18 @@ const ProfileTweetCount = styled.div`
   font-weight: lighter;
   padding-left: 10px;
 `;
-function Header(props) {
+function Header({
+  iconLeft,
+  iconRight,
+  name,
+  tweetCount,
+  iconRightComponent,
+  onHandleIconRightButton,
+}) {
   const navigate = useNavigate();
   return (
     <HeaderContainer>
-      {props.iconLeft && (
+      {iconLeft && (
         <div className="left-icon">
           <HeaderIconButton
             icon="icon ion-ios-arrow-left"
@@ -59,18 +65,19 @@ function Header(props) {
         </div>
       )}
 
-      <HeaderName>{props.name}</HeaderName>
-      {props.tweetCount && (
-        <ProfileTweetCount>{props.tweetCount + " Tweets"}</ProfileTweetCount>
+      <HeaderName>{name}</HeaderName>
+      {tweetCount && (
+        <ProfileTweetCount>{tweetCount + " Tweets"}</ProfileTweetCount>
       )}
 
-      {props.iconRight && (
+      {(iconRight || iconRightComponent) && (
         <div className="right-icon">
           <HeaderIconButton
-            icon={props.iconRight}
+            icon={iconRight}
+            iconRightComponent={iconRightComponent}
             color="#1da1f2"
             size="30px"
-            handleClick={props.onHandleIconRightButton}
+            handleClick={onHandleIconRightButton}
           />
         </div>
       )}
