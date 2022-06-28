@@ -5,14 +5,23 @@ const StyledIconButton = styled.button`
   padding: 0;
   border: none;
   background: none;
-  flex: 1 1 auto !important;
-  font-size: ${(props) => props.size || "25px"};
+  // flex: 1 1 auto !important;
   color: ${(props) => props.color};
+
   .icon-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
     svg {
       width: 20px;
       height: 20px;
       fill: #0f1419;
+    }
+    :hover {
+      border-radius: 30px;
+      background-color: #e7e7e8;
     }
   }
 `;
