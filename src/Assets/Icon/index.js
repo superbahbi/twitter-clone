@@ -21,6 +21,7 @@ import Comment from "./comment";
 import Retweet from "./retweet";
 import Like from "./like";
 import Share from "./share";
+import Trash from "./trash";
 export {
   Paw,
   Twitter,
@@ -45,4 +46,5 @@ export {
   Retweet,
   Like,
   Share,
+  Trash,
 };

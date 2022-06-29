@@ -1,16 +1,17 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import moment from "moment";
 import Avatar from ".././Components/Avatar";
 import IconButton from "../Components/IconButton";
 import CommentModal from "../Components/CommentModal";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 import { youtubeParser } from "../Helper/youtubeParser";
 
-import { Comment, Retweet, Like, Share } from "../Assets/Icon";
+import { Threedot, Comment, Retweet, Like, Share, Trash } from "../Assets/Icon";
 // import MediaFrame from "./MediaFrame";
 const TweetContainer = styled.div`
   display: flex;
@@ -34,8 +35,26 @@ const FeedBox = styled.div`
   display: flex;
 `;
 const FeedUserText = styled.div`
-  height: 20px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  height: 20px;
+  .threedot {
+    align-self: center;
+    margin-left: auto;
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: #0f1419;
+    }
+  }
+  .tooltip-inner {
+    background-color: red;
+    color: red;
+  }
+  .tooltip.show {
+    opacity: 1 !important;
+  }
 `;
 const FeedName = styled.span`
   padding-right: 0.25em;
@@ -73,14 +92,101 @@ const ButtonRow = styled.div`
   width: 425px;
   justify-content: space-between;
 `;
+const heartBurst = keyframes`
+from { background-position:left;}
+to { background-position:right;}
+`;
 const ButtonContainer = styled.div`
   position: relative;
   right: 10px;
+  .heart {
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    background-image: url("https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png");
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 2900%;
+  }
+  .is_animation {
+    animation: ${heartBurst} 0.8s steps(28) 1;
+  }
 `;
+
+const TooltipContainer = styled.div`
+  .custom-tooltip {
+    position: absolute;
+    bottom: -10px;
+    right: 0px;
+    background-color: white;
+    border-radius: 4px;
+    color: #0f1419;
+    height: 52px;
+    width: 300px;
+    box-sizing: border-box;
+    -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+      rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+    box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+      rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+    .tooltip-item {
+      display: inline-flex;
+      padding: 16px 16px;
+
+      margin: auto;
+      cursor: pointer;
+      color: red;
+
+      svg {
+        height: 18.75px;
+        width: 18.75px;
+        fill: red;
+        margin-right: 12px;
+      }
+      .tooltip-text {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        font-size: 15px;
+        line-height: 15px;
+      }
+    }
+    :hover {
+      background-color: #f7f7f7;
+    }
+  }
+`;
+function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
+  const { deleteTweet } = useContext(TweetContext);
+  return (
+    <TooltipContainer id="button-tooltip">
+      <div
+        className="custom-tooltip"
+        onClick={async () => {
+          await deleteTweet(id);
+          setShowTooltip({
+            ...showTooltip,
+            status: false,
+            id: null,
+          });
+          setReload(!reload);
+        }}
+      >
+        <div className="tooltip-item">
+          <Trash />
+          <div className="tooltip-text">Delete</div>
+        </div>
+      </div>
+    </TooltipContainer>
+  );
+}
 function Feed({ user, id, tweets, setReload, reload }) {
   const navigate = useNavigate();
   const { deleteTweet, likeTweet } = useContext(TweetContext);
   const { state: authState } = useContext(AuthContext);
+  const [showTooltip, setShowTooltip] = useState({
+    status: false,
+    id: "",
+  });
   const [show, setShow] = useState({
     status: false,
     id: "",
@@ -89,6 +195,13 @@ function Feed({ user, id, tweets, setReload, reload }) {
   function onHandleComment(id) {
     setShow({
       ...show,
+      status: true,
+      id: id,
+    });
+  }
+  function onHandleTooltip(id) {
+    setShowTooltip({
+      ...showTooltip,
       status: true,
       id: id,
     });
@@ -111,7 +224,9 @@ function Feed({ user, id, tweets, setReload, reload }) {
     // setReload(true);
     return status;
   }
-
+  // function onHandleDeleteComment(id) {
+  //   console.log("detele");
+  // }
   // if (props.setTweetCount) {
   //   props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   // }
@@ -128,16 +243,44 @@ function Feed({ user, id, tweets, setReload, reload }) {
             </AvatarContainer>
             <TweetContent>
               <FeedUserText
-                onClick={(event) => {
-                  event.preventDefault();
-                  navigate(`/${item.username}/status/${item._id}`, {
-                    replace: true,
-                  });
-                }}
+              // onClick={(event) => {
+              //   event.preventDefault();
+              //   navigate(`/${item.username}/status/${item._id}`, {
+              //     replace: true,
+              //   });
+              // }}
               >
-                <FeedName>{item.name}</FeedName>
-                <FeedTag>@{item.username}</FeedTag>
-                <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
+                <div>
+                  {" "}
+                  <FeedName>{item.name}</FeedName>
+                  <FeedTag>@{item.username}</FeedTag>
+                  <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
+                </div>
+                <OverlayTrigger
+                  placement="bottom-end"
+                  trigger="click"
+                  animation="fade"
+                  show={showTooltip.id === index ? showTooltip.status : false}
+                  overlay={renderTooltip(
+                    item._id,
+                    setReload,
+                    reload,
+                    showTooltip,
+                    setShowTooltip
+                  )}
+                >
+                  <span className="threedot">
+                    <IconButton
+                      type="button"
+                      iconRightComponent={<Threedot />}
+                      color="#536471"
+                      hoverColor="#1D9BF0"
+                      hoverColorBackground="#e8f5fe"
+                      handleClick={() => onHandleTooltip(index)}
+                    />
+                  </span>
+                </OverlayTrigger>
+                ,
               </FeedUserText>
               {youtubeParser(item.content) ? (
                 <FeedBox>
@@ -194,36 +337,33 @@ function Feed({ user, id, tweets, setReload, reload }) {
                         size="18.75px"
                         hoverColor="#00BA7C"
                         hoverColorBackground="#DEF1EB"
-                        // handleClick={() => {
-                        //   onHandleComment(index);
-                        // }}
-                      />
-                      {/* <IconButton
-                        name="button"
-                        type="button"
-                        style={{ color: userlike(item.likes) ? "red" : null }}
-                        icon={
-                          userlike(item.likes)
-                            ? "icon ion-ios-heart"
-                            : "icon ion-ios-heart-outline"
-                        }
-                        handleClick={async () => {
-                          await likeTweet(item._id);
-                          setReload(!reload);
+                        handleClick={() => {
+                          onHandleComment(index);
                         }}
-                      /> */}
+                      />
                     </ButtonContainer>
+
                     <ButtonContainer>
+                      <div></div>
                       <IconButton
                         type="button"
                         iconRightComponent={
-                          <Like liked={userlike(item.likes) ? true : false} />
+                          <Like
+                            // className="heart"
+                            // onClick={(event) => {
+                            //   console.log("click");
+                            //   event.currentTarget.classList.toggle(
+                            //     "is_animation"
+                            //   );
+                            // }}
+                            liked={userlike(item.likes) ? true : false}
+                          />
                         }
                         color={userlike(item.likes) ? "#F91880" : "#536471"}
                         size="18.75px"
                         hoverColor="#F91880"
                         hoverColorBackground="#F7E0EB"
-                        handleClick={async () => {
+                        handleClick={async (event) => {
                           await likeTweet(item._id);
                           setReload(!reload);
                         }}

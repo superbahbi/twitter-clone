@@ -5,7 +5,7 @@ import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
 import Avatar from ".././Components/Avatar";
 import IconButton from "./IconButton";
-
+import MediaFrame from "./MediaFrame";
 import {
   TweetUpload,
   TweetGif,
@@ -14,12 +14,7 @@ import {
   TweetSchedule,
   TweetLocation,
 } from "../Assets/Icon";
-import MediaFrame from "./MediaFrame";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
-library.add(fas, far);
+
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
