@@ -81,11 +81,12 @@ const FeedContent = styled.span`
   font-weight: 300;
   overflow-wrap: break-word;
 `;
-const FeedImage = styled.img`
-  width: 100%;
-  border: none;
-  border-radius: 10px;
-  padding-top: 5px;
+const FeedImage = styled.div`
+  margin-top: 16px;
+  img {
+    width: 100%;
+    border-radius: 16px;
+  }
 `;
 const ButtonRow = styled.div`
   display: flex;
@@ -221,12 +222,8 @@ function Feed({ user, id, tweets, setReload, reload }) {
       }
       return null;
     });
-    // setReload(true);
     return status;
   }
-  // function onHandleDeleteComment(id) {
-  //   console.log("detele");
-  // }
   // if (props.setTweetCount) {
   //   props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   // }
@@ -302,7 +299,9 @@ function Feed({ user, id, tweets, setReload, reload }) {
 
               {item.img ? (
                 <FeedBox>
-                  <FeedImage src={item.img.filename} />
+                  <FeedImage>
+                    <img src={item.img.filename} />
+                  </FeedImage>
                 </FeedBox>
               ) : null}
 
@@ -344,7 +343,6 @@ function Feed({ user, id, tweets, setReload, reload }) {
                     </ButtonContainer>
 
                     <ButtonContainer>
-                      <div></div>
                       <IconButton
                         type="button"
                         iconRightComponent={
@@ -364,6 +362,7 @@ function Feed({ user, id, tweets, setReload, reload }) {
                         hoverColor="#F91880"
                         hoverColorBackground="#F7E0EB"
                         handleClick={async (event) => {
+                          event.preventDefault();
                           await likeTweet(item._id);
                           setReload(!reload);
                         }}
