@@ -17,6 +17,10 @@ import TweetPoll from "./tweet-poll";
 import TweetEmoji from "./tweet-emoji";
 import TweetSchedule from "./tweet-schedule";
 import TweetLocation from "./tweet-location";
+import Comment from "./comment";
+import Retweet from "./retweet";
+import Like from "./like";
+import Share from "./share";
 export {
   Paw,
   Twitter,
@@ -37,4 +41,8 @@ export {
   TweetEmoji,
   TweetSchedule,
   TweetLocation,
+  Comment,
+  Retweet,
+  Like,
+  Share,
 };

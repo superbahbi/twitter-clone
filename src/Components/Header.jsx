@@ -57,7 +57,7 @@ function Header({
           <HeaderIconButton
             icon="icon ion-ios-arrow-left"
             color="#1da1f2"
-            size="30px"
+            hoverColor="#1da1f2"
             handleClick={() => {
               navigate(-1);
             }}
@@ -74,8 +74,8 @@ function Header({
         <div className="right-icon">
           <HeaderIconButton
             icon={iconRight}
+            hoverColor="#000"
             iconRightComponent={iconRightComponent}
-            size="30px"
             handleClick={onHandleIconRightButton}
           />
         </div>

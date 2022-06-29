@@ -7,48 +7,60 @@ import moment from "moment";
 import Avatar from ".././Components/Avatar";
 import IconButton from "../Components/IconButton";
 import CommentModal from "../Components/CommentModal";
+
+import { youtubeParser } from "../Helper/youtubeParser";
+
+import { Comment, Retweet, Like, Share } from "../Assets/Icon";
 // import MediaFrame from "./MediaFrame";
-const TweetBox = styled.div`
+const TweetContainer = styled.div`
   display: flex;
   flex-direction: row;
   font-size: 12px;
   line-height: 16px;
-
-  padding: 0 16px 0 16px;
+  padding-top: ;
+  padding: 16px 16px 0px 16px;
   :hover {
     background-color: #f5f8fa;
   }
 `;
-
-const TweetContainer = styled.div`
-  padding: 0.5em;
-  flex: 1 1 auto !important;
+const AvatarContainer = styled.div`
+  margin-right: 12px;
+`;
+const TweetContent = styled.div`
+  width: 100%;
 `;
 
 const FeedBox = styled.div`
   display: flex;
 `;
+const FeedUserText = styled.div`
+  height: 20px;
+  align-items: center;
+`;
 const FeedName = styled.span`
   padding-right: 0.25em;
-  font-size: 16px;
-  font-weight: bold;
+  color: #0f1419;
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 600;
 `;
 const FeedTag = styled.span`
   padding-right: 0.25em;
-  color: #657786;
-  font-size: 14px;
+  color: #536471;
+  font-size: 15px;
+  line-height: 15px;
 `;
 const FeedDate = styled.span`
-  padding-right: 0.25em;
-  color: #657786;
-  font-size: 14px;
+  color: #536471;
+  font-size: 15px;
+  line-height: 15px;
 `;
 const FeedContent = styled.span`
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
+  color: #0f1419;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 300;
+  overflow-wrap: break-word;
 `;
 const FeedImage = styled.img`
   width: 100%;
@@ -58,12 +70,12 @@ const FeedImage = styled.img`
 `;
 const ButtonRow = styled.div`
   display: flex;
-  flex-direction: row;
+  width: 425px;
+  justify-content: space-between;
 `;
 const ButtonContainer = styled.div`
-  padding-right: 30px;
-  align-items: left;
-  justify-content: left;
+  position: relative;
+  right: 10px;
 `;
 function Feed({ user, id, tweets, setReload, reload }) {
   const navigate = useNavigate();
@@ -74,13 +86,13 @@ function Feed({ user, id, tweets, setReload, reload }) {
     id: "",
   });
 
-  // function onHandleComment(id) {
-  //   setShow({
-  //     ...show,
-  //     status: true,
-  //     id: id,
-  //   });
-  // }
+  function onHandleComment(id) {
+    setShow({
+      ...show,
+      status: true,
+      id: id,
+    });
+  }
   function onHandleCommentClose() {
     setShow({
       ...show,
@@ -99,12 +111,7 @@ function Feed({ user, id, tweets, setReload, reload }) {
     // setReload(true);
     return status;
   }
-  function youtube_parser(url) {
-    var regExp =
-      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    var match = url.match(regExp);
-    return match && match[7].length === 11 ? match[7] : false;
-  }
+
   // if (props.setTweetCount) {
   //   props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   // }
@@ -112,13 +119,15 @@ function Feed({ user, id, tweets, setReload, reload }) {
   return tweets
     ? tweets.foundTweet.map((item, index) => (
         <React.Fragment key={index}>
-          <TweetBox>
-            <Avatar
-              name={item.username}
-              src={item.user_data.profile.avatar.filename}
-            />
-            <TweetContainer>
-              <FeedBox
+          <TweetContainer>
+            <AvatarContainer>
+              <Avatar
+                name={item.username}
+                src={item.user_data.profile.avatar.filename}
+              />
+            </AvatarContainer>
+            <TweetContent>
+              <FeedUserText
                 onClick={(event) => {
                   event.preventDefault();
                   navigate(`/${item.username}/status/${item._id}`, {
@@ -129,13 +138,13 @@ function Feed({ user, id, tweets, setReload, reload }) {
                 <FeedName>{item.name}</FeedName>
                 <FeedTag>@{item.username}</FeedTag>
                 <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
-              </FeedBox>
-              {youtube_parser(item.content) ? (
+              </FeedUserText>
+              {youtubeParser(item.content) ? (
                 <FeedBox>
                   <FeedContent>
                     <iframe
                       title="linkPostFeed"
-                      src={`https://www.youtube.com/embed/${youtube_parser(
+                      src={`https://www.youtube.com/embed/${youtubeParser(
                         item.content
                       )}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=1`}
                       frameBorder="0"
@@ -155,19 +164,19 @@ function Feed({ user, id, tweets, setReload, reload }) {
               ) : null}
 
               <FeedBox>
-                <TweetContainer>
+                <TweetContent>
                   <ButtonRow>
                     <ButtonContainer>
                       <IconButton
-                        id={index}
-                        dataTarget={index}
-                        name="button"
                         type="button"
-                        icon="icon ion-ios-chatbubble-outline"
-                        variant="primary"
-                        // handleClick={() => {
-                        //   onHandleComment(index);
-                        // }}
+                        iconRightComponent={<Comment />}
+                        color="#536471"
+                        size="18.75px"
+                        hoverColor="#1D9BF0"
+                        hoverColorBackground="#e8f5fe"
+                        handleClick={() => {
+                          onHandleComment(index);
+                        }}
                       />
                       <CommentModal
                         show={show.status}
@@ -179,6 +188,17 @@ function Feed({ user, id, tweets, setReload, reload }) {
                     </ButtonContainer>
                     <ButtonContainer>
                       <IconButton
+                        type="button"
+                        iconRightComponent={<Retweet />}
+                        color="#536471"
+                        size="18.75px"
+                        hoverColor="#00BA7C"
+                        hoverColorBackground="#DEF1EB"
+                        // handleClick={() => {
+                        //   onHandleComment(index);
+                        // }}
+                      />
+                      {/* <IconButton
                         name="button"
                         type="button"
                         style={{ color: userlike(item.likes) ? "red" : null }}
@@ -191,9 +211,39 @@ function Feed({ user, id, tweets, setReload, reload }) {
                           await likeTweet(item._id);
                           setReload(!reload);
                         }}
+                      /> */}
+                    </ButtonContainer>
+                    <ButtonContainer>
+                      <IconButton
+                        type="button"
+                        iconRightComponent={
+                          <Like liked={userlike(item.likes) ? true : false} />
+                        }
+                        color={userlike(item.likes) ? "#F91880" : "#536471"}
+                        size="18.75px"
+                        hoverColor="#F91880"
+                        hoverColorBackground="#F7E0EB"
+                        handleClick={async () => {
+                          await likeTweet(item._id);
+                          setReload(!reload);
+                        }}
                       />
                     </ButtonContainer>
                     <ButtonContainer>
+                      <IconButton
+                        type="button"
+                        iconRightComponent={<Share />}
+                        color="#536471"
+                        size="18.75px"
+                        hoverColor="#1D9BF0"
+                        hoverColorBackground="#e8f5fe"
+                        handleClick={async () => {
+                          await deleteTweet(item._id);
+                          setReload(!reload);
+                        }}
+                      />
+                    </ButtonContainer>
+                    {/* <ButtonContainer>
                       {user.username === item.user_data.username ? (
                         <IconButton
                           id={item._id}
@@ -207,12 +257,12 @@ function Feed({ user, id, tweets, setReload, reload }) {
                           }}
                         />
                       ) : null}
-                    </ButtonContainer>
+                    </ButtonContainer> */}
                   </ButtonRow>
-                </TweetContainer>
+                </TweetContent>
               </FeedBox>
-            </TweetContainer>
-          </TweetBox>
+            </TweetContent>
+          </TweetContainer>
 
           {/* {item
             ? item.comment

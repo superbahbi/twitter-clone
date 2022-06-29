@@ -187,7 +187,8 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
                   type="button"
                   iconRightComponent={<TweetUpload />}
                   color="#1D9BF0"
-                  hoverColor="#e8f5fe"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
                 >
                   <InputFile
                     type="file"
@@ -200,7 +201,8 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
                   type="button"
                   iconRightComponent={<TweetGif />}
                   color="#1D9BF0"
-                  hoverColor="#e8f5fe"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
                 >
                   <InputFile
                     type="file"
@@ -213,7 +215,8 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
                   type="button"
                   iconRightComponent={<TweetPoll />}
                   color="#1D9BF0"
-                  hoverColor="#e8f5fe"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
                 >
                   <InputFile
                     type="file"
@@ -226,7 +229,8 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
                   type="button"
                   iconRightComponent={<TweetEmoji />}
                   color="#1D9BF0"
-                  hoverColor="#e8f5fe"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
                 >
                   <InputFile
                     type="file"
@@ -239,7 +243,8 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
                   type="button"
                   iconRightComponent={<TweetSchedule />}
                   color="#1D9BF0"
-                  hoverColor="#e8f5fe"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
                 >
                   <InputFile
                     type="file"
@@ -252,7 +257,8 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
                   type="button"
                   iconRightComponent={<TweetLocation />}
                   color="#1D9BF0"
-                  hoverColor="#e8f5fe"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
                   disabled={true}
                 >
                   <InputFile

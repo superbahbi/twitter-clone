@@ -16,14 +16,17 @@ const StyledIconButton = styled.button`
     height: 36px;
     opacity: ${(props) => (props.disabled ? 0.5 : 1)};
     svg {
-      width: 20px;
-      height: 20px;
+      width: ${(props) => (props.size ? props.size : "20px")};
+      height: ${(props) => (props.size ? props.size : "20px")};
       fill: ${(props) => (props.color ? props.color : "#000")};
+      :hover {
+        fill: ${(props) => (props.hoverColor ? props.hoverColor : "#e7e7e8")};
+      }
     }
     :hover {
       border-radius: 30px;
       background-color: ${(props) =>
-        props.hoverColor ? props.hoverColor : "#e7e7e8"};
+        props.hoverColorBackground ? props.hoverColorBackground : "#e7e7e8"};
     }
   }
 `;
@@ -38,6 +41,7 @@ function IconButton(props) {
       className={props.icon}
       color={props.color}
       hoverColor={props.hoverColor}
+      hoverColorBackground={props.hoverColorBackground}
       size={props.size}
       disabled={props.disabled}
     >

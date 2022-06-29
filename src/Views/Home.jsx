@@ -9,7 +9,8 @@ import useTweet from "../Hooks/useTweet";
 import { Stars } from "../Assets/Icon";
 const TweetDivider = styled.div`
   flex: 1 1 auto !important;
-  border: 5px solid rgb(230, 236, 240);
+  margin: 4px 0px;
+  border-bottom: 1px solid rgb(239, 243, 244);
 `;
 function Home() {
   const { state: authState } = useContext(AuthContext);
