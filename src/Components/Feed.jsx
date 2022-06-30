@@ -95,14 +95,15 @@ const FeedContent = styled.span`
 `;
 const FeedImage = styled.div`
   margin-top: 16px;
+
   img {
-    width: 100%;
+    max-width: 100%;
     border-radius: 16px;
   }
 `;
 const ButtonRow = styled.div`
   display: flex;
-  width: 425px;
+  width: 85%;
   justify-content: space-between;
 `;
 const heartBurst = keyframes`

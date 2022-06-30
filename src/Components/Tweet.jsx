@@ -16,6 +16,9 @@ import {
 } from "../Assets/Icon";
 
 const TweetBox = styled.div`
+  @media (max-width: 700px) {
+    display: none;
+  }
   display: flex;
   flex-direction: row;
   font-size: 12px;
