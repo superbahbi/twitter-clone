@@ -183,7 +183,7 @@ function Navbar() {
             id="profile"
             name="Profile"
             icon={<Profile active={isActive === "profile" ? true : false} />}
-            onHandleClick={() => onHandleClick("profile")}
+            onHandleClick={() => onHandleClick(state.user.username)}
           />
           <List
             id="more"

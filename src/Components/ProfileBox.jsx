@@ -95,7 +95,7 @@ function ProfileBox(props) {
               src={user.profile && user.profile.avatar.filename}
               alt=""
             />
-            {props.username === username ? (
+            {/* {props.username === username ? (
               <Button
                 primary
                 right
@@ -106,7 +106,7 @@ function ProfileBox(props) {
                 label="Edit profile"
                 handleClick={onHandleClick}
               />
-            ) : null}
+            ) : null} */}
           </Row>
           <ProfileContainer>
             <ProfileUser>

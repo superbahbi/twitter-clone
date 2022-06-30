@@ -1,5 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import styled, { keyframes } from "styled-components";
@@ -169,7 +168,6 @@ const TooltipContainer = styled.div`
     }
   }
 `;
-const VerifiedTag = styled.div``;
 function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
   const { deleteTweet } = useContext(TweetContext);
   return (
@@ -194,8 +192,7 @@ function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
     </TooltipContainer>
   );
 }
-function Feed({ user, id, tweets, setReload, reload }) {
-  const navigate = useNavigate();
+function Feed({ tweets, setReload, reload }) {
   const { deleteTweet, likeTweet } = useContext(TweetContext);
   const { state: authState } = useContext(AuthContext);
   const [showTooltip, setShowTooltip] = useState({
@@ -315,7 +312,7 @@ function Feed({ user, id, tweets, setReload, reload }) {
               {item.img ? (
                 <FeedBox>
                   <FeedImage>
-                    <img src={item.img.filename} />
+                    <img src={item.img.filename} alt="feed" />
                   </FeedImage>
                 </FeedBox>
               ) : null}
@@ -364,7 +361,6 @@ function Feed({ user, id, tweets, setReload, reload }) {
                           <Like
                             // className="heart"
                             // onClick={(event) => {
-                            //   console.log("click");
                             //   event.currentTarget.classList.toggle(
                             //     "is_animation"
                             //   );
@@ -397,21 +393,6 @@ function Feed({ user, id, tweets, setReload, reload }) {
                         }}
                       />
                     </ButtonContainer>
-                    {/* <ButtonContainer>
-                      {user.username === item.user_data.username ? (
-                        <IconButton
-                          id={item._id}
-                          value="test"
-                          name="button"
-                          type="button"
-                          icon="icon ion-ios-trash-outline"
-                          handleClick={async () => {
-                            await deleteTweet(item._id);
-                            setReload(!reload);
-                          }}
-                        />
-                      ) : null}
-                    </ButtonContainer> */}
                   </ButtonRow>
                 </TweetContent>
               </FeedBox>
