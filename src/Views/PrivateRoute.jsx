@@ -22,7 +22,7 @@ const Container = styled.div`
   // @media (max-width: 700px) {
 
   // }
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
     grid-template-columns: 1fr;
     width: 100%;
     gap: 0px;

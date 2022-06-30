@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import styled, { keyframes } from "styled-components";
-import moment from "moment";
+import moment from "moment-twitter";
 import Avatar from ".././Components/Avatar";
 import IconButton from "../Components/IconButton";
 import CommentModal from "../Components/CommentModal";
@@ -46,6 +46,7 @@ const FeedUserText = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 20px;
+  white-space: nowrap;
   .threedot {
     align-self: center;
     margin-left: auto;
@@ -69,6 +70,7 @@ const FeedName = styled.span`
   font-size: 15px;
   line-height: 15px;
   font-weight: 600;
+  text-overflow: ellipsis;
   svg {
     height: 16.41px;
     width: 16.41px;
@@ -80,6 +82,7 @@ const FeedTag = styled.span`
   color: #536471;
   font-size: 15px;
   line-height: 15px;
+  text-overflow: ellipsis; ;
 `;
 const FeedDate = styled.span`
   color: #536471;
@@ -239,6 +242,24 @@ function Feed({ tweets, setReload, reload }) {
   // if (props.setTweetCount) {
   //   props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   // }
+  // moment.locale("en", {
+  //   relativeTime: {
+  //     future: "in %s",
+  //     past: "%s ago",
+  //     s: "seconds",
+  //     ss: "%ss",
+  //     m: "a minute",
+  //     mm: "%dm",
+  //     h: "an hour",
+  //     hh: "%dh",
+  //     d: "a day",
+  //     dd: "%dd",
+  //     M: "%dM",
+  //     MM: "%dM",
+  //     y: "a year",
+  //     yy: "%dY",
+  //   },
+  // });
   return tweets
     ? tweets.foundTweet.map((item, index) => (
         <React.Fragment key={index}>
@@ -264,7 +285,7 @@ function Feed({ tweets, setReload, reload }) {
                   </FeedName>
 
                   <FeedTag>@{item.username}</FeedTag>
-                  <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
+                  <FeedDate>· {moment(item.timestamp).twitter()}</FeedDate>
                 </div>
                 <OverlayTrigger
                   placement="bottom-end"
