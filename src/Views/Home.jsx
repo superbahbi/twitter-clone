@@ -16,10 +16,11 @@ function Home() {
   const { state: authState } = useContext(AuthContext);
   const { token, user } = authState;
   const { state: tweetState } = useContext(TweetContext);
-  const [getTweets] = useTweet();
+  const { getAllTweets, reset } = useTweet();
   const [reload, setReload] = useState("");
   useEffect(() => {
-    getTweets();
+    reset();
+    getAllTweets();
   }, [reload]);
   return (
     <>
@@ -36,9 +37,7 @@ function Home() {
       />
       <TweetDivider></TweetDivider>
       <Feed
-        user={user}
         tweets={tweetState && tweetState.tweets}
-        // id={id}
         setReload={setReload}
         reload={reload}
       />
