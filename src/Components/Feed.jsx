@@ -11,7 +11,15 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 import { youtubeParser } from "../Helper/youtubeParser";
 
-import { Threedot, Comment, Retweet, Like, Share, Trash } from "../Assets/Icon";
+import {
+  Threedot,
+  Comment,
+  Retweet,
+  Like,
+  Share,
+  Trash,
+  Verified,
+} from "../Assets/Icon";
 // import MediaFrame from "./MediaFrame";
 const TweetContainer = styled.div`
   display: flex;
@@ -62,6 +70,11 @@ const FeedName = styled.span`
   font-size: 15px;
   line-height: 15px;
   font-weight: 600;
+  svg {
+    height: 16.41px;
+    width: 16.41px;
+    fill: #1da1f2;
+  }
 `;
 const FeedTag = styled.span`
   padding-right: 0.25em;
@@ -156,6 +169,7 @@ const TooltipContainer = styled.div`
     }
   }
 `;
+const VerifiedTag = styled.div``;
 function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
   const { deleteTweet } = useContext(TweetContext);
   return (
@@ -227,7 +241,6 @@ function Feed({ user, id, tweets, setReload, reload }) {
   // if (props.setTweetCount) {
   //   props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   // }
-
   return tweets
     ? tweets.foundTweet.map((item, index) => (
         <React.Fragment key={index}>
@@ -248,8 +261,10 @@ function Feed({ user, id, tweets, setReload, reload }) {
               // }}
               >
                 <div>
-                  {" "}
-                  <FeedName>{item.name}</FeedName>
+                  <FeedName>
+                    {item.name} <Verified />
+                  </FeedName>
+
                   <FeedTag>@{item.username}</FeedTag>
                   <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
                 </div>
