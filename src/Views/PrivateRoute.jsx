@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 1200px;
   display: grid;
   grid-template-areas: "navbar main sidebar";
-  grid-template-columns: 251px 600px 350fr;
+  grid-template-columns: 251px 600px 350px;
   gap: 20px;
   margin: 0 auto;
 `;

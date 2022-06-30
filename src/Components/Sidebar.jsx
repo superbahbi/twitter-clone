@@ -1,162 +1,147 @@
 import React from "react";
 import styled from "styled-components";
-import Row from "react-bootstrap/Row";
-const MainContainer = styled.div``;
-const SearchBar = styled.div`
-  padding-top: 4px;
-  input.form-control[type="text"]:focus:not([readonly]) {
-    border-bottom: 1px solid #f48fb1;
-    box-shadow: 0 1px 0 0 #f48fb1;
+import IconButton from "./IconButton";
+import { Search, Threedot } from "../Assets/Icon";
+const SidebarContainer = styled.div`
+  width: 350px;
+  padding-top: 12px;
+`;
+const SideBarSearch = styled.div`
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  border: 1px solid #fff;
+  border-radius: 30px;
+  background-color: #eff3f4;
+  width: 100%;
+  margin-bottom: 12px;
+  i {
+    padding-left: 12px;
+    align-self: center;
+    svg {
+      height: 20px;
+      width: 20px;
+      fill: #536571;
+    }
   }
-  input.form-control[type="text"] {
-    border-bottom: 1px solid #f48fb1;
-    box-shadow: 0 1px 0 0 #f48fb1;
-  }
-  input.form-control {
-    border: 0;
-    border-radius: 0;
-    outline: 0;
-    background-clip: border-box;
-    background-color: #f5f8fa;
+  input {
+    border: none;
+    outline: none;
+    color: #536571;
+    background-color: transparent;
+    height: 42px;
+    padding: 12px;
+    max-width: 100%;
   }
 `;
-const SideBarItem = styled.div`
-  margin-bottom: 20px;
-  width: 230px;
-`;
-const SideBarHeading = styled.div`
-  font-size: 19px;
-  font-weight: 800;
-  color: rgb(20, 23, 26);
-  padding-bottom: 5px;
-`;
-const SideBarContainer = styled.div`
-  padding: 5px 16px 5px 16px;
-  border-color: #eee #ddd #bbb;
+const SidebarSubContainer = styled.div`
+  background-color: #f7f9f9;
+  border-color: #f7f9f9;
   border-style: solid;
   border-width: 1px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  background-color: #f5f8fa;
-  :first-child {
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  .heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0f1419;
+    padding: 12px 16px;
   }
-  :last-child {
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
+  .item {
+    display: grid;
+    grid-template-columns: 1fr 68px;
+    padding: 12px 16px;
+    :hover {
+      background-color: #eff1f1;
+    }
+    .story {
+      margin-right: 12px;
+      .title {
+        font-size: 13px;
+        color: #536571;
+      }
+      .text {
+        font-size: 15px;
+        font-weight: 600;
+        color: #0f1419;
+      }
+    }
+    .right {
+      img {
+        border-radius: 16px;
+      }
+      .threedot {
+        display: flex;
+        justify-content: right;
+      }
+    }
+    :last-of-type {
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+    }
   }
-`;
-const SideBarTrending = styled.div`
-  color: #83929f;
-  font-size: 13px;
-  font-weight: 400;
-`;
-const SideBarTitle = styled.div`
-  color: #434a52;
-  font-size: 15px;
-  font-weight: bold;
-`;
-const SideBarTweet = styled.div`
-  color: #83929f;
-  font-size: 15px;
-  font-weight: 400;
-`;
-const SideBarIcon = styled.div`
-  padding-left: 10px;
-  padding-right: 10px;
-`;
-const SideBarName = styled.div`
-  font-size: 15px;
-  font-weight: bold;
-  color: #14171a;
-`;
-const SideBarTag = styled.div`
-  font-size: 15px;
-  font-weight: 400;
-  color: rgb(101, 119, 134);
-`;
-const Footer = styled.div`
-  font-size: 13px;
-  color: rgb(101, 119, 134);
-  font-weight: 400;
-
-  a {
-    padding-right: 5px;
-    color: rgb(101, 119, 134);
+  .sidebar-see-more {
+    font-size: 15px;
+    color: #1da1f2;
+    padding: 16px;
   }
 `;
+const SidebarTitle = styled.div``;
 function Sidebar() {
   return (
-    <MainContainer>
-      <Row>
-        <SideBarItem>
-          <form action="/search" role="search">
-            <SearchBar>
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Search"
-                aria-label="Search"
+    <SidebarContainer>
+      <form>
+        <SideBarSearch>
+          <i>
+            <Search />
+          </i>
+          <input placeholder="Search Twitter" />
+        </SideBarSearch>
+      </form>
+      <SidebarSubContainer>
+        <div className="heading">What's Happening</div>
+        <div className="item">
+          <div className="story">
+            <div className="title">News · LIVE</div>
+            <div className="text">
+              Inflation killed the $1 pizza slice. Is the 99c iced tea next?
+            </div>
+          </div>
+          <div className="right">
+            <img src="http://via.placeholder.com/68x68" alt="img" />
+          </div>
+        </div>
+        <div className="item">
+          <div className="story">
+            <div className="title">News · Earlier today</div>
+            <div className="text">
+              'Mystery rocket' that crashed into the Moon baffles NASA
+              scientists
+            </div>
+          </div>
+          <div className="right">
+            <img src="http://via.placeholder.com/68x68" alt="img" />
+          </div>
+        </div>
+        <div className="item">
+          <div className="story">
+            <div className="title">Trending in United States</div>
+            <div className="text">#hiremepls</div>
+          </div>
+          <div className="right">
+            <div className="threedot">
+              <IconButton
+                type="button"
+                iconRightComponent={<Threedot />}
+                color="#536471"
+                hoverColor="#1D9BF0"
+                hoverColorBackground="#e8f5fe"
               />
-            </SearchBar>
-          </form>
-        </SideBarItem>
-      </Row>
-      <Row>
-        <SideBarItem>
-          <SideBarContainer>
-            <SideBarHeading>Trends for you</SideBarHeading>
-          </SideBarContainer>
-          <SideBarContainer>
-            <SideBarTrending>Trending in United States</SideBarTrending>
-            <SideBarTitle>#timechange</SideBarTitle>
-            <SideBarTweet>1,201 Tweets</SideBarTweet>
-          </SideBarContainer>
-          <SideBarContainer>
-            <SideBarTrending>Trending in United States</SideBarTrending>
-            <SideBarTitle>#timechange</SideBarTitle>
-            <SideBarTweet>1,201 Tweets</SideBarTweet>
-          </SideBarContainer>
-          <SideBarContainer>
-            <SideBarTrending>Trending in United States</SideBarTrending>
-            <SideBarTitle>#timechange</SideBarTitle>
-            <SideBarTweet>1,201 Tweets</SideBarTweet>
-          </SideBarContainer>
-          <SideBarContainer>Show more</SideBarContainer>
-        </SideBarItem>
-        <SideBarItem>
-          <SideBarContainer>
-            <SideBarHeading>Who to follow</SideBarHeading>
-          </SideBarContainer>
-          <SideBarContainer>
-            <Row>
-              <SideBarIcon>
-                <img
-                  src="https://via.placeholder.com/49"
-                  className="rounded-circle"
-                  alt=""
-                />
-              </SideBarIcon>
-              <div>
-                <SideBarName>John Doe</SideBarName>
-                <SideBarTag>@johndoe</SideBarTag>
-              </div>
-            </Row>
-          </SideBarContainer>
-          <SideBarContainer>Show more</SideBarContainer>
-        </SideBarItem>
-        <SideBarItem>
-          <Footer>
-            <a href="/">Terms</a>
-            <a href="/">Privacy Policy</a>
-            <a href="/">Cookies</a>
-          </Footer>
-          <Footer>
-            <p>©{new Date().getFullYear()} Twitter Clone, Inc.</p>
-          </Footer>
-        </SideBarItem>
-      </Row>
-    </MainContainer>
+            </div>
+          </div>
+        </div>
+        <div className="item sidebar-see-more">Show more</div>
+      </SidebarSubContainer>
+    </SidebarContainer>
   );
 }
 export default Sidebar;

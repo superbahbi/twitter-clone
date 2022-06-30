@@ -22,6 +22,8 @@ import Retweet from "./retweet";
 import Like from "./like";
 import Share from "./share";
 import Trash from "./trash";
+import Search from "./search";
+import Verified from "./verified";
 export {
   Paw,
   Twitter,
@@ -47,4 +49,6 @@ export {
   Like,
   Share,
   Trash,
+  Search,
+  Verified,
 };
