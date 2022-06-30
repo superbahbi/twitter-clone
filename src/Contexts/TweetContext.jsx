@@ -11,13 +11,16 @@ const tweetReducer = (state, action) => {
       return { ...state, errorMessage: "", newTweet: action.payload };
     case "reload":
       return { ...state, errorMessage: "", reload: true };
+    case "reset":
+      return { ...state, errorMessage: "", tweets: action.payload };
     default:
       return state;
   }
 };
-const getTweet = (dispatch) => async () => {
+const getTweets = (dispatch) => async (id) => {
   try {
-    const response = await api.get("/api/tweet");
+    let url = id ? "/api/tweet/" + id : "/api/tweet";
+    const response = await api.get(url);
     dispatch({ type: "fetch_tweets", payload: response.data });
   } catch (error) {
     dispatch({
@@ -80,16 +83,20 @@ const addComment = (dispatch) => async (data) => {
     });
   }
 };
+const resetData = (dispatch) => () => {
+  dispatch({ type: "reset", payload: "" });
+};
 export const { Provider, Context } = createDataContext(
   tweetReducer,
   {
-    getTweet,
+    getTweets,
     addTweet,
     clearAddTweet,
     deleteTweet,
     editTweet,
     likeTweet,
     addComment,
+    resetData,
   },
   { tweets: null, errorMessage: "", newTweet: null, reload: null }
 );

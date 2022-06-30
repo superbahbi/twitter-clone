@@ -85,7 +85,6 @@ const SidebarSubContainer = styled.div`
     padding: 16px;
   }
 `;
-const SidebarTitle = styled.div``;
 function Sidebar() {
   return (
     <SidebarContainer>

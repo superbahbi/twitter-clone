@@ -1,11 +1,20 @@
 import { useContext } from "react";
 import { Context as TweetContext } from "../Contexts/TweetContext";
-export default () => {
-  const { getTweet } = useContext(TweetContext);
-
-  const useGetTweets = async () => {
-    console.log("getTweet");
-    await getTweet();
+const useTweet = (id) => {
+  const { getTweets, resetData } = useContext(TweetContext);
+  const getAllTweets = async () => {
+    return await getTweets();
   };
-  return [useGetTweets];
+  const getUserTweets = async (id) => {
+    return await getTweets(id);
+  };
+  const reset = async () => {
+    await resetData();
+  };
+  return {
+    getAllTweets,
+    getUserTweets,
+    reset,
+  };
 };
+export default useTweet;
