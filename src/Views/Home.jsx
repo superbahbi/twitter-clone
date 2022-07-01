@@ -8,7 +8,7 @@ import Feed from ".././Components/Feed";
 import useTweet from "../Hooks/useTweet";
 import { Stars } from "../Assets/Icon";
 const TweetDivider = styled.div`
-  flex: 1 1 auto !important;
+  flex: 1 1 auto;
   margin: 4px 0px;
   border-bottom: 1px solid rgb(239, 243, 244);
 `;
@@ -24,7 +24,11 @@ function Home() {
   }, [reload]);
   return (
     <>
-      <Header name="Home" iconRightComponent={<Stars />} />
+      <Header
+        avatar={user.profile.avatar.filename}
+        name="Home"
+        iconRightComponent={<Stars />}
+      />
       <Tweet
         page="Home"
         token={token}

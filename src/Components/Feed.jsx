@@ -21,6 +21,9 @@ import {
 } from "../Assets/Icon";
 // import MediaFrame from "./MediaFrame";
 const TweetContainer = styled.div`
+  @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
+    padding-top: 53px;
+  }
   display: flex;
   flex-direction: row;
   font-size: 12px;

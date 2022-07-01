@@ -4,8 +4,9 @@ import { Context as AuthContext } from "../Contexts/AuthContext";
 import ClipLoader from "react-spinners/ClipLoader";
 import styled from "styled-components";
 import Navbar from "../Components/Navbar";
+import NavMobile from "../Components/NavMobile";
 import Sidebar from "../Components/Sidebar";
-import Col from "react-bootstrap/Col";
+
 const Container = styled.div`
   width: 1200px;
   display: grid;
@@ -48,6 +49,7 @@ const SidebarContainer = styled.div`
     display: none;
   }
 `;
+
 const Spinner = styled.div`
   position: absolute;
   height: 100px;
@@ -79,10 +81,8 @@ function PrivateRoute({ children }) {
       </NavbarContainer>
 
       <MainContainer>
-        <Col>
-          {/* xs={6} md={8} lg={12} */}
-          {children}
-        </Col>
+        {children}
+        <NavMobile />
       </MainContainer>
 
       <SidebarContainer>

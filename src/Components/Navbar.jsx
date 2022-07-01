@@ -122,7 +122,7 @@ const TooltipContainer = styled.div`
   }
 `;
 function Navbar() {
-  const nagivate = useNavigate();
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const target = useRef(null);
   const { state, logout } = useContext(AuthContext);
@@ -137,11 +137,11 @@ function Navbar() {
 
   function handleLogout() {
     logout();
-    nagivate("/login");
+    navigate("/login");
   }
   function onHandleClick(id) {
     setIsActive(id);
-    nagivate(`/${id}`);
+    navigate(`/${id}`);
   }
 
   return (
@@ -154,7 +154,7 @@ function Navbar() {
             icon={<Twitter />}
             color="#1da1f2"
             onHandleClick={() => {
-              nagivate("/home");
+              navigate("/home");
             }}
           />
 
@@ -217,7 +217,7 @@ function Navbar() {
             id="more"
             name="More"
             icon={<More />}
-            onHandleClick={() => onHandleClick("Settings")}
+            onHandleClick={() => onHandleClick("settings")}
             paddingBottom="20px"
           />
           <TweetButton>

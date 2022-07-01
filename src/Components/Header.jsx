@@ -5,8 +5,10 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import IconButton from "../Components/IconButton";
+import Avatar from "../Components/Avatar";
 library.add(fas, far);
 const HeaderContainer = styled.div`
+
   display: flex;
   flex-direction: row;
   padding: 0 16px;
@@ -19,9 +21,25 @@ const HeaderContainer = styled.div`
     align-self: center;
     margin-left: auto;
   }
+  .avatar{
+    display: none;
+  }
+  @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
+    display: flex;
+    position: fixed;
+    height: 53px;
+    margin: 0;
+    background-color: rgba(255, 255, 255,0.99);
+    width: 100%;
+    z-index: 1;
+    .avatar{
+      display: block;
+      align-self: center;
+      padding-right 16px;
+    }
+  }
 `;
 const HeaderName = styled.div`
-  // padding-left: ${(props) => !props.iconLeft && "16px"};
   font-size: 20px;
   font-weight: 600;
   align-self: center;
@@ -42,6 +60,7 @@ const ProfileTweetCount = styled.div`
   padding-left: 10px;
 `;
 function Header({
+  avatar,
   iconLeft,
   iconRight,
   name,
@@ -64,7 +83,11 @@ function Header({
           />
         </div>
       )}
-
+      {avatar && (
+        <div className="avatar">
+          <Avatar src={avatar} height="32px" width="32px" />
+        </div>
+      )}
       <HeaderName>{name}</HeaderName>
       {tweetCount && (
         <ProfileTweetCount>{tweetCount + " Tweets"}</ProfileTweetCount>
