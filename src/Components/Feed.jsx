@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import styled, { keyframes } from "styled-components";
@@ -112,25 +112,9 @@ const ButtonRow = styled.div`
   width: 85%;
   justify-content: space-between;
 `;
-const heartBurst = keyframes`
-from { background-position:left;}
-to { background-position:right;}
-`;
 const ButtonContainer = styled.div`
   position: relative;
   right: 10px;
-  .heart {
-    cursor: pointer;
-    height: 50px;
-    width: 50px;
-    background-image: url("https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png");
-    background-position: left;
-    background-repeat: no-repeat;
-    background-size: 2900%;
-  }
-  .is_animation {
-    animation: ${heartBurst} 0.8s steps(28) 1;
-  }
 `;
 
 const TooltipContainer = styled.div`
@@ -188,7 +172,7 @@ function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
             status: false,
             id: null,
           });
-          setReload(!reload);
+          // setReload(!reload);
         }}
       >
         <div className="tooltip-item">
@@ -199,9 +183,10 @@ function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
     </TooltipContainer>
   );
 }
-function Feed({ tweets, setReload, reload }) {
+function Feed({ tweets }) {
   const { deleteTweet, likeTweet } = useContext(TweetContext);
   const { state: authState } = useContext(AuthContext);
+
   const [showTooltip, setShowTooltip] = useState({
     status: false,
     id: "",
@@ -210,7 +195,12 @@ function Feed({ tweets, setReload, reload }) {
     status: false,
     id: "",
   });
-
+  // useEffect(() => {
+  //   tweets && console.log(tweets);
+  //   // tweets.foundTweet.map((tweet) => {
+  //   //   console.log(tweet.img);
+  //   // });
+  // }, []);
   function onHandleComment(id) {
     setShow({
       ...show,
@@ -242,27 +232,7 @@ function Feed({ tweets, setReload, reload }) {
     });
     return status;
   }
-  // if (props.setTweetCount) {
-  //   props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
-  // }
-  // moment.locale("en", {
-  //   relativeTime: {
-  //     future: "in %s",
-  //     past: "%s ago",
-  //     s: "seconds",
-  //     ss: "%ss",
-  //     m: "a minute",
-  //     mm: "%dm",
-  //     h: "an hour",
-  //     hh: "%dh",
-  //     d: "a day",
-  //     dd: "%dd",
-  //     M: "%dM",
-  //     MM: "%dM",
-  //     y: "a year",
-  //     yy: "%dY",
-  //   },
-  // });
+
   return tweets
     ? tweets.foundTweet.map((item, index) => (
         <React.Fragment key={index}>
@@ -297,8 +267,8 @@ function Feed({ tweets, setReload, reload }) {
                   show={showTooltip.id === index ? showTooltip.status : false}
                   overlay={renderTooltip(
                     item._id,
-                    setReload,
-                    reload,
+                    // setReload,
+                    // reload,
                     showTooltip,
                     setShowTooltip
                   )}
@@ -383,24 +353,25 @@ function Feed({ tweets, setReload, reload }) {
                       <IconButton
                         type="button"
                         iconRightComponent={
-                          <Like
-                            // className="heart"
-                            // onClick={(event) => {
-                            //   event.currentTarget.classList.toggle(
-                            //     "is_animation"
-                            //   );
-                            // }}
-                            liked={userlike(item.likes) ? true : false}
-                          />
+                          <Like liked={userlike(item.likes) ? true : false} />
                         }
                         color={userlike(item.likes) ? "#F91880" : "#536471"}
                         size="18.75px"
                         hoverColor="#F91880"
                         hoverColorBackground="#F7E0EB"
-                        handleClick={async (event) => {
-                          event.preventDefault();
+                        handleClick={async () => {
+                          let lineIndex = -1;
+                          item.likes.map((like, index) => {
+                            if (like._id === authState.user._id) {
+                              lineIndex = index;
+                            }
+                          });
+                          if (lineIndex === -1) {
+                            item.likes.push({ _id: authState.user._id });
+                          } else {
+                            item.likes.splice(lineIndex);
+                          }
                           await likeTweet(item._id);
-                          setReload(!reload);
                         }}
                       />
                     </ButtonContainer>
@@ -414,7 +385,7 @@ function Feed({ tweets, setReload, reload }) {
                         hoverColorBackground="#e8f5fe"
                         handleClick={async () => {
                           await deleteTweet(item._id);
-                          setReload(!reload);
+                          // setReload(!reload);
                         }}
                       />
                     </ButtonContainer>

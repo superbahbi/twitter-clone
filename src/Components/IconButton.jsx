@@ -35,10 +35,11 @@ function IconButton(props) {
     <StyledIconButton
       id={props.id}
       style={props.style}
+      className={props.className}
       type={props.type}
       name={props.name}
       onClick={props.handleClick}
-      className={props.icon}
+      // className={props.icon}
       color={props.color}
       hoverColor={props.hoverColor}
       hoverColorBackground={props.hoverColorBackground}

@@ -1,11 +1,12 @@
 import React from "react";
 
-export default ({ liked }) => (
+export default ({ liked, hidden }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.0"
     viewBox="0 0 24 24"
     aria-hidden="true"
+    visibility={hidden}
   >
     {liked ? (
       <g>
