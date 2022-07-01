@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import { useForm } from "react-hook-form";
@@ -8,7 +8,8 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import styled from "styled-components";
 import Form from "react-bootstrap/Form";
-import Alert from "react-bootstrap/Alert";
+import { Loading } from "../Assets/Icon";
+// import Alert from "react-bootstrap/Alert";
 import Button from ".././Components/Button";
 const ErrorBar = styled.div`
   border-bottom: 2px solid;
@@ -63,6 +64,7 @@ const TextLink = styled(Link)`
 function Signup() {
   const navigate = useNavigate();
   const { state, signup, tryLocalSignin } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit, errors, watch } = useForm(); // initialise the hook
   useEffect(() => {
     tryLocalSignin();
@@ -73,6 +75,7 @@ function Signup() {
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
+    setLoading(true);
     signup(data);
   };
   return (
@@ -181,9 +184,11 @@ function Signup() {
                         {errors.gender && <ErrorBar></ErrorBar>}
                       </Form.Group>
 
-                      <Button primary label="Signup" type="submit">
-                        Signup
-                      </Button>
+                      <Button
+                        primary
+                        label={loading ? <Loading /> : "Login"}
+                        type="submit"
+                      />
                       <hr />
 
                       <div className="text-center">

@@ -24,6 +24,9 @@ const ListContainer = styled.div`
   }
 `;
 const ListText = styled.p`
+  @media (max-width: 1265px) {
+    display: none;
+  }
   color: ${(props) => (props.brand ? "#1da1f2" : "#0f1419")};
   font-size: 20px;
   padding: 0px 12px;

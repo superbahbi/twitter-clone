@@ -1,12 +1,54 @@
 import React, { useContext, useEffect } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
 import { Navigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import { useMediaQuery } from "react-responsive";
 import ClipLoader from "react-spinners/ClipLoader";
 import styled from "styled-components";
 import Navbar from "../Components/Navbar";
+import NavMobile from "../Components/NavMobile";
+import Sidebar from "../Components/Sidebar";
+
+const Container = styled.div`
+  width: 1200px;
+  display: grid;
+  grid-template-areas: "navbar main sidebar";
+  grid-template-columns: 251px 600px 350px;
+  @media only screen and (max-width: 1265px) and (min-width: 1081px) {
+    grid-template-columns: 50px 600px 350px;
+    width: 1000px;
+  }
+  @media only screen and (max-width: 1080px) and (min-width: 701px) {
+    grid-template-columns: 50px 600px;
+    width: 650px;
+  }
+  // @media (max-width: 700px) {
+
+  // }
+  @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 0px;
+  }
+  gap: 20px;
+  margin: 0 auto;
+`;
+const NavbarContainer = styled.div`
+  grid-area: navbar;
+  @media (max-width: 700px) {
+    display: none;
+  }
+`;
+const MainContainer = styled.div`
+  grid-area: main;
+  border-color: rgb(239, 243, 244);
+  border-style: solid;
+  border-width: 1px;
+`;
+const SidebarContainer = styled.div`
+  grid-area: sidebar;
+  @media (max-width: 1080px) {
+    display: none;
+  }
+`;
 
 const Spinner = styled.div`
   position: absolute;
@@ -20,9 +62,7 @@ const Spinner = styled.div`
 `;
 function PrivateRoute({ children }) {
   const { state, tryLocalSignin } = useContext(AuthContext);
-  const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-width: 1224px)",
-  });
+
   useEffect(() => {
     tryLocalSignin();
   }, []);
@@ -36,10 +76,18 @@ function PrivateRoute({ children }) {
 
   return state.token && state.user ? (
     <Container>
-      <Row>
-        {isDesktopOrLaptop && <Navbar username={state.user.username} />}
+      <NavbarContainer>
+        <Navbar username={state.user.username} />
+      </NavbarContainer>
+
+      <MainContainer>
         {children}
-      </Row>
+        <NavMobile />
+      </MainContainer>
+
+      <SidebarContainer>
+        <Sidebar />
+      </SidebarContainer>
     </Container>
   ) : (
     <Navigate to="/login" />

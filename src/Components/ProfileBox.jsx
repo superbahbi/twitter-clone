@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 import moment from "moment";
 import styled from "styled-components";
 import Button from ".././Components/Button";
@@ -74,7 +74,7 @@ const ProfileButton = styled.div`
 
 function ProfileBox(props) {
   function onHandleClick() {
-    Navigate("/settings");
+    // Navigate("/settings");
   }
   const user = props.user;
   const username = props.user.username;
@@ -95,7 +95,7 @@ function ProfileBox(props) {
               src={user.profile && user.profile.avatar.filename}
               alt=""
             />
-            {props.username === username ? (
+            {/* {props.username === username ? (
               <Button
                 primary
                 right
@@ -106,7 +106,7 @@ function ProfileBox(props) {
                 label="Edit profile"
                 handleClick={onHandleClick}
               />
-            ) : null}
+            ) : null} */}
           </Row>
           <ProfileContainer>
             <ProfileUser>

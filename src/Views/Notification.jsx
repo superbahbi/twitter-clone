@@ -1,23 +1,16 @@
 import React from "react";
-import { useMediaQuery } from "react-responsive";
-
+import styled from "styled-components";
 import Header from ".././Components/Header";
-import Sidebar from ".././Components/Sidebar";
-import Col from "react-bootstrap/Col";
+const TweetDivider = styled.div`
+  flex: 1 1 auto;
+  margin: 4px 0px;
+  border-bottom: 1px solid rgb(239, 243, 244);
+`;
 function Notification() {
-  const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-width: 1224px)",
-  });
   return (
     <>
-      <Col xs={12} md={8} lg={6}>
-        <Header name="Notification" iconLeft iconRight="ion-ios-gear-outline" />
-      </Col>
-      {isDesktopOrLaptop && (
-        <Col lg={3}>
-          <Sidebar />
-        </Col>
-      )}
+      <Header name="Notification" />
+      <TweetDivider></TweetDivider>
     </>
   );
 }

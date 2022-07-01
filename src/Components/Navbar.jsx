@@ -7,8 +7,6 @@ import List from "../Components/List";
 import Avatar from "./Avatar";
 import Col from "react-bootstrap/Col";
 import Overlay from "react-bootstrap/Overlay";
-import Popover from "react-bootstrap/Popover";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import {
   Twitter,
   Home,
@@ -22,7 +20,14 @@ import {
   Threedot,
 } from "../Assets/Icon";
 const NavbarContainer = styled(Col)`
-  padding: 0px 12px;
+  padding: 0;
+  max-width: 251px;
+  @media (min-width: 1266px) {
+    max-width: 251px;
+  }
+  @media (max-width: 1265px) {
+    max-width: 50px;
+  }
   height: 100vh;
 `;
 const Nav = styled.nav`
@@ -47,29 +52,46 @@ const NavProfileContainer = styled.div`
 const NavProfile = styled.div`
   display: flex;
   padding: 12px 12px;
-  width: 251px;
+  @media (min-width: 1301px) {
+    width: 251px;
+  }
+  @media (max-width: 1265px) {
+    display: 50px;
+  }
   :hover {
     border-radius: 30px;
     background-color: ${(props) => (props.brand ? "#e8f5fe" : "#E7E7E8")};
   }
   .text {
+    @media (max-width: 1265px) {
+      display: none;
+    }
     display: grid;
     vertical-align: middle;
     padding: 0px 12px;
   }
   .name {
+    @media (max-width: 1265px) {
+      display: none;
+    }
     font-size: 15px;
     font-weight: 600;
     color: #0f1419;
     height: 15px;
   }
   .username {
+    @media (max-width: 1265px) {
+      display: none;
+    }
     font-size: 15px;
     font-weight: 300;
     color: #436471;
     height: 15px;
   }
   .threedot {
+    @media (max-width: 1265px) {
+      display: none;
+    }
     align-self: center;
     margin-left: auto;
     svg {
@@ -77,6 +99,11 @@ const NavProfile = styled.div`
       height: 20px;
       fill: #0f1419;
     }
+  }
+`;
+const TweetButton = styled.div`
+  @media (max-width: 1265px) {
+    display: none;
   }
 `;
 const TooltipContainer = styled.div`
@@ -95,7 +122,7 @@ const TooltipContainer = styled.div`
   }
 `;
 function Navbar() {
-  const nagivate = useNavigate();
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const target = useRef(null);
   const { state, logout } = useContext(AuthContext);
@@ -110,15 +137,15 @@ function Navbar() {
 
   function handleLogout() {
     logout();
-    nagivate("/login");
+    navigate("/login");
   }
   function onHandleClick(id) {
     setIsActive(id);
-    nagivate(`/${id}`);
+    navigate(`/${id}`);
   }
 
   return (
-    <NavbarContainer lg={3}>
+    <NavbarContainer>
       <Nav>
         <ListStyle>
           <List
@@ -127,7 +154,7 @@ function Navbar() {
             icon={<Twitter />}
             color="#1da1f2"
             onHandleClick={() => {
-              nagivate("/home");
+              navigate("/home");
             }}
           />
 
@@ -184,53 +211,52 @@ function Navbar() {
             id="profile"
             name="Profile"
             icon={<Profile active={isActive === "profile" ? true : false} />}
-            onHandleClick={() => onHandleClick("profile")}
+            onHandleClick={() => onHandleClick(state.user.username)}
           />
           <List
             id="more"
             name="More"
             icon={<More />}
-            onHandleClick={() => onHandleClick("Settings")}
+            onHandleClick={() => onHandleClick("settings")}
             paddingBottom="20px"
           />
-
-          <Button
-            large
-            id="tweet"
-            name="button"
-            type="submit"
-            label="Tweet"
-            footer={false}
-            handleClick={() => {
-              // onHandleModal();
-            }}
-          />
+          <TweetButton>
+            <Button
+              large
+              id="tweet"
+              name="button"
+              type="submit"
+              label="Tweet"
+              // handleClick={() => {
+              //   // onHandleModal();
+              // }}
+            />
+          </TweetButton>
         </ListStyle>
+        <NavProfileContainer>
+          <Overlay target={target.current} show={show} placement="top">
+            {({ placement, arrowProps, show: _show, popper, ...props }) => (
+              <TooltipContainer {...props}>
+                <div onClick={handleLogout}>Log out @{username}</div>
+              </TooltipContainer>
+            )}
+          </Overlay>
+          <NavProfile ref={target} onClick={() => setShow(!show)}>
+            <div>
+              <Avatar mini src={filename} height="40px" width="40px" />
+            </div>
+
+            <div className="text">
+              <span className="name">{name}</span>
+              <span className="username">@{username}</span>
+            </div>
+
+            <span className="threedot">
+              <Threedot />
+            </span>
+          </NavProfile>
+        </NavProfileContainer>
       </Nav>
-
-      <NavProfileContainer>
-        <Overlay target={target.current} show={show} placement="top">
-          {({ placement, arrowProps, show: _show, popper, ...props }) => (
-            <TooltipContainer {...props}>
-              <div onClick={handleLogout}>Log out @{username}</div>
-            </TooltipContainer>
-          )}
-        </Overlay>
-        <NavProfile ref={target} onClick={() => setShow(!show)}>
-          <div>
-            <Avatar mini src={filename} height="40px" width="40px" />
-          </div>
-
-          <div className="text">
-            <span className="name">{name}</span>
-            <span className="username">@{username}</span>
-          </div>
-
-          <span className="threedot">
-            <Threedot />
-          </span>
-        </NavProfile>
-      </NavProfileContainer>
     </NavbarContainer>
   );
 }

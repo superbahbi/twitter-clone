@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Context as AuthContext } from "../Contexts/AuthContext";
@@ -10,6 +10,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Button from ".././Components/Button";
+import { Loading } from "../Assets/Icon";
 const ErrorBar = styled.div`
   border-bottom: 2px solid;
   border-color: red;
@@ -62,6 +63,7 @@ const TextLink = styled(Link)`
 function Login() {
   const navigate = useNavigate();
   const { state, signin, tryLocalSignin } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit, errors } = useForm();
 
   useEffect(() => {
@@ -72,6 +74,7 @@ function Login() {
   }
   const onSubmit = (data, event) => {
     event.preventDefault();
+    setLoading(true);
     signin(data);
   };
   return (
@@ -117,14 +120,18 @@ function Login() {
                       <Form.Group>
                         <StyleCheckbox type="checkbox" label="Remember Me" />
                       </Form.Group>
-                      <Button primary label="Login" type="submit" />
+                      <Button
+                        primary
+                        label={loading ? <Loading /> : "Login"}
+                        type="submit"
+                      />
                       <hr />
                       <div className="text-center">
                         <TextLink to="/forgot">Forgot Password?</TextLink>
                       </div>
                       <div className="text-center">
                         Don't have an account?
-                        <TextLink to="/signup"> Sign up</TextLink>
+                        <TextLink to="/signup">Sign up</TextLink>
                       </div>
                     </StyledForm>
                   </Col>

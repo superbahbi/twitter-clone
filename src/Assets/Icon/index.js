@@ -9,6 +9,21 @@ import Lists from "./lists";
 import Profile from "./profile";
 import More from "./more";
 import Threedot from "./threedot";
+import Loading from "./loading";
+import Stars from "./stars";
+import TweetUpload from "./tweet-upload";
+import TweetGif from "./tweet-gif";
+import TweetPoll from "./tweet-poll";
+import TweetEmoji from "./tweet-emoji";
+import TweetSchedule from "./tweet-schedule";
+import TweetLocation from "./tweet-location";
+import Comment from "./comment";
+import Retweet from "./retweet";
+import Like from "./like";
+import Share from "./share";
+import Trash from "./trash";
+import Search from "./search";
+import Verified from "./verified";
 export {
   Paw,
   Twitter,
@@ -21,4 +36,19 @@ export {
   Profile,
   More,
   Threedot,
+  Loading,
+  Stars,
+  TweetUpload,
+  TweetGif,
+  TweetPoll,
+  TweetEmoji,
+  TweetSchedule,
+  TweetLocation,
+  Comment,
+  Retweet,
+  Like,
+  Share,
+  Trash,
+  Search,
+  Verified,
 };

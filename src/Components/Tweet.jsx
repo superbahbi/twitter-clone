@@ -4,50 +4,49 @@ import styled from "styled-components";
 import Textarea from ".././Components/Textarea";
 import Button from ".././Components/Button";
 import Avatar from ".././Components/Avatar";
-import Feed from ".././Components/Feed";
+import IconButton from "./IconButton";
 import MediaFrame from "./MediaFrame";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
-library.add(fas, far);
+import {
+  TweetUpload,
+  TweetGif,
+  TweetPoll,
+  TweetEmoji,
+  TweetSchedule,
+  TweetLocation,
+} from "../Assets/Icon";
+
 const TweetBox = styled.div`
+  @media (max-width: 700px) {
+    display: none;
+  }
   display: flex;
   flex-direction: row;
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
-  border-color: #eee #ddd #bbb;
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   padding: 0 16px 0 16px;
 `;
 
 const InputTweetBox = styled.div`
   flex: 1 1 auto !important;
-  padding: 0.5em;
 `;
 const InputBox = styled.div`
   font-size: 20px;
-  padding-top: 15px;
-  :input {
-    align-items: stretch;
-    border: 0 solid black;
-    box-sizing: border-box;
-  }
-  &:focus {
-    outline: none;
-    border: none;
-  }
-  :input::placeholder {
-    font-weight: 400;
-    position: relative;
-    top: -0.3rem;
-  }
+  // :input {
+  //   align-items: stretch;
+  // }
+  // &:focus {
+  //   outline: none;
+  //   border: none;
+  // }
+  // :input::placeholder {
+  //   font-weight: 400;
+  //   position: relative;
+  //   top: -0.3rem;
+  // }
 `;
 const InputBoxRow = styled.div`
-  padding-top: 20px;
+  padding-top: 14px;
   display: flex;
 `;
 const InputBoxGroup = styled.label`
@@ -63,12 +62,9 @@ const InputBoxGroup = styled.label`
   cursor: pointer;
 `;
 
-const TweetDivider = styled.div`
-  flex: 1 1 auto !important;
-  border: 5px solid rgb(230, 236, 240);
-`;
 const AvatarBox = styled.div`
-  padding-top: 15px;
+  padding-top: 4px;
+  margin-right: 12px;
 `;
 const TweetButton = styled.div`
   margin-left: auto !important;
@@ -84,33 +80,37 @@ const InputFile = styled.input`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 `;
-function Tweet({ token, user, id, username, avatar }) {
+function Tweet({ token, user, id, username, avatar, setReload, reload }) {
   const { state, addTweet, clearAddTweet } = useContext(TweetContext);
   const tweetData = useRef("");
-  const [reload, setReload] = useState();
+  const [tweetText, setTweetText] = useState("");
   const [imgPreview, setImgPreview] = useState("");
   const [imgFile, setImgFile] = useState("");
   const [videoPreview, setVideoPreview] = useState("");
   const [videoLink, setVideoLink] = useState("");
+  const [disable, setDisable] = useState(true);
   useEffect(() => {
+    const textWrapper = document.getElementsByClassName("textarea");
     if (state.newTweet && state.newTweet.status === 200) {
       setImgPreview("");
       setImgFile("");
       setVideoPreview("");
       setVideoLink("");
-      tweetData.current.value = "";
-      setReload(true);
+      setTweetText("");
+      // setReload(true);
+      textWrapper[0].textContent = "";
       clearAddTweet();
     }
   }, [state]);
-  const onFormSubmit = (e) => {
+  const onFormSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("image", imgFile);
-    formData.append("tweet", tweetData.current.value);
+    formData.append("tweet", tweetText);
     formData.append("type", "tweetImg");
     formData.append("link", videoLink);
-    addTweet(formData);
+    await addTweet(formData);
+    setReload(!reload);
   };
   function linkify(text) {
     return text
@@ -124,15 +124,18 @@ function Tweet({ token, user, id, username, avatar }) {
     var regExp =
       /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
-    return match && match[7].length == 11 ? match[7] : false;
+    return match && match[7].length === 11 ? match[7] : false;
   }
   function handleChange(event) {
     setImgPreview(URL.createObjectURL(event.target.files[0]));
     setImgFile(event.target.files[0]);
   }
   const textareaHandleChange = (event) => {
-    let id = youtube_parser(event.target.value);
-    let link = linkify(event.target.value);
+    let currentText = event.currentTarget.textContent;
+    setDisable(currentText.length > 0 ? false : true);
+    setTweetText(currentText);
+    let id = youtube_parser(currentText);
+    let link = linkify(currentText);
     setVideoPreview(id);
     setVideoLink(link);
   };
@@ -148,7 +151,6 @@ function Tweet({ token, user, id, username, avatar }) {
               <Textarea
                 type="text"
                 name="Tweet"
-                // value={props.value}
                 placeholder="What's Happening"
                 autocomplete="off"
                 projectRef={tweetData}
@@ -168,6 +170,7 @@ function Tweet({ token, user, id, username, avatar }) {
               <InputBoxRow>
                 <MediaFrame onHandleMediaClose={() => setVideoPreview("")}>
                   <iframe
+                    title="linkPost"
                     width={300}
                     src={`https://www.youtube.com/embed/${videoPreview}?autoplay=1&modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=0`}
                     frameBorder="0"
@@ -178,56 +181,106 @@ function Tweet({ token, user, id, username, avatar }) {
 
             <InputBoxRow>
               <InputBoxGroup>
-                <FontAwesomeIcon icon="file" fixedWidth />
-                <InputFile
-                  type="file"
-                  name="img"
-                  accept="image/*"
-                  onChange={(event) => handleChange(event)}
-                />
+                <IconButton
+                  type="button"
+                  iconRightComponent={<TweetUpload />}
+                  color="#1D9BF0"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
+                >
+                  <InputFile
+                    type="file"
+                    name="img"
+                    accept="image/*"
+                    onChange={(event) => handleChange(event)}
+                  />
+                </IconButton>
+                <IconButton
+                  type="button"
+                  iconRightComponent={<TweetGif />}
+                  color="#1D9BF0"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
+                >
+                  <InputFile
+                    type="file"
+                    name="img"
+                    accept="image/*"
+                    onChange={(event) => handleChange(event)}
+                  />
+                </IconButton>
+                <IconButton
+                  type="button"
+                  iconRightComponent={<TweetPoll />}
+                  color="#1D9BF0"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
+                >
+                  <InputFile
+                    type="file"
+                    name="img"
+                    accept="image/*"
+                    onChange={(event) => handleChange(event)}
+                  />
+                </IconButton>
+                <IconButton
+                  type="button"
+                  iconRightComponent={<TweetEmoji />}
+                  color="#1D9BF0"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
+                >
+                  <InputFile
+                    type="file"
+                    name="img"
+                    accept="image/*"
+                    onChange={(event) => handleChange(event)}
+                  />
+                </IconButton>
+                <IconButton
+                  type="button"
+                  iconRightComponent={<TweetSchedule />}
+                  color="#1D9BF0"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
+                >
+                  <InputFile
+                    type="file"
+                    name="img"
+                    accept="image/*"
+                    onChange={(event) => handleChange(event)}
+                  />
+                </IconButton>
+                <IconButton
+                  type="button"
+                  iconRightComponent={<TweetLocation />}
+                  color="#1D9BF0"
+                  hoverColor="#1D9BF0"
+                  hoverColorBackground="#e8f5fe"
+                  disabled={true}
+                >
+                  <InputFile
+                    type="file"
+                    name="img"
+                    accept="image/*"
+                    onChange={(event) => handleChange(event)}
+                  />
+                </IconButton>
               </InputBoxGroup>
-              <InputBoxGroup>
-                <FontAwesomeIcon icon="gift" fixedWidth />
-                <InputFile
-                  type="file"
-                  name="img"
-                  accept="image/*"
-                  onChange={(event) => handleChange(event)}
-                />
-              </InputBoxGroup>
-              <InputBoxGroup>
-                <FontAwesomeIcon icon="poll" fixedWidth />
-                <InputFile
-                  type="file"
-                  name="img"
-                  accept="image/*"
-                  onChange={(event) => handleChange(event)}
-                />
-              </InputBoxGroup>
-              <InputBoxGroup>
-                <FontAwesomeIcon icon="smile" fixedWidth />
-                <InputFile
-                  type="file"
-                  name="img"
-                  accept="image/*"
-                  onChange={(event) => handleChange(event)}
-                />
-              </InputBoxGroup>
+
               <TweetButton>
-                <Button primary name="button" type="submit" label="Tweet" />
+                <Button
+                  primary
+                  name="button"
+                  type="submit"
+                  label="Tweet"
+                  disabled={disable}
+                />
               </TweetButton>
             </InputBoxRow>
           </form>
         </InputTweetBox>
       </TweetBox>
-      <TweetDivider></TweetDivider>
-      <Feed
-        token={token}
-        user={user}
-        id={id}
-        setReload={setReload}
-        reload={reload}
-      />
     </div>
   );
 }

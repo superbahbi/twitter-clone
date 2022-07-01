@@ -1,95 +1,226 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Navigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import styled from "styled-components";
-import moment from "moment";
+import styled, { keyframes } from "styled-components";
+import moment from "moment-twitter";
 import Avatar from ".././Components/Avatar";
 import IconButton from "../Components/IconButton";
 import CommentModal from "../Components/CommentModal";
-import MediaFrame from "./MediaFrame";
-const TweetBox = styled.div`
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+
+import { youtubeParser } from "../Helper/youtubeParser";
+
+import {
+  Threedot,
+  Comment,
+  Retweet,
+  Like,
+  Share,
+  Trash,
+  Verified,
+} from "../Assets/Icon";
+// import MediaFrame from "./MediaFrame";
+const TweetContainer = styled.div`
+  @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
+    padding-top: 53px;
+  }
   display: flex;
   flex-direction: row;
   font-size: 12px;
   line-height: 16px;
-  border-color: #eee #ddd #bbb;
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  padding: 0 16px 0 16px;
+  padding-top: ;
+  padding: 16px 16px 0px 16px;
   :hover {
     background-color: #f5f8fa;
   }
 `;
-
-const TweetContainer = styled.div`
-  padding: 0.5em;
-  flex: 1 1 auto !important;
+const AvatarContainer = styled.div`
+  margin-right: 12px;
+`;
+const TweetContent = styled.div`
+  width: 100%;
 `;
 
 const FeedBox = styled.div`
   display: flex;
 `;
+const FeedUserText = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20px;
+  white-space: nowrap;
+  .threedot {
+    align-self: center;
+    margin-left: auto;
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: #0f1419;
+    }
+  }
+  .tooltip-inner {
+    background-color: red;
+    color: red;
+  }
+  .tooltip.show {
+    opacity: 1 !important;
+  }
+`;
 const FeedName = styled.span`
   padding-right: 0.25em;
-  font-size: 16px;
-  font-weight: bold;
+  color: #0f1419;
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  svg {
+    height: 16.41px;
+    width: 16.41px;
+    fill: #1da1f2;
+  }
 `;
 const FeedTag = styled.span`
   padding-right: 0.25em;
-  color: #657786;
-  font-size: 14px;
+  color: #536471;
+  font-size: 15px;
+  line-height: 15px;
+  text-overflow: ellipsis; ;
 `;
 const FeedDate = styled.span`
-  padding-right: 0.25em;
-  color: #657786;
-  font-size: 14px;
+  color: #536471;
+  font-size: 15px;
+  line-height: 15px;
 `;
 const FeedContent = styled.span`
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
+  color: #0f1419;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 300;
+  overflow-wrap: break-word;
 `;
-const FeedImage = styled.img`
-  width: 100%;
-  border: none;
-  border-radius: 10px;
-  padding-top: 5px;
+const FeedImage = styled.div`
+  margin-top: 16px;
+
+  img {
+    max-width: 100%;
+    border-radius: 16px;
+  }
 `;
 const ButtonRow = styled.div`
   display: flex;
-  flex-direction: row;
+  width: 85%;
+  justify-content: space-between;
+`;
+const heartBurst = keyframes`
+from { background-position:left;}
+to { background-position:right;}
 `;
 const ButtonContainer = styled.div`
-  padding-right: 30px;
-  align-items: left;
-  justify-content: left;
+  position: relative;
+  right: 10px;
+  .heart {
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    background-image: url("https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png");
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 2900%;
+  }
+  .is_animation {
+    animation: ${heartBurst} 0.8s steps(28) 1;
+  }
 `;
-function Feed({ token, user, id, setReload, reload, youtube_parser }) {
-  const {
-    state: tweetState,
-    getTweet,
-    deleteTweet,
-    editTweet,
-    likeTweet,
-  } = useContext(TweetContext);
+
+const TooltipContainer = styled.div`
+  .custom-tooltip {
+    position: absolute;
+    bottom: -10px;
+    right: 0px;
+    background-color: white;
+    border-radius: 4px;
+    color: #0f1419;
+    height: 52px;
+    width: 300px;
+    box-sizing: border-box;
+    -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+      rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+    box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+      rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+    .tooltip-item {
+      display: inline-flex;
+      padding: 16px 16px;
+
+      margin: auto;
+      cursor: pointer;
+      color: red;
+
+      svg {
+        height: 18.75px;
+        width: 18.75px;
+        fill: red;
+        margin-right: 12px;
+      }
+      .tooltip-text {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        font-size: 15px;
+        line-height: 15px;
+      }
+    }
+    :hover {
+      background-color: #f7f7f7;
+    }
+  }
+`;
+function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
+  const { deleteTweet } = useContext(TweetContext);
+  return (
+    <TooltipContainer id="button-tooltip">
+      <div
+        className="custom-tooltip"
+        onClick={async () => {
+          await deleteTweet(id);
+          setShowTooltip({
+            ...showTooltip,
+            status: false,
+            id: null,
+          });
+          setReload(!reload);
+        }}
+      >
+        <div className="tooltip-item">
+          <Trash />
+          <div className="tooltip-text">Delete</div>
+        </div>
+      </div>
+    </TooltipContainer>
+  );
+}
+function Feed({ tweets, setReload, reload }) {
+  const { deleteTweet, likeTweet } = useContext(TweetContext);
   const { state: authState } = useContext(AuthContext);
+  const [showTooltip, setShowTooltip] = useState({
+    status: false,
+    id: "",
+  });
   const [show, setShow] = useState({
     status: false,
     id: "",
   });
-  useEffect(() => {
-    console.log("reload", reload);
-    getTweet();
-    setReload(false);
-  }, [reload]); // add reload later
 
   function onHandleComment(id) {
     setShow({
       ...show,
+      status: true,
+      id: id,
+    });
+  }
+  function onHandleTooltip(id) {
+    setShowTooltip({
+      ...showTooltip,
       status: true,
       id: id,
     });
@@ -111,38 +242,86 @@ function Feed({ token, user, id, setReload, reload, youtube_parser }) {
     });
     return status;
   }
-  function youtube_parser(url) {
-    var regExp =
-      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    var match = url.match(regExp);
-    return match && match[7].length == 11 ? match[7] : false;
-  }
   // if (props.setTweetCount) {
   //   props.setTweetCount(tweets && Object.keys(tweets.foundTweet).length);
   // }
-  return tweetState.tweets
-    ? tweetState.tweets.foundTweet.map((item, index) => (
+  // moment.locale("en", {
+  //   relativeTime: {
+  //     future: "in %s",
+  //     past: "%s ago",
+  //     s: "seconds",
+  //     ss: "%ss",
+  //     m: "a minute",
+  //     mm: "%dm",
+  //     h: "an hour",
+  //     hh: "%dh",
+  //     d: "a day",
+  //     dd: "%dd",
+  //     M: "%dM",
+  //     MM: "%dM",
+  //     y: "a year",
+  //     yy: "%dY",
+  //   },
+  // });
+  return tweets
+    ? tweets.foundTweet.map((item, index) => (
         <React.Fragment key={index}>
-          <TweetBox>
-            <Avatar
-              name={item.username}
-              src={item.user_data.profile.avatar.filename}
-            />
-            <TweetContainer>
-              <FeedBox
-                onClick={() => {
-                  Navigate("/status/" + item._id);
-                }}
+          <TweetContainer>
+            <AvatarContainer>
+              <Avatar
+                name={item.username}
+                src={item.user_data.profile.avatar.filename}
+              />
+            </AvatarContainer>
+            <TweetContent>
+              <FeedUserText
+              // onClick={(event) => {
+              //   event.preventDefault();
+              //   navigate(`/${item.username}/status/${item._id}`, {
+              //     replace: true,
+              //   });
+              // }}
               >
-                <FeedName>{item.name}</FeedName>
-                <FeedTag>@{item.username}</FeedTag>
-                <FeedDate>· {moment(item.timestamp).fromNow()}</FeedDate>
-              </FeedBox>
-              {youtube_parser(item.content) ? (
+                <div>
+                  <FeedName>
+                    {item.name} <Verified />
+                  </FeedName>
+
+                  <FeedTag>@{item.username}</FeedTag>
+                  <FeedDate>· {moment(item.timestamp).twitter()}</FeedDate>
+                </div>
+                <OverlayTrigger
+                  placement="bottom-end"
+                  trigger="click"
+                  animation="fade"
+                  show={showTooltip.id === index ? showTooltip.status : false}
+                  overlay={renderTooltip(
+                    item._id,
+                    setReload,
+                    reload,
+                    showTooltip,
+                    setShowTooltip
+                  )}
+                >
+                  <span className="threedot">
+                    <IconButton
+                      type="button"
+                      iconRightComponent={<Threedot />}
+                      color="#536471"
+                      hoverColor="#1D9BF0"
+                      hoverColorBackground="#e8f5fe"
+                      handleClick={() => onHandleTooltip(index)}
+                    />
+                  </span>
+                </OverlayTrigger>
+                ,
+              </FeedUserText>
+              {youtubeParser(item.content) ? (
                 <FeedBox>
                   <FeedContent>
                     <iframe
-                      src={`https://www.youtube.com/embed/${youtube_parser(
+                      title="linkPostFeed"
+                      src={`https://www.youtube.com/embed/${youtubeParser(
                         item.content
                       )}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=1`}
                       frameBorder="0"
@@ -157,21 +336,23 @@ function Feed({ token, user, id, setReload, reload, youtube_parser }) {
 
               {item.img ? (
                 <FeedBox>
-                  <FeedImage src={item.img.filename} />
+                  <FeedImage>
+                    <img src={item.img.filename} alt="feed" />
+                  </FeedImage>
                 </FeedBox>
               ) : null}
 
               <FeedBox>
-                <TweetContainer>
+                <TweetContent>
                   <ButtonRow>
                     <ButtonContainer>
                       <IconButton
-                        id={index}
-                        dataTarget={index}
-                        name="button"
                         type="button"
-                        icon="icon ion-ios-chatbubble-outline"
-                        variant="primary"
+                        iconRightComponent={<Comment />}
+                        color="#536471"
+                        size="18.75px"
+                        hoverColor="#1D9BF0"
+                        hoverColorBackground="#e8f5fe"
                         handleClick={() => {
                           onHandleComment(index);
                         }}
@@ -179,41 +360,69 @@ function Feed({ token, user, id, setReload, reload, youtube_parser }) {
                       <CommentModal
                         show={show.status}
                         onHide={onHandleCommentClose}
-                        tweet={tweetState.tweets.foundTweet[show.id]}
+                        tweet={tweets.foundTweet[show.id]}
                         auth={authState}
                         setShow={setShow}
                       />
                     </ButtonContainer>
                     <ButtonContainer>
                       <IconButton
-                        name="button"
                         type="button"
-                        style={{ color: userlike(item.likes) ? "red" : null }}
-                        icon={
-                          userlike(item.likes)
-                            ? "icon ion-ios-heart"
-                            : "icon ion-ios-heart-outline"
+                        iconRightComponent={<Retweet />}
+                        color="#536471"
+                        size="18.75px"
+                        hoverColor="#00BA7C"
+                        hoverColorBackground="#DEF1EB"
+                        handleClick={() => {
+                          onHandleComment(index);
+                        }}
+                      />
+                    </ButtonContainer>
+
+                    <ButtonContainer>
+                      <IconButton
+                        type="button"
+                        iconRightComponent={
+                          <Like
+                            // className="heart"
+                            // onClick={(event) => {
+                            //   event.currentTarget.classList.toggle(
+                            //     "is_animation"
+                            //   );
+                            // }}
+                            liked={userlike(item.likes) ? true : false}
+                          />
                         }
-                        handleClick={async () => await likeTweet(item._id)}
+                        color={userlike(item.likes) ? "#F91880" : "#536471"}
+                        size="18.75px"
+                        hoverColor="#F91880"
+                        hoverColorBackground="#F7E0EB"
+                        handleClick={async (event) => {
+                          event.preventDefault();
+                          await likeTweet(item._id);
+                          setReload(!reload);
+                        }}
                       />
                     </ButtonContainer>
                     <ButtonContainer>
-                      {user.username === item.user_data.username ? (
-                        <IconButton
-                          id={item._id}
-                          value="test"
-                          name="button"
-                          type="button"
-                          icon="icon ion-ios-trash-outline"
-                          handleClick={async () => await deleteTweet(item._id)}
-                        />
-                      ) : null}
+                      <IconButton
+                        type="button"
+                        iconRightComponent={<Share />}
+                        color="#536471"
+                        size="18.75px"
+                        hoverColor="#1D9BF0"
+                        hoverColorBackground="#e8f5fe"
+                        handleClick={async () => {
+                          await deleteTweet(item._id);
+                          setReload(!reload);
+                        }}
+                      />
                     </ButtonContainer>
                   </ButtonRow>
-                </TweetContainer>
+                </TweetContent>
               </FeedBox>
-            </TweetContainer>
-          </TweetBox>
+            </TweetContent>
+          </TweetContainer>
 
           {/* {item
             ? item.comment
