@@ -1,7 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import styled, { keyframes } from "styled-components";
+import useTweet from "../Hooks/useTweet";
+import styled from "styled-components";
 import moment from "moment-twitter";
 import Avatar from ".././Components/Avatar";
 import IconButton from "../Components/IconButton";
@@ -183,10 +184,9 @@ function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
     </TooltipContainer>
   );
 }
-function Feed({ tweets }) {
-  const { deleteTweet, likeTweet } = useContext(TweetContext);
+function Feed({ tweets, setReload, reload }) {
   const { state: authState } = useContext(AuthContext);
-
+  const { doLikeTweet, doDeleteTweet } = useTweet();
   const [showTooltip, setShowTooltip] = useState({
     status: false,
     id: "",
@@ -234,7 +234,7 @@ function Feed({ tweets }) {
   }
 
   return tweets
-    ? tweets.foundTweet.map((item, index) => (
+    ? tweets.map((item, index) => (
         <React.Fragment key={index}>
           <TweetContainer>
             <AvatarContainer>
@@ -265,13 +265,13 @@ function Feed({ tweets }) {
                   trigger="click"
                   animation="fade"
                   show={showTooltip.id === index ? showTooltip.status : false}
-                  overlay={renderTooltip(
-                    item._id,
-                    // setReload,
-                    // reload,
-                    showTooltip,
-                    setShowTooltip
-                  )}
+                  // overlay={renderTooltip(
+                  //   item._id,
+                  //   // setReload,
+                  //   // reload,
+                  //   showTooltip,
+                  //   setShowTooltip
+                  // )}
                 >
                   <span className="threedot">
                     <IconButton
@@ -330,7 +330,7 @@ function Feed({ tweets }) {
                       <CommentModal
                         show={show.status}
                         onHide={onHandleCommentClose}
-                        tweet={tweets.foundTweet[show.id]}
+                        tweet={tweets[show.id]}
                         auth={authState}
                         setShow={setShow}
                       />
@@ -360,18 +360,7 @@ function Feed({ tweets }) {
                         hoverColor="#F91880"
                         hoverColorBackground="#F7E0EB"
                         handleClick={async () => {
-                          let lineIndex = -1;
-                          item.likes.map((like, index) => {
-                            if (like._id === authState.user._id) {
-                              lineIndex = index;
-                            }
-                          });
-                          if (lineIndex === -1) {
-                            item.likes.push({ _id: authState.user._id });
-                          } else {
-                            item.likes.splice(lineIndex);
-                          }
-                          await likeTweet(item._id);
+                          await doLikeTweet(item._id);
                         }}
                       />
                     </ButtonContainer>
@@ -384,8 +373,7 @@ function Feed({ tweets }) {
                         hoverColor="#1D9BF0"
                         hoverColorBackground="#e8f5fe"
                         handleClick={async () => {
-                          await deleteTweet(item._id);
-                          // setReload(!reload);
+                          await doDeleteTweet(item._id);
                         }}
                       />
                     </ButtonContainer>

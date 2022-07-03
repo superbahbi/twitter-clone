@@ -23,9 +23,12 @@ function Home() {
   useEffect(() => {
     const request = async () => {
       reset();
-      setLoading(false);
-      getAllTweets();
+      setTimeout(() => {
+        setLoading(false);
+        getAllTweets();
+      }, 1000);
     };
+
     request();
   }, [reload]);
   return (

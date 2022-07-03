@@ -77,7 +77,6 @@ function ProfileBox(props) {
     // Navigate("/settings");
   }
   const user = props.user;
-  const username = props.user.username;
   return (
     <div>
       <TweetBox>
