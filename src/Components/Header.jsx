@@ -89,9 +89,9 @@ function Header({
         </div>
       )}
       <HeaderName>{name}</HeaderName>
-      {tweetCount && (
+      {/* {tweetCount && (
         <ProfileTweetCount>{tweetCount + " Tweets"}</ProfileTweetCount>
-      )}
+      )} */}
 
       {(iconRight || iconRightComponent) && (
         <div className="right-icon">

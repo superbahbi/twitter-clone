@@ -1,18 +1,22 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Context as AuthContext } from "../Contexts/AuthContext";
-import { Context as TweetContext } from "../Contexts/TweetContext";
-import useTweet from "../Hooks/useTweet";
 import Feed from ".././Components/Feed";
 import Header from "../Components/Header";
-import ProfileBox from "../Components/ProfileBox";
 import Placeholder from "../Components/Placeholder";
+import ProfileBox from "../Components/ProfileBox";
+import { Context as AuthContext } from "../Contexts/AuthContext";
+import { Context as TweetContext } from "../Contexts/TweetContext";
+import { Context as UserContext } from "../Contexts/UserContext";
+import useTweet from "../Hooks/useTweet";
+import useUser from "../Hooks/useUser";
 function Profile() {
   let { profile } = useParams();
-  const { getUserTweets, reset } = useTweet();
+
   const { state: authState } = useContext(AuthContext);
   const { state: tweetState } = useContext(TweetContext);
-
+  const { state: userState } = useContext(UserContext);
+  const { getUserTweets, reset } = useTweet();
+  const { getUserProfile } = useUser();
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState();
   // const [tweetCount, setTweetCount] = useState();
@@ -22,6 +26,7 @@ function Profile() {
       reset();
       setTimeout(() => {
         setLoading(false);
+        getUserProfile(profile);
         getUserTweets(profile);
       }, 1000);
     };
@@ -35,13 +40,15 @@ function Profile() {
       {authState.user && (
         <>
           <Header
-            name={authState.user && authState.user.profile.name}
+            name={userState.getUser && userState.getUser.profile.name}
             tweetCount={authState.user.tweets}
           />
-          <ProfileBox
-            user={authState.user}
-            username={authState.user.username}
-          />
+          {userState.getUser && (
+            <ProfileBox
+              user={userState.getUser}
+              username={userState.getUser && userState.getUser.username}
+            />
+          )}
           {loading ? (
             <Placeholder />
           ) : (
