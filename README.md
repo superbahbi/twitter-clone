@@ -50,7 +50,19 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
+# To-Do
+- [x] Login
+- [x] Register
+- [x] Feed list
+- [x] Profile
+- [?] Edit profile
+- [?] Thread page
+- [ ] Search a tweet
+- [x] Add a comment
+- [x] Like a tweet
+- [?] Retweet
+- [ ] Trending
+- [ ] Notifactions
 
 ## Screenshot
 
