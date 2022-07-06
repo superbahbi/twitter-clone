@@ -55,12 +55,12 @@
 - [x] Register
 - [x] Feed list
 - [x] Profile
-- [?] Edit profile
-- [?] Thread page
+- [x] Edit profile
+- [ ] Thread page
 - [ ] Search a tweet
 - [x] Add a comment
 - [x] Like a tweet
-- [?] Retweet
+- [ ] Retweet
 - [ ] Trending
 - [ ] Notifactions
 
