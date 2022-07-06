@@ -8,9 +8,38 @@ const tweetReducer = (state, action) => {
     case "fetch_tweets":
       return { ...state, errorMessage: "", tweets: action.payload };
     case "add_tweet":
-      return { ...state, errorMessage: "", newTweet: action.payload };
+      return {
+        ...state,
+        errorMessage: "",
+        tweets: action.payload,
+      };
+
+    case "like_tweet":
+      state.tweets.map((tweet) => {
+        if (tweet._id === action.payload.response._id) {
+          let lineIndex = -1;
+          tweet.likes.map((like, index) => {
+            if (like._id === action.payload.userId) {
+              lineIndex = index;
+            }
+          });
+          if (lineIndex === -1) {
+            tweet.likes.push({ _id: action.payload.userId });
+          } else {
+            tweet.likes.splice(lineIndex);
+          }
+        }
+      });
+      return { ...state, errorMessage: "" };
+    case "delete_tweet":
+      state.tweets.map((tweet, index) => {
+        if (tweet._id === action.payload) {
+          state.tweets.splice(index, 1);
+        }
+      });
+      return { ...state, errorMessage: "" };
     case "reload":
-      return { ...state, errorMessage: "", reload: true };
+      return { ...state, errorMessage: "", reload: action.payload };
     case "reset":
       return { ...state, errorMessage: "", tweets: action.payload };
     default:
@@ -21,7 +50,7 @@ const getTweets = (dispatch) => async (id) => {
   try {
     let url = id ? "/api/tweet/" + id : "/api/tweet";
     const response = await api.get(url);
-    dispatch({ type: "fetch_tweets", payload: response.data });
+    dispatch({ type: "fetch_tweets", payload: response.data.foundTweet });
   } catch (error) {
     dispatch({
       type: "add_error",
@@ -33,7 +62,7 @@ const getTweets = (dispatch) => async (id) => {
 const addTweet = (dispatch) => async (data) => {
   try {
     const response = await api.post("/api/tweet", data);
-    dispatch({ type: "add_tweet", payload: response });
+    dispatch({ type: "add_tweet", payload: response.data.foundTweet });
   } catch (error) {
     dispatch({
       type: "add_error",
@@ -43,12 +72,12 @@ const addTweet = (dispatch) => async (data) => {
   }
 };
 const clearAddTweet = (dispatch) => async () => {
-  dispatch({ type: "add_tweet", payload: null });
+  dispatch({ type: "update_feed", payload: null });
 };
 const deleteTweet = (dispatch) => async (id) => {
   try {
     const response = await api.delete("/api/tweet/" + id);
-    dispatch({ type: "add_tweet", payload: response });
+    dispatch({ type: "delete_tweet", payload: id });
   } catch (error) {
     dispatch({
       type: "add_error",
@@ -58,16 +87,18 @@ const deleteTweet = (dispatch) => async (id) => {
   }
 };
 const editTweet = (dispatch) => async (id, data) => {};
-const likeTweet = (dispatch) => async (id) => {
+const likeTweet = (dispatch) => async (id, userId) => {
   try {
     const response = await api.put("/api/like/" + id);
-
-    dispatch({ type: "add_tweet", payload: response });
+    dispatch({
+      type: "like_tweet",
+      payload: { response: response.data, userId: userId },
+    });
   } catch (error) {
     dispatch({
       type: "add_error",
       payload:
-        "Cannot delete tweet. Please check your internet connection and try again.",
+        "Cannot like tweet. Please check your internet connection and try again.",
     });
   }
 };

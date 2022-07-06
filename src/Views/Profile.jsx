@@ -1,65 +1,36 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Context as AuthContext } from "../Contexts/AuthContext";
-import { Context as TweetContext } from "../Contexts/TweetContext";
-import styled from "styled-components";
-import useTweet from "../Hooks/useTweet";
 import Feed from ".././Components/Feed";
 import Header from "../Components/Header";
+import Placeholder from "../Components/Placeholder";
 import ProfileBox from "../Components/ProfileBox";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-
-const SkeletonContainer = styled.div`
-  display: flex;
-  margin-top: 16px;
-  width: 550px;
-  margin-top: 16px;
-  .avatar {
-    margin-left: 16px;
-    margin-right: 12px;
-    width: 50px;
-    height: 50px;
-  }
-  .name-group {
-    display: inline-flex;
-    .name {
-      width: 70px;
-      margin-right: 4px;
-    }
-  }
-  .content-group {
-    width: 425px;
-  }
-  .button-group {
-    display: flex;
-    width: 425px;
-    justify-content: space-between;
-  }
-`;
+import { Context as AuthContext } from "../Contexts/AuthContext";
+import { Context as TweetContext } from "../Contexts/TweetContext";
+import { Context as UserContext } from "../Contexts/UserContext";
+import useTweet from "../Hooks/useTweet";
+import useUser from "../Hooks/useUser";
 function Profile() {
   let { profile } = useParams();
-  const { getUserTweets, reset } = useTweet();
+
   const { state: authState } = useContext(AuthContext);
   const { state: tweetState } = useContext(TweetContext);
-
+  const { state: userState } = useContext(UserContext);
+  const { getUserTweets, reset } = useTweet();
+  const { getUserProfile } = useUser();
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState();
-  const [tweetCount, setTweetCount] = useState();
+  // const [tweetCount, setTweetCount] = useState();
 
   useEffect(() => {
-    console.log(loading);
-
     const request = async () => {
       reset();
       setTimeout(() => {
         setLoading(false);
+        getUserProfile(profile);
         getUserTweets(profile);
-      }, 2000);
+      }, 1000);
     };
     request();
-
-    console.log(loading);
   }, [reload]);
   // if (loading) {
   //   return <Button>LOADING</Button>;
@@ -69,98 +40,17 @@ function Profile() {
       {authState.user && (
         <>
           <Header
-            name={authState.user && authState.user.profile.name}
+            name={userState.getUser && userState.getUser.profile.name}
             tweetCount={authState.user.tweets}
           />
-          <ProfileBox
-            user={authState.user}
-            username={authState.user.username}
-          />
+          {userState.getUser && (
+            <ProfileBox
+              user={userState.getUser}
+              username={userState.getUser && userState.getUser.username}
+            />
+          )}
           {loading ? (
-            <>
-              <SkeletonTheme style={{ display: "inline-flex" }}>
-                <SkeletonContainer>
-                  <Skeleton className="avatar" circle={true} />
-                  <div>
-                    <div className="name-group">
-                      <Skeleton className="name" />
-                      <Skeleton className="name" />
-                      <Skeleton className="name" />
-                    </div>
-                    <div className="content-group">
-                      <Skeleton count={2} />
-                    </div>
-
-                    <div className="button-group">
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                    </div>
-                  </div>
-                </SkeletonContainer>
-                <SkeletonContainer>
-                  <Skeleton className="avatar" circle={true} />
-                  <div>
-                    <div className="name-group">
-                      <Skeleton className="name" />
-                      <Skeleton className="name" />
-                      <Skeleton className="name" />
-                    </div>
-                    <div className="content-group">
-                      <Skeleton count={2} />
-                    </div>
-
-                    <div className="button-group">
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                    </div>
-                  </div>
-                </SkeletonContainer>
-                <SkeletonContainer>
-                  <Skeleton className="avatar" circle={true} />
-                  <div>
-                    <div className="name-group">
-                      <Skeleton className="name" />
-                      <Skeleton className="name" />
-                      <Skeleton className="name" />
-                    </div>
-                    <div className="content-group">
-                      <Skeleton count={2} />
-                    </div>
-
-                    <div className="button-group">
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                    </div>
-                  </div>
-                </SkeletonContainer>
-                <SkeletonContainer>
-                  <Skeleton className="avatar" circle={true} />
-                  <div>
-                    <div className="name-group">
-                      <Skeleton className="name" />
-                      <Skeleton className="name" />
-                      <Skeleton className="name" />
-                    </div>
-                    <div className="content-group">
-                      <Skeleton count={2} />
-                    </div>
-
-                    <div className="button-group">
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                      <Skeleton style={{ width: "20px" }} />
-                    </div>
-                  </div>
-                </SkeletonContainer>
-              </SkeletonTheme>
-            </>
+            <Placeholder />
           ) : (
             <Feed
               tweets={tweetState && tweetState.tweets}

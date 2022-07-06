@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import styled from "styled-components";
 import Textarea from ".././Components/Textarea";
@@ -80,8 +80,8 @@ const InputFile = styled.input`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 `;
-function Tweet({ token, user, id, username, avatar, setReload, reload }) {
-  const { state, addTweet, clearAddTweet } = useContext(TweetContext);
+function Tweet({ username, avatar }) {
+  const { addTweet } = useContext(TweetContext);
   const tweetData = useRef("");
   const [tweetText, setTweetText] = useState("");
   const [imgPreview, setImgPreview] = useState("");
@@ -89,28 +89,22 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
   const [videoPreview, setVideoPreview] = useState("");
   const [videoLink, setVideoLink] = useState("");
   const [disable, setDisable] = useState(true);
-  useEffect(() => {
-    const textWrapper = document.getElementsByClassName("textarea");
-    if (state.newTweet && state.newTweet.status === 200) {
-      setImgPreview("");
-      setImgFile("");
-      setVideoPreview("");
-      setVideoLink("");
-      setTweetText("");
-      // setReload(true);
-      textWrapper[0].textContent = "";
-      clearAddTweet();
-    }
-  }, [state]);
+
   const onFormSubmit = async (e) => {
     e.preventDefault();
+    const textWrapper = document.getElementsByClassName("textarea");
     const formData = new FormData();
     formData.append("image", imgFile);
     formData.append("tweet", tweetText);
     formData.append("type", "tweetImg");
     formData.append("link", videoLink);
     await addTweet(formData);
-    setReload(!reload);
+    setImgPreview("");
+    setImgFile("");
+    setVideoPreview("");
+    setVideoLink("");
+    setTweetText("");
+    textWrapper[0].textContent = "";
   };
   function linkify(text) {
     return text
@@ -129,10 +123,11 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
   function handleChange(event) {
     setImgPreview(URL.createObjectURL(event.target.files[0]));
     setImgFile(event.target.files[0]);
+    setDisable(false);
   }
   const textareaHandleChange = (event) => {
     let currentText = event.currentTarget.textContent;
-    setDisable(currentText.length > 0 ? false : true);
+    setDisable(!currentText.length > 0);
     setTweetText(currentText);
     let id = youtube_parser(currentText);
     let link = linkify(currentText);
@@ -160,7 +155,12 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
 
             {imgPreview && (
               <InputBoxRow>
-                <MediaFrame onHandleMediaClose={() => setImgPreview("")}>
+                <MediaFrame
+                  onHandleMediaClose={() => {
+                    setDisable(true);
+                    setImgPreview("");
+                  }}
+                >
                   <ImgPreview src={imgPreview} />
                 </MediaFrame>
               </InputBoxRow>
@@ -168,7 +168,12 @@ function Tweet({ token, user, id, username, avatar, setReload, reload }) {
 
             {videoPreview && (
               <InputBoxRow>
-                <MediaFrame onHandleMediaClose={() => setVideoPreview("")}>
+                <MediaFrame
+                  onHandleMediaClose={() => {
+                    setDisable(true);
+                    setVideoPreview("");
+                  }}
+                >
                   <iframe
                     title="linkPost"
                     width={300}

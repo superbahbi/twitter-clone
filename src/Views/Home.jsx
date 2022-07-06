@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Header from "../Components/Header";
 import Tweet from ".././Components/Tweet";
 import Feed from ".././Components/Feed";
+import Placeholder from "../Components/Placeholder";
 import useTweet from "../Hooks/useTweet";
 import { Stars } from "../Assets/Icon";
 const TweetDivider = styled.div`
@@ -17,10 +18,18 @@ function Home() {
   const { token, user } = authState;
   const { state: tweetState } = useContext(TweetContext);
   const { getAllTweets, reset } = useTweet();
+  const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState("");
   useEffect(() => {
-    reset();
-    getAllTweets();
+    const request = async () => {
+      reset();
+      setTimeout(() => {
+        setLoading(false);
+        getAllTweets();
+      }, 1000);
+    };
+
+    request();
   }, [reload]);
   return (
     <>
@@ -40,11 +49,15 @@ function Home() {
         reload={reload}
       />
       <TweetDivider></TweetDivider>
-      <Feed
-        tweets={tweetState && tweetState.tweets}
-        setReload={setReload}
-        reload={reload}
-      />
+      {loading ? (
+        <Placeholder />
+      ) : (
+        <Feed
+          tweets={tweetState && tweetState.tweets}
+          setReload={setReload}
+          reload={reload}
+        />
+      )}
     </>
   );
 }
