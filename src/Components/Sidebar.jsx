@@ -106,7 +106,7 @@ function Sidebar() {
             </div>
           </div>
           <div className="right">
-            <img src="http://via.placeholder.com/68x68" alt="img" />
+            <img src="https://via.placeholder.com/68x68" alt="img" />
           </div>
         </div>
         <div className="item">
@@ -118,7 +118,7 @@ function Sidebar() {
             </div>
           </div>
           <div className="right">
-            <img src="http://via.placeholder.com/68x68" alt="img" />
+            <img src="https://via.placeholder.com/68x68" alt="img" />
           </div>
         </div>
         <div className="item">
