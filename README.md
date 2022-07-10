@@ -75,7 +75,7 @@
 ### Built With
 
 * [React.js](https://reactjs.org/)
-* [React-strap](https://github.com/reactstrap/reactstrap/)
+* [React-bootstrap](https://react-bootstrap.github.io/)
 * [Styled-components](https://github.com/styled-components/styled-components)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
