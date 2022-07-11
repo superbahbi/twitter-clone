@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import { Context as TweetContext } from "../Contexts/TweetContext";
+// import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import useTweet from "../Hooks/useTweet";
+// import useTweet from "../Hooks/useTweet";
 import styled from "styled-components";
 import moment from "moment-twitter";
 import Avatar from ".././Components/Avatar";
@@ -17,7 +17,7 @@ import {
   Retweet,
   Like,
   Share,
-  Trash,
+  // Trash,
   Verified,
 } from "../Assets/Icon";
 // import MediaFrame from "./MediaFrame";
@@ -118,75 +118,75 @@ const ButtonContainer = styled.div`
   right: 10px;
 `;
 
-const TooltipContainer = styled.div`
-  .custom-tooltip {
-    position: absolute;
-    bottom: -10px;
-    right: 0px;
-    background-color: white;
-    border-radius: 4px;
-    color: #0f1419;
-    height: 52px;
-    width: 300px;
-    box-sizing: border-box;
-    -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
-      rgb(101 119 134 / 15%) 0px 0px 3px 1px;
-    box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
-      rgb(101 119 134 / 15%) 0px 0px 3px 1px;
-    .tooltip-item {
-      display: inline-flex;
-      padding: 16px 16px;
+// const TooltipContainer = styled.div`
+//   .custom-tooltip {
+//     position: absolute;
+//     bottom: -10px;
+//     right: 0px;
+//     background-color: white;
+//     border-radius: 4px;
+//     color: #0f1419;
+//     height: 52px;
+//     width: 300px;
+//     box-sizing: border-box;
+//     -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+//       rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+//     box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+//       rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+//     .tooltip-item {
+//       display: inline-flex;
+//       padding: 16px 16px;
 
-      margin: auto;
-      cursor: pointer;
-      color: red;
+//       margin: auto;
+//       cursor: pointer;
+//       color: red;
 
-      svg {
-        height: 18.75px;
-        width: 18.75px;
-        fill: red;
-        margin-right: 12px;
-      }
-      .tooltip-text {
-        display: flex;
-        align-items: center;
-        text-align: left;
-        font-size: 15px;
-        line-height: 15px;
-      }
-    }
-    :hover {
-      background-color: #f7f7f7;
-    }
-  }
-`;
-function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
-  const { deleteTweet } = useContext(TweetContext);
-  return (
-    <TooltipContainer id="button-tooltip">
-      <div
-        className="custom-tooltip"
-        onClick={async () => {
-          await deleteTweet(id);
-          setShowTooltip({
-            ...showTooltip,
-            status: false,
-            id: null,
-          });
-          // setReload(!reload);
-        }}
-      >
-        <div className="tooltip-item">
-          <Trash />
-          <div className="tooltip-text">Delete</div>
-        </div>
-      </div>
-    </TooltipContainer>
-  );
-}
+//       svg {
+//         height: 18.75px;
+//         width: 18.75px;
+//         fill: red;
+//         margin-right: 12px;
+//       }
+//       .tooltip-text {
+//         display: flex;
+//         align-items: center;
+//         text-align: left;
+//         font-size: 15px;
+//         line-height: 15px;
+//       }
+//     }
+//     :hover {
+//       background-color: #f7f7f7;
+//     }
+//   }
+// `;
+// function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
+//   const { deleteTweet } = useContext(TweetContext);
+//   return (
+//     <TooltipContainer id="button-tooltip">
+//       <div
+//         className="custom-tooltip"
+//         onClick={async () => {
+//           await deleteTweet(id);
+//           setShowTooltip({
+//             ...showTooltip,
+//             status: false,
+//             id: null,
+//           });
+//           // setReload(!reload);
+//         }}
+//       >
+//         <div className="tooltip-item">
+//           <Trash />
+//           <div className="tooltip-text">Delete</div>
+//         </div>
+//       </div>
+//     </TooltipContainer>
+//   );
+// }
 function Feed({ tweets, setReload, reload }) {
   const { state: authState } = useContext(AuthContext);
-  const { doLikeTweet, doDeleteTweet } = useTweet();
+  // const { doLikeTweet, doDeleteTweet } = useTweet();
   const [showTooltip, setShowTooltip] = useState({
     status: false,
     id: "",
@@ -264,7 +264,7 @@ function Feed({ tweets, setReload, reload }) {
                   placement="bottom-end"
                   trigger="click"
                   animation="fade"
-                  show={showTooltip.id === index ? showTooltip.status : false}
+                  //show={showTooltip.id === index ? showTooltip.status : false}
                   // overlay={renderTooltip(
                   //   item._id,
                   //   // setReload,
@@ -360,7 +360,7 @@ function Feed({ tweets, setReload, reload }) {
                         hoverColor="#F91880"
                         hoverColorBackground="#F7E0EB"
                         handleClick={async () => {
-                          await doLikeTweet(item._id);
+                          // await doLikeTweet(item._id);
                         }}
                       />
                     </ButtonContainer>
@@ -373,7 +373,7 @@ function Feed({ tweets, setReload, reload }) {
                         hoverColor="#1D9BF0"
                         hoverColorBackground="#e8f5fe"
                         handleClick={async () => {
-                          await doDeleteTweet(item._id);
+                          // await doDeleteTweet(item._id);
                         }}
                       />
                     </ButtonContainer>

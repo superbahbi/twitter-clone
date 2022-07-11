@@ -1,36 +1,25 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Context as AuthContext } from "../Contexts/AuthContext";
-import { Context as TweetContext } from "../Contexts/TweetContext";
+import React, { useContext, useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
-import Header from "../Components/Header";
-import Tweet from ".././Components/Tweet";
 import Feed from ".././Components/Feed";
-import Placeholder from "../Components/Placeholder";
-import useTweet from "../Hooks/useTweet";
+import Tweet from ".././Components/Tweet";
 import { Stars } from "../Assets/Icon";
+import Header from "../Components/Header";
+import Placeholder from "../Components/Placeholder";
+import { Context as AuthContext } from "../Contexts/AuthContext";
+import useTweets from "../Hooks/useTweets";
 const TweetDivider = styled.div`
   flex: 1 1 auto;
   margin: 4px 0px;
   border-bottom: 1px solid rgb(239, 243, 244);
 `;
+
 function Home() {
   const { state: authState } = useContext(AuthContext);
   const { token, user } = authState;
-  const { state: tweetState } = useContext(TweetContext);
-  const { getAllTweets, reset } = useTweet();
-  const [loading, setLoading] = useState(true);
+  const { status, data, error, isFetching } = useTweets();
   const [reload, setReload] = useState("");
-  useEffect(() => {
-    const request = async () => {
-      reset();
-      setTimeout(() => {
-        setLoading(false);
-        getAllTweets();
-      }, 1000);
-    };
 
-    request();
-  }, [reload]);
   return (
     <>
       <Header
@@ -49,11 +38,11 @@ function Home() {
         reload={reload}
       />
       <TweetDivider></TweetDivider>
-      {loading ? (
+      {isFetching ? (
         <Placeholder />
       ) : (
         <Feed
-          tweets={tweetState && tweetState.tweets}
+          tweets={data && data.foundTweet}
           setReload={setReload}
           reload={reload}
         />

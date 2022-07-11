@@ -7,7 +7,7 @@ import ProfileBox from "../Components/ProfileBox";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as UserContext } from "../Contexts/UserContext";
-import useTweet from "../Hooks/useTweet";
+// import useTweet from "../Hooks/useTweet";
 import useUser from "../Hooks/useUser";
 function Profile() {
   let { profile } = useParams();
@@ -15,7 +15,7 @@ function Profile() {
   const { state: authState } = useContext(AuthContext);
   const { state: tweetState } = useContext(TweetContext);
   const { state: userState } = useContext(UserContext);
-  const { getUserTweets, reset } = useTweet();
+  // const { getUserTweets, reset } = useTweet();
   const { getUserProfile } = useUser();
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState();
@@ -23,11 +23,11 @@ function Profile() {
 
   useEffect(() => {
     const request = async () => {
-      reset();
+      // reset();
       setTimeout(() => {
         setLoading(false);
         getUserProfile(profile);
-        getUserTweets(profile);
+        // getUserTweets(profile);
       }, 1000);
     };
     request();

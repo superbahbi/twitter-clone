@@ -24,6 +24,8 @@ const authReducer = (state, action) => {
 const tryLocalSignin = (dispatch) => async () => {
   const token = await JSON.parse(localStorage.getItem("token"));
   const user = await JSON.parse(localStorage.getItem("user"));
+  //TODO:
+  // Check if token is expired
   if (token && user) {
     dispatch({
       type: "signin",
