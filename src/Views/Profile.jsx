@@ -5,36 +5,23 @@ import Header from "../Components/Header";
 import Placeholder from "../Components/Placeholder";
 import ProfileBox from "../Components/ProfileBox";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import { Context as TweetContext } from "../Contexts/TweetContext";
 import { Context as UserContext } from "../Contexts/UserContext";
-// import useTweet from "../Hooks/useTweet";
+import useTweet from "../Hooks/useTweet";
 import useUser from "../Hooks/useUser";
 function Profile() {
   let { profile } = useParams();
-
   const { state: authState } = useContext(AuthContext);
-  const { state: tweetState } = useContext(TweetContext);
   const { state: userState } = useContext(UserContext);
-  // const { getUserTweets, reset } = useTweet();
   const { getUserProfile } = useUser();
-  const [loading, setLoading] = useState(true);
+  const { data, isFetching } = useTweet(profile);
   const [reload, setReload] = useState();
-  // const [tweetCount, setTweetCount] = useState();
 
   useEffect(() => {
     const request = async () => {
-      // reset();
-      setTimeout(() => {
-        setLoading(false);
-        getUserProfile(profile);
-        // getUserTweets(profile);
-      }, 1000);
+      getUserProfile(profile);
     };
     request();
   }, [reload]);
-  // if (loading) {
-  //   return <Button>LOADING</Button>;
-  // }
   return (
     <>
       {authState.user && (
@@ -49,11 +36,11 @@ function Profile() {
               username={userState.getUser && userState.getUser.username}
             />
           )}
-          {loading ? (
+          {isFetching ? (
             <Placeholder />
           ) : (
             <Feed
-              tweets={tweetState && tweetState.tweets}
+              tweets={data && data.foundTweet}
               setReload={setReload}
               reload={reload}
             />

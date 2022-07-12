@@ -22,7 +22,7 @@
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "moment-twitter": "^0.2.0",
-    "react": "^17.0.0",
+    "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^4.10.1",

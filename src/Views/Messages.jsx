@@ -20,7 +20,14 @@ import SearchWithList from "../Components/SearchWithList";
 import socketIOClient from "socket.io-client";
 const ENDPOINT = process.env.REACT_APP_API_URL;
 
-const MessageCol = styled(Col)`
+const MessageGridSidebar = styled.div`
+  grid-area: sidebar;
+  grid-template-columns: 350px;
+`;
+const MessageGridMain = styled.div`
+  grid-area: main;
+`;
+const MessageCol = styled.div`
   height: 100vh;
   border: 1px solid rgb(239, 243, 244);
 `;
@@ -177,7 +184,8 @@ function Messages() {
   };
   return (
     <>
-      <MessageCol lg={3} className="p-0">
+      <MessageGridSidebar>
+        {/* <MessageCol lg={3} className="p-0"> */}
         <Header
           name="Messages"
           iconRight="ion-ios-email-outline"
@@ -216,8 +224,10 @@ function Messages() {
             </MessageButton>
           </MessagesBox>
         ) : null}
-      </MessageCol>
-      <MessageCol xs={12} md={8} lg={6}>
+        {/* </MessageCol> */}
+      </MessageGridSidebar>
+      <MessageGridMain>
+        {/* <MessageCol xs={12} md={8} lg={6}> */}
         <Row>
           <MessageCol className="p-0">
             <MessagesBox>
@@ -257,7 +267,8 @@ function Messages() {
             </MessagesBox>
           </MessageCol>
         </Row>
-      </MessageCol>
+        {/* </MessageCol> */}
+      </MessageGridMain>
       <Modal
         show={show.status}
         onHide={onHandleModalClose}
