@@ -118,51 +118,59 @@ const ButtonContainer = styled.div`
 `;
 
 const TooltipContainer = styled.div`
-  .custom-tooltip {
-    position: absolute;
-    bottom: -10px;
-    right: 0px;
-    background-color: white;
-    border-radius: 4px;
-    color: #0f1419;
-    height: 52px;
-    width: 300px;
-    box-sizing: border-box;
-    -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
-      rgb(101 119 134 / 15%) 0px 0px 3px 1px;
-    box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
-      rgb(101 119 134 / 15%) 0px 0px 3px 1px;
-    .tooltip-item {
-      display: inline-flex;
-      padding: 16px 16px;
+  position: absolute;
+  bottom: -10px;
+  right: 0px;
+  background-color: white;
+  border-radius: 4px;
+  color: #0f1419;
+  height: 52px;
+  width: 300px;
+  box-sizing: border-box;
+  -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+    rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+  box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+    rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+  .tooltip-item {
+    display: inline-flex;
+    padding: 16px 16px;
 
-      margin: auto;
-      cursor: pointer;
-      color: red;
+    margin: auto;
+    cursor: pointer;
+    color: red;
 
-      svg {
-        height: 18.75px;
-        width: 18.75px;
-        fill: red;
-        margin-right: 12px;
-      }
-      .tooltip-text {
-        display: flex;
-        align-items: center;
-        text-align: left;
-        font-size: 15px;
-        line-height: 15px;
-      }
+    svg {
+      height: 18.75px;
+      width: 18.75px;
+      fill: red;
+      margin-right: 12px;
     }
-    :hover {
-      background-color: #f7f7f7;
+    .tooltip-text {
+      display: flex;
+      align-items: center;
+      text-align: left;
+      font-size: 15px;
+      line-height: 15px;
     }
   }
+  :hover {
+    background-color: #f7f7f7;
+  }
 `;
-function renderTooltip(id, showTooltip, setShowTooltip, onHandleDelete) {
+function renderTooltip(id, showTooltip, setShowTooltip, deleteTweetMutation) {
   return (
     <TooltipContainer id="button-tooltip">
-      <div className="custom-tooltip" onClick={() => onHandleDelete(id)}>
+      <div
+        className="custom-tooltip"
+        onClick={() => {
+          deleteTweetMutation.mutate(id);
+          setShowTooltip({
+            ...showTooltip,
+            status: false,
+            id: null,
+          });
+        }}
+      >
         <div className="tooltip-item">
           <Trash />
           <div className="tooltip-text">Delete</div>
@@ -181,12 +189,6 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
     status: false,
     id: "",
   });
-  // useEffect(() => {
-  //   tweets && console.log(tweets);
-  //   // tweets.foundTweet.map((tweet) => {
-  //   //   console.log(tweet.img);
-  //   // });
-  // }, []);
   function onHandleComment(id) {
     setShow({
       ...show,
@@ -197,7 +199,7 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
   function onHandleTooltip(id) {
     setShowTooltip({
       ...showTooltip,
-      status: true,
+      status: !showTooltip.status,
       id: id,
     });
   }
@@ -208,9 +210,7 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
       id: null,
     });
   }
-  function onHandleDelete(id) {
-    console.log("click");
-  }
+
   function userlike(likes) {
     let status = false;
     Object.keys(likes).map((key, index) => {
@@ -257,9 +257,9 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
                   show={showTooltip.id === index ? showTooltip.status : false}
                   overlay={renderTooltip(
                     item._id,
-                    onHandleDelete,
                     showTooltip,
-                    setShowTooltip
+                    setShowTooltip,
+                    deleteTweetMutation
                   )}
                 >
                   <span className="threedot">
@@ -348,7 +348,7 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
                         size="18.75px"
                         hoverColor="#F91880"
                         hoverColorBackground="#F7E0EB"
-                        handleClick={async () => {
+                        handleClick={() => {
                           likeTweetMutation.mutate(item._id);
                         }}
                       />
@@ -361,9 +361,6 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
                         size="18.75px"
                         hoverColor="#1D9BF0"
                         hoverColorBackground="#e8f5fe"
-                        handleClick={async () => {
-                          deleteTweetMutation.mutate(item._id);
-                        }}
                       />
                     </ButtonContainer>
                   </ButtonRow>
