@@ -22,6 +22,7 @@ const tweetReducer = (state, action) => {
             if (like._id === action.payload.userId) {
               lineIndex = index;
             }
+            return null;
           });
           if (lineIndex === -1) {
             tweet.likes.push({ _id: action.payload.userId });
@@ -29,6 +30,7 @@ const tweetReducer = (state, action) => {
             tweet.likes.splice(lineIndex);
           }
         }
+        return null;
       });
       return { ...state, errorMessage: "" };
     case "delete_tweet":
@@ -36,6 +38,7 @@ const tweetReducer = (state, action) => {
         if (tweet._id === action.payload) {
           state.tweets.splice(index, 1);
         }
+        return null;
       });
       return { ...state, errorMessage: "" };
     case "reload":
@@ -76,7 +79,7 @@ const clearAddTweet = (dispatch) => async () => {
 };
 const deleteTweet = (dispatch) => async (id) => {
   try {
-    const response = await api.delete("/api/tweet/" + id);
+    await api.delete("/api/tweet/" + id);
     dispatch({ type: "delete_tweet", payload: id });
   } catch (error) {
     dispatch({

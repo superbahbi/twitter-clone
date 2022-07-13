@@ -1,25 +1,35 @@
-import React, { useState, useContext } from "react";
-import { Context as TweetContext } from "../Contexts/TweetContext";
+import React, { useContext, useState } from "react";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import useTweet from "../Hooks/useTweet";
-import styled from "styled-components";
+// import useTweet from "../Hooks/useTweet";
 import moment from "moment-twitter";
-import Avatar from ".././Components/Avatar";
-import IconButton from "../Components/IconButton";
-import CommentModal from "../Components/CommentModal";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-
+import styled from "styled-components";
 import { youtubeParser } from "../Helper/youtubeParser";
+import Avatar from "./Avatar";
+import CommentModal from "./CommentModal";
+import IconButton from "./IconButton";
+import Tooltip from "./Tooltip";
 
 import {
-  Threedot,
   Comment,
-  Retweet,
   Like,
+  Retweet,
   Share,
+  Threedot,
   Trash,
   Verified,
+  Unfollow,
+  NotInterested,
+  Follow,
+  AddRemove,
+  Mute,
+  Block,
+  Embed,
+  Report,
+  Pin,
+  Analytics,
 } from "../Assets/Icon";
+
 // import MediaFrame from "./MediaFrame";
 const TweetContainer = styled.div`
   @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
@@ -119,74 +129,48 @@ const ButtonContainer = styled.div`
 `;
 
 const TooltipContainer = styled.div`
-  .custom-tooltip {
-    position: absolute;
-    bottom: -10px;
-    right: 0px;
-    background-color: white;
-    border-radius: 4px;
-    color: #0f1419;
-    height: 52px;
-    width: 300px;
-    box-sizing: border-box;
-    -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
-      rgb(101 119 134 / 15%) 0px 0px 3px 1px;
-    box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
-      rgb(101 119 134 / 15%) 0px 0px 3px 1px;
-    .tooltip-item {
-      display: inline-flex;
-      padding: 16px 16px;
+  background-color: white;
+  border-radius: 5px;
+  color: #0f1419;
+  width: 300px;
 
-      margin: auto;
-      cursor: pointer;
-      color: red;
+  -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+    rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+  box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+    rgb(101 119 134 / 15%) 0px 0px 3px 1px;
 
-      svg {
-        height: 18.75px;
-        width: 18.75px;
-        fill: red;
-        margin-right: 12px;
-      }
-      .tooltip-text {
-        display: flex;
-        align-items: center;
-        text-align: left;
-        font-size: 15px;
-        line-height: 15px;
-      }
+  div {
+    text-align: left;
+    margin: auto;
+    cursor: pointer;
+    svg {
+      height: 18.75px;
+      width: 18.75px;
+      fill: #0f1419;
+      margin-right: 12px;
     }
+  }
+  .text {
+    font-weight: 300;
+    padding: 16px 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    color: #0f1419;
     :hover {
+      border-radius: 5px;
       background-color: #f7f7f7;
     }
   }
+  .delete {
+    color: red;
+    svg {
+      fill: red;
+    }
+  }
 `;
-function renderTooltip(id, setReload, reload, showTooltip, setShowTooltip) {
-  const { deleteTweet } = useContext(TweetContext);
-  return (
-    <TooltipContainer id="button-tooltip">
-      <div
-        className="custom-tooltip"
-        onClick={async () => {
-          await deleteTweet(id);
-          setShowTooltip({
-            ...showTooltip,
-            status: false,
-            id: null,
-          });
-          // setReload(!reload);
-        }}
-      >
-        <div className="tooltip-item">
-          <Trash />
-          <div className="tooltip-text">Delete</div>
-        </div>
-      </div>
-    </TooltipContainer>
-  );
-}
-function Feed({ tweets, setReload, reload }) {
+function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
   const { state: authState } = useContext(AuthContext);
-  const { doLikeTweet, doDeleteTweet } = useTweet();
   const [showTooltip, setShowTooltip] = useState({
     status: false,
     id: "",
@@ -195,12 +179,6 @@ function Feed({ tweets, setReload, reload }) {
     status: false,
     id: "",
   });
-  // useEffect(() => {
-  //   tweets && console.log(tweets);
-  //   // tweets.foundTweet.map((tweet) => {
-  //   //   console.log(tweet.img);
-  //   // });
-  // }, []);
   function onHandleComment(id) {
     setShow({
       ...show,
@@ -211,7 +189,7 @@ function Feed({ tweets, setReload, reload }) {
   function onHandleTooltip(id) {
     setShowTooltip({
       ...showTooltip,
-      status: true,
+      status: !showTooltip.status,
       id: id,
     });
   }
@@ -222,6 +200,7 @@ function Feed({ tweets, setReload, reload }) {
       id: null,
     });
   }
+
   function userlike(likes) {
     let status = false;
     Object.keys(likes).map((key, index) => {
@@ -265,13 +244,99 @@ function Feed({ tweets, setReload, reload }) {
                   trigger="click"
                   animation="fade"
                   show={showTooltip.id === index ? showTooltip.status : false}
-                  // overlay={renderTooltip(
-                  //   item._id,
-                  //   // setReload,
-                  //   // reload,
-                  //   showTooltip,
-                  //   setShowTooltip
-                  // )}
+                  overlay={
+                    <TooltipContainer>
+                      <div>
+                        {authState.user.username === item.username ? (
+                          <>
+                            <div
+                              className="text delete"
+                              onClick={() => {
+                                deleteTweetMutation.mutate(item._id);
+                                setShowTooltip({
+                                  ...showTooltip,
+                                  status: false,
+                                  id: null,
+                                });
+                              }}
+                            >
+                              <Trash />
+                              <span>Delete</span>
+                            </div>
+                            <div className="text">
+                              <Pin />
+                              <span className="name">Pin to your profile</span>
+                            </div>
+                            <div className="text">
+                              <AddRemove />
+                              <span className="name">
+                                Add/remove @{item.username} from Lists
+                              </span>
+                            </div>
+                            <div className="text">
+                              <Comment />
+                              <span className="name">Change who can reply</span>
+                            </div>
+                            <div className="text">
+                              <Embed />
+                              <span className="name">Embed Tweet</span>
+                            </div>
+                            <div className="text">
+                              <Analytics />
+                              <span className="name">View Tweet Analytics</span>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="text">
+                              <Unfollow />
+                              <span className="name">
+                                Unfollow {item.username}
+                              </span>
+                            </div>
+                            <div className="text">
+                              <NotInterested />
+                              <span className="name">
+                                Not interested in this tweet
+                              </span>
+                            </div>
+                            <div className="text">
+                              <Follow />
+                              <span className="name">
+                                Follow @{item.username}
+                              </span>
+                            </div>
+                            <div className="text">
+                              <AddRemove />
+                              <span className="name">
+                                Add/remove @{item.username} from Lists
+                              </span>
+                            </div>
+                            <div className="text">
+                              <Mute />
+                              <span className="name">
+                                Mute @{item.username}
+                              </span>
+                            </div>
+                            <div className="text">
+                              <Block />
+                              <span className="name">
+                                Block @{item.username}
+                              </span>
+                            </div>
+                            <div className="text">
+                              <Embed />
+                              <span className="name">Embed Tweet</span>
+                            </div>
+                            <div className="text">
+                              <Report />
+                              <span className="name">Report Tweet</span>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </TooltipContainer>
+                  }
                 >
                   <span className="threedot">
                     <IconButton
@@ -343,9 +408,9 @@ function Feed({ tweets, setReload, reload }) {
                         size="18.75px"
                         hoverColor="#00BA7C"
                         hoverColorBackground="#DEF1EB"
-                        handleClick={() => {
-                          onHandleComment(index);
-                        }}
+                        // handleClick={() => {
+                        //   onHandleComment(index);
+                        // }}
                       />
                     </ButtonContainer>
 
@@ -359,8 +424,8 @@ function Feed({ tweets, setReload, reload }) {
                         size="18.75px"
                         hoverColor="#F91880"
                         hoverColorBackground="#F7E0EB"
-                        handleClick={async () => {
-                          await doLikeTweet(item._id);
+                        handleClick={() => {
+                          likeTweetMutation.mutate(item._id);
                         }}
                       />
                     </ButtonContainer>
@@ -372,9 +437,6 @@ function Feed({ tweets, setReload, reload }) {
                         size="18.75px"
                         hoverColor="#1D9BF0"
                         hoverColorBackground="#e8f5fe"
-                        handleClick={async () => {
-                          await doDeleteTweet(item._id);
-                        }}
                       />
                     </ButtonContainer>
                   </ButtonRow>
