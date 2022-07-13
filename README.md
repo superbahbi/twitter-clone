@@ -53,14 +53,18 @@
 # To-Do
 - [x] Login
 - [x] Register
+- [ ] Forgot password
 - [x] Feed list
 - [x] Profile
 - [x] Edit profile
+- [ ] Follow other users
 - [ ] Thread page
 - [ ] Search a tweet
 - [x] Add a comment
 - [x] Like a tweet
-- [ ] Retweet
+- [x] Delete a tweet
+- [ ] Retweet a tweet
+- [ ] Share a tweet
 - [ ] Trending
 - [ ] Notifactions
 
