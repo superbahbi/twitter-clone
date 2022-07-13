@@ -7,6 +7,7 @@ const Stack = styled.div`
   width: 400px;
   margin: auto;
   padding: 0 32px;
+  height: 100vh;
 `;
 const Image = styled.img`
   width: 336px;
