@@ -79,7 +79,7 @@ const InputFile = styled.input`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 `;
-function Tweet({ username, avatar, addTweetMutation }) {
+function Tweet({ username, avatar, addTweetMutation, placeholder }) {
   const tweetData = useRef("");
   const [tweetText, setTweetText] = useState("");
   const [imgPreview, setImgPreview] = useState("");
@@ -144,7 +144,7 @@ function Tweet({ username, avatar, addTweetMutation }) {
               <Textarea
                 type="text"
                 name="Tweet"
-                placeholder="What's Happening"
+                placeholder={placeholder ? placeholder : "What's Happening"}
                 autocomplete="off"
                 projectRef={tweetData}
                 onHandleChange={(event) => textareaHandleChange(event)}

@@ -19,8 +19,8 @@ const TextAreaBox = styled.div`
     padding: 2px 0px;
   }
   .textarea[contenteditable]:empty::before {
-    content: "What's happening?";
     color: #436471;
+    content: "What's happening?";
   }
 `;
 
@@ -33,7 +33,7 @@ function Textarea(props) {
         // ref={props.projectRef}
         // name={props.name}
         // type={props.type}
-        // placeholder={props.placeholder}
+        placeholder={props.placeholder}
         // autoComplete={props.autocomplete}
         // value={props.value}
         onInput={props.onHandleChange}

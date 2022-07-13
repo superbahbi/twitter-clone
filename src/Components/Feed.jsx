@@ -194,6 +194,7 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
     });
   }
   function onHandleCommentClose() {
+    console.log("onHandleCommentClose");
     setShow({
       ...show,
       status: false,
@@ -395,11 +396,13 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
                       <CommentModal
                         show={show.status}
                         onHide={onHandleCommentClose}
+                        onHandleCommentClose={onHandleCommentClose}
                         tweet={tweets[show.id]}
                         auth={authState}
                         setShow={setShow}
                       />
                     </ButtonContainer>
+
                     <ButtonContainer>
                       <IconButton
                         type="button"

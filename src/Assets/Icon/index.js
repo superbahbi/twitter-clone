@@ -34,6 +34,7 @@ import Embed from "./embed";
 import Report from "./report";
 import Pin from "./pin";
 import Analytics from "./analytics";
+import Close from "./close";
 export {
   Paw,
   Twitter,
@@ -71,4 +72,5 @@ export {
   Report,
   Pin,
   Analytics,
+  Close,
 };
