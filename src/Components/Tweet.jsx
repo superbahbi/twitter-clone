@@ -205,12 +205,12 @@ function Tweet({ username, avatar, addTweetMutation }) {
                   hoverColor="#1D9BF0"
                   hoverColorBackground="#e8f5fe"
                 >
-                  <InputFile
+                  {/* <InputFile
                     type="file"
                     name="img"
                     accept="image/*"
                     onChange={(event) => handleChange(event)}
-                  />
+                  /> */}
                 </IconButton>
                 <IconButton
                   type="button"
@@ -219,12 +219,12 @@ function Tweet({ username, avatar, addTweetMutation }) {
                   hoverColor="#1D9BF0"
                   hoverColorBackground="#e8f5fe"
                 >
-                  <InputFile
+                  {/* <InputFile
                     type="file"
                     name="img"
                     accept="image/*"
                     onChange={(event) => handleChange(event)}
-                  />
+                  /> */}
                 </IconButton>
                 <IconButton
                   type="button"
@@ -233,12 +233,12 @@ function Tweet({ username, avatar, addTweetMutation }) {
                   hoverColor="#1D9BF0"
                   hoverColorBackground="#e8f5fe"
                 >
-                  <InputFile
+                  {/* <InputFile
                     type="file"
                     name="img"
                     accept="image/*"
                     onChange={(event) => handleChange(event)}
-                  />
+                  /> */}
                 </IconButton>
                 <IconButton
                   type="button"
@@ -247,12 +247,12 @@ function Tweet({ username, avatar, addTweetMutation }) {
                   hoverColor="#1D9BF0"
                   hoverColorBackground="#e8f5fe"
                 >
-                  <InputFile
+                  {/* <InputFile
                     type="file"
                     name="img"
                     accept="image/*"
                     onChange={(event) => handleChange(event)}
-                  />
+                  /> */}
                 </IconButton>
                 <IconButton
                   type="button"
@@ -262,12 +262,12 @@ function Tweet({ username, avatar, addTweetMutation }) {
                   hoverColorBackground="#e8f5fe"
                   disabled={true}
                 >
-                  <InputFile
+                  {/* <InputFile
                     type="file"
                     name="img"
                     accept="image/*"
                     onChange={(event) => handleChange(event)}
-                  />
+                  /> */}
                 </IconButton>
               </InputBoxGroup>
 
