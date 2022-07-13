@@ -84,7 +84,7 @@ function Settings() {
   }, [imgFile, authState, type]);
   return (
     <>
-      <Header name="Settings" iconLeft iconRight="ion-ios-gear-outline" />
+      <Header name="Settings" />
       <SettingsBox>
         <SettingsList>
           <List>
