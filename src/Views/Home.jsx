@@ -1,36 +1,63 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Context as AuthContext } from "../Contexts/AuthContext";
-import { Context as TweetContext } from "../Contexts/TweetContext";
+import React, { useContext, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
-import Header from "../Components/Header";
-import Tweet from ".././Components/Tweet";
 import Feed from ".././Components/Feed";
-import Placeholder from "../Components/Placeholder";
-import useTweet from "../Hooks/useTweet";
+import Tweet from ".././Components/Tweet";
 import { Stars } from "../Assets/Icon";
+import Header from "../Components/Header";
+import Placeholder from "../Components/Placeholder";
+import { Context as AuthContext } from "../Contexts/AuthContext";
+import useTweets from "../Hooks/useTweets";
+import api from "../Helper/api";
 const TweetDivider = styled.div`
   flex: 1 1 auto;
   margin: 4px 0px;
   border-bottom: 1px solid rgb(239, 243, 244);
 `;
+
 function Home() {
+  const queryClient = useQueryClient();
   const { state: authState } = useContext(AuthContext);
   const { token, user } = authState;
-  const { state: tweetState } = useContext(TweetContext);
-  const { getAllTweets, reset } = useTweet();
-  const [loading, setLoading] = useState(true);
+  const { data, isFetching } = useTweets();
   const [reload, setReload] = useState("");
-  useEffect(() => {
-    const request = async () => {
-      reset();
-      setTimeout(() => {
-        setLoading(false);
-        getAllTweets();
-      }, 1000);
-    };
-
-    request();
-  }, [reload]);
+  const addTweetMutation = useMutation(
+    async (newPost) => {
+      const res = await api.post("/api/tweet", newPost);
+      console.log(res);
+    },
+    {
+      onError: (previousValue) =>
+        queryClient.setQueryData(["tweets"], previousValue),
+      onSettled: () => {
+        queryClient.invalidateQueries(["tweets"]);
+      },
+    }
+  );
+  const likeTweetMutation = useMutation(
+    async (id) => {
+      await api.put("/api/like/" + id);
+    },
+    {
+      onError: (previousValue) =>
+        queryClient.setQueryData(["tweets"], previousValue),
+      onSettled: () => {
+        queryClient.invalidateQueries(["tweets"]);
+      },
+    }
+  );
+  const deleteTweetMutation = useMutation(
+    async (id) => {
+      await api.delete("/api/tweet/" + id);
+    },
+    {
+      onError: (previousValue) =>
+        queryClient.setQueryData(["tweets"], previousValue),
+      onSettled: () => {
+        queryClient.invalidateQueries(["tweets"]);
+      },
+    }
+  );
   return (
     <>
       <Header
@@ -43,21 +70,18 @@ function Home() {
         token={token}
         user={user}
         id={user._id}
+        addTweetMutation={addTweetMutation}
         username={user.username}
         avatar={user.profile.avatar.filename}
         setReload={setReload}
         reload={reload}
       />
       <TweetDivider></TweetDivider>
-      {loading ? (
-        <Placeholder />
-      ) : (
-        <Feed
-          tweets={tweetState && tweetState.tweets}
-          setReload={setReload}
-          reload={reload}
-        />
-      )}
+      <Feed
+        likeTweetMutation={likeTweetMutation}
+        deleteTweetMutation={deleteTweetMutation}
+        tweets={data && data.foundTweet}
+      />
     </>
   );
 }

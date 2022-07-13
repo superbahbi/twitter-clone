@@ -53,12 +53,12 @@ const HeaderIconButton = styled(IconButton)`
 
   max-width: 45px;
 `;
-const ProfileTweetCount = styled.div`
-  color: #657786;
-  font-size: 14px;
-  font-weight: lighter;
-  padding-left: 10px;
-`;
+// const ProfileTweetCount = styled.div`
+//   color: #657786;
+//   font-size: 14px;
+//   font-weight: lighter;
+//   padding-left: 10px;
+// `;
 function Header({
   avatar,
   iconLeft,

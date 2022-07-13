@@ -110,15 +110,23 @@ const TooltipContainer = styled.div`
   background-color: white;
   border-radius: 5px;
   color: #0f1419;
-  height: 52px;
   width: 300px;
-  -webkit-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+    rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+  box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+    rgb(101 119 134 / 15%) 0px 0px 3px 1px;
   div {
-    padding: 16px 16px;
+    padding: 16px 0px;
     text-align: left;
     margin: auto;
     cursor: pointer;
+  }
+  .text {
+    padding: 16px 16px;
+    :hover {
+      background-color: #f7f7f7;
+    }
   }
 `;
 function Navbar() {
@@ -234,10 +242,25 @@ function Navbar() {
           </TweetButton>
         </ListStyle>
         <NavProfileContainer>
-          <Overlay target={target.current} show={show} placement="top">
+          <Overlay
+            target={target.current}
+            show={show}
+            placement="top"
+            rootClose={true}
+          >
             {({ placement, arrowProps, show: _show, popper, ...props }) => (
               <TooltipContainer {...props}>
-                <div onClick={handleLogout}>Log out @{username}</div>
+                <div>
+                  <div className="text">
+                    <span className="name">Add an existing account</span>
+                  </div>
+                  <div className="text">
+                    <span className="name">Manage accounts</span>
+                  </div>
+                  <div className="text" onClick={handleLogout}>
+                    Log out @{username}
+                  </div>
+                </div>
               </TooltipContainer>
             )}
           </Overlay>

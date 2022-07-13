@@ -24,6 +24,16 @@ import Share from "./share";
 import Trash from "./trash";
 import Search from "./search";
 import Verified from "./verified";
+import Unfollow from "./unfollow";
+import NotInterested from "./not-interested";
+import Follow from "./follow";
+import AddRemove from "./add-remove";
+import Mute from "./mute";
+import Block from "./block";
+import Embed from "./embed";
+import Report from "./report";
+import Pin from "./pin";
+import Analytics from "./analytics";
 export {
   Paw,
   Twitter,
@@ -51,4 +61,14 @@ export {
   Trash,
   Search,
   Verified,
+  Unfollow,
+  NotInterested,
+  Follow,
+  AddRemove,
+  Mute,
+  Block,
+  Embed,
+  Report,
+  Pin,
+  Analytics,
 };

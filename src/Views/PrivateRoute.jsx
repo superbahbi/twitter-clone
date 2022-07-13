@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { Navigate } from "react-router-dom";
-import { Context as AuthContext } from "../Contexts/AuthContext";
+import { useJwt } from "react-jwt";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import styled from "styled-components";
 import Navbar from "../Components/Navbar";
 import NavMobile from "../Components/NavMobile";
 import Sidebar from "../Components/Sidebar";
+import { Context as AuthContext } from "../Contexts/AuthContext";
 
 const Container = styled.div`
   width: 1200px;
@@ -61,11 +62,24 @@ const Spinner = styled.div`
   background-size: 100%;
 `;
 function PrivateRoute({ children }) {
-  const { state, tryLocalSignin } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const { state, tryLocalSignin, logout } = useContext(AuthContext);
+  const { decodedToken, isExpired } = useJwt(state.token);
 
   useEffect(() => {
-    tryLocalSignin();
-  }, []);
+    (async () => {
+      await tryLocalSignin();
+    })();
+
+    if (isExpired && decodedToken) {
+      logout();
+      navigate("/login");
+    }
+    return () => {
+      console.log("This will be logged on unmount");
+    };
+  }, [isExpired, decodedToken]);
   if (state.loading) {
     return (
       <Spinner>
@@ -73,21 +87,26 @@ function PrivateRoute({ children }) {
       </Spinner>
     );
   }
-
   return state.token && state.user ? (
     <Container>
       <NavbarContainer>
         <Navbar username={state.user.username} />
       </NavbarContainer>
 
-      <MainContainer>
-        {children}
-        <NavMobile />
-      </MainContainer>
+      {pathname !== "/messages" ? (
+        <>
+          <MainContainer>
+            {children}
+            <NavMobile />
+          </MainContainer>
 
-      <SidebarContainer>
-        <Sidebar />
-      </SidebarContainer>
+          <SidebarContainer>
+            <Sidebar />
+          </SidebarContainer>
+        </>
+      ) : (
+        <div> {children}</div>
+      )}
     </Container>
   ) : (
     <Navigate to="/login" />

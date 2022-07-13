@@ -1,19 +1,18 @@
-import React, { useState, useRef, useContext } from "react";
-import { Context as TweetContext } from "../Contexts/TweetContext";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import Textarea from ".././Components/Textarea";
-import Button from ".././Components/Button";
 import Avatar from ".././Components/Avatar";
+import Button from ".././Components/Button";
+import Textarea from ".././Components/Textarea";
+import {
+  TweetEmoji,
+  TweetGif,
+  TweetLocation,
+  TweetPoll,
+  TweetSchedule,
+  TweetUpload,
+} from "../Assets/Icon";
 import IconButton from "./IconButton";
 import MediaFrame from "./MediaFrame";
-import {
-  TweetUpload,
-  TweetGif,
-  TweetPoll,
-  TweetEmoji,
-  TweetSchedule,
-  TweetLocation,
-} from "../Assets/Icon";
 
 const TweetBox = styled.div`
   @media (max-width: 700px) {
@@ -80,8 +79,7 @@ const InputFile = styled.input`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 `;
-function Tweet({ username, avatar }) {
-  const { addTweet } = useContext(TweetContext);
+function Tweet({ username, avatar, addTweetMutation }) {
   const tweetData = useRef("");
   const [tweetText, setTweetText] = useState("");
   const [imgPreview, setImgPreview] = useState("");
@@ -98,7 +96,7 @@ function Tweet({ username, avatar }) {
     formData.append("tweet", tweetText);
     formData.append("type", "tweetImg");
     formData.append("link", videoLink);
-    await addTweet(formData);
+    addTweetMutation.mutate(formData);
     setImgPreview("");
     setImgFile("");
     setVideoPreview("");
@@ -207,12 +205,12 @@ function Tweet({ username, avatar }) {
                   hoverColor="#1D9BF0"
                   hoverColorBackground="#e8f5fe"
                 >
-                  <InputFile
+                  {/* <InputFile
                     type="file"
                     name="img"
                     accept="image/*"
                     onChange={(event) => handleChange(event)}
-                  />
+                  /> */}
                 </IconButton>
                 <IconButton
                   type="button"
@@ -221,12 +219,12 @@ function Tweet({ username, avatar }) {
                   hoverColor="#1D9BF0"
                   hoverColorBackground="#e8f5fe"
                 >
-                  <InputFile
+                  {/* <InputFile
                     type="file"
                     name="img"
                     accept="image/*"
                     onChange={(event) => handleChange(event)}
-                  />
+                  /> */}
                 </IconButton>
                 <IconButton
                   type="button"
@@ -235,12 +233,12 @@ function Tweet({ username, avatar }) {
                   hoverColor="#1D9BF0"
                   hoverColorBackground="#e8f5fe"
                 >
-                  <InputFile
+                  {/* <InputFile
                     type="file"
                     name="img"
                     accept="image/*"
                     onChange={(event) => handleChange(event)}
-                  />
+                  /> */}
                 </IconButton>
                 <IconButton
                   type="button"
@@ -249,12 +247,12 @@ function Tweet({ username, avatar }) {
                   hoverColor="#1D9BF0"
                   hoverColorBackground="#e8f5fe"
                 >
-                  <InputFile
+                  {/* <InputFile
                     type="file"
                     name="img"
                     accept="image/*"
                     onChange={(event) => handleChange(event)}
-                  />
+                  /> */}
                 </IconButton>
                 <IconButton
                   type="button"
@@ -264,12 +262,12 @@ function Tweet({ username, avatar }) {
                   hoverColorBackground="#e8f5fe"
                   disabled={true}
                 >
-                  <InputFile
+                  {/* <InputFile
                     type="file"
                     name="img"
                     accept="image/*"
                     onChange={(event) => handleChange(event)}
-                  />
+                  /> */}
                 </IconButton>
               </InputBoxGroup>
 

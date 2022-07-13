@@ -5,18 +5,21 @@ import { Provider as AuthProvider } from "./Contexts/AuthContext";
 
 import { Provider as UserProvider } from "./Contexts/UserContext";
 import { Provider as TweetProvider } from "./Contexts/TweetContext";
-
+import { QueryClient, QueryClientProvider } from "react-query";
+const queryClient = new QueryClient();
 function App() {
   return (
-    <AuthProvider>
-      <UserProvider>
-        <TweetProvider>
-          <BrowserRouter>
-            <CustomRoutes />
-          </BrowserRouter>
-        </TweetProvider>
-      </UserProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <UserProvider>
+          <TweetProvider>
+            <BrowserRouter>
+              <CustomRoutes />
+            </BrowserRouter>
+          </TweetProvider>
+        </UserProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 
