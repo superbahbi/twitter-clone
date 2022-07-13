@@ -19,11 +19,11 @@ const StyledIconButton = styled.button`
       width: ${(props) => (props.size ? props.size : "20px")};
       height: ${(props) => (props.size ? props.size : "20px")};
       fill: ${(props) => (props.color ? props.color : "#000")};
-      :hover {
-        fill: ${(props) => (props.hoverColor ? props.hoverColor : "#e7e7e8")};
-      }
     }
     :hover {
+      svg {
+        fill: ${(props) => (props.hoverColor ? props.hoverColor : "#e7e7e8")};
+      }
       border-radius: 30px;
       background-color: ${(props) =>
         props.hoverColorBackground ? props.hoverColorBackground : "#e7e7e8"};
