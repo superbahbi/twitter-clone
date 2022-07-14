@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Avatar from ".././Components/Avatar";
 import Button from ".././Components/Button";
 import Textarea from ".././Components/Textarea";
+import Card from "./Card";
+import { youtubeMetadata } from "../Helper/youtubeMetadata";
 import {
   TweetEmoji,
   TweetGif,
@@ -23,7 +25,6 @@ const TweetBox = styled.div`
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
-  padding: 0 16px 0 16px;
 `;
 
 const InputTweetBox = styled.div`
@@ -31,22 +32,11 @@ const InputTweetBox = styled.div`
 `;
 const InputBox = styled.div`
   font-size: 20px;
-  // :input {
-  //   align-items: stretch;
-  // }
-  // &:focus {
-  //   outline: none;
-  //   border: none;
-  // }
-  // :input::placeholder {
-  //   font-weight: 400;
-  //   position: relative;
-  //   top: -0.3rem;
-  // }
 `;
 const InputBoxRow = styled.div`
   padding-top: 14px;
   display: flex;
+  width: 500px;
 `;
 const InputBoxGroup = styled.label`
   display: flex;
@@ -63,7 +53,8 @@ const InputBoxGroup = styled.label`
 
 const AvatarBox = styled.div`
   padding-top: 4px;
-  margin-right: 12px;
+  padding-right: 12px;
+  padding-left: 16px;
 `;
 const TweetButton = styled.div`
   margin-left: auto !important;
@@ -87,7 +78,7 @@ function Tweet({ username, avatar, addTweetMutation, placeholder }) {
   const [videoPreview, setVideoPreview] = useState("");
   const [videoLink, setVideoLink] = useState("");
   const [disable, setDisable] = useState(true);
-
+  const [linkMetadata, setLinkMetadata] = useState({});
   const onFormSubmit = async (e) => {
     e.preventDefault();
     const textWrapper = document.getElementsByClassName("textarea");
@@ -123,15 +114,20 @@ function Tweet({ username, avatar, addTweetMutation, placeholder }) {
     setImgFile(event.target.files[0]);
     setDisable(false);
   }
-  const textareaHandleChange = (event) => {
+  const textareaHandleChange = async (event) => {
     let currentText = event.currentTarget.textContent;
     setDisable(!currentText.length > 0);
     setTweetText(currentText);
     let id = youtube_parser(currentText);
     let link = linkify(currentText);
-    setVideoPreview(id);
-    setVideoLink(link);
+    if (link.length > 0) {
+      setVideoPreview(id);
+      setVideoLink(link);
+      setLinkMetadata(await youtubeMetadata(link));
+      console.log(await youtubeMetadata(link));
+    }
   };
+
   return (
     <div>
       <TweetBox>
@@ -172,12 +168,12 @@ function Tweet({ username, avatar, addTweetMutation, placeholder }) {
                     setVideoPreview("");
                   }}
                 >
-                  <iframe
+                  <Card data={linkMetadata} />
+                  {/* <iframe
                     title="linkPost"
-                    width={300}
-                    src={`https://www.youtube.com/embed/${videoPreview}?autoplay=1&modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=0`}
+                    src={`https://www.youtube.com/embed/${videoPreview}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white`}
                     frameBorder="0"
-                  ></iframe>
+                  ></iframe> */}
                 </MediaFrame>
               </InputBoxRow>
             )}
