@@ -5,17 +5,17 @@ const TextAreaBox = styled.div`
   padding: 12px 0px;
 
   .textarea {
-    display: block;
+    display: inline-block;
     font-size: 20px;
     font-weight: 300;
     line-height: 28px;
-
-    width: 100%;
+    max-width: 500px;
     overflow: hidden;
     resize: both;
     border: none;
     outline: none;
     resize: none;
+    white-space: pre-wrap;
     padding: 2px 0px;
   }
   .textarea[contenteditable]:empty::before {

@@ -40,11 +40,11 @@ const NavMobile = () => {
           onHandleClick={() => onHandleClick("home")}
         />
         <List
-          active={isActive === "settings" ? true : false}
-          id="settings"
-          name="Home"
-          icon={<Search active={isActive === "settings" ? true : false} />}
-          onHandleClick={() => onHandleClick("settings")}
+          active={isActive === "explorer" ? true : false}
+          id="explorer"
+          name="Explorer"
+          icon={<Search active={isActive === "explorer" ? true : false} />}
+          onHandleClick={() => onHandleClick("explorer")}
         />
         <List
           active={isActive === "notification" ? true : false}

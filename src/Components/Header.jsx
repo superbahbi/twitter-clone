@@ -8,7 +8,8 @@ import IconButton from "../Components/IconButton";
 import Avatar from "../Components/Avatar";
 library.add(fas, far);
 const HeaderContainer = styled.div`
-
+  position: relative;
+  top: -1px;
   display: flex;
   flex-direction: row;
   padding: 0 16px;

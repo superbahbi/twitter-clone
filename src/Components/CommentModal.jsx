@@ -11,6 +11,7 @@ import IconButton from "./IconButton";
 import Tweet from "./Tweet";
 import { Close } from "../Assets/Icon";
 const ModalContainer = styled(Modal)`
+  width: 100%;
   .modal-content {
     width: 600px;
     border-radius: 16px;
@@ -23,18 +24,21 @@ const ModalContainer = styled(Modal)`
   }
   .modal-body {
     border: 0;
+    padding: 16px 16px 0 16px;
   }
   .modal-footer {
     border-top: 0 none;
   }
 `;
 const TweetContainer = styled.div`
-  padding: 0.5em;
   flex: 1 1 auto !important;
+`;
+const AvatarContainer = styled.div`
+  padding-right: 12px;
 `;
 const FeedBox = styled.div`
   display: flex;
-  width: 600px;
+  width: 100%;
 `;
 const FeedName = styled.span`
   padding-right: 0.25em;
@@ -57,6 +61,15 @@ const FeedContent = styled.span`
   line-height: 1.5;
   padding-top: 0.25em;
   padding-bottom: 0.25em;
+  width: 100%;
+`;
+const FeedImg = styled.div`
+  margin-top: 16px;
+
+  img {
+    max-width: 100%;
+    border-radius: 16px;
+  }
 `;
 const CommentTextarea = styled(Textarea)`
   width: 100%;
@@ -107,10 +120,12 @@ function CommentModal({
         </Modal.Header>
         <Modal.Body>
           <FeedBox>
-            <Avatar
-              name={tweet && tweet.username}
-              src={tweet && tweet.user_data.profile.avatar.filename}
-            />
+            <AvatarContainer>
+              <Avatar
+                name={tweet && tweet.username}
+                src={tweet && tweet.user_data.profile.avatar.filename}
+              />
+            </AvatarContainer>
             <TweetContainer>
               <FeedBox>
                 <FeedName>{tweet && tweet.name}</FeedName>
@@ -121,7 +136,14 @@ function CommentModal({
               </FeedBox>
 
               <FeedBox>
-                <FeedContent>{tweet && tweet.content}</FeedContent>
+                {tweet && tweet.content ? (
+                  <FeedContent>{tweet && tweet.content}</FeedContent>
+                ) : null}
+                {tweet && tweet.img ? (
+                  <FeedImg>
+                    <img src={tweet && tweet.img.filename} alt="feed" />
+                  </FeedImg>
+                ) : null}
               </FeedBox>
               <FeedBox>
                 <FeedContent>Replying to @{tweet && tweet.name}</FeedContent>
@@ -145,14 +167,14 @@ function CommentModal({
             </TweetContainer>
           </FeedBox>
         </Modal.Body>
-        <Modal.Footer closeButton>
+        {/* <Modal.Footer closeButton>
           <Button
             name="button"
             type="submit"
             btnStyle="signup-btn"
             label="Reply"
           />
-        </Modal.Footer>
+        </Modal.Footer> */}
       </form>
     </ModalContainer>
   );
