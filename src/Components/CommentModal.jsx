@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import Modal from "react-bootstrap/Modal";
 import Avatar from "./Avatar";
@@ -8,7 +8,7 @@ import styled from "styled-components";
 import moment from "moment";
 import formurlencoded from "form-urlencoded";
 import IconButton from "./IconButton";
-import Tweet from "./Tweet";
+import TweetInput from "./TweetInput";
 import { Close } from "../Assets/Icon";
 const ModalContainer = styled(Modal)`
   width: 100%;
@@ -71,8 +71,8 @@ const FeedImg = styled.div`
     border-radius: 16px;
   }
 `;
-const CommentTextarea = styled(Textarea)`
-  width: 100%;
+const CommentTextarea = styled.div`
+  padding-left: 64px;
 `;
 
 function CommentModal({
@@ -82,24 +82,34 @@ function CommentModal({
   setShow,
   onHide,
   onHandleCommentClose,
+  commentTweetMutation,
 }) {
   const { addComment } = useContext(TweetContext);
-  const commentData = useRef("");
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [commentText, setCommentText] = React.useState("");
+  const [disable, setDisable] = useState(true);
   function onFormSubmit(e) {
     e.preventDefault();
     addComment(
       formurlencoded({
         name: auth.user.profile.name,
         username: auth.user.username,
-        comment: commentData.current.value,
+        comment: commentText,
         tweetId: tweet._id,
         profileId: auth.user._id,
         avatar: auth.user.profile.avatar.filename,
       })
     );
+    onHandleCommentClose();
     e.target.reset();
+  }
+  function handleChange(event) {
+    let currentText = event.currentTarget.textContent;
+    setCommentText(currentText);
+    if (currentText.length > 0) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
   }
   return (
     <ModalContainer
@@ -151,30 +161,20 @@ function CommentModal({
             </TweetContainer>
           </FeedBox>
           <FeedBox>
-            {/* <Avatar
-              name={auth && auth.user.username}
-              src={auth && auth.user.profile.avatar.filename}
-            /> */}
             <TweetContainer>
-              <FeedBox>
-                <Tweet
+              <CommentTextarea>
+                <Textarea
+                  type="text"
+                  name="Tweet"
                   placeholder="Tweet your reply"
-                  // addTweetMutation={addTweetMutation}
-                  username={auth && auth.user.username}
-                  avatar={auth && auth.user.profile.avatar.filename}
+                  autocomplete="off"
+                  onHandleChange={(event) => handleChange(event)}
                 />
-              </FeedBox>
+                <TweetInput handleChange={handleChange} disable={disable} />
+              </CommentTextarea>
             </TweetContainer>
           </FeedBox>
         </Modal.Body>
-        {/* <Modal.Footer closeButton>
-          <Button
-            name="button"
-            type="submit"
-            btnStyle="signup-btn"
-            label="Reply"
-          />
-        </Modal.Footer> */}
       </form>
     </ModalContainer>
   );

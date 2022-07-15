@@ -174,7 +174,12 @@ const TooltipContainer = styled.div`
     }
   }
 `;
-function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
+function Feed({
+  tweets,
+  likeTweetMutation,
+  deleteTweetMutation,
+  commentTweetMutation,
+}) {
   const { state: authState } = useContext(AuthContext);
   const [showTooltip, setShowTooltip] = useState({
     status: false,
@@ -362,7 +367,7 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
                   <FeedContent>{item.content}</FeedContent>
                 </FeedBox>
               ) : null}
-              {youtubeParser(item.link) ? (
+              {item.link ? (
                 <FeedBox>
                   <FeedMedia>
                     <iframe
@@ -403,6 +408,7 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
                         show={show.status}
                         onHide={onHandleCommentClose}
                         onHandleCommentClose={onHandleCommentClose}
+                        commentTweetMutation={commentTweetMutation}
                         tweet={tweets[show.id]}
                         auth={authState}
                         setShow={setShow}

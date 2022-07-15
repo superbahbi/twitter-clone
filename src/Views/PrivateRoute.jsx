@@ -9,11 +9,11 @@ import Sidebar from "../Components/Sidebar";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 
 const Container = styled.div`
-  width: 1200px;
   display: grid;
-  @media only screen and (max-width: 2000px) and (min-width: 1265px) {
+  @media only screen and (min-width: 1265px) {
     grid-template-areas: "navbar main sidebar";
     grid-template-columns: 251px 600px 350px;
+    width: 1200px;
   }
   @media only screen and (max-width: 1265px) and (min-width: 1081px) {
     grid-template-areas: "navbar main sidebar";
@@ -25,9 +25,6 @@ const Container = styled.div`
     grid-template-columns: 50px 600px;
     width: 650px;
   }
-  // @media (max-width: 700px) {
-
-  // }
   @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
     grid-template-areas: "main";
     grid-template-columns: 1fr;

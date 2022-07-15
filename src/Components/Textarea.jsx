@@ -20,7 +20,7 @@ const TextAreaBox = styled.div`
   }
   .textarea[contenteditable]:empty::before {
     color: #436471;
-    content: "What's happening?";
+    content: attr(data-ph);
   }
 `;
 
@@ -28,6 +28,7 @@ function Textarea(props) {
   return (
     <TextAreaBox>
       <div
+        data-ph={props.placeholder}
         className="textarea"
         role="textbox"
         // ref={props.projectRef}
