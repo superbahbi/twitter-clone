@@ -5,22 +5,22 @@ const TextAreaBox = styled.div`
   padding: 12px 0px;
 
   .textarea {
-    display: block;
+    display: inline-block;
     font-size: 20px;
     font-weight: 300;
     line-height: 28px;
-
-    width: 100%;
+    max-width: 500px;
     overflow: hidden;
     resize: both;
     border: none;
     outline: none;
     resize: none;
+    white-space: pre-wrap;
     padding: 2px 0px;
   }
   .textarea[contenteditable]:empty::before {
-    content: "What's happening?";
     color: #436471;
+    content: attr(data-ph);
   }
 `;
 
@@ -28,12 +28,13 @@ function Textarea(props) {
   return (
     <TextAreaBox>
       <div
+        data-ph={props.placeholder}
         className="textarea"
         role="textbox"
         // ref={props.projectRef}
         // name={props.name}
         // type={props.type}
-        // placeholder={props.placeholder}
+        placeholder={props.placeholder}
         // autoComplete={props.autocomplete}
         // value={props.value}
         onInput={props.onHandleChange}

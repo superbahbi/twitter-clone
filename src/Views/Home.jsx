@@ -23,8 +23,7 @@ function Home() {
   const [reload, setReload] = useState("");
   const addTweetMutation = useMutation(
     async (newPost) => {
-      const res = await api.post("/api/tweet", newPost);
-      console.log(res);
+      await api.post("/api/tweet", newPost);
     },
     {
       onError: (previousValue) =>
@@ -58,6 +57,19 @@ function Home() {
       },
     }
   );
+  const commentTweetMutation = useMutation(
+    async (newComment) => {
+      console.log(newComment);
+      await api.post("/api/comment", newComment);
+    },
+    {
+      onError: (previousValue) =>
+        queryClient.setQueryData(["tweets"], previousValue),
+      onSettled: () => {
+        queryClient.invalidateQueries(["tweets"]);
+      },
+    }
+  );
   return (
     <>
       <Header
@@ -66,20 +78,16 @@ function Home() {
         iconRightComponent={<Stars />}
       />
       <Tweet
-        page="Home"
-        token={token}
-        user={user}
-        id={user._id}
         addTweetMutation={addTweetMutation}
         username={user.username}
         avatar={user.profile.avatar.filename}
-        setReload={setReload}
-        reload={reload}
+        placeholder="What's happening?"
       />
       <TweetDivider></TweetDivider>
       <Feed
         likeTweetMutation={likeTweetMutation}
         deleteTweetMutation={deleteTweetMutation}
+        commentTweetMutation={commentTweetMutation}
         tweets={data && data.foundTweet}
       />
     </>

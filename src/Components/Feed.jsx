@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-// import useTweet from "../Hooks/useTweet";
 import moment from "moment-twitter";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import styled from "styled-components";
@@ -8,29 +7,27 @@ import { youtubeParser } from "../Helper/youtubeParser";
 import Avatar from "./Avatar";
 import CommentModal from "./CommentModal";
 import IconButton from "./IconButton";
-import Tooltip from "./Tooltip";
 
 import {
+  AddRemove,
+  Analytics,
+  Block,
   Comment,
+  Embed,
+  Follow,
   Like,
+  Mute,
+  NotInterested,
+  Pin,
+  Report,
   Retweet,
   Share,
   Threedot,
   Trash,
-  Verified,
   Unfollow,
-  NotInterested,
-  Follow,
-  AddRemove,
-  Mute,
-  Block,
-  Embed,
-  Report,
-  Pin,
-  Analytics,
+  Verified,
 } from "../Assets/Icon";
 
-// import MediaFrame from "./MediaFrame";
 const TweetContainer = styled.div`
   @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
     padding-top: 53px;
@@ -39,8 +36,7 @@ const TweetContainer = styled.div`
   flex-direction: row;
   font-size: 12px;
   line-height: 16px;
-  padding-top: ;
-  padding: 16px 16px 0px 16px;
+  padding: 16px 16px 0 16px;
   :hover {
     background-color: #f5f8fa;
   }
@@ -110,14 +106,23 @@ const FeedContent = styled.span`
   font-weight: 300;
   overflow-wrap: break-word;
 `;
-const FeedImage = styled.div`
+const FeedMedia = styled.div`
   margin-top: 16px;
-
+  border-radius: 16px;
   img {
-    max-width: 100%;
+    width: 100%;
+    border-radius: 16px;
+  }
+  iframe {
+    @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
+      width: 100%;
+    }
+    width: 500px;
+    height: 300px;
     border-radius: 16px;
   }
 `;
+
 const ButtonRow = styled.div`
   display: flex;
   width: 85%;
@@ -169,7 +174,12 @@ const TooltipContainer = styled.div`
     }
   }
 `;
-function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
+function Feed({
+  tweets,
+  likeTweetMutation,
+  deleteTweetMutation,
+  commentTweetMutation,
+}) {
   const { state: authState } = useContext(AuthContext);
   const [showTooltip, setShowTooltip] = useState({
     status: false,
@@ -194,6 +204,7 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
     });
   }
   function onHandleCommentClose() {
+    console.log("onHandleCommentClose");
     setShow({
       ...show,
       status: false,
@@ -214,8 +225,8 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
 
   return tweets
     ? tweets.map((item, index) => (
-        <React.Fragment key={index}>
-          <TweetContainer>
+        <>
+          <TweetContainer key={index}>
             <AvatarContainer>
               <Avatar
                 name={item.username}
@@ -351,29 +362,30 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
                 </OverlayTrigger>
                 ,
               </FeedUserText>
-              {youtubeParser(item.content) ? (
-                <FeedBox>
-                  <FeedContent>
-                    <iframe
-                      title="linkPostFeed"
-                      src={`https://www.youtube.com/embed/${youtubeParser(
-                        item.content
-                      )}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=1`}
-                      frameBorder="0"
-                    ></iframe>{" "}
-                  </FeedContent>
-                </FeedBox>
-              ) : (
+              {item.content ? (
                 <FeedBox>
                   <FeedContent>{item.content}</FeedContent>
                 </FeedBox>
-              )}
+              ) : null}
+              {item.link ? (
+                <FeedBox>
+                  <FeedMedia>
+                    <iframe
+                      title="linkPostFeed"
+                      src={`https://www.youtube.com/embed/${youtubeParser(
+                        item.link
+                      )}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white`}
+                      frameBorder="0"
+                    ></iframe>
+                  </FeedMedia>
+                </FeedBox>
+              ) : null}
 
               {item.img ? (
                 <FeedBox>
-                  <FeedImage>
+                  <FeedMedia>
                     <img src={item.img.filename} alt="feed" />
-                  </FeedImage>
+                  </FeedMedia>
                 </FeedBox>
               ) : null}
 
@@ -395,11 +407,14 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
                       <CommentModal
                         show={show.status}
                         onHide={onHandleCommentClose}
+                        onHandleCommentClose={onHandleCommentClose}
+                        commentTweetMutation={commentTweetMutation}
                         tweet={tweets[show.id]}
                         auth={authState}
                         setShow={setShow}
                       />
                     </ButtonContainer>
+
                     <ButtonContainer>
                       <IconButton
                         type="button"
@@ -472,7 +487,7 @@ function Feed({ tweets, likeTweetMutation, deleteTweetMutation }) {
                   </React.Fragment>
                 ))
             : null} */}
-        </React.Fragment>
+        </>
       ))
     : null;
 }

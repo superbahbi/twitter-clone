@@ -1,18 +1,44 @@
-import React, { useRef, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import Modal from "react-bootstrap/Modal";
-import Avatar from "../Components/Avatar";
-import Button from "../Components/Button";
+import Avatar from "./Avatar";
+import Button from "./Button";
 import Textarea from ".././Components/Textarea";
 import styled from "styled-components";
 import moment from "moment";
 import formurlencoded from "form-urlencoded";
+import IconButton from "./IconButton";
+import TweetInput from "./TweetInput";
+import { Close } from "../Assets/Icon";
+const ModalContainer = styled(Modal)`
+  width: 100%;
+  .modal-content {
+    width: 600px;
+    border-radius: 16px;
+  }
+  .modal-header {
+    padding: 0 4px;
+    height: 53px;
+    align-items: center;
+    border-bottom: 0 none;
+  }
+  .modal-body {
+    border: 0;
+    padding: 16px 16px 0 16px;
+  }
+  .modal-footer {
+    border-top: 0 none;
+  }
+`;
 const TweetContainer = styled.div`
-  padding: 0.5em;
   flex: 1 1 auto !important;
+`;
+const AvatarContainer = styled.div`
+  padding-right: 12px;
 `;
 const FeedBox = styled.div`
   display: flex;
+  width: 100%;
 `;
 const FeedName = styled.span`
   padding-right: 0.25em;
@@ -35,45 +61,81 @@ const FeedContent = styled.span`
   line-height: 1.5;
   padding-top: 0.25em;
   padding-bottom: 0.25em;
-`;
-const CommentTextarea = styled(Textarea)`
   width: 100%;
 `;
+const FeedImg = styled.div`
+  margin-top: 16px;
 
-function CommentModal({ auth, tweet, show, setShow, onHide }) {
+  img {
+    max-width: 100%;
+    border-radius: 16px;
+  }
+`;
+const CommentTextarea = styled.div`
+  padding-left: 64px;
+`;
+
+function CommentModal({
+  auth,
+  tweet,
+  show,
+  setShow,
+  onHide,
+  onHandleCommentClose,
+  commentTweetMutation,
+}) {
   const { addComment } = useContext(TweetContext);
-  const commentData = useRef("");
-
+  const [commentText, setCommentText] = React.useState("");
+  const [disable, setDisable] = useState(true);
   function onFormSubmit(e) {
     e.preventDefault();
     addComment(
       formurlencoded({
         name: auth.user.profile.name,
         username: auth.user.username,
-        comment: commentData.current.value,
+        comment: commentText,
         tweetId: tweet._id,
         profileId: auth.user._id,
         avatar: auth.user.profile.avatar.filename,
       })
     );
+    onHandleCommentClose();
     e.target.reset();
   }
+  function handleChange(event) {
+    let currentText = event.currentTarget.textContent;
+    setCommentText(currentText);
+    if (currentText.length > 0) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }
   return (
-    <Modal
-      // id={index}
+    <ModalContainer
       show={show}
+      onHandleCommentClose={onHandleCommentClose}
       onHide={onHide}
       animation={false}
-      style={{ opacity: 50 }}
     >
       <form onSubmit={onFormSubmit}>
-        <Modal.Header closeButton></Modal.Header>
+        <Modal.Header>
+          <IconButton
+            type="button"
+            iconRightComponent={<Close />}
+            color="#0f1419"
+            hoverColor="#0f1419"
+            handleClick={onHandleCommentClose}
+          />
+        </Modal.Header>
         <Modal.Body>
           <FeedBox>
-            <Avatar
-              name={tweet && tweet.username}
-              src={tweet && tweet.user_data.profile.avatar.filename}
-            />
+            <AvatarContainer>
+              <Avatar
+                name={tweet && tweet.username}
+                src={tweet && tweet.user_data.profile.avatar.filename}
+              />
+            </AvatarContainer>
             <TweetContainer>
               <FeedBox>
                 <FeedName>{tweet && tweet.name}</FeedName>
@@ -84,7 +146,14 @@ function CommentModal({ auth, tweet, show, setShow, onHide }) {
               </FeedBox>
 
               <FeedBox>
-                <FeedContent>{tweet && tweet.content}</FeedContent>
+                {tweet && tweet.content ? (
+                  <FeedContent>{tweet && tweet.content}</FeedContent>
+                ) : null}
+                {tweet && tweet.img ? (
+                  <FeedImg>
+                    <img src={tweet && tweet.img.filename} alt="feed" />
+                  </FeedImg>
+                ) : null}
               </FeedBox>
               <FeedBox>
                 <FeedContent>Replying to @{tweet && tweet.name}</FeedContent>
@@ -92,34 +161,22 @@ function CommentModal({ auth, tweet, show, setShow, onHide }) {
             </TweetContainer>
           </FeedBox>
           <FeedBox>
-            <Avatar
-              name={auth && auth.user.username}
-              src={auth && auth.user.profile.avatar.filename}
-            />
             <TweetContainer>
-              <FeedBox>
-                <CommentTextarea
+              <CommentTextarea>
+                <Textarea
                   type="text"
                   name="Tweet"
-                  // value={props.value}
                   placeholder="Tweet your reply"
                   autocomplete="off"
-                  projectRef={commentData}
+                  onHandleChange={(event) => handleChange(event)}
                 />
-              </FeedBox>
+                <TweetInput handleChange={handleChange} disable={disable} />
+              </CommentTextarea>
             </TweetContainer>
           </FeedBox>
         </Modal.Body>
-        <Modal.Footer closeButton>
-          <Button
-            name="button"
-            type="submit"
-            btnStyle="signup-btn"
-            label="Reply"
-          />
-        </Modal.Footer>
       </form>
-    </Modal>
+    </ModalContainer>
   );
 }
 export default CommentModal;
