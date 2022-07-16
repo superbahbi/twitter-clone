@@ -1,6 +1,21 @@
 import React from "react";
-import Header from ".././Components/Header";
+import Col from "react-bootstrap/Col";
 import styled from "styled-components";
+import Header from ".././Components/Header";
+import Sidebar from "../Components/Sidebar";
+const SubMainContainer = styled(Col)`
+  max-width: 600px;
+  padding: 0px;
+`;
+const SidebarContainer = styled(Col)`
+  @media only screen and (max-width: 1005px) {
+    display: none;
+  }
+  max-width: 350px;
+  margin-left: 30px;
+  padding-left: 0px;
+  padding-right: 0px;
+`;
 const Stack = styled.div`
   diplay: flex;
   width: 100%;
@@ -11,8 +26,13 @@ const Stack = styled.div`
 function Explorer() {
   return (
     <>
-      <Header name="Explorer" iconRight="ion-ios-gear-outline" />
-      <Stack />
+      <SubMainContainer>
+        <Header name="Explorer" iconRight="ion-ios-gear-outline" />
+        <Stack />
+      </SubMainContainer>
+      <SidebarContainer>
+        <Sidebar />
+      </SidebarContainer>
     </>
   );
 }

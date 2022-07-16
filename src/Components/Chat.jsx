@@ -14,9 +14,6 @@ const MessageHeader = styled.div`
   line-height: 16px;
   padding: 10px 10px 10px 10px;
 `;
-const MessageArea = styled.div`
-  padding-left: 30px;
-`;
 // Chat display
 const ChatBox = styled.div`
   float: left;
@@ -60,7 +57,7 @@ const Time = styled.span`
 const MessageForm = styled(Form)`
   position: absolute;
   bottom: 0;
-  width: 100%;
+  // width: 100%;
   background-color: #fff;
 `;
 
@@ -111,33 +108,31 @@ const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
   });
   return (
     <>
-      <MessageArea>
-        <MessageHeader>
-          <h5>{receiverData.name}</h5>
-        </MessageHeader>
-        <ChatBox>
-          <ChatHistory>
-            {messagesHistory.map((data, key) =>
-              receiverData.name === data.user ? (
-                <OutgoingMsg key={key}>
-                  <SentMsg>
-                    <Message right>{data.body}</Message>
-                    <Time>{moment(data.createdAt).fromNow()}</Time>
-                  </SentMsg>
-                </OutgoingMsg>
-              ) : (
-                <IncomingMsg key={key}>
-                  <ReceivedMsg>
-                    <Message>{data.body}</Message>
-                    <Time>{moment(data.createdAt).fromNow()}</Time>
-                  </ReceivedMsg>
-                </IncomingMsg>
-              )
-            )}
-            <div ref={messagesRef} />
-          </ChatHistory>
-        </ChatBox>
-      </MessageArea>
+      <MessageHeader>
+        <h5>{receiverData.name}</h5>
+      </MessageHeader>
+      <ChatBox>
+        <ChatHistory>
+          {messagesHistory.map((data, key) =>
+            receiverData.name === data.user ? (
+              <OutgoingMsg key={key}>
+                <SentMsg>
+                  <Message right>{data.body}</Message>
+                  <Time>{moment(data.createdAt).fromNow()}</Time>
+                </SentMsg>
+              </OutgoingMsg>
+            ) : (
+              <IncomingMsg key={key}>
+                <ReceivedMsg>
+                  <Message>{data.body}</Message>
+                  <Time>{moment(data.createdAt).fromNow()}</Time>
+                </ReceivedMsg>
+              </IncomingMsg>
+            )
+          )}
+          <div ref={messagesRef} />
+        </ChatHistory>
+      </ChatBox>
       <MessageForm
         onSubmit={handleSubmit((data) => {
           onUpdateMessageSubmit(data);

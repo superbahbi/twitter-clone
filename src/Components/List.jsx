@@ -8,7 +8,6 @@ const ListItem = styled.li`
   cursor: pointer;
     padding-bottom: ${(props) =>
       props.paddingBottom ? props.paddingBottom : "0px"};
-
 `;
 const ListContainer = styled.div`
   display: inline-flex;
@@ -24,9 +23,10 @@ const ListContainer = styled.div`
   }
 `;
 const ListText = styled.p`
-  @media (max-width: 1265px) {
+  @media only screen and (max-width: 1250px) {
     display: none;
   }
+
   color: ${(props) => (props.brand ? "#1da1f2" : "#0f1419")};
   font-size: 20px;
   padding: 0px 12px;

@@ -7,7 +7,9 @@ import { youtubeParser } from "../Helper/youtubeParser";
 import Avatar from "./Avatar";
 import CommentModal from "./CommentModal";
 import IconButton from "./IconButton";
-
+import Figure from "react-bootstrap/Figure";
+import Image from "react-bootstrap/Image";
+import { Container, Row, Col } from "react-bootstrap";
 import {
   AddRemove,
   Analytics,
@@ -40,17 +42,19 @@ const TweetContainer = styled.div`
   :hover {
     background-color: #f5f8fa;
   }
+  :last-of-type {
+    margin-bottom: 50px;
+  }
 `;
 const AvatarContainer = styled.div`
   margin-right: 12px;
 `;
 const TweetContent = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
 `;
 
-const FeedBox = styled.div`
-  display: flex;
-`;
 const FeedUserText = styled.div`
   display: flex;
   justify-content: space-between;
@@ -106,18 +110,18 @@ const FeedContent = styled.span`
   font-weight: 300;
   overflow-wrap: break-word;
 `;
+const FeedBox = styled.div`
+  flex: 0 0 auto;
+  width: 100%;
+`;
 const FeedMedia = styled.div`
+  display: flex;
   margin-top: 16px;
-  border-radius: 16px;
   img {
-    width: 100%;
     border-radius: 16px;
   }
   iframe {
-    @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
-      width: 100%;
-    }
-    width: 500px;
+    width: 100%;
     height: 300px;
     border-radius: 16px;
   }
@@ -225,270 +229,260 @@ function Feed({
 
   return tweets
     ? tweets.map((item, index) => (
-        <>
-          <TweetContainer key={index}>
-            <AvatarContainer>
-              <Avatar
-                name={item.username}
-                src={item.user_data.profile.avatar.filename}
-              />
-            </AvatarContainer>
-            <TweetContent>
-              <FeedUserText
-              // onClick={(event) => {
-              //   event.preventDefault();
-              //   navigate(`/${item.username}/status/${item._id}`, {
-              //     replace: true,
-              //   });
-              // }}
-              >
-                <div>
-                  <FeedName>
-                    {item.name} <Verified />
-                  </FeedName>
+        <TweetContainer key={index}>
+          <AvatarContainer>
+            <Avatar
+              name={item.username}
+              src={item.user_data.profile.avatar.filename}
+            />
+          </AvatarContainer>
+          <TweetContent>
+            <FeedUserText
+            // onClick={(event) => {
+            //   event.preventDefault();
+            //   navigate(`/${item.username}/status/${item._id}`, {
+            //     replace: true,
+            //   });
+            // }}
+            >
+              <div>
+                <FeedName>
+                  {item.name} <Verified />
+                </FeedName>
 
-                  <FeedTag>@{item.username}</FeedTag>
-                  <FeedDate>· {moment(item.timestamp).twitter()}</FeedDate>
-                </div>
-                <OverlayTrigger
-                  placement="bottom-end"
-                  trigger="click"
-                  animation="fade"
-                  show={showTooltip.id === index ? showTooltip.status : false}
-                  overlay={
-                    <TooltipContainer>
-                      <div>
-                        {authState.user.username === item.username ? (
-                          <>
-                            <div
-                              className="text delete"
-                              onClick={() => {
-                                deleteTweetMutation.mutate(item._id);
-                                setShowTooltip({
-                                  ...showTooltip,
-                                  status: false,
-                                  id: null,
-                                });
-                              }}
-                            >
-                              <Trash />
-                              <span>Delete</span>
-                            </div>
-                            <div className="text">
-                              <Pin />
-                              <span className="name">Pin to your profile</span>
-                            </div>
-                            <div className="text">
-                              <AddRemove />
-                              <span className="name">
-                                Add/remove @{item.username} from Lists
-                              </span>
-                            </div>
-                            <div className="text">
-                              <Comment />
-                              <span className="name">Change who can reply</span>
-                            </div>
-                            <div className="text">
-                              <Embed />
-                              <span className="name">Embed Tweet</span>
-                            </div>
-                            <div className="text">
-                              <Analytics />
-                              <span className="name">View Tweet Analytics</span>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div className="text">
-                              <Unfollow />
-                              <span className="name">
-                                Unfollow {item.username}
-                              </span>
-                            </div>
-                            <div className="text">
-                              <NotInterested />
-                              <span className="name">
-                                Not interested in this tweet
-                              </span>
-                            </div>
-                            <div className="text">
-                              <Follow />
-                              <span className="name">
-                                Follow @{item.username}
-                              </span>
-                            </div>
-                            <div className="text">
-                              <AddRemove />
-                              <span className="name">
-                                Add/remove @{item.username} from Lists
-                              </span>
-                            </div>
-                            <div className="text">
-                              <Mute />
-                              <span className="name">
-                                Mute @{item.username}
-                              </span>
-                            </div>
-                            <div className="text">
-                              <Block />
-                              <span className="name">
-                                Block @{item.username}
-                              </span>
-                            </div>
-                            <div className="text">
-                              <Embed />
-                              <span className="name">Embed Tweet</span>
-                            </div>
-                            <div className="text">
-                              <Report />
-                              <span className="name">Report Tweet</span>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    </TooltipContainer>
-                  }
-                >
-                  <span className="threedot">
-                    <IconButton
-                      type="button"
-                      iconRightComponent={<Threedot />}
-                      color="#536471"
-                      hoverColor="#1D9BF0"
-                      hoverColorBackground="#e8f5fe"
-                      handleClick={() => onHandleTooltip(index)}
-                    />
-                  </span>
-                </OverlayTrigger>
-                ,
-              </FeedUserText>
-              {item.content ? (
-                <FeedBox>
-                  <FeedContent>{item.content}</FeedContent>
-                </FeedBox>
-              ) : null}
+                <FeedTag>@{item.username}</FeedTag>
+                <FeedDate>· {moment(item.timestamp).twitter()}</FeedDate>
+              </div>
+              <OverlayTrigger
+                placement="bottom-end"
+                trigger="click"
+                animation="fade"
+                show={showTooltip.id === index ? showTooltip.status : false}
+                overlay={
+                  <TooltipContainer>
+                    <div>
+                      {authState.user.username === item.username ? (
+                        <>
+                          <div
+                            className="text delete"
+                            onClick={() => {
+                              deleteTweetMutation.mutate(item._id);
+                              setShowTooltip({
+                                ...showTooltip,
+                                status: false,
+                                id: null,
+                              });
+                            }}
+                          >
+                            <Trash />
+                            <span>Delete</span>
+                          </div>
+                          <div className="text">
+                            <Pin />
+                            <span className="name">Pin to your profile</span>
+                          </div>
+                          <div className="text">
+                            <AddRemove />
+                            <span className="name">
+                              Add/remove @{item.username} from Lists
+                            </span>
+                          </div>
+                          <div className="text">
+                            <Comment />
+                            <span className="name">Change who can reply</span>
+                          </div>
+                          <div className="text">
+                            <Embed />
+                            <span className="name">Embed Tweet</span>
+                          </div>
+                          <div className="text">
+                            <Analytics />
+                            <span className="name">View Tweet Analytics</span>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="text">
+                            <Unfollow />
+                            <span className="name">
+                              Unfollow {item.username}
+                            </span>
+                          </div>
+                          <div className="text">
+                            <NotInterested />
+                            <span className="name">
+                              Not interested in this tweet
+                            </span>
+                          </div>
+                          <div className="text">
+                            <Follow />
+                            <span className="name">
+                              Follow @{item.username}
+                            </span>
+                          </div>
+                          <div className="text">
+                            <AddRemove />
+                            <span className="name">
+                              Add/remove @{item.username} from Lists
+                            </span>
+                          </div>
+                          <div className="text">
+                            <Mute />
+                            <span className="name">Mute @{item.username}</span>
+                          </div>
+                          <div className="text">
+                            <Block />
+                            <span className="name">Block @{item.username}</span>
+                          </div>
+                          <div className="text">
+                            <Embed />
+                            <span className="name">Embed Tweet</span>
+                          </div>
+                          <div className="text">
+                            <Report />
+                            <span className="name">Report Tweet</span>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </TooltipContainer>
+                }
+              >
+                <span className="threedot">
+                  <IconButton
+                    type="button"
+                    iconRightComponent={<Threedot />}
+                    color="#536471"
+                    hoverColor="#1D9BF0"
+                    hoverColorBackground="#e8f5fe"
+                    handleClick={() => onHandleTooltip(index)}
+                  />
+                </span>
+              </OverlayTrigger>
+            </FeedUserText>
+            <FeedBox>
+              {item.content ? <FeedContent>{item.content}</FeedContent> : null}
               {item.link ? (
-                <FeedBox>
-                  <FeedMedia>
-                    <iframe
-                      title="linkPostFeed"
-                      src={`https://www.youtube.com/embed/${youtubeParser(
-                        item.link
-                      )}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white`}
-                      frameBorder="0"
-                    ></iframe>
-                  </FeedMedia>
-                </FeedBox>
+                <FeedMedia>
+                  <iframe
+                    title="linkPostFeed"
+                    src={`https://www.youtube.com/embed/${youtubeParser(
+                      item.link
+                    )}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white`}
+                    frameBorder="0"
+                  ></iframe>
+                </FeedMedia>
               ) : null}
 
               {item.img ? (
-                <FeedBox>
-                  <FeedMedia>
-                    <img src={item.img.filename} alt="feed" />
-                  </FeedMedia>
-                </FeedBox>
-              ) : null}
+                <FeedMedia>
+                  <Figure>
+                    <Figure.Image alt="content image" src={item.img.filename} />
+                  </Figure>
+                </FeedMedia>
+              ) : // <FeedMedia>
+              //   <img src={item.img.filename} alt="feed" />
+              // </FeedMedia>
+              null}
+            </FeedBox>
+            <FeedBox>
+              <TweetContent>
+                <ButtonRow>
+                  <ButtonContainer>
+                    <IconButton
+                      type="button"
+                      iconRightComponent={<Comment />}
+                      color="#536471"
+                      size="18.75px"
+                      hoverColor="#1D9BF0"
+                      hoverColorBackground="#e8f5fe"
+                      handleClick={() => {
+                        onHandleComment(index);
+                      }}
+                    />
+                    <CommentModal
+                      show={show.status}
+                      onHide={onHandleCommentClose}
+                      onHandleCommentClose={onHandleCommentClose}
+                      commentTweetMutation={commentTweetMutation}
+                      tweet={tweets[show.id]}
+                      auth={authState}
+                      setShow={setShow}
+                    />
+                  </ButtonContainer>
 
-              <FeedBox>
-                <TweetContent>
-                  <ButtonRow>
-                    <ButtonContainer>
-                      <IconButton
-                        type="button"
-                        iconRightComponent={<Comment />}
-                        color="#536471"
-                        size="18.75px"
-                        hoverColor="#1D9BF0"
-                        hoverColorBackground="#e8f5fe"
-                        handleClick={() => {
-                          onHandleComment(index);
-                        }}
-                      />
-                      <CommentModal
-                        show={show.status}
-                        onHide={onHandleCommentClose}
-                        onHandleCommentClose={onHandleCommentClose}
-                        commentTweetMutation={commentTweetMutation}
-                        tweet={tweets[show.id]}
-                        auth={authState}
-                        setShow={setShow}
-                      />
-                    </ButtonContainer>
+                  <ButtonContainer>
+                    <IconButton
+                      type="button"
+                      iconRightComponent={<Retweet />}
+                      color="#536471"
+                      size="18.75px"
+                      hoverColor="#00BA7C"
+                      hoverColorBackground="#DEF1EB"
+                      // handleClick={() => {
+                      //   onHandleComment(index);
+                      // }}
+                    />
+                  </ButtonContainer>
 
-                    <ButtonContainer>
-                      <IconButton
-                        type="button"
-                        iconRightComponent={<Retweet />}
-                        color="#536471"
-                        size="18.75px"
-                        hoverColor="#00BA7C"
-                        hoverColorBackground="#DEF1EB"
-                        // handleClick={() => {
-                        //   onHandleComment(index);
-                        // }}
-                      />
-                    </ButtonContainer>
-
-                    <ButtonContainer>
-                      <IconButton
-                        type="button"
-                        iconRightComponent={
-                          <Like liked={userlike(item.likes) ? true : false} />
-                        }
-                        color={userlike(item.likes) ? "#F91880" : "#536471"}
-                        size="18.75px"
-                        hoverColor="#F91880"
-                        hoverColorBackground="#F7E0EB"
-                        handleClick={() => {
-                          likeTweetMutation.mutate(item._id);
-                        }}
-                      />
-                    </ButtonContainer>
-                    <ButtonContainer>
-                      <IconButton
-                        type="button"
-                        iconRightComponent={<Share />}
-                        color="#536471"
-                        size="18.75px"
-                        hoverColor="#1D9BF0"
-                        hoverColorBackground="#e8f5fe"
-                      />
-                    </ButtonContainer>
-                  </ButtonRow>
-                </TweetContent>
-              </FeedBox>
-            </TweetContent>
-          </TweetContainer>
-
-          {/* {item
-            ? item.comment
-                .sort(function (a, b) {
-                  console.log("A" + a.timestamp);
-                  console.log("B" + b.timestamp);
-                  return b.timestamp - a.timestamp;
-                })
-                .map((comment, commentIndex) => (
-                  <React.Fragment key={commentIndex}>
-                    <TweetBox>
-                      <Avatar name={comment.username} src={comment.avatar} />
-                      <TweetContainer>
-                        <FeedBox>
-                          <FeedName>{comment.name}</FeedName>
-                          <FeedTag>@{comment.username}</FeedTag>
-                          <FeedDate>
-                            · {moment(comment.timestamp).fromNow()}
-                          </FeedDate>
-                        </FeedBox>
-                        <FeedBox>
-                          <FeedContent>{comment.content}</FeedContent>
-                        </FeedBox>
-                      </TweetContainer>
-                    </TweetBox>
-                  </React.Fragment>
-                ))
-            : null} */}
-        </>
+                  <ButtonContainer>
+                    <IconButton
+                      type="button"
+                      iconRightComponent={
+                        <Like liked={userlike(item.likes) ? true : false} />
+                      }
+                      color={userlike(item.likes) ? "#F91880" : "#536471"}
+                      size="18.75px"
+                      hoverColor="#F91880"
+                      hoverColorBackground="#F7E0EB"
+                      handleClick={() => {
+                        likeTweetMutation.mutate(item._id);
+                      }}
+                    />
+                  </ButtonContainer>
+                  <ButtonContainer>
+                    <IconButton
+                      type="button"
+                      iconRightComponent={<Share />}
+                      color="#536471"
+                      size="18.75px"
+                      hoverColor="#1D9BF0"
+                      hoverColorBackground="#e8f5fe"
+                    />
+                  </ButtonContainer>
+                </ButtonRow>
+              </TweetContent>
+            </FeedBox>
+          </TweetContent>
+        </TweetContainer>
       ))
     : null;
 }
 export default Feed;
+// {/* {item
+//   ? item.comment
+//       .sort(function (a, b) {
+//         console.log("A" + a.timestamp);
+//         console.log("B" + b.timestamp);
+//         return b.timestamp - a.timestamp;
+//       })
+//       .map((comment, commentIndex) => (
+//         <React.Fragment key={commentIndex}>
+//           <TweetBox>
+//             <Avatar name={comment.username} src={comment.avatar} />
+//             <TweetContainer>
+//               <FeedBox>
+//                 <FeedName>{comment.name}</FeedName>
+//                 <FeedTag>@{comment.username}</FeedTag>
+//                 <FeedDate>
+//                   · {moment(comment.timestamp).fromNow()}
+//                 </FeedDate>
+//               </FeedBox>
+//               <FeedBox>
+//                 <FeedContent>{comment.content}</FeedContent>
+//               </FeedBox>
+//             </TweetContainer>
+//           </TweetBox>
+//         </React.Fragment>
+//       ))
+//   : null} */}

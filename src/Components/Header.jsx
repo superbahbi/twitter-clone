@@ -42,7 +42,7 @@ const HeaderContainer = styled.div`
 `;
 const HeaderName = styled.div`
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 900;
   align-self: center;
 `;
 
