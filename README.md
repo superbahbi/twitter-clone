@@ -53,7 +53,7 @@
 # To-Do
 - [x] Login
 - [x] Register
-- [ ] Forgot password
+- [ ] Reset password
 - [x] Feed list
 - [x] Profile
 - [x] Edit profile
