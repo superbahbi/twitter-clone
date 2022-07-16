@@ -8,7 +8,7 @@ import MediaFrame from "./MediaFrame";
 import TweetInput from "./TweetInput";
 
 const TweetBox = styled.div`
-  @media (max-width: 700px) {
+  @media only screen and (max-width: 700px) {
     display: none;
   }
   display: flex;

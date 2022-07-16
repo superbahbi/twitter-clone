@@ -5,7 +5,6 @@ import { Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import Avatar from "../Components/Avatar";
 const SearchContainer = styled(Col)`
   padding: 0;
-  border: 1px solid rgb(239, 243, 244);
 `;
 const SearchListGroup = styled(ListGroup)``;
 const SearchListGroupItem = styled(ListGroupItem)`

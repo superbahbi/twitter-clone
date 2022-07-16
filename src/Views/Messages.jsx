@@ -5,7 +5,7 @@ import { Context as UserContext } from "../Contexts/UserContext";
 // Local use hooks
 import useGetMessages from "../Hooks/useGetMessages";
 // NPM components
-import { Row, Col } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import styled from "styled-components";
 import { ObjectID } from "bson";
 
@@ -20,16 +20,26 @@ import SearchWithList from "../Components/SearchWithList";
 import socketIOClient from "socket.io-client";
 const ENDPOINT = process.env.REACT_APP_API_URL;
 
-const MessageGridSidebar = styled.div`
-  grid-area: sidebar;
-  grid-template-columns: 350px;
+const Container = styled.div`
+  display: grid;
+  grid-template-areas: "user chat";
+  grid-template-columns: 350px 600px;
+  gap: 30px;
 `;
-const MessageGridMain = styled.div`
-  grid-area: main;
-`;
-const MessageCol = styled.div`
+
+const UserContainer = styled.div`
+  grid-area: user;
+  border-color: rgb(239, 243, 244);
+  border-style: solid;
+  border-width: 1px;
+  padding-bottom: 53px;
   height: 100vh;
-  border: 1px solid rgb(239, 243, 244);
+`;
+const ChatContainer = styled.div`
+  grid-area: chat;
+  @media (max-width: 1080px) {
+    display: none;
+  }
 `;
 const MessagesBox = styled.div`
   display: flex;
@@ -183,9 +193,8 @@ function Messages() {
     setMessagesHistory((prev) => [...prev, msg]);
   };
   return (
-    <>
-      <MessageGridSidebar>
-        {/* <MessageCol lg={3} className="p-0"> */}
+    <Container>
+      <UserContainer>
         <Header
           name="Messages"
           iconRight="ion-ios-email-outline"
@@ -224,51 +233,44 @@ function Messages() {
             </MessageButton>
           </MessagesBox>
         ) : null}
-        {/* </MessageCol> */}
-      </MessageGridSidebar>
-      <MessageGridMain>
-        {/* <MessageCol xs={12} md={8} lg={6}> */}
-        <Row>
-          <MessageCol className="p-0">
-            <MessagesBox>
-              {channel && messagesHistory ? (
-                <Chat
-                  socket={socket}
-                  user={userState}
-                  receiverData={selectUser}
-                  channel={channel}
-                  messagesHistory={userState.messages}
-                  onUpdateMessageSubmit={onUpdateMessageSubmit}
-                />
-              ) : (
-                <SelectMessage>
-                  <Col>
-                    <h2>Select a message</h2>
-                    <MessageP>
-                      Choose from your existing conversations, start a new one,
-                      or just keep swimming.
-                    </MessageP>
-                    <MessageButton>
-                      <Button
-                        large
-                        id="tweets"
-                        name="button"
-                        type="submit"
-                        label="New message"
-                        footer={false}
-                        handleClick={() => {
-                          onHandleModal();
-                        }}
-                      />
-                    </MessageButton>
-                  </Col>
-                </SelectMessage>
-              )}
-            </MessagesBox>
-          </MessageCol>
-        </Row>
-        {/* </MessageCol> */}
-      </MessageGridMain>
+      </UserContainer>
+      <ChatContainer>
+        <MessagesBox>
+          {channel && messagesHistory ? (
+            <Chat
+              socket={socket}
+              user={userState}
+              receiverData={selectUser}
+              channel={channel}
+              messagesHistory={userState.messages}
+              onUpdateMessageSubmit={onUpdateMessageSubmit}
+            />
+          ) : (
+            <SelectMessage>
+              <Col>
+                <h2>Select a message</h2>
+                <MessageP>
+                  Choose from your existing conversations, start a new one, or
+                  just keep swimming.
+                </MessageP>
+                <MessageButton>
+                  <Button
+                    large
+                    id="tweets"
+                    name="button"
+                    type="submit"
+                    label="New message"
+                    footer={false}
+                    handleClick={() => {
+                      onHandleModal();
+                    }}
+                  />
+                </MessageButton>
+              </Col>
+            </SelectMessage>
+          )}
+        </MessagesBox>
+      </ChatContainer>
       <Modal
         show={show.status}
         onHide={onHandleModalClose}
@@ -283,7 +285,7 @@ function Messages() {
         setShow={setShow}
         title="New Message"
       />
-    </>
+    </Container>
   );
 }
 export default Messages;

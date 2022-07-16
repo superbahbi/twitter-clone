@@ -1,26 +1,38 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
+import Col from "react-bootstrap/Col";
 import { useMutation, useQueryClient } from "react-query";
 import styled from "styled-components";
 import Feed from ".././Components/Feed";
 import Tweet from ".././Components/Tweet";
 import { Stars } from "../Assets/Icon";
 import Header from "../Components/Header";
-import Placeholder from "../Components/Placeholder";
+import Sidebar from "../Components/Sidebar";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import useTweets from "../Hooks/useTweets";
 import api from "../Helper/api";
+import useTweets from "../Hooks/useTweets";
 const TweetDivider = styled.div`
   flex: 1 1 auto;
   margin: 4px 0px;
   border-bottom: 1px solid rgb(239, 243, 244);
 `;
-
+const SubMainContainer = styled(Col)`
+  max-width: 600px;
+  padding: 0px;
+`;
+const SidebarContainer = styled(Col)`
+  @media only screen and (max-width: 1005px) {
+    display: none;
+  }
+  max-width: 350px;
+  margin-left: 30px;
+  padding-left: 0px;
+  padding-right: 0px;
+`;
 function Home() {
   const queryClient = useQueryClient();
   const { state: authState } = useContext(AuthContext);
-  const { token, user } = authState;
-  const { data, isFetching } = useTweets();
-  const [reload, setReload] = useState("");
+  const { user } = authState;
+  const { data } = useTweets();
   const addTweetMutation = useMutation(
     async (newPost) => {
       await api.post("/api/tweet", newPost);
@@ -72,24 +84,29 @@ function Home() {
   );
   return (
     <>
-      <Header
-        avatar={user.profile.avatar.filename}
-        name="Home"
-        iconRightComponent={<Stars />}
-      />
-      <Tweet
-        addTweetMutation={addTweetMutation}
-        username={user.username}
-        avatar={user.profile.avatar.filename}
-        placeholder="What's happening?"
-      />
-      <TweetDivider></TweetDivider>
-      <Feed
-        likeTweetMutation={likeTweetMutation}
-        deleteTweetMutation={deleteTweetMutation}
-        commentTweetMutation={commentTweetMutation}
-        tweets={data && data.foundTweet}
-      />
+      <SubMainContainer>
+        <Header
+          avatar={user.profile.avatar.filename}
+          name="Home"
+          iconRightComponent={<Stars />}
+        />
+        <Tweet
+          addTweetMutation={addTweetMutation}
+          username={user.username}
+          avatar={user.profile.avatar.filename}
+          placeholder="What's happening?"
+        />
+        <TweetDivider></TweetDivider>
+        <Feed
+          likeTweetMutation={likeTweetMutation}
+          deleteTweetMutation={deleteTweetMutation}
+          commentTweetMutation={commentTweetMutation}
+          tweets={data && data.foundTweet}
+        />
+      </SubMainContainer>
+      <SidebarContainer>
+        <Sidebar />
+      </SidebarContainer>
     </>
   );
 }

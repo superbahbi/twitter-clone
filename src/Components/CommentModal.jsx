@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { Context as TweetContext } from "../Contexts/TweetContext";
 import Modal from "react-bootstrap/Modal";
 import Avatar from "./Avatar";
-import Button from "./Button";
 import Textarea from ".././Components/Textarea";
 import styled from "styled-components";
 import moment from "moment";

@@ -48,7 +48,7 @@ function CustomRoutes() {
           path="/messages"
           element={
             <PrivateRoute>
-              <Messages name="messages" />
+              <Messages />
             </PrivateRoute>
           }
         >
