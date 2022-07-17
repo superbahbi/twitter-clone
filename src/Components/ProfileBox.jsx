@@ -26,7 +26,7 @@ const ProfileCover = styled.img`
   background-size: auto auto;
   border-bottom: 1px solid #e1e8ed;
   border-radius: 2px 2px 0 0;
-  @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
+  @media only screen and (max-width: 700px) {
     width: 100%;
   }
   width: 598px;

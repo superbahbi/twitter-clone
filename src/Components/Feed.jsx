@@ -1,15 +1,8 @@
-import React, { useContext, useState } from "react";
-import { Context as AuthContext } from "../Contexts/AuthContext";
 import moment from "moment-twitter";
+import React, { useContext, useState } from "react";
+import Figure from "react-bootstrap/Figure";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import styled from "styled-components";
-import { youtubeParser } from "../Helper/youtubeParser";
-import Avatar from "./Avatar";
-import CommentModal from "./CommentModal";
-import IconButton from "./IconButton";
-import Figure from "react-bootstrap/Figure";
-import Image from "react-bootstrap/Image";
-import { Container, Row, Col } from "react-bootstrap";
 import {
   AddRemove,
   Analytics,
@@ -29,11 +22,13 @@ import {
   Unfollow,
   Verified,
 } from "../Assets/Icon";
+import { Context as AuthContext } from "../Contexts/AuthContext";
+import { youtubeParser } from "../Helper/youtubeParser";
+import Avatar from "./Avatar";
+import CommentModal from "./CommentModal";
+import IconButton from "./IconButton";
 
 const TweetContainer = styled.div`
-  @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
-    padding-top: 53px;
-  }
   display: flex;
   flex-direction: row;
   font-size: 12px;
@@ -351,7 +346,7 @@ function Feed({
                 <span className="threedot">
                   <IconButton
                     type="button"
-                    iconRightComponent={<Threedot />}
+                    iconComponent={<Threedot />}
                     color="#536471"
                     hoverColor="#1D9BF0"
                     hoverColorBackground="#e8f5fe"
@@ -391,7 +386,7 @@ function Feed({
                   <ButtonContainer>
                     <IconButton
                       type="button"
-                      iconRightComponent={<Comment />}
+                      iconComponent={<Comment />}
                       color="#536471"
                       size="18.75px"
                       hoverColor="#1D9BF0"
@@ -414,7 +409,7 @@ function Feed({
                   <ButtonContainer>
                     <IconButton
                       type="button"
-                      iconRightComponent={<Retweet />}
+                      iconComponent={<Retweet />}
                       color="#536471"
                       size="18.75px"
                       hoverColor="#00BA7C"
@@ -428,7 +423,7 @@ function Feed({
                   <ButtonContainer>
                     <IconButton
                       type="button"
-                      iconRightComponent={
+                      iconComponent={
                         <Like liked={userlike(item.likes) ? true : false} />
                       }
                       color={userlike(item.likes) ? "#F91880" : "#536471"}
@@ -443,7 +438,7 @@ function Feed({
                   <ButtonContainer>
                     <IconButton
                       type="button"
-                      iconRightComponent={<Share />}
+                      iconComponent={<Share />}
                       color="#536471"
                       size="18.75px"
                       hoverColor="#1D9BF0"

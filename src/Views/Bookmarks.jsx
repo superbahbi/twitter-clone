@@ -23,6 +23,7 @@ const Stack = styled.div`
   max-width: 400px;
   margin: 32px auto;
   padding: 0 32px;
+  height: 100vh;
 `;
 const Title = styled.div`
   font-size: 31px;

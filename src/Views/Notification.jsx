@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Header from ".././Components/Header";
 import Sidebar from "../Components/Sidebar";
 import Col from "react-bootstrap/Col";
+import { Stars } from "../Assets/Icon";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
@@ -27,7 +28,7 @@ function Notification() {
   return (
     <>
       <SubMainContainer>
-        <Header name="Notification" />
+        <Header name="Notification" iconRightComponent={<Stars />} />
         <Stack />
       </SubMainContainer>
       <SidebarContainer>

@@ -2,11 +2,14 @@ import React, { useState, useContext, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import Button from "../Components/Button";
-import List from "../Components/List";
+import Button from "./Button";
+import List from "./List";
 import Avatar from "./Avatar";
 import Col from "react-bootstrap/Col";
 import Overlay from "react-bootstrap/Overlay";
+import TweetModal from "./TweetModal";
+import IconButton from "./IconButton";
+import { Tweet } from "../Assets/Icon";
 import {
   Twitter,
   Home,
@@ -106,6 +109,15 @@ const TweetButton = styled.div`
     display: none;
   }
 `;
+const TweetIconButton = styled.div`
+  width: 50px;
+  @media only screen and (min-width: 1251px) {
+    display: none;
+  }
+  @media only screen and (max-width: 1250px) {
+    display: block;
+  }
+`;
 const TooltipContainer = styled.div`
   background-color: white;
   border-radius: 5px;
@@ -132,6 +144,7 @@ const TooltipContainer = styled.div`
 function Navbar() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [showTweetModal, setShowTweetModal] = useState(false);
   const target = useRef(null);
   const { state, logout } = useContext(AuthContext);
   const {
@@ -151,7 +164,9 @@ function Navbar() {
     setIsActive(id);
     navigate(`/${id}`);
   }
-
+  function onHandleTweetModal() {
+    setShowTweetModal(!showTweetModal);
+  }
   return (
     <NavbarContainer>
       <Nav>
@@ -235,11 +250,32 @@ function Navbar() {
               name="button"
               type="submit"
               label="Tweet"
-              // handleClick={() => {
-              //   // onHandleModal();
-              // }}
+              handleClick={() => {
+                onHandleTweetModal();
+              }}
             />
           </TweetButton>
+          <TweetIconButton>
+            <IconButton
+              type="button"
+              iconComponent={<Tweet />}
+              color="#fff"
+              backgroundColor="#1da1f2"
+              hoverColorBackground="#1A8CD8"
+              borderRadius="30px"
+              size="24px"
+              width="50px"
+              height="50px"
+              handleClick={() => {
+                onHandleTweetModal();
+              }}
+            />
+          </TweetIconButton>
+          <TweetModal
+            show={showTweetModal}
+            onHide={onHandleTweetModal}
+            onHandleTweetModal={onHandleTweetModal}
+          />
         </ListStyle>
         <NavProfileContainer>
           <Overlay

@@ -33,7 +33,7 @@ const MediaFrame = ({ children, onHandleMediaClose, url }) => {
       <IconButton
         className="close"
         type="button"
-        iconRightComponent={<Close />}
+        iconComponent={<Close />}
         color="#fff"
         hoverColor="#fff"
         hoverColorBackground="#black"

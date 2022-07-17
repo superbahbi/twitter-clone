@@ -124,13 +124,13 @@ function Sidebar() {
         <div className="item">
           <div className="story">
             <div className="title">Trending in United States</div>
-            <div className="text">#hiremepls</div>
+            <div className="text">#trending</div>
           </div>
           <div className="right">
             <div className="threedot">
               <IconButton
                 type="button"
-                iconRightComponent={<Threedot />}
+                iconComponent={<Threedot />}
                 color="#536471"
                 hoverColor="#1D9BF0"
                 hoverColorBackground="#e8f5fe"

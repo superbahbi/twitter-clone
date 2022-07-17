@@ -11,6 +11,7 @@ import Bookmarks from "./Views/Bookmarks";
 import Lists from "./Views/Lists";
 import Settings from "./Views/Settings";
 import Profile from "./Views/Profile";
+import Compose from "./Views/Compose";
 import Error from "./Views/Error";
 import PrivateRoute from "./Views/PrivateRoute";
 function CustomRoutes() {
@@ -90,6 +91,14 @@ function CustomRoutes() {
           element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/compose"
+          element={
+            <PrivateRoute>
+              <Compose />
             </PrivateRoute>
           }
         />

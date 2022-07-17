@@ -46,7 +46,7 @@ const TweetInput = ({ disable, handleChange }) => {
       <InputBoxGroup>
         <IconButton
           type="button"
-          iconRightComponent={<TweetUpload />}
+          iconComponent={<TweetUpload />}
           color="#1D9BF0"
           hoverColor="#1D9BF0"
           hoverColorBackground="#e8f5fe"
@@ -60,7 +60,7 @@ const TweetInput = ({ disable, handleChange }) => {
         </IconButton>
         <IconButton
           type="button"
-          iconRightComponent={<TweetGif />}
+          iconComponent={<TweetGif />}
           color="#1D9BF0"
           hoverColor="#1D9BF0"
           hoverColorBackground="#e8f5fe"
@@ -74,7 +74,7 @@ const TweetInput = ({ disable, handleChange }) => {
         </IconButton>
         <IconButton
           type="button"
-          iconRightComponent={<TweetPoll />}
+          iconComponent={<TweetPoll />}
           color="#1D9BF0"
           hoverColor="#1D9BF0"
           hoverColorBackground="#e8f5fe"
@@ -88,7 +88,7 @@ const TweetInput = ({ disable, handleChange }) => {
         </IconButton>
         <IconButton
           type="button"
-          iconRightComponent={<TweetEmoji />}
+          iconComponent={<TweetEmoji />}
           color="#1D9BF0"
           hoverColor="#1D9BF0"
           hoverColorBackground="#e8f5fe"
@@ -102,7 +102,7 @@ const TweetInput = ({ disable, handleChange }) => {
         </IconButton>
         <IconButton
           type="button"
-          iconRightComponent={<TweetSchedule />}
+          iconComponent={<TweetSchedule />}
           color="#1D9BF0"
           hoverColor="#1D9BF0"
           hoverColorBackground="#e8f5fe"
@@ -116,7 +116,7 @@ const TweetInput = ({ disable, handleChange }) => {
         </IconButton>
         <IconButton
           type="button"
-          iconRightComponent={<TweetLocation />}
+          iconComponent={<TweetLocation />}
           color="#1D9BF0"
           hoverColor="#1D9BF0"
           hoverColorBackground="#e8f5fe"

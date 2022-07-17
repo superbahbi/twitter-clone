@@ -5,10 +5,15 @@ import Row from "react-bootstrap/Row";
 import styled from "styled-components";
 import Navbar from "../Components/Navbar";
 import NavMobile from "../Components/NavMobile";
+import TweetFloat from "../Components/TweetFloat";
 const RootContainer = styled(Container)`
   margin-left: auto;
   margin-right: auto;
   max-width: 1295px;
+  @media only screen and (max-width: 700px) {
+    padding: 0px;
+    max-width: 600px;
+  }
 `;
 const MainRow = styled(Row)`
   margin-left: 0px;
@@ -31,6 +36,9 @@ const NavbarContainer = styled(Col)`
   padding-right: 12px;
 `;
 const MainContainer = styled(Col)`
+  @media only screen and (max-width: 700px) {
+    padding-top: 53px;
+  }
   max-width: 990px;
   padding: 0px;
 `;
@@ -46,8 +54,11 @@ const Layout = ({ children, username }) => {
           <Navbar username={username} />
         </NavbarContainer>
         <MainContainer>
-          <SubMainRow>{children}</SubMainRow>
-          <NavMobile />
+          <SubMainRow>
+            {children}
+            <TweetFloat />
+            <NavMobile />
+          </SubMainRow>
         </MainContainer>
       </MainRow>
     </RootContainer>

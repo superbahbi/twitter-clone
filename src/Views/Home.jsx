@@ -9,7 +9,7 @@ import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import api from "../Helper/api";
-import useTweets from "../Hooks/useTweets";
+import { useTweets } from "../Hooks/useTweets";
 const TweetDivider = styled.div`
   flex: 1 1 auto;
   margin: 4px 0px;
@@ -28,10 +28,16 @@ const SidebarContainer = styled(Col)`
   padding-left: 0px;
   padding-right: 0px;
 `;
+const TweetBox = styled.div`
+  @media only screen and (max-width: 700px) {
+    display: none;
+  }
+`;
 function Home() {
   const queryClient = useQueryClient();
   const { state: authState } = useContext(AuthContext);
   const { user } = authState;
+  //{ status, data, error, isFetching }
   const { data } = useTweets();
   const addTweetMutation = useMutation(
     async (newPost) => {
@@ -90,12 +96,14 @@ function Home() {
           name="Home"
           iconRightComponent={<Stars />}
         />
-        <Tweet
-          addTweetMutation={addTweetMutation}
-          username={user.username}
-          avatar={user.profile.avatar.filename}
-          placeholder="What's happening?"
-        />
+        <TweetBox>
+          <Tweet
+            addTweetMutation={addTweetMutation}
+            username={user.username}
+            avatar={user.profile.avatar.filename}
+            placeholder="What's happening?"
+          />
+        </TweetBox>
         <TweetDivider></TweetDivider>
         <Feed
           likeTweetMutation={likeTweetMutation}

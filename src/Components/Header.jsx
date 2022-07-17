@@ -12,21 +12,17 @@ const HeaderContainer = styled.div`
   top: -1px;
   display: flex;
   flex-direction: row;
-  padding: 0 16px;
   height: 53px;
   .left-icon {
-    align-self: center;
     padding-right 16px;
   }
   .right-icon {
-    align-self: center;
     margin-left: auto;
   }
   .avatar{
     display: none;
   }
-  @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
-    display: flex;
+  @media only screen and (max-width: 700px)  {
     position: fixed;
     height: 53px;
     margin: 0;
@@ -36,7 +32,7 @@ const HeaderContainer = styled.div`
     .avatar{
       display: block;
       align-self: center;
-      padding-right 16px;
+      padding-left 16px;
     }
   }
 `;
@@ -44,6 +40,7 @@ const HeaderName = styled.div`
   font-size: 20px;
   font-weight: 900;
   align-self: center;
+  padding: 0 16px;
 `;
 
 const HeaderIconButton = styled(IconButton)`
@@ -51,33 +48,27 @@ const HeaderIconButton = styled(IconButton)`
   color: #1da1f2;
   padding: 0.5em;
   cursor: pointer;
-
   max-width: 45px;
 `;
-// const ProfileTweetCount = styled.div`
-//   color: #657786;
-//   font-size: 14px;
-//   font-weight: lighter;
-//   padding-left: 10px;
-// `;
 function Header({
   avatar,
   iconLeft,
   iconRight,
   name,
   tweetCount,
+  iconLeftComponent,
   iconRightComponent,
   onHandleIconRightButton,
 }) {
   const navigate = useNavigate();
   return (
     <HeaderContainer>
-      {iconLeft && (
+      {(iconLeft || iconLeftComponent) && (
         <div className="left-icon">
           <HeaderIconButton
-            icon="icon ion-ios-arrow-left"
-            color="#1da1f2"
-            hoverColor="#1da1f2"
+            icon={iconLeft}
+            hoverColor="#000"
+            iconComponent={iconLeftComponent}
             handleClick={() => {
               navigate(-1);
             }}
@@ -90,16 +81,13 @@ function Header({
         </div>
       )}
       <HeaderName>{name}</HeaderName>
-      {/* {tweetCount && (
-        <ProfileTweetCount>{tweetCount + " Tweets"}</ProfileTweetCount>
-      )} */}
 
       {(iconRight || iconRightComponent) && (
         <div className="right-icon">
           <HeaderIconButton
             icon={iconRight}
             hoverColor="#000"
-            iconRightComponent={iconRightComponent}
+            iconComponent={iconRightComponent}
             handleClick={onHandleIconRightButton}
           />
         </div>

@@ -3,6 +3,7 @@ import Col from "react-bootstrap/Col";
 import styled from "styled-components";
 import Header from ".././Components/Header";
 import Sidebar from "../Components/Sidebar";
+import { Stars } from "../Assets/Icon";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
@@ -27,7 +28,7 @@ function Explorer() {
   return (
     <>
       <SubMainContainer>
-        <Header name="Explorer" iconRight="ion-ios-gear-outline" />
+        <Header name="Explorer" iconRightComponent={<Stars />} />
         <Stack />
       </SubMainContainer>
       <SidebarContainer>

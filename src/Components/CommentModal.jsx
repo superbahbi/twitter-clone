@@ -111,17 +111,12 @@ function CommentModal({
     }
   }
   return (
-    <ModalContainer
-      show={show}
-      onHandleCommentClose={onHandleCommentClose}
-      onHide={onHide}
-      animation={false}
-    >
+    <ModalContainer show={show} onHide={onHide} animation={false}>
       <form onSubmit={onFormSubmit}>
         <Modal.Header>
           <IconButton
             type="button"
-            iconRightComponent={<Close />}
+            iconComponent={<Close />}
             color="#0f1419"
             hoverColor="#0f1419"
             handleClick={onHandleCommentClose}

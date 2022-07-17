@@ -5,7 +5,7 @@ import List from "../Components/List";
 import { Home, Search, Notification, Messages } from "../Assets/Icon";
 const NavMobileContainer = styled.div`
   display: none;
-  @media only screen and (max-width: 700px) and (-webkit-min-device-pixel-ratio: 3) {
+  @media only screen and (max-width: 700px) {
     display: block;
     position: fixed;
     bottom: 0;

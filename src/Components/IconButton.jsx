@@ -8,13 +8,17 @@ const StyledIconButton = styled.button`
   // flex: 1 1 auto !important;
   color: ${(props) => props.color};
 
-  .icon-right {
+  .icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 36px;
-    height: 36px;
+    width: ${(props) => (props.width ? props.width : "36px")};
+    height: ${(props) => (props.height ? props.height : "36px")};
     opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+    border-radius: ${(props) =>
+      props.borderRadius ? props.borderRadius : "0px"};
+    background-color: ${(props) =>
+      props.backgroundColor ? props.backgroundColor : ""};
     svg {
       width: ${(props) => (props.size ? props.size : "20px")};
       height: ${(props) => (props.size ? props.size : "20px")};
@@ -39,16 +43,19 @@ function IconButton(props) {
       type={props.type}
       name={props.name}
       onClick={props.handleClick}
-      // className={props.icon}
+      borderRadius={props.borderRadius}
       color={props.color}
+      backgroundColor={props.backgroundColor}
       hoverColor={props.hoverColor}
       hoverColorBackground={props.hoverColorBackground}
       size={props.size}
       disabled={props.disabled}
+      width={props.width}
+      height={props.height}
     >
-      {props.iconRightComponent && (
-        <label className="icon-right">
-          {props.iconRightComponent}
+      {props.iconComponent && (
+        <label className="icon">
+          {props.iconComponent}
           {props.children}
         </label>
       )}

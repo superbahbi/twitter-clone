@@ -3,6 +3,7 @@ import Header from ".././Components/Header";
 import styled from "styled-components";
 import Sidebar from "../Components/Sidebar";
 import Col from "react-bootstrap/Col";
+import { BackArrow, Stars } from "../Assets/Icon";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
@@ -27,7 +28,11 @@ function Lists() {
   return (
     <>
       <SubMainContainer>
-        <Header name="Lists" iconLeft iconRight="ion-ios-gear-outline" />
+        <Header
+          name="Lists"
+          iconLeftComponent={<BackArrow />}
+          iconRightComponent={<Stars />}
+        />
         <Stack />
       </SubMainContainer>
       <SidebarContainer>

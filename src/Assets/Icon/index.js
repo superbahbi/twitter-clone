@@ -35,6 +35,8 @@ import Report from "./report";
 import Pin from "./pin";
 import Analytics from "./analytics";
 import Close from "./close";
+import Tweet from "./tweet";
+import BackArrow from "./back-arrow";
 export {
   Paw,
   Twitter,
@@ -73,4 +75,6 @@ export {
   Pin,
   Analytics,
   Close,
+  Tweet,
+  BackArrow,
 };

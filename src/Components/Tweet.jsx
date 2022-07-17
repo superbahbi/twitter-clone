@@ -6,11 +6,8 @@ import { youtubeMetadata } from "../Helper/youtubeMetadata";
 import Card from "./Card";
 import MediaFrame from "./MediaFrame";
 import TweetInput from "./TweetInput";
-
+import Figure from "react-bootstrap/Figure";
 const TweetBox = styled.div`
-  @media only screen and (max-width: 700px) {
-    display: none;
-  }
   display: flex;
   flex-direction: row;
   font-size: 12px;
@@ -27,7 +24,7 @@ const InputBox = styled.div`
 const InputBoxRow = styled.div`
   padding-top: 14px;
   display: flex;
-  width: 500px;
+  max-width: 500px;
 `;
 const AvatarBox = styled.div`
   padding-top: 4px;
@@ -35,7 +32,7 @@ const AvatarBox = styled.div`
   padding-left: 16px;
 `;
 const ImgPreview = styled.img`
-  width: 100%;
+  max-width: 100%;
 `;
 function Tweet({
   username,
@@ -43,6 +40,7 @@ function Tweet({
   addTweetMutation,
   placeholder,
   commentTweetMutation,
+  height,
 }) {
   const tweetData = useRef("");
   const [tweetText, setTweetText] = useState("");
@@ -54,7 +52,6 @@ function Tweet({
   const [linkMetadata, setLinkMetadata] = useState({});
   const onFormSubmit = async (e) => {
     e.preventDefault();
-
     const textWrapper = document.getElementsByClassName("textarea");
     const formData = new FormData();
     formData.append("image", imgFile);
@@ -118,6 +115,7 @@ function Tweet({
                 autocomplete="off"
                 projectRef={tweetData}
                 onHandleChange={(event) => textareaHandleChange(event)}
+                height={height}
               />
             </InputBox>
 
@@ -143,11 +141,6 @@ function Tweet({
                   }}
                 >
                   <Card data={linkMetadata} />
-                  {/* <iframe
-                    title="linkPost"
-                    src={`https://www.youtube.com/embed/${videoPreview}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white`}
-                    frameBorder="0"
-                  ></iframe> */}
                 </MediaFrame>
               </InputBoxRow>
             )}
