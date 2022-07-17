@@ -5,13 +5,14 @@ const StyledIconButton = styled.button`
   padding: 0;
   border: none;
   background: none;
-  // flex: 1 1 auto !important;
   color: ${(props) => props.color};
 
   .icon {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    margin: 0;
     width: ${(props) => (props.width ? props.width : "36px")};
     height: ${(props) => (props.height ? props.height : "36px")};
     opacity: ${(props) => (props.disabled ? 0.5 : 1)};

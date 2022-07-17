@@ -6,7 +6,6 @@ import { youtubeMetadata } from "../Helper/youtubeMetadata";
 import Card from "./Card";
 import MediaFrame from "./MediaFrame";
 import TweetInput from "./TweetInput";
-import Figure from "react-bootstrap/Figure";
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;

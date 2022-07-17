@@ -246,6 +246,7 @@ function Navbar() {
           <TweetButton>
             <Button
               large
+              width="225px"
               id="tweet"
               name="button"
               type="submit"

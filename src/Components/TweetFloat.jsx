@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import TweetModal from "./TweetModal";
-import IconButton from "./IconButton";
 import { Tweet } from "../Assets/Icon";
+import IconButton from "./IconButton";
 const TweetFloatContainer = styled.div`
   display: none;
   @media only screen and (max-width: 700px) {

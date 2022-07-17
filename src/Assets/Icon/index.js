@@ -37,6 +37,8 @@ import Analytics from "./analytics";
 import Close from "./close";
 import Tweet from "./tweet";
 import BackArrow from "./back-arrow";
+import Send from "./send";
+import Mail from "./mail";
 export {
   Paw,
   Twitter,
@@ -77,4 +79,6 @@ export {
   Close,
   Tweet,
   BackArrow,
+  Send,
+  Mail,
 };

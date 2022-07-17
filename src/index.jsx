@@ -10,6 +10,7 @@ import { createGlobalStyle } from "styled-components";
 const AppRoot = createGlobalStyle`
   body {
     font-family: Chirp !important;
+    overflow-y: scroll;
   }
 `;
 ReactDOM.render(

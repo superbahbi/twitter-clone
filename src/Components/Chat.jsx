@@ -6,7 +6,8 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import moment from "moment";
-
+import { Send } from "../Assets/Icon";
+const MessageContainer = styled.div``;
 const MessageHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -16,36 +17,34 @@ const MessageHeader = styled.div`
 `;
 // Chat display
 const ChatBox = styled.div`
+  display: flex;
+  position: absolute;
+
   float: left;
   width: 100%;
+  max-width: 600px;
+  max-height: calc(100vh - 58px);
+  bottom: 0;
+
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
 `;
 const ChatHistory = styled.div`
-  max-height: 90vh;
-  overflow-y: scroll;
+  width: 100%;
+  overflow-y: auto;
+  margin-bottom: 53px;
+  padding: 0px 8px;
 `;
 // Message bubble
 const Message = styled.p`
-  width: auto;
+  float: right;
   padding: 10px 20px 10px 20px;
   margin-bottom: 0px;
   ${(props) =>
     props.right
-      ? "border-radius: 9999px 9999px 0px 9999px; background-color: #71c9f8;"
-      : "border-radius: 9999px 9999px 9999px 0px; background-color: #eff3f4;"}
-`;
-const IncomingMsg = styled.div``;
-const OutgoingMsg = styled.div`
-  overflow: hidden;
-`;
-const SentMsg = styled.div`
-  float: right;
-  margin-left: 20px;
-`;
-const ReceivedMsg = styled.div`
-  display: inline-block;
-  padding: 0 0 0 0;
-  vertical-align: top;
-  // width: 92%;
+      ? "border-radius: 9999px 0px 0px 9999px; background-color: #71c9f8;"
+      : "border-radius: 0px 9999px 9999px 0px; background-color: #eff3f4;"}
 `;
 // Time
 const Time = styled.span`
@@ -53,24 +52,47 @@ const Time = styled.span`
   float: right;
   padding-bottom: 2px;
 `;
+const IncomingMsg = styled.div``;
+const OutgoingMsg = styled.div`
+  overflow: hidden;
+`;
+const SentMsg = styled.div`
+  display: flex;
+  flex-direction: column;
+  float: right;
+  margin-left: 250px;
+`;
+const ReceivedMsg = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  padding: 0
+  vertical-align: top;
+  margin-right: 250px;
+`;
+
 // Form for sending messages
 const MessageForm = styled(Form)`
   position: absolute;
   bottom: 0;
-  // width: 100%;
+  max-width: 600px;
   background-color: #fff;
+  border-right: 1px solid rgb(239, 243, 244);
 `;
 
 const FormRow = styled(Row)`
   display: flex;
   flex-wrap: nowrap;
   margin: 10px;
+  width: 600px;
 `;
 const FormCol = styled(Col)`
-  padding-top: 10px; ;
+  display: flex;
+  align-items: center;
+  height: 38px;
 `;
 const FormGroup = styled(Form.Group)`
   margin-bottom: 0px;
+  width: 100%;
 `;
 const StyledFormControl = styled(Form.Control)`
   border-radius: 9999px;
@@ -78,7 +100,6 @@ const StyledFormControl = styled(Form.Control)`
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  align-items: center;
   :hover {
     border-color: #71c9f8;
     color: none;
@@ -89,10 +110,11 @@ const StyledFormControl = styled(Form.Control)`
   }
 `;
 const SendIconButton = styled(IconButton)`
+  display: flex;
+  align-items: center;
   font-size: 15px;
   color: #1da1f2;
   padding: 0.5em;
-  cursor: pointer;
 `;
 const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
   const { register, handleSubmit } = useForm(); // initialise the hook
@@ -100,14 +122,10 @@ const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    messagesRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "start",
-    });
+    messagesRef.current.scrollIntoView(true);
   });
   return (
-    <>
+    <MessageContainer>
       <MessageHeader>
         <h5>{receiverData.name}</h5>
       </MessageHeader>
@@ -118,6 +136,8 @@ const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
               <OutgoingMsg key={key}>
                 <SentMsg>
                   <Message right>{data.body}</Message>
+                </SentMsg>
+                <SentMsg>
                   <Time>{moment(data.createdAt).fromNow()}</Time>
                 </SentMsg>
               </OutgoingMsg>
@@ -125,12 +145,14 @@ const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
               <IncomingMsg key={key}>
                 <ReceivedMsg>
                   <Message>{data.body}</Message>
+                </ReceivedMsg>
+                <ReceivedMsg>
                   <Time>{moment(data.createdAt).fromNow()}</Time>
                 </ReceivedMsg>
               </IncomingMsg>
             )
           )}
-          <div ref={messagesRef} />
+          <div ref={messagesRef} className="special" />
         </ChatHistory>
       </ChatBox>
       <MessageForm
@@ -145,6 +167,7 @@ const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
               <StyledFormControl
                 type="text"
                 id="inputMessage"
+                autoComplete="off"
                 placeholder="Start a message"
                 name="message"
                 ref={register({
@@ -155,17 +178,18 @@ const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
               />
             </FormGroup>
           </FormCol>
-          <FormCol sm={2}>
+          <FormCol>
             <SendIconButton
-              icon="ion-ios-paperplane-outline"
-              color="#1da1f2"
-              size="30px"
               type="submit"
+              iconComponent={<Send />}
+              color="#1da1f2"
+              hoverColor="fff"
+              hoverColorBackground="#fff"
             />
           </FormCol>
         </FormRow>
       </MessageForm>
-    </>
+    </MessageContainer>
   );
 };
 

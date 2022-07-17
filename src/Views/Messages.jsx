@@ -1,42 +1,42 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import { Context as UserContext } from "../Contexts/UserContext";
 // Local use hooks
 import useGetMessages from "../Hooks/useGetMessages";
 // NPM components
+import { ObjectID } from "bson";
+import formurlencoded from "form-urlencoded";
 import { Col } from "react-bootstrap";
 import styled from "styled-components";
-import { ObjectID } from "bson";
-
 // Local components
-import Button from "../Components/Button";
 import Chat from ".././Components/Chat";
 import Modal from ".././Components/Modal";
+import Button from "../Components/Button";
 import Header from "../Components/Header";
 import SearchWithList from "../Components/SearchWithList";
+import { Mail } from "../Assets/Icon";
 // Local helper functions
 // import { fetchDB } from "../Helper/fetch";
 import socketIOClient from "socket.io-client";
+import api from "../Helper/api";
 const ENDPOINT = process.env.REACT_APP_API_URL;
 
 const Container = styled.div`
   display: grid;
   grid-template-areas: "user chat";
-  grid-template-columns: 350px 600px;
-  gap: 30px;
+  grid-template-columns: 388px 600px;
 `;
 
 const UserContainer = styled.div`
   grid-area: user;
-  border-color: rgb(239, 243, 244);
-  border-style: solid;
-  border-width: 1px;
+  border-right: 1px solid rgb(239, 243, 244);
   padding-bottom: 53px;
   height: 100vh;
 `;
 const ChatContainer = styled.div`
   grid-area: chat;
+  border-right: 1px solid rgb(239, 243, 244);
   @media (max-width: 1080px) {
     display: none;
   }
@@ -44,15 +44,23 @@ const ChatContainer = styled.div`
 const MessagesBox = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
 `;
 const MessageButton = styled.div`
-    display: flex;
-    padding
-    margin-top: 20px;
-    margin-bottom: 20px;
+  display: flex;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
-const MessageH1 = styled.h1`
+const MessageLeftGroup = styled.div`
+  margin: 32px 0px;
+  padding: 0px 32px;
+`;
+
+const MessageRightGroup = styled.div`
+  width: 336px;
+  margin: 0 auto;
+`;
+const MessageH = styled.h1`
   font-size: 30px;
   font-weight: 800;
 `;
@@ -71,7 +79,11 @@ const SelectMessage = styled.div`
 function Messages() {
   const navigate = useNavigate();
   const { state: authState } = useContext(AuthContext);
-  const { state: userState, getAllUser } = useContext(UserContext);
+  const {
+    state: userState,
+    getAllUser,
+    getUserMessage,
+  } = useContext(UserContext);
   const [messages] = useGetMessages();
 
   // const [allUser, setAllUser] = useState([]);
@@ -81,7 +93,7 @@ function Messages() {
   const [dmUsers, setDmUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [searchChatRoom, setSearchChatRoom] = useState("");
-  const [show, setShow] = useState({ status: false, id: "" });
+  const [show, setShow] = useState(false);
   const [channel, setChannel] = useState("");
   const [socket, setSocket] = useState(null);
   const [messagesHistory, setMessagesHistory] = useState([]);
@@ -123,63 +135,47 @@ function Messages() {
     setDmUsers(temp);
   }, [searchChatRoom]);
   function onHandleModal() {
-    setShow({
-      ...show,
-      status: true,
-      // id: id
-    });
+    setShow(!show);
   }
-  function onHandleModalClose() {
-    setShow({
-      ...show,
-      status: false,
-    });
-  }
+
   const onHandleSearchClick = (receiverData) => {
-    // const url = process.env.REACT_APP_API_URL + "/api/createChatRoom";
-    // const id = user._id + "-" + receiverData._id;
-    // let split = id.split("-"); // ['user_id1', 'user_id2']
-    // let unique = [...new Set(split)].sort((a, b) => (a < b ? -1 : 1)); // ['username1', 'username2']
-    // let updatedRoomName = `${unique[0]}-${unique[1]}`; // 'username1--with--username2'
-    // const data = {
-    //   _id: updatedRoomName,
-    //   sender: user,
-    //   receiver: receiverData,
-    // };
-    // fetch(url, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //     Authorization: "Bearer " + state.token,
-    //   },
-    //   body: formurlencoded(data),
-    // });
+    const id = authState.user._id + "-" + receiverData._id;
+    let split = id.split("-"); // ['user_id1', 'user_id2']
+    let unique = [...new Set(split)].sort((a, b) => (a < b ? -1 : 1)); // ['username1', 'username2']
+    let updatedRoomName = `${unique[0]}-${unique[1]}`; // 'username1--with--username2'
+    const data = {
+      _id: updatedRoomName,
+      sender: authState.user,
+      receiver: receiverData,
+    };
+    api.post("/api/createChatRoom", formurlencoded(data));
 
-    // const updateChatData = {
-    //   _id: updatedRoomName,
-    //   sender: user._id,
-    //   receiver: receiverData._id,
-    //   avatar: receiverData.profile.avatar.filename,
-    //   name: receiverData.profile.name,
-    // };
-    // onHandleModalClose();
-    // setSelectUser(receiverData);
-    // setChannel(updatedRoomName);
-    // setDmUsers([...dmUsers, updateChatData]);
-    // setChatRoom((prev) => [...prev, updateChatData]);
-    // socket.emit("join", data);
-    // Navigate("/messages/" + updatedRoomName);
-    console.log("Chat room created");
+    const updateChatData = {
+      _id: updatedRoomName,
+      sender: authState.user._id,
+      receiver: receiverData._id,
+      avatar: receiverData.profile.avatar.filename,
+      name: receiverData.profile.name,
+    };
+    onHandleModal();
+    setSelectUser(receiverData);
+    setChannel(updatedRoomName);
+    setDmUsers([...dmUsers, updateChatData]);
+    setChatRoom([...chatRoom, updateChatData]);
+    socket.emit("join", data);
+    navigate("/messages/" + updatedRoomName);
   };
-  const onHandleRoomClick = (room) => {
+  const onHandleRoomClick = async (room) => {
     setMessagesHistory([]);
-    messages(room._id);
-
     socket.emit("join", { _id: room._id });
+    messages(room._id);
     setChannel(room._id);
     setSelectUser(room);
-    setMessagesHistory(userState.messages);
-    navigate("/messages/" + room._id);
+    let msg = await api.get("/api/getMessages/" + room._id);
+    if (msg.data) {
+      setMessagesHistory(msg.data);
+      navigate("/messages/" + room._id);
+    }
   };
   const onUpdateMessageSubmit = (data, e) => {
     if (!data) return;
@@ -197,42 +193,46 @@ function Messages() {
       <UserContainer>
         <Header
           name="Messages"
-          iconRight="ion-ios-email-outline"
+          iconRightComponent={<Mail />}
           onHandleIconRightButton={() => {
             onHandleModal();
           }}
         />
-        <SearchWithList
-          placeholder="Search Direct Messages"
-          filterUsers={dmUsers}
-          selectUser={selectUser}
-          onHandleChange={(e) => setSearchChatRoom(e.target.value)}
-          onHandleSearchClick={onHandleRoomClick}
-        />
+
         {chatRoom.length === 0 ? (
           <MessagesBox>
-            <MessageH1>Welcome to your inbox!</MessageH1>
-            <MessageP>
-              Drop a line, share Tweets and more with private conversations
-              between you and others on Twitter.
-            </MessageP>
-            <MessageButton>
-              <Button
-                large
-                className=""
-                id="tweets"
-                name="button"
-                type="submit"
-                btnStyle="large-btn"
-                label="Write a message"
-                footer={false}
-                handleClick={() => {
-                  onHandleModal();
-                }}
-              />
-            </MessageButton>
+            <MessageLeftGroup>
+              <MessageH>Welcome to your inbox!</MessageH>
+              <MessageP>
+                Drop a line, share Tweets and more with private conversations
+                between you and others on Twitter.
+              </MessageP>
+              <MessageButton>
+                <Button
+                  large
+                  className=""
+                  id="tweets"
+                  name="button"
+                  type="submit"
+                  btnStyle="large-btn"
+                  label="Write a message"
+                  footer={false}
+                  handleClick={() => {
+                    onHandleModal();
+                  }}
+                />
+              </MessageButton>
+            </MessageLeftGroup>
           </MessagesBox>
-        ) : null}
+        ) : (
+          <SearchWithList
+            placeholder="Search Direct Messages"
+            filterUsers={dmUsers}
+            selectUser={selectUser}
+            onHandleChange={(e) => setSearchChatRoom(e.target.value)}
+            onHandleSearchClick={onHandleRoomClick}
+          />
+        )}
       </UserContainer>
       <ChatContainer>
         <MessagesBox>
@@ -242,38 +242,41 @@ function Messages() {
               user={userState}
               receiverData={selectUser}
               channel={channel}
-              messagesHistory={userState.messages}
+              messagesHistory={messagesHistory}
               onUpdateMessageSubmit={onUpdateMessageSubmit}
             />
           ) : (
             <SelectMessage>
               <Col>
-                <h2>Select a message</h2>
-                <MessageP>
-                  Choose from your existing conversations, start a new one, or
-                  just keep swimming.
-                </MessageP>
-                <MessageButton>
-                  <Button
-                    large
-                    id="tweets"
-                    name="button"
-                    type="submit"
-                    label="New message"
-                    footer={false}
-                    handleClick={() => {
-                      onHandleModal();
-                    }}
-                  />
-                </MessageButton>
+                <MessageRightGroup>
+                  <MessageH>Select a message</MessageH>
+                  <MessageP>
+                    Choose from your existing conversations, start a new one, or
+                    just keep swimming.
+                  </MessageP>
+                  <MessageButton>
+                    <Button
+                      large
+                      id="tweets"
+                      name="button"
+                      type="submit"
+                      label="New message"
+                      footer={false}
+                      handleClick={() => {
+                        onHandleModal();
+                      }}
+                    />
+                  </MessageButton>
+                </MessageRightGroup>
               </Col>
             </SelectMessage>
           )}
         </MessagesBox>
       </ChatContainer>
       <Modal
-        show={show.status}
-        onHide={onHandleModalClose}
+        show={show}
+        onHide={onHandleModal}
+        onHandleModal={onHandleModal}
         body={
           <SearchWithList
             placeholder="Search People"
@@ -283,7 +286,6 @@ function Messages() {
           />
         }
         setShow={setShow}
-        title="New Message"
       />
     </Container>
   );
