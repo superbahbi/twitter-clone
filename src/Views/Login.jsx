@@ -44,7 +44,6 @@ const StyledForm = styled(Form)`
   }
 `;
 const StyledFormControl = styled(Form.Control)`
-  border: none;
   border: 1px solid rgb(239, 243, 244);
   border-radius: 0;
   box-shadow: none;
@@ -53,7 +52,6 @@ const StyledFormControl = styled(Form.Control)`
   background: #fff;
   margin-bottom: 16px;
   :focus {
-    border: none;
     border: 1px solid #1da1f2;
     border-radius: 0;
     box-shadow: none;

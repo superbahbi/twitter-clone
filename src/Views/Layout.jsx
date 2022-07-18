@@ -10,6 +10,7 @@ const RootContainer = styled(Container)`
   margin-left: auto;
   margin-right: auto;
   max-width: 1295px;
+
   @media only screen and (max-width: 700px) {
     padding: 0px;
     max-width: 600px;

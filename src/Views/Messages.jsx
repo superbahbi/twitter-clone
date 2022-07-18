@@ -31,6 +31,7 @@ const Container = styled.div`
 const UserContainer = styled.div`
   grid-area: user;
   border-right: 1px solid rgb(239, 243, 244);
+  border-left: 1px solid rgb(239, 243, 244);
   padding-bottom: 53px;
   height: 100vh;
 `;

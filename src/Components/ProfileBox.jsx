@@ -141,7 +141,7 @@ function ProfileBox({ user }) {
                 </ProfileStat>
               </ProfileInfo>
             </ProfileUser>
-            <ProfileButton>
+            {/* <ProfileButton>
               <Button
                 secondary
                 id="tweets"
@@ -171,7 +171,7 @@ function ProfileBox({ user }) {
                 type="submit"
                 label="Likes"
               />
-            </ProfileButton>
+            </ProfileButton> */}
           </ProfileContainer>
         </div>
       </TweetBox>

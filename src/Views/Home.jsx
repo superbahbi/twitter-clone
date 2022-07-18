@@ -18,6 +18,7 @@ const TweetDivider = styled.div`
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
+  border: 1px solid rgb(239, 243, 244);
 `;
 const SidebarContainer = styled(Col)`
   @media only screen and (max-width: 1005px) {

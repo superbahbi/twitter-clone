@@ -8,6 +8,7 @@ import Col from "react-bootstrap/Col";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
+  border: 1px solid rgb(239, 243, 244);
 `;
 const SidebarContainer = styled(Col)`
   @media only screen and (max-width: 1005px) {
@@ -21,17 +22,11 @@ const SidebarContainer = styled(Col)`
 const SettingsBox = styled.div`
   display: flex;
   flex-direction: row;
-  border-color: #eee #ddd #bbb;
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   height: 100vh;
 `;
 const SettingsList = styled.ul`
   flex: 1 1 auto;
-  border-width: 3px 0 0 0;
-  border-style: solid;
-  border-color: #eee #ddd #bbb;
+  border-top: 1px solid rgb(239, 243, 244);
   padding: 0;
 `;
 const List = styled.li`
