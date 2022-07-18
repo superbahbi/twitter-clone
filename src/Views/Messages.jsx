@@ -79,11 +79,7 @@ const SelectMessage = styled.div`
 function Messages() {
   const navigate = useNavigate();
   const { state: authState } = useContext(AuthContext);
-  const {
-    state: userState,
-    getAllUser,
-    getUserMessage,
-  } = useContext(UserContext);
+  const { state: userState, getAllUser } = useContext(UserContext);
   const [messages] = useGetMessages();
 
   // const [allUser, setAllUser] = useState([]);

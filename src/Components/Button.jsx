@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 const StyledButton = styled.button`
   width: ${(props) => props.width || ""};
-  height: ${(props) => (props.large && "52px") || "34px"};
+  height: ${(props) => (props.large && "52px") || "38px"};
   line-height: ${(props) => (props.large && "52px") || "34px"};
 
-  color: ${(props) => (props.secondary && "#657786") || "#fff"};
+  color: ${(props) => (props.secondary && "#1da1f2") || "#fff"};
   background-color: ${(props) => (props.secondary && "#fff") || "#1da1f2"};
 
   /// Float right if right is true
@@ -20,8 +20,10 @@ const StyledButton = styled.button`
 
   border: none;
   border-radius: ${(props) =>
-    (props.primary && "30px") || (props.large && "9999px") || "0px"};
-  border-bottom: ${(props) => (props.secondary && "2px solid") || "none"};
+    (props.primary | props.secondary && "30px") ||
+    (props.large && "9999px") ||
+    "0px"};
+  border: ${(props) => (props.secondary && "1px solid #536471") || "none"};
 
   opacity: ${(props) => (props.disabled && "0.5") || "1"};
   :focus {
@@ -34,8 +36,7 @@ const StyledButton = styled.button`
   :focus {
     background-color: ${(props) => (props.secondary && "#e8f5fe") || "#1a91da"};
     color: ${(props) => (props.secondary && "#1da1f2") || "#fff"};
-    border-bottom: ${(props) =>
-      (props.secondary && "2px solid #1da1f2") || "none"};
+    border: ${(props) => (props.secondary && "1px solid #1da1f2") || "none"};
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -45,6 +46,7 @@ const StyledButton = styled.button`
 function Button(props) {
   return (
     <StyledButton
+      className={props.className}
       primary={props.primary}
       secondary={props.secondary}
       profile={props.profile}
