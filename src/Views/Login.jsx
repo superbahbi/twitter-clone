@@ -44,7 +44,8 @@ const StyledForm = styled(Form)`
   }
 `;
 const StyledFormControl = styled(Form.Control)`
-  border: 1px solid rgb(239, 243, 244);
+  border: ${(props) =>
+    props.error ? "1px solid #ff0000" : "1px solid rgb(239, 243, 244)"};
   border-radius: 0;
   box-shadow: none;
   outline: none;
@@ -58,10 +59,6 @@ const StyledFormControl = styled(Form.Control)`
     outline: none;
     color: inherit;
   }
-`;
-const ErrorBar = styled.div`
-  border-bottom: 2px solid;
-  border-color: red;
 `;
 function Login() {
   const navigate = useNavigate();
@@ -91,6 +88,7 @@ function Login() {
           </div>
           <Form.Group>
             <StyledFormControl
+              error={errors.username}
               type="text"
               id="inputUsername"
               autoComplete="off"
@@ -100,10 +98,10 @@ function Login() {
                 required: true,
               })}
             />
-            {errors.username && <ErrorBar></ErrorBar>}
           </Form.Group>
           <Form.Group>
             <StyledFormControl
+              error={errors.password}
               type="password"
               id="inputPassword"
               placeholder="Password"
@@ -112,7 +110,6 @@ function Login() {
                 required: true,
               })}
             />
-            {errors.password && <ErrorBar></ErrorBar>}
           </Form.Group>
           <div></div>
           <Button primary label="Login" type="submit" />

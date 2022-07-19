@@ -44,7 +44,6 @@ const StyledForm = styled(Form)`
   }
 `;
 const StyledFormControl = styled(Form.Control)`
-  border: none;
   border: ${(props) =>
     props.error ? "1px solid #ff0000" : "1px solid rgb(239, 243, 244)"};
   border-radius: 0;
