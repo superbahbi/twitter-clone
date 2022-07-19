@@ -52,6 +52,7 @@ const StyledFormControl = styled(Form.Control)`
   color: inherit;
   background: #fff;
   margin-bottom: 16px;
+  text-transform: lowercase;
   :focus {
     border: 1px solid #1da1f2;
     border-radius: 0;
