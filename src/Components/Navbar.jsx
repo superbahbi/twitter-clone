@@ -162,6 +162,9 @@ function Navbar() {
   }
   function onHandleClick(id) {
     setIsActive(id);
+    if (id === "profile") {
+      id = state.user.username;
+    }
     navigate(`/${id}`);
   }
   function onHandleTweetModal() {
@@ -234,7 +237,7 @@ function Navbar() {
             id="profile"
             name="Profile"
             icon={<Profile active={isActive === "profile" ? true : false} />}
-            onHandleClick={() => onHandleClick(state.user.username)}
+            onHandleClick={() => onHandleClick("profile")}
           />
           <List
             id="more"

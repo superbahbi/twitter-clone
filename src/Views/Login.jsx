@@ -37,7 +37,7 @@ const StyledForm = styled(Form)`
   flex-direction: column;
   max-width: 250px;
   .signup {
-    margin-top: 24px;
+    margin: 24px 0px;
   }
   .error {
     color: #ff0000;
@@ -114,10 +114,25 @@ function Login() {
             />
             {errors.password && <ErrorBar></ErrorBar>}
           </Form.Group>
-          <Button primary label={"Login"} type="submit" />
+          <div></div>
+          <Button primary label="Login" type="submit" />
+
           <div className="signup">
             Don't have an account? <Link to="/signup">Sign up</Link>
           </div>
+        </StyledForm>
+        <StyledForm
+          onSubmit={(event) => {
+            event.preventDefault();
+            signin({ username: "demo", password: "demo" });
+          }}
+        >
+          <Button
+            width="100%"
+            primary
+            label="Login as demo user"
+            type="submit"
+          />
         </StyledForm>
       </div>
     </LoginContainer>
