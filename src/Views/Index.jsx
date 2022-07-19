@@ -132,6 +132,7 @@ function Index() {
                 <span className="account">Already have an account?</span>
                 <Button
                   secondary
+                  textColor="#1da1f2"
                   label="Sign in"
                   handleClick={() => navigate("/login")}
                 />

@@ -7,9 +7,10 @@ import Navbar from "../Components/Navbar";
 import NavMobile from "../Components/NavMobile";
 import TweetFloat from "../Components/TweetFloat";
 const RootContainer = styled(Container)`
+  max-width: 1295px;
+  padding: 0px;
   margin-left: auto;
   margin-right: auto;
-  max-width: 1295px;
 
   @media only screen and (max-width: 700px) {
     padding: 0px;
@@ -21,8 +22,8 @@ const MainRow = styled(Row)`
   margin-right: 0px;
   margin: auto;
   justify-content: center !important;
-  @media only screen and (max-width: 1005px) {
-    max-width: 650px;
+  @media only screen and (max-width: 1055px) {
+    max-width: 674px;
   }
 `;
 const NavbarContainer = styled(Col)`

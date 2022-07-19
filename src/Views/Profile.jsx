@@ -14,9 +14,10 @@ import Col from "react-bootstrap/Col";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
+  border: 1px solid rgb(239, 243, 244);
 `;
 const SidebarContainer = styled(Col)`
-  @media only screen and (max-width: 1005px) {
+  @media only screen and (max-width: 1055px) {
     display: none;
   }
   max-width: 350px;
@@ -49,8 +50,8 @@ function Profile() {
             />
             {userState.getUser && (
               <ProfileBox
+                authUsername={authState.user.username}
                 user={userState.getUser}
-                username={userState.getUser && userState.getUser.username}
               />
             )}
             {isFetching ? (

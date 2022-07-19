@@ -1,18 +1,13 @@
-import React from "react";
-// import { Navigate } from "react-router-dom";
 import moment from "moment";
+import React from "react";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import styled from "styled-components";
 import Button from ".././Components/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-
+import { TweetLocation, Link, Calendar } from "../Assets/Icon";
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
-  border-color: #eee #ddd #bbb;
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 `;
 const ProfileContainer = styled.div`
   position: relative;
@@ -43,22 +38,31 @@ const ProfileAvatar = styled.img`
   height: 134px;
   width: 134px;
   border-radius: 50% !important;
+  border: 4px solid #fff;
+`;
+const ProfileButton = styled.div`
+  position: absolute;
+  right: 20px;
+  top: 265px;
 `;
 const ProfileUser = styled.div`
-  margin: 5px 0 0;
-  padding: 10px;
+  margin: 0 0 16px;
+  padding: 12px 16px;
 `;
 
 const ProfileName = styled.div`
+  color: #0f1419;
   font-size: 20px;
   font-weight: 900;
   line-height: 21px;
 `;
 const ProfileTag = styled.div`
-  color: #657786;
+  color: #536471;
   text-decoration: none;
+  margin-bottom: 12px;
 `;
 const ProfileBio = styled.div`
+  color: #0f1419;
   padding: 5px 0 5px 0;
 `;
 const ProfileInfo = styled.div`
@@ -67,14 +71,33 @@ const ProfileInfo = styled.div`
   padding: 5px 0 5px 0;
 `;
 const ProfileStat = styled.div`
+  font-size: 14px;
+  color: #536471;
   margin-right: 20px;
+  .number {
+    font-weight: 900;
+    padding-right: 4px;
+  }
 `;
-const ProfileButton = styled.div`
-  display: flex;
-  flex-direction: row;
+// const ProfileButton = styled.div`
+//   display: flex;
+//   flex-direction: row;
+// `;
+const Icon = styled.span`
+  align-self: center;
+  margin-left: auto;
+  margin-right: 4px;
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: #536571;
+  }
 `;
-
-function ProfileBox({ user }) {
+const Text = styled.span`
+  color: #536571;
+`;
+const ProfileInfoCol = styled(Col)``;
+function ProfileBox({ user, authUsername }) {
   function onHandleClick() {
     // Navigate("/settings");
   }
@@ -92,18 +115,33 @@ function ProfileBox({ user }) {
               }}
             />
             <ProfileAvatar src={user.profile.avatar.filename} alt="" />
-            {/* {props.username === username ? (
-              <Button
-                primary
-                right
-                width="100px"
-                id="tweets"
-                name="button"
-                type="submit"
-                label="Edit profile"
-                handleClick={onHandleClick}
-              />
-            ) : null} */}
+            {user.username === authUsername ? (
+              <ProfileButton>
+                <Button
+                  secondary
+                  id="tweets"
+                  name="button"
+                  type="submit"
+                  label="Edit profile"
+                  textColor="#000"
+                  hoverBackgroundColor="#E7E7E8"
+                  handleClick={onHandleClick}
+                />
+              </ProfileButton>
+            ) : (
+              <ProfileButton>
+                <Button
+                  id="tweets"
+                  name="button"
+                  type="submit"
+                  label="Follow"
+                  backgroundColor="#000"
+                  textColor="#fff"
+                  hoverBackgroundColor="#272C30"
+                  handleClick={onHandleClick}
+                />{" "}
+              </ProfileButton>
+            )}
           </Row>
           <ProfileContainer>
             <ProfileUser>
@@ -113,31 +151,45 @@ function ProfileBox({ user }) {
               <ProfileInfo>
                 <Row className="flex-fill">
                   {user.profile.location && (
-                    <Col sm>
-                      <i className="icon ion-ios-location-outline mr-1"></i>
-                      {user.profile.location}
-                    </Col>
+                    <ProfileInfoCol sm>
+                      <Icon>
+                        <TweetLocation />
+                      </Icon>
+                      <Text>{user.profile.location}</Text>
+                    </ProfileInfoCol>
                   )}
                   {user.profile.website && (
-                    <Col sm>
-                      <i className="icon ion-link mr-1"></i>
-                      {user.profile.website}
-                    </Col>
+                    <ProfileInfoCol sm>
+                      <Icon>
+                        <Link />
+                      </Icon>
+                      <Text>
+                        <a href={user.profile.website}>
+                          {user.profile.website}
+                        </a>
+                      </Text>
+                    </ProfileInfoCol>
                   )}
-                  <Col sm>
-                    <i className="icon ion-ios-calendar-outline mr-1"></i>
-                    {moment
-                      .unix(user && user.profile.regDate)
-                      .format("MMMM YYYY")}
-                  </Col>
+                  <ProfileInfoCol sm>
+                    <Icon>
+                      <Calendar />
+                    </Icon>
+                    <Text>
+                      {moment
+                        .unix(user && user.profile.regDate)
+                        .format("MMMM YYYY")}
+                    </Text>
+                  </ProfileInfoCol>
                 </Row>
               </ProfileInfo>
               <ProfileInfo>
                 <ProfileStat>
-                  <strong>{user && user.following}</strong> Following
+                  <span className="number">{user && user.following}</span>
+                  Following
                 </ProfileStat>
                 <ProfileStat>
-                  <strong>{user && user.followers}</strong> Followers
+                  <span className="number">{user && user.followers}</span>
+                  Followers
                 </ProfileStat>
               </ProfileInfo>
             </ProfileUser>

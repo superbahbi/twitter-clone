@@ -297,12 +297,12 @@ function Feed({
                         </>
                       ) : (
                         <>
-                          <div className="text">
+                          {/* <div className="text">
                             <Unfollow />
                             <span className="name">
                               Unfollow {item.username}
                             </span>
-                          </div>
+                          </div> */}
                           <div className="text">
                             <NotInterested />
                             <span className="name">
