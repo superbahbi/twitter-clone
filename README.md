@@ -68,10 +68,20 @@
 - [ ] Trending
 - [ ] Notifactions
 
-## Screenshot
-
 <details>
-<summary>Home page</summary>
+<summary>Landing</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179886364-4bbf7973-4833-441f-b396-8ef2528c0471.png">
+</details>
+<details>
+  <summary>Login</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179886480-7031dd43-44e4-42c4-9fa5-938ffb039d80.png">
+</details>
+<details>
+  <summary>Signup</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179886552-a74be459-6179-4741-92af-afb3abe8c900.png">
+</details>
+<details>
+<summary>Home</summary>
 <img width="800" src="https://user-images.githubusercontent.com/1689092/179885579-936eb84d-bfd0-488d-8135-de5e6f73a5bc.png">
 </details>
 <details>
