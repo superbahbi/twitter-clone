@@ -73,7 +73,10 @@
 <details>
 <summary>Home page</summary>
 <img width="800" src="https://user-images.githubusercontent.com/1689092/179884812-2bb275db-08ba-46cc-b074-0737730d4148.png">
-</div>
+</details>
+<details>
+<summary>Messages</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179885240-2468f7f8-0a6a-4cfe-b04c-064b767a957a.png">
 </details>
 
 ### Built With
