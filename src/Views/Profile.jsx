@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
+import Col from "react-bootstrap/Col";
+import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
 import Feed from ".././Components/Feed";
 import Header from "../Components/Header";
 import Placeholder from "../Components/Placeholder";
 import ProfileBox from "../Components/ProfileBox";
+import Sidebar from "../Components/Sidebar";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import { Context as UserContext } from "../Contexts/UserContext";
+import api from "../Helper/api";
 import useTweet from "../Hooks/useTweet";
 import useUser from "../Hooks/useUser";
-import Sidebar from "../Components/Sidebar";
-import Col from "react-bootstrap/Col";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
@@ -27,10 +29,11 @@ const SidebarContainer = styled(Col)`
 `;
 function Profile() {
   let { profile } = useParams();
+  const queryClient = useQueryClient();
   const { state: authState } = useContext(AuthContext);
   const { state: userState } = useContext(UserContext);
   const { getUserProfile } = useUser();
-  const { data, isFetching } = useTweet(profile);
+  const { data } = useTweet(profile);
   const [reload, setReload] = useState();
 
   useEffect(() => {
@@ -39,6 +42,43 @@ function Profile() {
     };
     request();
   }, [reload]);
+  const likeTweetMutation = useMutation(
+    async (id) => {
+      await api.put("/api/like/" + id);
+    },
+    {
+      onError: (previousValue) =>
+        queryClient.setQueryData(["tweets"], previousValue),
+      onSettled: () => {
+        queryClient.invalidateQueries(["tweets"]);
+      },
+    }
+  );
+  const deleteTweetMutation = useMutation(
+    async (id) => {
+      await api.delete("/api/tweet/" + id);
+    },
+    {
+      onError: (previousValue) =>
+        queryClient.setQueryData(["tweets"], previousValue),
+      onSettled: () => {
+        queryClient.invalidateQueries(["tweets"]);
+      },
+    }
+  );
+  const commentTweetMutation = useMutation(
+    async (newComment) => {
+      console.log(newComment);
+      await api.post("/api/comment", newComment);
+    },
+    {
+      onError: (previousValue) =>
+        queryClient.setQueryData(["tweets"], previousValue),
+      onSettled: () => {
+        queryClient.invalidateQueries(["tweets"]);
+      },
+    }
+  );
   return (
     <>
       <SubMainContainer>
@@ -54,15 +94,13 @@ function Profile() {
                 user={userState.getUser}
               />
             )}
-            {isFetching ? (
-              <Placeholder />
-            ) : (
-              <Feed
-                tweets={data && data.foundTweet}
-                setReload={setReload}
-                reload={reload}
-              />
-            )}
+
+            <Feed
+              tweets={data && data.foundTweet}
+              likeTweetMutation={likeTweetMutation}
+              deleteTweetMutation={deleteTweetMutation}
+              commentTweetMutation={commentTweetMutation}
+            />
           </>
         )}
       </SubMainContainer>

@@ -107,10 +107,10 @@ function Home() {
         </TweetBox>
         <TweetDivider></TweetDivider>
         <Feed
+          tweets={data && data.foundTweet}
           likeTweetMutation={likeTweetMutation}
           deleteTweetMutation={deleteTweetMutation}
           commentTweetMutation={commentTweetMutation}
-          tweets={data && data.foundTweet}
         />
       </SubMainContainer>
       <SidebarContainer>
