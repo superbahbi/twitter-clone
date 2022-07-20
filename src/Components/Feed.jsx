@@ -365,6 +365,7 @@ function Feed({
                       item.link
                     )}?modestbranding=1&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white`}
                     frameBorder="0"
+                    loading="lazy"
                   ></iframe>
                 </FeedMedia>
               ) : null}
@@ -372,7 +373,11 @@ function Feed({
               {item.img ? (
                 <FeedMedia>
                   <Figure>
-                    <Figure.Image alt="content image" src={item.img.filename} />
+                    <Figure.Image
+                      alt="content image"
+                      src={item.img.filename}
+                      loading="lazy"
+                    />
                   </Figure>
                 </FeedMedia>
               ) : // <FeedMedia>

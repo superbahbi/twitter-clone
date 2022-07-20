@@ -145,7 +145,11 @@ function CommentModal({
                 ) : null}
                 {tweet && tweet.img ? (
                   <FeedImg>
-                    <img src={tweet && tweet.img.filename} alt="feed" />
+                    <img
+                      src={tweet && tweet.img.filename}
+                      alt="feed"
+                      loading="lazy"
+                    />
                   </FeedImg>
                 ) : null}
               </FeedBox>

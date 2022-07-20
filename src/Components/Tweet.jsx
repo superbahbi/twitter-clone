@@ -126,7 +126,7 @@ function Tweet({
                     setImgPreview("");
                   }}
                 >
-                  <ImgPreview src={imgPreview} />
+                  <ImgPreview src={imgPreview} loading="lazy" />
                 </MediaFrame>
               </InputBoxRow>
             )}

@@ -14,6 +14,7 @@ function Avatar({ src, name, nohref, height, width, mini }) {
       height={height ? height : "49px"}
       width={width ? width : "49px"}
       alt={name}
+      loading="lazy"
     />
   );
   return (
