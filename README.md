@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/superbahbi/twitter-clone-web">
-    <img src="https://user-images.githubusercontent.com/1689092/170746053-1780c40a-e58a-46a2-97e1-14f5ddf1ad95.png" alt="Logo" width="80" height="80">
+    <img src="https://user-images.githubusercontent.com/1689092/179884503-fdd81c0c-24bf-4ea8-a18c-99cf72d3421e.svg" alt="Logo" width="80" height="80">
   </a>
 
 
