@@ -72,11 +72,19 @@
 
 <details>
 <summary>Home page</summary>
-<img width="800" src="https://user-images.githubusercontent.com/1689092/179884812-2bb275db-08ba-46cc-b074-0737730d4148.png">
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179885579-936eb84d-bfd0-488d-8135-de5e6f73a5bc.png">
 </details>
 <details>
 <summary>Messages</summary>
 <img width="800" src="https://user-images.githubusercontent.com/1689092/179885240-2468f7f8-0a6a-4cfe-b04c-064b767a957a.png">
+</details>
+<details>
+<summary>Bookmarks</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179885400-522931e5-a167-4e2d-ba7b-1d9ec8c938a3.png">
+</details>
+<details>
+<summary>Profile</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179885501-8aa11964-ebb4-4213-9251-b7f435b99f73.png">
 </details>
 
 ### Built With
@@ -86,8 +94,6 @@
 * [Styled-components](https://github.com/styled-components/styled-components)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
