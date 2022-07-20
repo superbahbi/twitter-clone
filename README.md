@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/superbahbi/twitter-clone-web">
-    <img src="https://user-images.githubusercontent.com/1689092/170746053-1780c40a-e58a-46a2-97e1-14f5ddf1ad95.png" alt="Logo" width="80" height="80">
+    <img src="https://user-images.githubusercontent.com/1689092/179884503-fdd81c0c-24bf-4ea8-a18c-99cf72d3421e.svg" alt="Logo" width="80" height="80">
   </a>
 
 
@@ -68,12 +68,33 @@
 - [ ] Trending
 - [ ] Notifactions
 
-## Screenshot
-
 <details>
-<summary>Home page</summary>
-<img width="800" src="https://user-images.githubusercontent.com/1689092/170743579-ebe6acd8-201c-4e4d-8507-edf252b6e044.png">
-</div>
+<summary>Landing</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179886364-4bbf7973-4833-441f-b396-8ef2528c0471.png">
+</details>
+<details>
+  <summary>Login</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179886480-7031dd43-44e4-42c4-9fa5-938ffb039d80.png">
+</details>
+<details>
+  <summary>Signup</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179886552-a74be459-6179-4741-92af-afb3abe8c900.png">
+</details>
+<details>
+<summary>Home</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179885579-936eb84d-bfd0-488d-8135-de5e6f73a5bc.png">
+</details>
+<details>
+<summary>Messages</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179885240-2468f7f8-0a6a-4cfe-b04c-064b767a957a.png">
+</details>
+<details>
+<summary>Bookmarks</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179885400-522931e5-a167-4e2d-ba7b-1d9ec8c938a3.png">
+</details>
+<details>
+<summary>Profile</summary>
+<img width="800" src="https://user-images.githubusercontent.com/1689092/179885501-8aa11964-ebb4-4213-9251-b7f435b99f73.png">
 </details>
 
 ### Built With
@@ -81,27 +102,14 @@
 * [React.js](https://reactjs.org/)
 * [React-bootstrap](https://react-bootstrap.github.io/)
 * [Styled-components](https://github.com/styled-components/styled-components)
+* [Socket.IO](https://socket.io/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
 ### Installation
-
 
 1. Clone the repo
    ```sh
@@ -149,7 +157,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Bobby Kugler- [@bahbilee](https://twitter.com/bahbilee) - bahbi@bahbi.net
+Robert Kugler- [@bahbilee](https://twitter.com/bahbilee) - bahbi@bahbi.net
 
 Project Link: [https://github.com/superbahbi/twitter-clone-web](https://github.com/superbahbi/twitter-clone-web)
 
