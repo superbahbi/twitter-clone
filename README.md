@@ -108,19 +108,7 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
 ### Installation
-
 
 1. Clone the repo
    ```sh
@@ -168,7 +156,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Bobby Kugler- [@bahbilee](https://twitter.com/bahbilee) - bahbi@bahbi.net
+Robert Kugler- [@bahbilee](https://twitter.com/bahbilee) - bahbi@bahbi.net
 
 Project Link: [https://github.com/superbahbi/twitter-clone-web](https://github.com/superbahbi/twitter-clone-web)
 
