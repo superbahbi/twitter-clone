@@ -102,6 +102,7 @@
 * [React.js](https://reactjs.org/)
 * [React-bootstrap](https://react-bootstrap.github.io/)
 * [Styled-components](https://github.com/styled-components/styled-components)
+* [Socket.IO](https://socket.io/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
