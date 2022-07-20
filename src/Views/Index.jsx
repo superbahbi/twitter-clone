@@ -39,14 +39,18 @@ const LandingCol = styled.div`
       justify-content: center;
       width: 100%;
     }
+    display: flex;
+    align-items: center;
     width: 50%;
     position: absolute;
     right: 0px;
     height: 100%;
+
     .landing-text {
       display: flex;
       flex-direction: column;
       padding: 32px;
+
       .small-logo {
         padding-top: 24px;
         padding-bottom: 12px;
@@ -107,9 +111,9 @@ function Index() {
       <Row>
         <LandingCol src={LandingImage}>
           <div className="left">
-            {/* <div className="logo">
-            <Twitter />
-          </div> */}
+            <div className="logo">
+              <Twitter />
+            </div>
           </div>
           <div className="right">
             <div className="landing-text">
