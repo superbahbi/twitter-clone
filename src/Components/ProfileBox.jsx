@@ -169,7 +169,7 @@ function ProfileBox({ user, authUsername }) {
                         <Link />
                       </Icon>
                       <Text>
-                        <a href={user.profile.website}>
+                        <a href={user.profile.website} target="_blank">
                           {user.profile.website}
                         </a>
                       </Text>

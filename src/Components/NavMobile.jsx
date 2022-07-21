@@ -44,7 +44,7 @@ const NavMobile = () => {
           id="explorer"
           name="Explorer"
           icon={<Search active={isActive === "explorer" ? true : false} />}
-          onHandleClick={() => onHandleClick("explorer")}
+          // onHandleClick={() => onHandleClick("explorer")}
         />
         <List
           active={isActive === "notification" ? true : false}
@@ -53,14 +53,14 @@ const NavMobile = () => {
           icon={
             <Notification active={isActive === "notification" ? true : false} />
           }
-          onHandleClick={() => onHandleClick("notification")}
+          // onHandleClick={() => onHandleClick("notification")}
         />
         <List
           active={isActive === "messages" ? true : false}
           id="messages"
           name="Messages"
           icon={<Messages active={isActive === "messages" ? true : false} />}
-          onHandleClick={() => onHandleClick("messages")}
+          // onHandleClick={() => onHandleClick("messages")}
         />
       </ListStyle>
     </NavMobileContainer>
