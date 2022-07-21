@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Col from "react-bootstrap/Col";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Feed from ".././Components/Feed";
 import Header from "../Components/Header";
-import Placeholder from "../Components/Placeholder";
 import ProfileBox from "../Components/ProfileBox";
 import Sidebar from "../Components/Sidebar";
 import { Context as AuthContext } from "../Contexts/AuthContext";
@@ -34,14 +33,13 @@ function Profile() {
   const { state: userState } = useContext(UserContext);
   const { getUserProfile } = useUser();
   const { data } = useTweet(profile);
-  const [reload, setReload] = useState();
 
   useEffect(() => {
     const request = async () => {
       getUserProfile(profile);
     };
     request();
-  }, [reload]);
+  }, []);
   const likeTweetMutation = useMutation(
     async (id) => {
       await api.put("/api/like/" + id);
