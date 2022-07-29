@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Col } from "react-bootstrap";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Tweet from "../Components/Tweet";
 import Header from "../Components/Header";
 import { Context as AuthContext } from "../Contexts/AuthContext";
