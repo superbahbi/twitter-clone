@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import Col from "react-bootstrap/Col";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Feed from ".././Components/Feed";

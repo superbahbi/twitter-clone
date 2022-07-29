@@ -1,6 +1,6 @@
 import React from "react";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router-dom";
 import { Provider as AuthProvider } from "./Contexts/AuthContext";
 import { Provider as TweetProvider } from "./Contexts/TweetContext";

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Tweet from "./Tweet";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import api from "../Helper/api";
