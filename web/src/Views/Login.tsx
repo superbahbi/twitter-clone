@@ -61,18 +61,28 @@ const StyledFormControl = styled(Form.Control)`
     color: inherit;
   }
 `;
-function Login() {
+// interface FormProps {
+//   onSubmit: React.FormEventHandler;
+// }
+interface FormValues {
+  username: String;
+  password: String;
+}
+const defaultValues: FormValues = {
+  username: "demo",
+  password: "demo",
+};
+const Login: React.FC<{}> = ({}) => {
   const navigate = useNavigate();
   const { state, signin, tryLocalSignin } = useContext(AuthContext);
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm<FormValues>();
   useEffect(() => {
     tryLocalSignin();
   }, []);
   if (state.token) {
     navigate("/home");
   }
-  const onSubmit = (data, event) => {
-    event.preventDefault();
+  const onSubmit = (data: FormValues) => {
     signin(data);
   };
   return (
@@ -120,9 +130,9 @@ function Login() {
           </div>
         </StyledForm>
         <StyledForm
-          onSubmit={(event) => {
+          onSubmit={(event: React.FormEvent<HTMLInputElement>) => {
             event.preventDefault();
-            signin({ username: "demo", password: "demo" });
+            signin(defaultValues);
           }}
         >
           <Button
@@ -135,5 +145,5 @@ function Login() {
       </div>
     </LoginContainer>
   );
-}
+};
 export default Login;
