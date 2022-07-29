@@ -115,7 +115,6 @@ exports.postSignup = (req, res) => {
  * Login request page.
  */
 exports.postLogin = (req, res, next) => {
-  console.log(req.body);
   const username = req.body.username || "";
   const password = req.body.password || "";
   const validationErrors = [];
@@ -290,7 +289,6 @@ exports.postTweet = (req, res, next) => {
       if (req.body.link) {
         tweet.link = req.body.link;
         tweetContent = tweetContent.replace(req.body.link, "");
-        console.log(tweetContent);
       }
       tweet.content = tweetContent;
       if (!_.isEmpty(req.file)) {
@@ -583,7 +581,6 @@ exports.likeTweet = async (req, res, next) => {
   }
 };
 exports.postComment = async (req, res, next) => {
-  console.log(req.body);
   const name = req.body.name || "";
   const username = req.body.username || "";
   const comment = req.body.comment || "";
