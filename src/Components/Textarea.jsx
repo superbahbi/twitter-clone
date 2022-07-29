@@ -12,12 +12,12 @@ const TextAreaBox = styled.div`
     resize: none;
     border: none;
     outline: none;
-    white-space: pre-wrap;
     padding: 2px 0px;
   }
   .textarea[contenteditable]:empty::before {
     color: #436471;
     content: attr(data-ph);
+    white-space: pre-wrap;
   }
 `;
 
