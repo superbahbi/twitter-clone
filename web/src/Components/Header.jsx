@@ -2,13 +2,9 @@ import React, { useState, useContext, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
 import IconButton from "../Components/IconButton";
 import Avatar from "../Components/Avatar";
 import Overlay from "react-bootstrap/Overlay";
-library.add(fas, far);
 const HeaderContainer = styled.div`
   position: relative;
   top: -1px;
