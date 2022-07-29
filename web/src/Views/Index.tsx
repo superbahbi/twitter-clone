@@ -96,7 +96,7 @@ const LandingCol = styled.div`
   }
 `;
 
-function Index() {
+const Index: React.FC<{}> = ({}) => {
   const navigate = useNavigate();
   const { state, tryLocalSignin } = useContext(AuthContext);
   useEffect(() => {
@@ -109,7 +109,7 @@ function Index() {
   return (
     <LandingContainer>
       <Row>
-        <LandingCol src={LandingImage}>
+        <LandingCol>
           <div className="left">
             <div className="logo">
               <Twitter />
@@ -147,5 +147,5 @@ function Index() {
       </Row>
     </LandingContainer>
   );
-}
+};
 export default Index;
