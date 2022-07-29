@@ -1,11 +1,13 @@
 import React from "react";
+import ThemeProvider from "react-bootstrap/ThemeProvider";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import { Provider as AuthProvider } from "./Contexts/AuthContext";
-import CustomRoutes from "./CustomRoutes";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider as TweetProvider } from "./Contexts/TweetContext";
 import { Provider as UserProvider } from "./Contexts/UserContext";
-import ThemeProvider from "react-bootstrap/ThemeProvider";
+import CustomRoutes from "./CustomRoutes";
+
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
             <TweetProvider>
               <BrowserRouter>
                 <CustomRoutes />
+
+                <ReactQueryDevtools initialIsOpen={true} />
               </BrowserRouter>
             </TweetProvider>
           </UserProvider>
