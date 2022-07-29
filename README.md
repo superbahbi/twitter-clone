@@ -7,8 +7,6 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 
-
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
@@ -25,14 +23,12 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 -->
 
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/superbahbi/twitter-clone-web">
+  <a href="https://github.com/superbahbi/twitter-clone">
     <img src="https://user-images.githubusercontent.com/1689092/179884503-fdd81c0c-24bf-4ea8-a18c-99cf72d3421e.svg" alt="Logo" width="80" height="80">
   </a>
-
 
 <h3 align="center">Twitter Clone</h3>
 
@@ -42,15 +38,18 @@
     <br />
     <a href="https://twitter.bahbi.net/">View Demo</a>
     ·
-    <a href="https://github.com/superbahbi/twitter-clone-web/issues">Report Bug</a>
+    <a href="https://github.com/superbahbi/twitter-clone/issues">Report Bug</a>
     ·
-    <a href="https://github.com/superbahbi/twitter-clone-web/issues">Request Feature</a>
+    <a href="https://github.com/superbahbi/twitter-clone/issues">Request Feature</a>
   </p>
 </div>
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
+
 # To-Do
+
 - [x] Login
 - [x] Register
 - [ ] Reset password
@@ -99,35 +98,36 @@
 
 ### Built With
 
-* [React.js](https://reactjs.org/)
-* [React-bootstrap](https://react-bootstrap.github.io/)
-* [Styled-components](https://github.com/styled-components/styled-components)
-* [Socket.IO](https://socket.io/)
+- [React.js](https://reactjs.org/)
+- [React-bootstrap](https://react-bootstrap.github.io/)
+- [Styled-components](https://github.com/styled-components/styled-components)
+- [Socket.IO](https://socket.io/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 ### Installation
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/superbahbi/twitter-clone-web.git
+   git clone https://github.com/superbahbi/twitter-clone.git
    ```
 2. Install NPM packages
    ```sh
    npm install
    ```
-3. Run 
+3. Run
    ```sh
    npm start
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -143,29 +143,27 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 Robert Kugler- [@bahbilee](https://twitter.com/bahbilee) - bahbi@bahbi.net
 
-Project Link: [https://github.com/superbahbi/twitter-clone-web](https://github.com/superbahbi/twitter-clone-web)
+Project Link: [https://github.com/superbahbi/twitter-clone](https://github.com/superbahbi/twitter-clone)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
 [contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge

@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Twitter",
+    "slug": "twitter-clone-app",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/paw-solid-white-64.png",
+    "splash": {
+      "image": "./assets/paw-solid-blue-1000.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1DA1F2"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.bahbi.twitterclone",
+      "buildNumber": "1.0.0",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.bahbi.twitterclone",
+      "versionCode": 1,
+      "useNextNotificationsApi": true
+    }
+  }
+}
