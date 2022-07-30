@@ -1,7 +1,9 @@
-import React, { useRef, useState } from "react";
+import { UseMutationResult } from "@tanstack/react-query";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Avatar from ".././Components/Avatar";
 import Textarea from ".././Components/Textarea";
+import { INewTweet } from "../Helper/interface";
 import { youtubeMetadata } from "../Helper/youtubeMetadata";
 import Card from "./Card";
 import MediaFrame from "./MediaFrame";
@@ -33,39 +35,43 @@ const AvatarBox = styled.div`
 const ImgPreview = styled.img`
   max-width: 100%;
 `;
-function Tweet({
+interface ITweetProps {
+  username?: string;
+  avatar?: string;
+  addTweetMutation?: UseMutationResult<string, Error, INewTweet, unknown>;
+  placeholder?: string;
+  // commentTweetMutation
+  height?: string;
+}
+const Tweet: React.FC<ITweetProps> = ({
   username,
   avatar,
   addTweetMutation,
   placeholder,
-  commentTweetMutation,
+  // commentTweetMutation,
   height,
-}) {
-  const tweetData = useRef("");
+}) => {
   const [tweetText, setTweetText] = useState("");
-  const [imgPreview, setImgPreview] = useState("");
-  const [imgFile, setImgFile] = useState("");
-  const [videoPreview, setVideoPreview] = useState("");
-  const [videoLink, setVideoLink] = useState("");
+  const [imgPreview, setImgPreview] = useState<string | undefined>();
+  const [imgFile, setImgFile] = useState<Object>({});
+  const [videoPreview, setVideoPreview] = useState<string | boolean>("");
+  const [videoLink, setVideoLink] = useState<string>("");
   const [disable, setDisable] = useState(true);
   const [linkMetadata, setLinkMetadata] = useState({});
-  const onFormSubmit = async (e) => {
+  const onFormSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const textWrapper = document.getElementsByClassName("textarea");
-    const formData = new FormData();
-    formData.append("image", imgFile);
-    formData.append("type", "tweetImg");
-    formData.append("link", videoLink);
-    formData.append("tweet", tweetText);
-    addTweetMutation.mutate(formData);
-    setImgPreview("");
+
+    //@ts-ignore
+    addTweetMutation.mutate({ imgFile, videoLink, tweetText });
+    setImgPreview(undefined);
     setImgFile("");
     setVideoPreview("");
     setVideoLink("");
     setTweetText("");
     textWrapper[0].textContent = "";
   };
-  function linkify(text) {
+  function linkify(text: string) {
     return text
       .split(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi)
       .filter(Boolean)
@@ -73,28 +79,36 @@ function Tweet({
         return x.indexOf(".") > 0;
       });
   }
-  function youtube_parser(url) {
+  function youtube_parser(url: string) {
     var regExp =
       /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
     return match && match[7].length === 11 ? match[7] : false;
   }
-  function handleChange(event) {
-    setImgPreview(URL.createObjectURL(event.target.files[0]));
-    setImgFile(event.target.files[0]);
+  function handleChange(event: React.ChangeEvent) {
+    const target = event.target as HTMLInputElement;
+    if (!target.files) return;
+    const file = target.files[0];
+    console.log(URL.createObjectURL(file));
+    setImgPreview(URL.createObjectURL(file));
+    setImgFile(file);
     setDisable(false);
   }
-  const textareaHandleChange = async (event) => {
+  const textareaHandleChange = async (
+    //@ts-ignore
+    event: React.FormEvent<HTMLInputElement>
+  ) => {
     let currentText = event.currentTarget.textContent;
-    setDisable(!currentText.length > 0);
+    if (!currentText) return;
+    let length: number = currentText.length;
+    setDisable(!(length > 0));
     setTweetText(currentText);
-    let id = youtube_parser(currentText);
-    let link = linkify(currentText);
+    let id: string | boolean = youtube_parser(currentText);
+    let link: string[] = linkify(currentText);
     if (link.length > 0) {
       setVideoPreview(id);
-      setVideoLink(link);
+      setVideoLink(link[0]);
       setLinkMetadata(await youtubeMetadata(link));
-      console.log(await youtubeMetadata(link));
     }
   };
 
@@ -108,12 +122,10 @@ function Tweet({
           <form onSubmit={onFormSubmit}>
             <InputBox>
               <Textarea
-                type="text"
-                name="Tweet"
                 placeholder={placeholder}
-                autocomplete="off"
-                projectRef={tweetData}
-                onHandleChange={(event) => textareaHandleChange(event)}
+                onHandleChange={(event: React.FormEvent<HTMLInputElement>) =>
+                  textareaHandleChange(event)
+                }
                 height={height}
               />
             </InputBox>
@@ -123,7 +135,7 @@ function Tweet({
                 <MediaFrame
                   onHandleMediaClose={() => {
                     setDisable(true);
-                    setImgPreview("");
+                    setImgPreview(undefined);
                   }}
                 >
                   <ImgPreview src={imgPreview} loading="lazy" />
@@ -150,5 +162,5 @@ function Tweet({
       </TweetBox>
     </div>
   );
-}
+};
 export default Tweet;

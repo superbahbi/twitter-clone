@@ -22,6 +22,7 @@ import {
   More,
   Threedot,
 } from "../Assets/Icon";
+import { INavProfileProps } from "../Helper/interface";
 const NavbarContainer = styled(Col)`
   padding: 0;
   @media only screen and (max-width: 1250px) {
@@ -51,7 +52,7 @@ const NavProfileContainer = styled.div`
   bottom: 0;
   padding: 12px 0px;
 `;
-const NavProfile = styled.div`
+const NavProfile = styled.div<INavProfileProps>`
   display: flex;
   justify-content: center;
   padding: 12px 12px;
@@ -141,7 +142,7 @@ const TooltipContainer = styled.div`
     }
   }
 `;
-function Navbar() {
+const Navbar: React.FC<{}> = ({}) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showTweetModal, setShowTweetModal] = useState(false);
@@ -160,7 +161,7 @@ function Navbar() {
     logout();
     navigate("/login");
   }
-  function onHandleClick(id) {
+  function onHandleClick(id: string) {
     setIsActive(id);
     if (id === "profile") {
       id = state.user.username;
@@ -323,6 +324,6 @@ function Navbar() {
       </Nav>
     </NavbarContainer>
   );
-}
+};
 
 export default Navbar;

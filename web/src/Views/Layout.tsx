@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Navbar from "../Components/Navbar";
 import NavMobile from "../Components/NavMobile";
 import TweetFloat from "../Components/TweetFloat";
+import { ILayoutProps } from "../Helper/interface";
 const RootContainer = styled(Container)`
   max-width: 1295px;
   padding: 0px;
@@ -48,12 +49,12 @@ const SubMainRow = styled(Row)`
   margin-left: 0px;
   margin-right: 0px;
 `;
-const Layout = ({ children, username }) => {
+const Layout: React.FC<ILayoutProps> = ({ children }) => {
   return (
     <RootContainer>
       <MainRow>
         <NavbarContainer>
-          <Navbar username={username} />
+          <Navbar />
         </NavbarContainer>
         <MainContainer>
           <SubMainRow>

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Close } from "../Assets/Icon";
+import { IMediaFrameProps } from "../Helper/interface";
 import IconButton from "./IconButton";
 const Frame = styled.div`
   position: relative;
@@ -27,7 +28,10 @@ const Frame = styled.div`
     background-color: $close-color-hover;
   }
 `;
-const MediaFrame = ({ children, onHandleMediaClose, url }) => {
+const MediaFrame: React.FC<IMediaFrameProps> = ({
+  children,
+  onHandleMediaClose,
+}) => {
   return (
     <Frame>
       <IconButton

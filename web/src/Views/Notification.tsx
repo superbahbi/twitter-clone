@@ -1,8 +1,8 @@
 import React from "react";
-import Col from "react-bootstrap/Col";
 import styled from "styled-components";
 import Header from ".././Components/Header";
 import Sidebar from "../Components/Sidebar";
+import Col from "react-bootstrap/Col";
 import { Stars } from "../Assets/Icon";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
@@ -25,11 +25,12 @@ const Stack = styled.div`
   padding: 0 32px;
   height: 100vh;
 `;
-function Explorer() {
+
+const Notification: React.FC<{}> = ({}) => {
   return (
     <>
       <SubMainContainer>
-        <Header name="Explorer" iconRightComponent={<Stars />} />
+        <Header name="Notification" iconRightComponent={<Stars />} />
         <Stack />
       </SubMainContainer>
       <SidebarContainer>
@@ -37,5 +38,5 @@ function Explorer() {
       </SidebarContainer>
     </>
   );
-}
-export default Explorer;
+};
+export default Notification;

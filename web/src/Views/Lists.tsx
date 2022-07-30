@@ -1,9 +1,9 @@
 import React from "react";
-import styled from "styled-components";
 import Header from ".././Components/Header";
+import styled from "styled-components";
 import Sidebar from "../Components/Sidebar";
 import Col from "react-bootstrap/Col";
-import { Stars } from "../Assets/Icon";
+import { BackArrow, Stars } from "../Assets/Icon";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
@@ -25,11 +25,15 @@ const Stack = styled.div`
   padding: 0 32px;
   height: 100vh;
 `;
-function Notification() {
+const Lists: React.FC<{}> = ({}) => {
   return (
     <>
       <SubMainContainer>
-        <Header name="Notification" iconRightComponent={<Stars />} />
+        <Header
+          name="Lists"
+          iconLeftComponent={<BackArrow />}
+          iconRightComponent={<Stars />}
+        />
         <Stack />
       </SubMainContainer>
       <SidebarContainer>
@@ -37,5 +41,5 @@ function Notification() {
       </SidebarContainer>
     </>
   );
-}
-export default Notification;
+};
+export default Lists;

@@ -20,7 +20,8 @@ import { Mail } from "../Assets/Icon";
 // import { fetchDB } from "../Helper/fetch";
 import socketIOClient from "socket.io-client";
 import api from "../Helper/api";
-const ENDPOINT = process.env.REACT_APP_API_URL;
+import { ISelectUserProps } from "../Helper/interface";
+const ENDPOINT: any = process.env.REACT_APP_API_URL;
 
 const Container = styled.div`
   display: grid;
@@ -77,7 +78,7 @@ const SelectMessage = styled.div`
   padding-right: 60px;
 `;
 
-function Messages() {
+const Messages: React.FC<{}> = ({}) => {
   const navigate = useNavigate();
   const { state: authState } = useContext(AuthContext);
   const { state: userState, getAllUser } = useContext(UserContext);
@@ -85,17 +86,17 @@ function Messages() {
 
   // const [allUser, setAllUser] = useState([]);
   const [chatRoom, setChatRoom] = useState([]);
-  const [selectUser, setSelectUser] = useState({});
-  const [filterUsers, setFilterUsers] = useState();
-  const [dmUsers, setDmUsers] = useState([]);
+  const [selectUser, setSelectUser] = useState<ISelectUserProps>();
+  const [filterUsers, setFilterUsers] = useState<string[]>();
+  const [dmUsers, setDmUsers] = useState<any[]>();
   const [search, setSearch] = useState("");
   const [searchChatRoom, setSearchChatRoom] = useState("");
   const [show, setShow] = useState(false);
   const [channel, setChannel] = useState("");
-  const [socket, setSocket] = useState(null);
-  const [messagesHistory, setMessagesHistory] = useState([]);
+  const [socket, setSocket] = useState<any>(null);
+  const [messagesHistory, setMessagesHistory] = useState<any[]>([]);
 
-  useEffect(() => {
+  useEffect((): (() => void) => {
     const newSocket = socketIOClient(ENDPOINT);
     setSocket(newSocket);
     newSocket.on("onMessage", (msg) => {
@@ -112,9 +113,9 @@ function Messages() {
     }
   }, [chatRoom]);
   useEffect(() => {
-    let temp = [];
+    let temp: string[] = [];
     if (userState.allUser) {
-      userState.allUser.map((user) =>
+      userState.allUser.map((user: any) =>
         String(user.profile.name).toLowerCase().includes(search.toLowerCase())
           ? temp.push(user)
           : null
@@ -123,8 +124,8 @@ function Messages() {
     setFilterUsers(temp);
   }, [search]);
   useEffect(() => {
-    let temp = [];
-    chatRoom.map((user) =>
+    let temp: string[] = [];
+    chatRoom.map((user: any) =>
       String(user.name).toLowerCase().includes(searchChatRoom.toLowerCase())
         ? temp.push(user)
         : null
@@ -135,7 +136,7 @@ function Messages() {
     setShow(!show);
   }
 
-  const onHandleSearchClick = (receiverData) => {
+  const onHandleSearchClick = (receiverData: ISelectUserProps) => {
     const id = authState.user._id + "-" + receiverData._id;
     let split = id.split("-"); // ['user_id1', 'user_id2']
     let unique = [...new Set(split)].sort((a, b) => (a < b ? -1 : 1)); // ['username1', 'username2']
@@ -147,22 +148,22 @@ function Messages() {
     };
     api.post("/api/createChatRoom", formurlencoded(data));
 
-    const updateChatData = {
-      _id: updatedRoomName,
-      sender: authState.user._id,
-      receiver: receiverData._id,
-      avatar: receiverData.profile.avatar.filename,
-      name: receiverData.profile.name,
-    };
+    // const updateChatData = {
+    //   _id: updatedRoomName,
+    //   sender: authState.user._id,
+    //   receiver: receiverData._id,
+    //   avatar: receiverData.profile.avatar.filename,
+    //   name: receiverData.profile.name,
+    // };
     onHandleModal();
     setSelectUser(receiverData);
     setChannel(updatedRoomName);
-    setDmUsers([...dmUsers, updateChatData]);
-    setChatRoom([...chatRoom, updateChatData]);
+    // setDmUsers([...dmUsers, updateChatData]);
+    // setChatRoom([...chatRoom, updateChatData]);
     socket.emit("join", data);
     navigate("/messages/" + updatedRoomName);
   };
-  const onHandleRoomClick = async (room) => {
+  const onHandleRoomClick = async (room: any) => {
     setMessagesHistory([]);
     socket.emit("join", { _id: room._id });
     messages(room._id);
@@ -174,11 +175,11 @@ function Messages() {
       navigate("/messages/" + room._id);
     }
   };
-  const onUpdateMessageSubmit = (data, e) => {
+  const onUpdateMessageSubmit = (data: any) => {
     if (!data) return;
     const msg = {
       _id: new ObjectID().toString(),
-      user: selectUser.name,
+      user: selectUser?.name as string,
       body: data.message,
       createdAt: Date.now(),
     };
@@ -225,8 +226,9 @@ function Messages() {
           <SearchWithList
             placeholder="Search Direct Messages"
             filterUsers={dmUsers}
-            selectUser={selectUser}
-            onHandleChange={(e) => setSearchChatRoom(e.target.value)}
+            onHandleChange={(e: React.SyntheticEvent) =>
+              setSearchChatRoom((e.target as HTMLInputElement).value)
+            }
             onHandleSearchClick={onHandleRoomClick}
           />
         )}
@@ -235,10 +237,7 @@ function Messages() {
         <MessagesBox>
           {channel && messagesHistory ? (
             <Chat
-              socket={socket}
-              user={userState}
               receiverData={selectUser}
-              channel={channel}
               messagesHistory={messagesHistory}
               onUpdateMessageSubmit={onUpdateMessageSubmit}
             />
@@ -278,7 +277,9 @@ function Messages() {
           <SearchWithList
             placeholder="Search People"
             filterUsers={filterUsers}
-            onHandleChange={(e) => setSearch(e.target.value)}
+            onHandleChange={(e: React.SyntheticEvent) =>
+              setSearch((e.target as HTMLInputElement).value)
+            }
             onHandleSearchClick={onHandleSearchClick}
           />
         }
@@ -286,5 +287,5 @@ function Messages() {
       />
     </Container>
   );
-}
+};
 export default Messages;

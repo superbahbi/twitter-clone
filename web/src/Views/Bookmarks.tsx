@@ -36,7 +36,8 @@ const SubTitle = styled.div`
   font-weight: 300;
   color: #536471;
 `;
-function Bookmarks() {
+
+const Bookmarks: React.FC<{}> = ({}) => {
   return (
     <>
       <SubMainContainer>
@@ -57,5 +58,5 @@ function Bookmarks() {
       </SidebarContainer>
     </>
   );
-}
+};
 export default Bookmarks;

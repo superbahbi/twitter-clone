@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import styled from "styled-components";
 import { Context as AuthContext } from "../Contexts/AuthContext";
+import { IPrivateRouteProps } from "../Helper/interface";
 import Layout from "./Layout";
 const Spinner = styled.div`
   position: absolute;
@@ -15,7 +16,9 @@ const Spinner = styled.div`
   margin-top: -50px;
   background-size: 100%;
 `;
-function PrivateRoute({ children }) {
+
+const PrivateRoute: React.FC<IPrivateRouteProps> = ({ children }) => {
+  // function PrivateRoute({ children }) {
   const navigate = useNavigate();
   const { state, tryLocalSignin, logout } = useContext(AuthContext);
   const { decodedToken, isExpired } = useJwt(state.token);
@@ -41,10 +44,10 @@ function PrivateRoute({ children }) {
     );
   }
   return state.token && state.user ? (
-    <Layout username={state.user.username}>{children}</Layout>
+    <Layout>{children}</Layout>
   ) : (
     <Navigate to="/login" />
   );
-}
+};
 
 export default PrivateRoute;

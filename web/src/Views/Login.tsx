@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Twitter } from "../Assets/Icon";
 import Button from "../Components/Button";
 import { Context as AuthContext } from "../Contexts/AuthContext";
+import { IFormLoginProps } from "../Helper/interface";
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,28 +62,22 @@ const StyledFormControl = styled(Form.Control)`
     color: inherit;
   }
 `;
-// interface FormProps {
-//   onSubmit: React.FormEventHandler;
-// }
-interface FormValues {
-  username: String;
-  password: String;
-}
-const defaultValues: FormValues = {
+
+const defaultValues: IFormLoginProps = {
   username: "demo",
   password: "demo",
 };
 const Login: React.FC<{}> = ({}) => {
   const navigate = useNavigate();
   const { state, signin, tryLocalSignin } = useContext(AuthContext);
-  const { register, handleSubmit, errors } = useForm<FormValues>();
+  const { register, handleSubmit, errors } = useForm<IFormLoginProps>();
   useEffect(() => {
     tryLocalSignin();
   }, []);
   if (state.token) {
     navigate("/home");
   }
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data: IFormLoginProps) => {
     signin(data);
   };
   return (

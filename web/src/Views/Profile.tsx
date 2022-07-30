@@ -1,6 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import Col from "react-bootstrap/Col";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Feed from ".././Components/Feed";
@@ -26,7 +30,7 @@ const SidebarContainer = styled(Col)`
   padding-left: 0px;
   padding-right: 0px;
 `;
-function Profile() {
+const Profile: React.FC<{}> = ({}) => {
   let { profile } = useParams();
   const queryClient = useQueryClient();
   const { state: authState } = useContext(AuthContext);
@@ -40,43 +44,66 @@ function Profile() {
     };
     request();
   }, []);
-  const likeTweetMutation = useMutation(
-    async (id) => {
-      await api.put("/api/like/" + id);
-    },
-    {
-      onError: (previousValue) =>
-        queryClient.setQueryData(["tweets"], previousValue),
-      onSettled: () => {
-        queryClient.invalidateQueries(["tweets"]);
+  const likeTweetMutation: UseMutationResult<string, Error, string> =
+    useMutation<string, Error, string, undefined | undefined>(
+      async (id): Promise<string> => {
+        const res = await api.put("/api/like/" + id);
+        if (res.status === 200) {
+          return "success like";
+        } else {
+          return "error: like failed";
+        }
       },
-    }
-  );
-  const deleteTweetMutation = useMutation(
-    async (id) => {
-      await api.delete("/api/tweet/" + id);
-    },
-    {
-      onError: (previousValue) =>
-        queryClient.setQueryData(["tweets"], previousValue),
-      onSettled: () => {
-        queryClient.invalidateQueries(["tweets"]);
+      {
+        onError: (previousValue) => {
+          queryClient.setQueryData(["tweets"], previousValue);
+        },
+        // no matter if error or success run me
+        onSettled: () => {
+          queryClient.invalidateQueries(["tweets"]);
+        },
+      }
+    );
+  const deleteTweetMutation: UseMutationResult<string, Error, string> =
+    useMutation<string, Error, string, undefined | undefined>(
+      async (id): Promise<string> => {
+        const res = await api.delete("/api/tweet/" + id);
+        if (res.status === 200) {
+          return "success delete";
+        } else {
+          return "error: delete failed";
+        }
       },
-    }
-  );
-  const commentTweetMutation = useMutation(
-    async (newComment) => {
-      console.log(newComment);
-      await api.post("/api/comment", newComment);
-    },
-    {
-      onError: (previousValue) =>
-        queryClient.setQueryData(["tweets"], previousValue),
-      onSettled: () => {
-        queryClient.invalidateQueries(["tweets"]);
+      {
+        onError: (previousValue) => {
+          queryClient.setQueryData(["tweets"], previousValue);
+        },
+        // no matter if error or success run me
+        onSettled: () => {
+          queryClient.invalidateQueries(["tweets"]);
+        },
+      }
+    );
+  const commentTweetMutation: UseMutationResult<string, Error, string> =
+    useMutation<string, Error, string, undefined | undefined>(
+      async (newComment): Promise<string> => {
+        const res = await api.post("/api/comment", newComment);
+        if (res.status === 200) {
+          return "success comment";
+        } else {
+          return "error: comment failed";
+        }
       },
-    }
-  );
+      {
+        onError: (previousValue) => {
+          queryClient.setQueryData(["tweets"], previousValue);
+        },
+        // no matter if error or success run me
+        onSettled: () => {
+          queryClient.invalidateQueries(["tweets"]);
+        },
+      }
+    );
   return (
     <>
       <SubMainContainer>
@@ -107,5 +134,5 @@ function Profile() {
       </SidebarContainer>
     </>
   );
-}
+};
 export default Profile;

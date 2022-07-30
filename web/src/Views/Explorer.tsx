@@ -1,9 +1,9 @@
 import React from "react";
-import Header from ".././Components/Header";
-import styled from "styled-components";
-import Sidebar from "../Components/Sidebar";
 import Col from "react-bootstrap/Col";
-import { BackArrow, Stars } from "../Assets/Icon";
+import styled from "styled-components";
+import Header from ".././Components/Header";
+import Sidebar from "../Components/Sidebar";
+import { Stars } from "../Assets/Icon";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
@@ -25,15 +25,11 @@ const Stack = styled.div`
   padding: 0 32px;
   height: 100vh;
 `;
-function Lists() {
+const Explorer: React.FC<{}> = ({}) => {
   return (
     <>
       <SubMainContainer>
-        <Header
-          name="Lists"
-          iconLeftComponent={<BackArrow />}
-          iconRightComponent={<Stars />}
-        />
+        <Header name="Explorer" iconRightComponent={<Stars />} />
         <Stack />
       </SubMainContainer>
       <SidebarContainer>
@@ -41,5 +37,5 @@ function Lists() {
       </SidebarContainer>
     </>
   );
-}
-export default Lists;
+};
+export default Explorer;

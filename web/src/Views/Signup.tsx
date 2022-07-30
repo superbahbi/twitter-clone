@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Twitter } from "../Assets/Icon";
 import Button from "../Components/Button";
 import { Context as AuthContext } from "../Contexts/AuthContext";
+import { IFormSignupProps } from "../Helper/interface";
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,10 +63,10 @@ const StyledFormControl = styled(Form.Control)`
     color: inherit;
   }
 `;
-function Signup() {
+const Signup: React.FC<{}> = ({}) => {
   const navigate = useNavigate();
   const { state, signup, tryLocalSignin } = useContext(AuthContext);
-  const { register, handleSubmit, errors, watch } = useForm();
+  const { register, handleSubmit, errors, watch } = useForm<IFormSignupProps>();
   useEffect(() => {
     tryLocalSignin();
   }, []);
@@ -73,8 +74,7 @@ function Signup() {
     navigate("/home");
   }
 
-  const onSubmit = async (data, event) => {
-    event.preventDefault();
+  const onSubmit = (data: IFormSignupProps) => {
     signup(data);
   };
   return (
@@ -159,7 +159,7 @@ function Signup() {
           </Form.Group>
           <Form.Group>
             <StyledFormControl
-              error={errors.gender}
+              // error={errors.gender}
               as="select"
               name="gender"
               ref={register({
@@ -183,5 +183,5 @@ function Signup() {
       </div>
     </LoginContainer>
   );
-}
+};
 export default Signup;

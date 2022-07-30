@@ -5,6 +5,7 @@ import { Context as AuthContext } from "../Contexts/AuthContext";
 import IconButton from "../Components/IconButton";
 import Avatar from "../Components/Avatar";
 import Overlay from "react-bootstrap/Overlay";
+import { IHeaderProps } from "../Helper/interface";
 const HeaderContainer = styled.div`
   position: relative;
   top: -1px;
@@ -71,16 +72,17 @@ const TooltipContainer = styled.div`
     }
   }
 `;
-function Header({
+
+const Header: React.FC<IHeaderProps> = ({
   avatar,
   iconLeft,
   iconRight,
   name,
-  tweetCount,
+  // tweetCount,
   iconLeftComponent,
   iconRightComponent,
   onHandleIconRightButton,
-}) {
+}) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const target = useRef(null);
@@ -145,5 +147,5 @@ function Header({
       )}
     </HeaderContainer>
   );
-}
+};
 export default Header;

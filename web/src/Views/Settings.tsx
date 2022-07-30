@@ -50,15 +50,15 @@ const SettingsItem = styled.div`
   }
 `;
 const InputFile = styled.input``;
-function Settings() {
+const Settings: React.FC<{}> = ({}) => {
   const { state: authState } = useContext(AuthContext);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
   const [website, setWebsite] = useState("");
-  const [imgFile, setImgFile] = useState("");
+  const [imgFile, setImgFile] = useState<Object>({});
   const [type, setType] = useState("");
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
   const user = authState.user;
 
   useEffect(() => {
@@ -67,10 +67,10 @@ function Settings() {
     if (imgFile) {
       const url = process.env.REACT_APP_API_URL + "/api/upload";
       const formData = new FormData();
-      formData.append("image", imgFile);
+      formData.append("image", imgFile as string);
       formData.append("type", type);
       formData.append("username", authState.user.username);
-      const request = async (id = 100) => {
+      const request = async () => {
         const postUpload = await fetch(url, {
           method: "POST",
           headers: {
@@ -201,7 +201,10 @@ function Settings() {
                   name="avatar"
                   onChange={(event) => {
                     setType("avatar");
-                    setImgFile(event.target.files[0]);
+                    const target = event.target as HTMLInputElement;
+                    if (!target.files) return;
+                    const file = target.files[0];
+                    setImgFile(file);
                   }}
                 />
               </SettingsItem>
@@ -215,7 +218,10 @@ function Settings() {
                   accept="image/*"
                   onChange={(event) => {
                     setType("cover");
-                    setImgFile(event.target.files[0]);
+                    const target = event.target as HTMLInputElement;
+                    if (!target.files) return;
+                    const file = target.files[0];
+                    setImgFile(file);
                   }}
                 />
               </SettingsItem>
@@ -228,5 +234,5 @@ function Settings() {
       </SidebarContainer>
     </>
   );
-}
+};
 export default Settings;

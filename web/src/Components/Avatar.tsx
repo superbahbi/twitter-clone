@@ -1,12 +1,19 @@
 import React from "react";
 import styled from "styled-components";
+import { IAvatarProps, IAvatarContainerProps } from "../Helper/interface";
 
 // Styled Components
-const AvatarContainer = styled.div`
+const AvatarContainer = styled.div<IAvatarContainerProps>`
   padding: ${(mini) => (mini ? "0px" : "0.5rem")};
 `;
-
-function Avatar({ src, name, nohref, height, width, mini }) {
+const Avatar: React.FC<IAvatarProps> = ({
+  src,
+  name,
+  nohref,
+  height,
+  width,
+  mini,
+}) => {
   const img = (
     <img
       className="rounded-circle"
@@ -22,5 +29,5 @@ function Avatar({ src, name, nohref, height, width, mini }) {
       {nohref ? img : <a href={name}>{img}</a>}
     </AvatarContainer>
   );
-}
+};
 export default Avatar;
