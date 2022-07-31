@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-const StyledIconButton = styled.button`
+import { IIconButtonProps } from "../Helper/interface";
+const StyledIconButton = styled.button<IIconButtonProps>`
   color: #657786;
   padding: 0;
   border: none;
@@ -35,32 +36,53 @@ const StyledIconButton = styled.button`
     }
   }
 `;
-function IconButton(props) {
+
+const IconButton: React.FC<IIconButtonProps> = ({
+  id,
+  style,
+  className,
+  type,
+  name,
+  handleClick,
+  borderRadius,
+  color,
+  backgroundColor,
+  hoverColor,
+  hoverColorBackground,
+  size,
+  disabled,
+  width,
+  height,
+  iconComponent,
+  icon,
+  children,
+}) => {
   return (
     <StyledIconButton
-      id={props.id}
-      style={props.style}
-      className={props.className}
-      type={props.type}
-      name={props.name}
-      onClick={props.handleClick}
-      borderRadius={props.borderRadius}
-      color={props.color}
-      backgroundColor={props.backgroundColor}
-      hoverColor={props.hoverColor}
-      hoverColorBackground={props.hoverColorBackground}
-      size={props.size}
-      disabled={props.disabled}
-      width={props.width}
-      height={props.height}
+      id={id}
+      style={style}
+      className={className}
+      type={type}
+      name={name}
+      onClick={handleClick}
+      borderRadius={borderRadius}
+      color={color}
+      backgroundColor={backgroundColor}
+      hoverColor={hoverColor}
+      hoverColorBackground={hoverColorBackground}
+      size={size}
+      disabled={disabled}
+      width={width}
+      height={height}
+      icon={icon}
     >
-      {props.iconComponent && (
+      {iconComponent && (
         <label className="icon">
-          {props.iconComponent}
-          {props.children}
+          {iconComponent}
+          {children}
         </label>
       )}
     </StyledIconButton>
   );
-}
+};
 export default IconButton;

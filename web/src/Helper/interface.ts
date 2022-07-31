@@ -157,3 +157,25 @@ export interface IChatProps {
 export interface IMessageBubbleProps {
   right?: boolean;
 }
+export interface IIconButtonProps {
+  id?: string;
+  style?: React.CSSProperties;
+  className?: string;
+  type?: "button" | "submit" | "reset" | undefined;
+  name?: string;
+  handleClick?: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  borderRadius?: string | undefined;
+  color?: string;
+  backgroundColor?: string;
+  hoverColor?: string;
+  hoverColorBackground?: string;
+  size?: string;
+  disabled?: boolean;
+  width?: string;
+  height?: string;
+  iconComponent?: React.ReactNode;
+  icon?: string;
+  children?: React.ReactNode;
+}
