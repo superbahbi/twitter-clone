@@ -1,3 +1,5 @@
+import { UseMutationResult } from "@tanstack/react-query";
+
 export interface IAvatarProps {
   src?: string;
   name?: string;
@@ -193,4 +195,39 @@ export interface IEditableProps {
   token: string;
   placeholder: string;
   children: React.ReactNode;
+}
+export interface IFeedProps {
+  tweets: ITweetDataProps[];
+  likeTweetMutation: UseMutationResult<string, Error, string, unknown>;
+  deleteTweetMutation: UseMutationResult<string, Error, string, unknown>;
+  commentTweetMutation: UseMutationResult<string, Error, string, unknown>;
+}
+export interface ITweetDataProps {
+  _id: string;
+  retweets: string;
+  likes: ILikesProps[];
+  comment?: string[];
+  username?: string;
+  name?: string;
+  timestamp?: string;
+  content?: string;
+  img?: {
+    filename: string;
+  };
+  link?: string;
+  user_data: IUserProps;
+}
+export interface IShowTipProps {
+  data: { state: boolean; id: string | null };
+}
+export interface ITweetProps {
+  username?: string;
+  avatar?: string;
+  addTweetMutation?: UseMutationResult<string, Error, INewTweet, unknown>;
+  placeholder?: string;
+  // commentTweetMutation
+  height?: string;
+}
+export interface ILikesProps {
+  _id: string;
 }

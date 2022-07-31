@@ -1,9 +1,8 @@
-import { UseMutationResult } from "@tanstack/react-query";
 import React, { useState } from "react";
 import styled from "styled-components";
 import Avatar from ".././Components/Avatar";
 import Textarea from ".././Components/Textarea";
-import { IMetadataProps, INewTweet } from "../Helper/interface";
+import { IMetadataProps, ITweetProps } from "../Helper/interface";
 import { youtubeMetadata } from "../Helper/youtubeMetadata";
 import Card from "./Card";
 import MediaFrame from "./MediaFrame";
@@ -35,14 +34,7 @@ const AvatarBox = styled.div`
 const ImgPreview = styled.img`
   max-width: 100%;
 `;
-interface ITweetProps {
-  username?: string;
-  avatar?: string;
-  addTweetMutation?: UseMutationResult<string, Error, INewTweet, unknown>;
-  placeholder?: string;
-  // commentTweetMutation
-  height?: string;
-}
+
 const Tweet: React.FC<ITweetProps> = ({
   username,
   avatar,
