@@ -1,10 +1,16 @@
 import createDataContext from "./createDataContext";
 import api from "../Helper/api";
 import formurlencoded from "form-urlencoded";
-import { IReducerActionProps } from "../Helper/interface";
+import {
+  IAuthContextProps,
+  IFormLoginProps,
+  IFormSignupProps,
+  IReducerActionProps,
+  IUserProps,
+} from "../Helper/interface";
 import { AuthTypes } from "../Helper/enum";
 
-const authReducer = (state: any, action: IReducerActionProps) => {
+const authReducer = (state: IAuthContextProps, action: IReducerActionProps) => {
   switch (action.type) {
     case AuthTypes.Error:
       return { ...state, errorMessage: action.payload };
@@ -28,7 +34,9 @@ const tryLocalSignin =
     const token: string = await JSON.parse(
       localStorage.getItem("token") as string
     );
-    const user: any = await JSON.parse(localStorage.getItem("user") as any);
+    const user: IUserProps = (await JSON.parse(
+      localStorage.getItem("user") as string
+    )) as IUserProps;
     //TODO:
     // Check if token is expired
     if (token && user) {
@@ -40,54 +48,62 @@ const tryLocalSignin =
       dispatch({ type: "signout" });
     }
   };
-const signin = (dispatch: any) => async (data: any) => {
-  try {
-    // TO DO
-    // Check if token is expired
-    const response = await api.post("/api/login", formurlencoded(data));
-    if (response.data.token && response.data.user) {
-      await localStorage.setItem("token", JSON.stringify(response.data.token));
-      await localStorage.setItem("user", JSON.stringify(response.data.user));
+const signin =
+  (dispatch: React.Dispatch<any>) => async (data: IFormLoginProps) => {
+    try {
+      // TO DO
+      // Check if token is expired
+      const response = await api.post("/api/login", formurlencoded(data));
+      if (response.data.token && response.data.user) {
+        await localStorage.setItem(
+          "token",
+          JSON.stringify(response.data.token)
+        );
+        await localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
+      dispatch({
+        type: "signin",
+        payload: { token: response.data.token, user: response.data.user },
+      });
+    } catch (error) {
+      dispatch({
+        type: "add_error",
+        payload:
+          "The email and password don't belong to the same account. Check the inputs and try again.",
+      });
     }
-    dispatch({
-      type: "signin",
-      payload: { token: response.data.token, user: response.data.user },
-    });
-  } catch (error) {
-    dispatch({
-      type: "add_error",
-      payload:
-        "The email and password don't belong to the same account. Check the inputs and try again.",
-    });
-  }
-};
-const signup = (dispatch: any) => async (data: any) => {
-  try {
-    // TO DO
-    // Check if token is expired
-    const response = await api.post("/api/signup", formurlencoded(data));
-    if (response.data.token && response.data.user) {
-      await localStorage.setItem("token", JSON.stringify(response.data.token));
-      await localStorage.setItem("user", JSON.stringify(response.data.user));
+  };
+const signup =
+  (dispatch: React.Dispatch<any>) => async (data: IFormSignupProps) => {
+    try {
+      // TO DO
+      // Check if token is expired
+      const response = await api.post("/api/signup", formurlencoded(data));
+      if (response.data.token && response.data.user) {
+        await localStorage.setItem(
+          "token",
+          JSON.stringify(response.data.token)
+        );
+        await localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
+      dispatch({
+        type: "signin",
+        payload: { token: response.data.token, user: response.data.user },
+      });
+    } catch (error) {
+      dispatch({
+        type: "add_error",
+        payload:
+          "The email and password don't belong to the same account. Check the inputs and try again.",
+      });
     }
-    dispatch({
-      type: "signin",
-      payload: { token: response.data.token, user: response.data.user },
-    });
-  } catch (error) {
-    dispatch({
-      type: "add_error",
-      payload:
-        "The email and password don't belong to the same account. Check the inputs and try again.",
-    });
-  }
-};
-const logout = (dispatch: any) => async () => {
+  };
+const logout = (dispatch: React.Dispatch<any>) => async () => {
   await localStorage.removeItem("token");
   await localStorage.removeItem("user");
   dispatch({ type: "signout" });
 };
-const clearErrorMessage = (dispatch: any) => () => {
+const clearErrorMessage = (dispatch: React.Dispatch<any>) => () => {
   dispatch({ type: "clear_error_message" });
 };
 export const { Provider, Context } = createDataContext(

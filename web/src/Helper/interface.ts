@@ -279,3 +279,9 @@ export interface IReducerActionProps {
 export interface IProviderProps {
   children: React.ReactNode;
 }
+export interface IAuthContextProps {
+  loading?: boolean;
+  token?: string;
+  user?: IUserProps;
+  errorMessage?: string;
+}
