@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { IInputProps } from "../Helper/interface";
 
 const InputBox = styled.div`
   font-size: 15px;
@@ -35,14 +36,7 @@ const InputBoxInput = styled.input`
     outline: none;
   }
 `;
-interface IInputProps {
-  name: string;
-  onHandleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  type: string;
-  placeholder: string;
-  autocomplete: string;
-  value: string;
-}
+
 const Input: React.FC<IInputProps> = ({
   name,
   onHandleChange,

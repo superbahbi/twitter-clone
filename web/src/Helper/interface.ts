@@ -228,6 +228,15 @@ export interface ITweetProps {
   // commentTweetMutation
   height?: string;
 }
+export interface IInputProps {
+  name: string;
+  onHandleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type: string;
+  placeholder: string;
+  autocomplete: string;
+  value: string;
+}
 export interface ILikesProps {
   _id: string;
 }
+export interface IListProps {}
