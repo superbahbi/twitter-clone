@@ -210,7 +210,6 @@ const Feed: React.FC<IFeedProps> = ({
     });
   }
   function onHandleCommentClose() {
-    console.log("onHandleCommentClose");
     setShow({
       ...show,
       status: false,
@@ -221,7 +220,6 @@ const Feed: React.FC<IFeedProps> = ({
   function userlike(likes: ILikesProps[]) {
     let status = false;
     Object.keys(likes).map((index) => {
-      console.log(index);
       if (likes[parseInt(index)]._id === authState.user._id) {
         status = true;
       }
@@ -449,7 +447,7 @@ const Feed: React.FC<IFeedProps> = ({
                         iconComponent={
                           <Like
                             liked={userlike(item.likes) ? true : false}
-                            hidden={false}
+                            hidden="false"
                           />
                         }
                         color={userlike(item.likes) ? "#F91880" : "#536471"}

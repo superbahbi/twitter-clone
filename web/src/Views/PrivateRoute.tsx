@@ -33,9 +33,7 @@ const PrivateRoute: React.FC<IPrivateRouteProps> = ({ children }) => {
       logout();
       navigate("/login");
     }
-    return () => {
-      console.log("This will be logged on unmount");
-    };
+    return () => {};
   }, [isExpired, decodedToken]);
   if (state.loading) {
     return (

@@ -1,41 +1,46 @@
 import createDataContext from "./createDataContext";
 import api from "../Helper/api";
 import formurlencoded from "form-urlencoded";
+import { IReducerActionProps } from "../Helper/interface";
+import { AuthTypes } from "../Helper/enum";
 
-const authReducer = (state, action) => {
+const authReducer = (state: any, action: IReducerActionProps) => {
   switch (action.type) {
-    case "add_error":
+    case AuthTypes.Error:
       return { ...state, errorMessage: action.payload };
-    case "signin":
+    case AuthTypes.Signin:
       return {
         loading: false,
         errorMessage: "",
         token: action.payload.token,
         user: action.payload.user,
       };
-    case "clear_error_message":
+    case AuthTypes.ClearError:
       return { ...state, errorMessage: "" };
-    case "signout":
+    case AuthTypes.Signout:
       return { loading: false, token: null, user: null, errorMessage: "" };
     default:
       return state;
   }
 };
-const tryLocalSignin = (dispatch) => async () => {
-  const token = await JSON.parse(localStorage.getItem("token"));
-  const user = await JSON.parse(localStorage.getItem("user"));
-  //TODO:
-  // Check if token is expired
-  if (token && user) {
-    dispatch({
-      type: "signin",
-      payload: { token: token, user: user },
-    });
-  } else {
-    dispatch({ type: "signout" });
-  }
-};
-const signin = (dispatch) => async (data) => {
+const tryLocalSignin =
+  (dispatch: React.Dispatch<any>) => async (): Promise<void> => {
+    const token: string = await JSON.parse(
+      localStorage.getItem("token") as string
+    );
+    const user: any = await JSON.parse(localStorage.getItem("user") as any);
+    //TODO:
+    // Check if token is expired
+    if (token && user) {
+      dispatch({
+        type: "signin",
+        payload: { token: token, user: user },
+      });
+    } else {
+      dispatch({ type: "signout" });
+    }
+  };
+const signin = (dispatch: any) => async (data: any) => {
   try {
     // TO DO
     // Check if token is expired
@@ -56,12 +61,11 @@ const signin = (dispatch) => async (data) => {
     });
   }
 };
-const signup = (dispatch) => async (data) => {
+const signup = (dispatch: any) => async (data: any) => {
   try {
     // TO DO
     // Check if token is expired
     const response = await api.post("/api/signup", formurlencoded(data));
-    console.log(response);
     if (response.data.token && response.data.user) {
       await localStorage.setItem("token", JSON.stringify(response.data.token));
       await localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -78,12 +82,12 @@ const signup = (dispatch) => async (data) => {
     });
   }
 };
-const logout = (dispatch) => async () => {
+const logout = (dispatch: any) => async () => {
   await localStorage.removeItem("token");
   await localStorage.removeItem("user");
   dispatch({ type: "signout" });
 };
-const clearErrorMessage = (dispatch) => () => {
+const clearErrorMessage = (dispatch: any) => () => {
   dispatch({ type: "clear_error_message" });
 };
 export const { Provider, Context } = createDataContext(

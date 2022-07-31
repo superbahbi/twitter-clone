@@ -3,7 +3,6 @@ import api from "../Helper/api";
 
 const getLikedTweet = async (id: string) => {
   const url = `/api/like/${id}`;
-  console.log(url);
   const { data } = await api.get(url);
   return data;
 };

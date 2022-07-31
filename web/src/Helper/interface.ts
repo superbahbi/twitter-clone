@@ -272,3 +272,10 @@ export interface ITweetModalProps {
   onHide: () => void;
   onHandleTweetModal: () => void;
 }
+export interface IReducerActionProps {
+  type: string;
+  payload: any;
+}
+export interface IProviderProps {
+  children: React.ReactNode;
+}

@@ -1,7 +1,8 @@
 import createDataContext from "./createDataContext";
 import api from "../Helper/api";
+import { IReducerActionProps } from "../Helper/interface";
 
-const userReducer = (state, action) => {
+const userReducer = (state: any, action: IReducerActionProps) => {
   switch (action.type) {
     case "add_error":
       return { ...state, errorMessage: action.payload };
@@ -23,7 +24,7 @@ const userReducer = (state, action) => {
       return state;
   }
 };
-const getAllUser = (dispatch) => async () => {
+const getAllUser = (dispatch: any) => async () => {
   try {
     const response = await api.get("/api/getAllUser");
     dispatch({ type: "fetch_users", payload: response.data });
@@ -35,7 +36,7 @@ const getAllUser = (dispatch) => async () => {
     });
   }
 };
-const getUserMessage = (dispatch) => async (id) => {
+const getUserMessage = (dispatch: any) => async (id: string) => {
   try {
     const response = await api.get("/api/getMessages/" + id);
     dispatch({ type: "fetch_messages", payload: response.data });
@@ -47,7 +48,7 @@ const getUserMessage = (dispatch) => async (id) => {
     });
   }
 };
-const getUser = (dispatch) => async (id) => {
+const getUser = (dispatch: any) => async (id: string) => {
   try {
     const response = await api.get("/api/user/" + id);
     dispatch({ type: "fetch_user", payload: response.data });

@@ -1,7 +1,7 @@
 import createDataContext from "./createDataContext";
 import api from "../Helper/api";
 
-const tweetReducer = (state, action) => {
+const tweetReducer = (state: any, action: any) => {
   switch (action.type) {
     case "add_error":
       return { ...state, errorMessage: action.payload };
@@ -15,10 +15,10 @@ const tweetReducer = (state, action) => {
       };
 
     case "like_tweet":
-      state.tweets.map((tweet) => {
+      state.tweets.map((tweet: any) => {
         if (tweet._id === action.payload.response._id) {
           let lineIndex = -1;
-          tweet.likes.map((like, index) => {
+          tweet.likes.map((like: any, index: number) => {
             if (like._id === action.payload.userId) {
               lineIndex = index;
             }
@@ -34,7 +34,7 @@ const tweetReducer = (state, action) => {
       });
       return { ...state, errorMessage: "" };
     case "delete_tweet":
-      state.tweets.map((tweet, index) => {
+      state.tweets.map((tweet: any, index: number) => {
         if (tweet._id === action.payload) {
           state.tweets.splice(index, 1);
         }
@@ -49,7 +49,7 @@ const tweetReducer = (state, action) => {
       return state;
   }
 };
-const getTweets = (dispatch) => async (id) => {
+const getTweets = (dispatch: any) => async (id: string) => {
   try {
     let url = id ? "/api/tweet/" + id : "/api/tweet";
     const response = await api.get(url);
@@ -62,7 +62,7 @@ const getTweets = (dispatch) => async (id) => {
     });
   }
 };
-const addTweet = (dispatch) => async (data) => {
+const addTweet = (dispatch: any) => async (data: any) => {
   try {
     const response = await api.post("/api/tweet", data);
     dispatch({ type: "add_tweet", payload: response.data.foundTweet });
@@ -74,10 +74,10 @@ const addTweet = (dispatch) => async (data) => {
     });
   }
 };
-const clearAddTweet = (dispatch) => async () => {
+const clearAddTweet = (dispatch: any) => async () => {
   dispatch({ type: "update_feed", payload: null });
 };
-const deleteTweet = (dispatch) => async (id) => {
+const deleteTweet = (dispatch: any) => async (id: string) => {
   try {
     await api.delete("/api/tweet/" + id);
     dispatch({ type: "delete_tweet", payload: id });
@@ -89,8 +89,8 @@ const deleteTweet = (dispatch) => async (id) => {
     });
   }
 };
-const editTweet = (dispatch) => async (id, data) => {};
-const likeTweet = (dispatch) => async (id, userId) => {
+// const editTweet = (dispatch: any) => async (id, data) => {};
+const likeTweet = (dispatch: any) => async (id: any, userId: any) => {
   try {
     const response = await api.put("/api/like/" + id);
     dispatch({
@@ -105,7 +105,7 @@ const likeTweet = (dispatch) => async (id, userId) => {
     });
   }
 };
-const addComment = (dispatch) => async (data) => {
+const addComment = (dispatch: any) => async (data: any) => {
   try {
     const response = await api.post("/api/comment", data);
     dispatch({ type: "add_tweet", payload: response });
@@ -117,7 +117,7 @@ const addComment = (dispatch) => async (data) => {
     });
   }
 };
-const resetData = (dispatch) => () => {
+const resetData = (dispatch: any) => () => {
   dispatch({ type: "reset", payload: "" });
 };
 export const { Provider, Context } = createDataContext(
@@ -127,7 +127,7 @@ export const { Provider, Context } = createDataContext(
     addTweet,
     clearAddTweet,
     deleteTweet,
-    editTweet,
+    // editTweet,
     likeTweet,
     addComment,
     resetData,
