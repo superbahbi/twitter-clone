@@ -179,7 +179,6 @@ const Navbar: React.FC<{}> = ({}) => {
             brand={true}
             id="icon"
             icon={<Twitter />}
-            color="#1da1f2"
             onHandleClick={() => {
               navigate("/home");
             }}
