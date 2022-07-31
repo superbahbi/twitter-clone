@@ -35,21 +35,36 @@ const InputBoxInput = styled.input`
     outline: none;
   }
 `;
-function Input(props) {
+interface IInputProps {
+  name: string;
+  onHandleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type: string;
+  placeholder: string;
+  autocomplete: string;
+  value: string;
+}
+const Input: React.FC<IInputProps> = ({
+  name,
+  onHandleChange,
+  type,
+  placeholder,
+  autocomplete,
+  value,
+}) => {
   return (
     <InputBox>
       <InputBoxLabel>
-        {props.name}
+        {name}
         <InputBoxInput
-          onChange={props.onHandleChange}
-          name={props.name}
-          type={props.type}
-          placeholder={props.placeholder}
-          autocomplete={props.autocomplete}
-          value={props.value}
+          onChange={onHandleChange}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          autoComplete={autocomplete}
+          value={value}
         />
       </InputBoxLabel>
     </InputBox>
   );
-}
+};
 export default Input;
