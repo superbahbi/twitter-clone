@@ -179,3 +179,7 @@ export interface IIconButtonProps {
   icon?: string;
   children?: React.ReactNode;
 }
+export interface ISearchProps {
+  placeholder: string;
+  onHandleChange: (e: React.SyntheticEvent) => void;
+}
