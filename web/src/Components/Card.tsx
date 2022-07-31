@@ -35,17 +35,24 @@ const CardContent = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
-
-function Card({ data }) {
+interface ICardProps {
+  thumbnail_url?: string;
+  provider_name?: string;
+  title?: string;
+}
+const Card: React.FC<ICardProps> = ({
+  thumbnail_url,
+  provider_name,
+  title,
+}) => {
   return (
     <CardContainer>
-      <CardImage alt="thumbnail" src={data.thumbnail_url} />
-
+      <CardImage alt="thumbnail" src={thumbnail_url} />
       <CardContent>
-        <div>{data.provider_name}</div>
-        <div>{data.title}</div>
+        <div>{provider_name}</div>
+        <div>{title}</div>
       </CardContent>
     </CardContainer>
   );
-}
+};
 export default Card;

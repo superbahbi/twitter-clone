@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Avatar from ".././Components/Avatar";
 import Textarea from ".././Components/Textarea";
-import { INewTweet } from "../Helper/interface";
+import { IMetadataProps, INewTweet } from "../Helper/interface";
 import { youtubeMetadata } from "../Helper/youtubeMetadata";
 import Card from "./Card";
 import MediaFrame from "./MediaFrame";
@@ -57,7 +57,7 @@ const Tweet: React.FC<ITweetProps> = ({
   const [videoPreview, setVideoPreview] = useState<string | boolean>("");
   const [videoLink, setVideoLink] = useState<string>("");
   const [disable, setDisable] = useState(true);
-  const [linkMetadata, setLinkMetadata] = useState({});
+  const [linkMetadata, setLinkMetadata] = useState<IMetadataProps>();
   const onFormSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const textWrapper = document.getElementsByClassName("textarea");
@@ -108,7 +108,8 @@ const Tweet: React.FC<ITweetProps> = ({
     if (link.length > 0) {
       setVideoPreview(id);
       setVideoLink(link[0]);
-      setLinkMetadata(await youtubeMetadata(link));
+      const res = await youtubeMetadata(link[0]);
+      setLinkMetadata(res);
     }
   };
 
@@ -151,7 +152,13 @@ const Tweet: React.FC<ITweetProps> = ({
                     setVideoPreview("");
                   }}
                 >
-                  <Card data={linkMetadata} />
+                  {linkMetadata ? (
+                    <Card
+                      thumbnail_url={linkMetadata.thumbnail_url}
+                      provider_name={linkMetadata.provider_name}
+                      title={linkMetadata.title}
+                    />
+                  ) : null}
                 </MediaFrame>
               </InputBoxRow>
             )}

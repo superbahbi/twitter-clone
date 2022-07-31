@@ -1,13 +1,15 @@
+import { IMetadataProps } from "./interface";
+
 const https = require("https");
-export function youtubeMetadata(url) {
+export function youtubeMetadata(url: string): Promise<IMetadataProps> {
   const urlMetadata =
     `https://www.youtube.com/oembed?url=` + url + `&format=json`;
   return new Promise(function (accept, error) {
     https
-      .get(urlMetadata, function (_res) {
+      .get(urlMetadata, function (_res: any) {
         var body = "";
 
-        _res.on("data", function (chunk) {
+        _res.on("data", function (chunk: any) {
           body += chunk;
         });
 
@@ -16,7 +18,7 @@ export function youtubeMetadata(url) {
           accept(response);
         });
       })
-      .on("error", function (e) {
+      .on("error", function () {
         error({ error: "Something wrong!!" });
       });
   });

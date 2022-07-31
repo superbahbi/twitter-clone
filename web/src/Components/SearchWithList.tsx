@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Search from "../Components/Search";
 import { Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import Avatar from "../Components/Avatar";
+import { ISearchWithListProps, ISelectUserProps } from "../Helper/interface";
 const SearchContainer = styled(Col)`
   padding: 0;
 `;
@@ -27,48 +28,42 @@ const SearchListGroupItem = styled(ListGroupItem)`
 const SearchListGroupText = styled.p`
   margin-top: auto;
 `;
-function SearchWithList({
+
+const SearchWithList: React.FC<ISearchWithListProps> = ({
   placeholder,
   filterUsers,
   onHandleChange,
   onHandleSearchClick,
-}) {
+}) => {
   return (
     <SearchContainer>
       <Search
         placeholder={placeholder}
-        value="search"
+        // value="search"
         onHandleChange={onHandleChange}
       />
       <SearchListGroup>
-        {filterUsers.map((user, key) => {
-          return (
-            <SearchListGroupItem
-              id={user._id}
-              key={user._id}
-              onClick={() => onHandleSearchClick(user)}
-            >
-              <Row>
-                <Col xs={3} className="p-0">
-                  <Avatar
-                    name={user.name ? user.name : user.profile.name}
-                    src={
-                      user.avatar ? user.avatar : user.profile.avatar.filename
-                    }
-                    nohref={true}
-                  />
-                </Col>
+        {filterUsers &&
+          filterUsers.map((user: ISelectUserProps) => {
+            return (
+              <SearchListGroupItem
+                id={user._id}
+                key={user._id}
+                onClick={() => onHandleSearchClick(user)}
+              >
+                <Row>
+                  <Col xs={3} className="p-0">
+                    <Avatar name={user.name} src={user.avatar} nohref={true} />
+                  </Col>
 
-                <SearchListGroupText>
-                  {user.name ? user.name : user.profile.name}
-                </SearchListGroupText>
-              </Row>
-            </SearchListGroupItem>
-          );
-        })}
+                  <SearchListGroupText>{user.name}</SearchListGroupText>
+                </Row>
+              </SearchListGroupItem>
+            );
+          })}
       </SearchListGroup>
     </SearchContainer>
   );
-}
+};
 
 export default SearchWithList;

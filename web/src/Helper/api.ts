@@ -1,11 +1,17 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 instance.interceptors.request.use(
-  async (config) => {
+  async (config: AxiosRequestConfig<any>) => {
     const token = localStorage.getItem("token");
+    if (!config) {
+      config = {};
+    }
+    if (!config.headers) {
+      config.headers = {};
+    }
     if (token) {
       config.headers["Access-Control-Allow-Origin"] = "*";
       config.headers["Authorization"] = `Bearer ${JSON.parse(token)}`;

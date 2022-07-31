@@ -6,7 +6,7 @@ import { Context as UserContext } from "../Contexts/UserContext";
 import useGetMessages from "../Hooks/useGetMessages";
 // NPM components
 import { ObjectID } from "bson";
-import formurlencoded from "form-urlencoded";
+// import formurlencoded from "form-urlencoded";
 import { Col } from "react-bootstrap";
 import styled from "styled-components";
 // Local components
@@ -18,10 +18,16 @@ import SearchWithList from "../Components/SearchWithList";
 import { Mail } from "../Assets/Icon";
 // Local helper functions
 // import { fetchDB } from "../Helper/fetch";
-import socketIOClient from "socket.io-client";
+import socketIOClient, { io, Socket } from "socket.io-client";
 import api from "../Helper/api";
-import { ISelectUserProps } from "../Helper/interface";
-const ENDPOINT: any = process.env.REACT_APP_API_URL;
+import {
+  ClientToServerEvents,
+  IMessageHistoryProps,
+  IMessageSentProps,
+  // IMessageSocketProps,
+  ISelectUserProps,
+  ServerToClientEvents,
+} from "../Helper/interface";
 
 const Container = styled.div`
   display: grid;
@@ -85,19 +91,22 @@ const Messages: React.FC<{}> = ({}) => {
   const [messages] = useGetMessages();
 
   // const [allUser, setAllUser] = useState([]);
-  const [chatRoom, setChatRoom] = useState([]);
+  const [chatRoom, setChatRoom] = useState<ISelectUserProps[] | undefined>();
+  const [dmUsers, setDmUsers] = useState<ISelectUserProps[]>();
+  const [, setFilterUsers] = useState<ISelectUserProps[]>();
   const [selectUser, setSelectUser] = useState<ISelectUserProps>();
-  const [filterUsers, setFilterUsers] = useState<string[]>();
-  const [dmUsers, setDmUsers] = useState<any[]>();
-  const [search, setSearch] = useState("");
+  const [search] = useState<string>("");
   const [searchChatRoom, setSearchChatRoom] = useState("");
-  const [show, setShow] = useState(false);
-  const [channel, setChannel] = useState("");
-  const [socket, setSocket] = useState<any>(null);
-  const [messagesHistory, setMessagesHistory] = useState<any[]>([]);
+  const [show, setShow] = useState<boolean>(false);
+  const [channel, setChannel] = useState<string>("");
+  const [socket, setSocket] =
+    useState<Socket<ServerToClientEvents, ClientToServerEvents>>(io);
+  const [messagesHistory, setMessagesHistory] = useState<
+    IMessageHistoryProps[]
+  >([]);
 
   useEffect((): (() => void) => {
-    const newSocket = socketIOClient(ENDPOINT);
+    const newSocket = socketIOClient(process.env.REACT_APP_API_URL as string);
     setSocket(newSocket);
     newSocket.on("onMessage", (msg) => {
       setMessagesHistory((prev) => [...prev, msg]);
@@ -113,10 +122,10 @@ const Messages: React.FC<{}> = ({}) => {
     }
   }, [chatRoom]);
   useEffect(() => {
-    let temp: string[] = [];
+    let temp: ISelectUserProps[] = [];
     if (userState.allUser) {
-      userState.allUser.map((user: any) =>
-        String(user.profile.name).toLowerCase().includes(search.toLowerCase())
+      userState.allUser.map((user: ISelectUserProps) =>
+        String(user.name).toLowerCase().includes(search.toLowerCase())
           ? temp.push(user)
           : null
       );
@@ -124,62 +133,65 @@ const Messages: React.FC<{}> = ({}) => {
     setFilterUsers(temp);
   }, [search]);
   useEffect(() => {
-    let temp: string[] = [];
-    chatRoom.map((user: any) =>
-      String(user.name).toLowerCase().includes(searchChatRoom.toLowerCase())
-        ? temp.push(user)
-        : null
-    );
+    let temp: ISelectUserProps[] = [];
+    if (chatRoom) {
+      chatRoom.map((user: ISelectUserProps) =>
+        String(user.name).toLowerCase().includes(searchChatRoom.toLowerCase())
+          ? temp.push(user)
+          : null
+      );
+    }
     setDmUsers(temp);
   }, [searchChatRoom]);
   function onHandleModal() {
     setShow(!show);
   }
 
-  const onHandleSearchClick = (receiverData: ISelectUserProps) => {
-    const id = authState.user._id + "-" + receiverData._id;
-    let split = id.split("-"); // ['user_id1', 'user_id2']
-    let unique = [...new Set(split)].sort((a, b) => (a < b ? -1 : 1)); // ['username1', 'username2']
-    let updatedRoomName = `${unique[0]}-${unique[1]}`; // 'username1--with--username2'
-    const data = {
-      _id: updatedRoomName,
-      sender: authState.user,
-      receiver: receiverData,
-    };
-    api.post("/api/createChatRoom", formurlencoded(data));
+  // const onHandleSearchClick = async (receiverData: IUserProps) => {
+  //   const id = authState.user._id + "-" + receiverData._id;
+  //   let split = id.split("-"); // ['user_id1', 'user_id2']
+  //   let unique = [...new Set(split)].sort((a, b) => (a < b ? -1 : 1)); // ['username1', 'username2']
+  //   let updatedRoomName = `${unique[0]}-${unique[1]}`; // 'username1--with--username2'
+  //   const data: IMessageSocketProps = {
+  //     _id: updatedRoomName,
+  //     sender: authState.user,
+  //     receiver: receiverData,
+  //   };
+  //   await api.post("/api/createChatRoom", formurlencoded(data));
 
-    // const updateChatData = {
-    //   _id: updatedRoomName,
-    //   sender: authState.user._id,
-    //   receiver: receiverData._id,
-    //   avatar: receiverData.profile.avatar.filename,
-    //   name: receiverData.profile.name,
-    // };
-    onHandleModal();
-    setSelectUser(receiverData);
-    setChannel(updatedRoomName);
-    // setDmUsers([...dmUsers, updateChatData]);
-    // setChatRoom([...chatRoom, updateChatData]);
-    socket.emit("join", data);
-    navigate("/messages/" + updatedRoomName);
-  };
-  const onHandleRoomClick = async (room: any) => {
+  //   // const updateChatData: ISelectUserProps = {
+  //   //   _id: updatedRoomName,
+  //   //   sender: authState.user._id,
+  //   //   receiver: receiverData._id,
+  //   //   avatar: receiverData.profile.avatar.filename,
+  //   //   name: receiverData.profile.name,
+  //   // };
+  //   onHandleModal();
+  //   setSelectUser(receiverData);
+  //   setChannel(updatedRoomName);
+  //   // setDmUsers([...dmUsers, updateChatData]);
+  //   // setChatRoom([...chatRoom, updateChatData]);
+  //   socket.emit("join", data);
+  //   navigate("/messages/" + updatedRoomName);
+  // };
+  const onHandleRoomClick = async (room: ISelectUserProps) => {
     setMessagesHistory([]);
     socket.emit("join", { _id: room._id });
     messages(room._id);
     setChannel(room._id);
-    setSelectUser(room);
+    // setSelectUser(room);
     let msg = await api.get("/api/getMessages/" + room._id);
     if (msg.data) {
       setMessagesHistory(msg.data);
       navigate("/messages/" + room._id);
     }
   };
-  const onUpdateMessageSubmit = (data: any) => {
+  const onUpdateMessageSubmit = (data: IMessageSentProps) => {
     if (!data) return;
+    if (!selectUser) return;
     const msg = {
       _id: new ObjectID().toString(),
-      user: selectUser?.name as string,
+      user: selectUser.name,
       body: data.message,
       createdAt: Date.now(),
     };
@@ -197,7 +209,7 @@ const Messages: React.FC<{}> = ({}) => {
           }}
         />
 
-        {chatRoom.length === 0 ? (
+        {chatRoom && chatRoom.length === 0 ? (
           <MessagesBox>
             <MessageLeftGroup>
               <MessageH>Welcome to your inbox!</MessageH>
@@ -212,9 +224,7 @@ const Messages: React.FC<{}> = ({}) => {
                   id="tweets"
                   name="button"
                   type="submit"
-                  btnStyle="large-btn"
                   label="Write a message"
-                  footer={false}
                   handleClick={() => {
                     onHandleModal();
                   }}
@@ -257,7 +267,6 @@ const Messages: React.FC<{}> = ({}) => {
                       name="button"
                       type="submit"
                       label="New message"
-                      footer={false}
                       handleClick={() => {
                         onHandleModal();
                       }}
@@ -274,14 +283,15 @@ const Messages: React.FC<{}> = ({}) => {
         onHide={onHandleModal}
         onHandleModal={onHandleModal}
         body={
-          <SearchWithList
-            placeholder="Search People"
-            filterUsers={filterUsers}
-            onHandleChange={(e: React.SyntheticEvent) =>
-              setSearch((e.target as HTMLInputElement).value)
-            }
-            onHandleSearchClick={onHandleSearchClick}
-          />
+          // <SearchWithList
+          //   placeholder="Search People"
+          //   filterUsers={filterUsers}
+          //   onHandleChange={(e: React.SyntheticEvent) =>
+          //     setSearch((e.target as HTMLInputElement).value)
+          //   }
+          //   onHandleSearchClick={onHandleSearchClick}
+          // />
+          <></>
         }
         setShow={setShow}
       />
