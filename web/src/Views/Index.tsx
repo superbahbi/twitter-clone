@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Button from ".././Components/Button";
+import Button from "../Components/Button";
 import { Twitter } from "../Assets/Icon";
 import { LandingImage } from "../Assets/Image";
 import { Context as AuthContext } from "../Contexts/AuthContext";

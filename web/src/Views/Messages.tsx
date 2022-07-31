@@ -10,8 +10,8 @@ import { ObjectID } from "bson";
 import { Col } from "react-bootstrap";
 import styled from "styled-components";
 // Local components
-import Chat from ".././Components/Chat";
-import Modal from ".././Components/Modal";
+import Chat from "../Components/Chat";
+import Modal from "../Components/Modal";
 import Button from "../Components/Button";
 import Header from "../Components/Header";
 import SearchWithList from "../Components/SearchWithList";

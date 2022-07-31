@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import { IPrivateRouteProps } from "../Helper/interface";
 import Layout from "./Layout";
+
 const Spinner = styled.div`
   position: absolute;
   height: 100px;

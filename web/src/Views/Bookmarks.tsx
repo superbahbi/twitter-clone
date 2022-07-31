@@ -1,5 +1,5 @@
 import React from "react";
-import Header from ".././Components/Header";
+import Header from "../Components/Header";
 import styled from "styled-components";
 import Figure from "react-bootstrap/Figure";
 import { BookmarksImage } from "../Assets/Image";

@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import Feed from ".././Components/Feed";
+import Feed from "../Components/Feed";
 import Header from "../Components/Header";
 import ProfileBox from "../Components/ProfileBox";
 import Sidebar from "../Components/Sidebar";

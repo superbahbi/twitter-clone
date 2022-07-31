@@ -6,8 +6,8 @@ import {
 import React, { useContext } from "react";
 import Col from "react-bootstrap/Col";
 import styled from "styled-components";
-import Feed from ".././Components/Feed";
-import Tweet from ".././Components/Tweet";
+import Feed from "../Components/Feed";
+import Tweet from "../Components/Tweet";
 import { Stars } from "../Assets/Icon";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";

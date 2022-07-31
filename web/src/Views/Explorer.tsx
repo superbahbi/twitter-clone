@@ -1,7 +1,7 @@
 import React from "react";
 import Col from "react-bootstrap/Col";
 import styled from "styled-components";
-import Header from ".././Components/Header";
+import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
 import { Stars } from "../Assets/Icon";
 const SubMainContainer = styled(Col)`
