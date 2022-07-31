@@ -76,6 +76,8 @@ export interface IUserProps {
     gender: string;
     bio?: string;
     regDate: number;
+    location?: string;
+    website?: string;
   };
   chatroom: ISelectUserProps[];
 }
@@ -256,4 +258,8 @@ export interface IModalProps {
   onHandleModal?: () => void;
   body?: React.ReactNode;
   footer?: React.ReactNode;
+}
+export interface IProfileBoxProps {
+  user: IUserProps;
+  authUsername: string;
 }

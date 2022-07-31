@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import styled from "styled-components";
 import Button from ".././Components/Button";
 import { TweetLocation, Link, Calendar } from "../Assets/Icon";
+import { IProfileBoxProps } from "../Helper/interface";
 const TweetBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -97,7 +98,8 @@ const Text = styled.span`
   color: #536571;
 `;
 const ProfileInfoCol = styled(Col)``;
-function ProfileBox({ user, authUsername }) {
+
+const ProfileBox: React.FC<IProfileBoxProps> = ({ user, authUsername }) => {
   function onHandleClick() {
     // Navigate("/settings");
   }
@@ -238,5 +240,5 @@ function ProfileBox({ user, authUsername }) {
       </TweetBox>
     </div>
   );
-}
+};
 export default ProfileBox;
