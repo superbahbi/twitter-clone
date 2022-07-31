@@ -239,4 +239,12 @@ export interface IInputProps {
 export interface ILikesProps {
   _id: string;
 }
-export interface IListProps {}
+export interface IListProps {
+  id?: string;
+  brand?: boolean;
+  onHandleClick?: () => void;
+  paddingBottom?: string;
+  icon?: React.ReactNode;
+  name?: string;
+  active?: boolean;
+}

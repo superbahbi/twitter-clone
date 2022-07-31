@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-const ListItem = styled.li`
+import { IListProps } from "../Helper/interface";
+const ListItem = styled.li<IListProps>`
   display: flex;
   position: relative;
   height: 58.25px
@@ -9,7 +10,7 @@ const ListItem = styled.li`
     padding-bottom: ${(props) =>
       props.paddingBottom ? props.paddingBottom : "0px"};
 `;
-const ListContainer = styled.div`
+const ListContainer = styled.div<IListProps>`
   display: inline-flex;
   padding: 12px 12px;
   svg {
@@ -22,7 +23,7 @@ const ListContainer = styled.div`
     background-color: ${(props) => (props.brand ? "#e8f5fe" : "#E7E7E8")};
   }
 `;
-const ListText = styled.p`
+const ListText = styled.p<IListProps>`
   @media only screen and (max-width: 1250px) {
     display: none;
   }
@@ -33,19 +34,27 @@ const ListText = styled.p`
   margin: auto;
   font-weight: ${(props) => (props.active ? "bold" : "normal")};
 `;
-function List(props) {
+const List: React.FC<IListProps> = ({
+  id,
+  brand,
+  onHandleClick,
+  paddingBottom,
+  icon,
+  name,
+  active,
+}) => {
   return (
     <ListItem
-      id={props.id}
-      brand={props.brand}
-      onClick={props.onHandleClick}
-      paddingBottom={props.paddingBottom}
+      id={id}
+      brand={brand}
+      onClick={onHandleClick}
+      paddingBottom={paddingBottom}
     >
-      <ListContainer brand={props.brand}>
-        <i>{props.icon}</i>
-        {props.name && <ListText active={props.active}>{props.name}</ListText>}
+      <ListContainer brand={brand}>
+        <i>{icon}</i>
+        {name && <ListText active={active}>{name}</ListText>}
       </ListContainer>
     </ListItem>
   );
-}
+};
 export default List;
