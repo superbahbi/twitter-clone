@@ -91,7 +91,7 @@ const Messages: React.FC<{}> = ({}) => {
   const [messages] = useGetMessages();
 
   // const [allUser, setAllUser] = useState([]);
-  const [chatRoom, setChatRoom] = useState<ISelectUserProps[] | undefined>();
+  const [chatRoom, setChatRoom] = useState<ISelectUserProps[]>();
   const [dmUsers, setDmUsers] = useState<ISelectUserProps[]>();
   const [, setFilterUsers] = useState<ISelectUserProps[]>();
   const [selectUser, setSelectUser] = useState<ISelectUserProps>();
@@ -113,6 +113,7 @@ const Messages: React.FC<{}> = ({}) => {
     });
     return () => newSocket.disconnect();
   }, []);
+
   useEffect(() => {
     getAllUser();
     setChatRoom(authState.user.chatroom);
@@ -247,7 +248,7 @@ const Messages: React.FC<{}> = ({}) => {
         <MessagesBox>
           {channel && messagesHistory ? (
             <Chat
-              receiverData={selectUser}
+              receiverData={selectUser!}
               messagesHistory={messagesHistory}
               onUpdateMessageSubmit={onUpdateMessageSubmit}
             />

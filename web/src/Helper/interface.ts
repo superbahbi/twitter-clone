@@ -149,3 +149,11 @@ export interface IMetadataProps {
   version: string;
   width: number;
 }
+export interface IChatProps {
+  receiverData: ISelectUserProps;
+  messagesHistory: IMessageHistoryProps[];
+  onUpdateMessageSubmit: (data: any) => void;
+}
+export interface IMessageBubbleProps {
+  right?: boolean;
+}

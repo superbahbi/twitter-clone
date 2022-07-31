@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import moment from "moment";
 import { Send } from "../Assets/Icon";
+import { IMessageBubbleProps, IChatProps } from "../Helper/interface";
 const MessageContainer = styled.div``;
 const MessageHeader = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ const ChatHistory = styled.div`
   padding: 0px 8px;
 `;
 // Message bubble
-const Message = styled.p`
+const Message = styled.p<IMessageBubbleProps>`
   float: right;
   padding: 10px 20px 10px 20px;
   margin-bottom: 0px;
@@ -116,13 +117,18 @@ const SendIconButton = styled(IconButton)`
   color: #1da1f2;
   padding: 0.5em;
 `;
-const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
+
+const Chat: React.FC<IChatProps> = ({
+  receiverData,
+  messagesHistory,
+  onUpdateMessageSubmit,
+}) => {
   const { register, handleSubmit } = useForm(); // initialise the hook
-  const messagesRef = useRef(null);
+  const messagesRef = useRef<null | HTMLDivElement>(null);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    messagesRef.current.scrollIntoView(true);
+    messagesRef.current && messagesRef.current.scrollIntoView(true);
   });
   return (
     <MessageContainer>
@@ -152,7 +158,7 @@ const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
               </IncomingMsg>
             )
           )}
-          <div ref={messagesRef} className="special" />
+          <div ref={messagesRef} />
         </ChatHistory>
       </ChatBox>
       <MessageForm
@@ -173,7 +179,11 @@ const Chat = ({ receiverData, messagesHistory, onUpdateMessageSubmit }) => {
                 ref={register({
                   required: true,
                 })}
-                onChange={(event) => setMessage(event.target.value)}
+                onChange={(event: React.SyntheticEvent) => {
+                  const target = event.target as HTMLInputElement;
+                  if (!target.value) return;
+                  setMessage(target.value);
+                }}
                 value={message}
               />
             </FormGroup>
