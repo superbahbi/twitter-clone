@@ -73,20 +73,26 @@ const FeedImg = styled.div`
 const CommentTextarea = styled.div`
   padding-left: 64px;
 `;
-
-function CommentModal({
+interface ICommentModalProps {
+  auth: any;
+  tweet: any;
+  show: boolean;
+  onHide: () => void;
+  onHandleCommentClose: () => void;
+  commentTweetMutation: any;
+}
+const CommentModal: React.FC<ICommentModalProps> = ({
   auth,
   tweet,
   show,
-  setShow,
   onHide,
   onHandleCommentClose,
-  commentTweetMutation,
-}) {
+  // commentTweetMutation,
+}) => {
   const { addComment } = useContext(TweetContext);
-  const [commentText, setCommentText] = React.useState("");
+  const [commentText, setCommentText] = React.useState<string | null>("");
   const [disable, setDisable] = useState(true);
-  function onFormSubmit(e) {
+  function onFormSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     addComment(
       formurlencoded({
@@ -99,12 +105,11 @@ function CommentModal({
       })
     );
     onHandleCommentClose();
-    e.target.reset();
   }
-  function handleChange(event) {
+  function handleChange(event: React.MouseEvent<HTMLInputElement>) {
     let currentText = event.currentTarget.textContent;
     setCommentText(currentText);
-    if (currentText.length > 0) {
+    if (currentText !== null && currentText.length > 0) {
       setDisable(false);
     } else {
       setDisable(true);
@@ -162,11 +167,10 @@ function CommentModal({
             <TweetContainer>
               <CommentTextarea>
                 <Textarea
-                  type="text"
-                  name="Tweet"
                   placeholder="Tweet your reply"
-                  autocomplete="off"
-                  onHandleChange={(event) => handleChange(event)}
+                  onHandleChange={(
+                    event: React.MouseEvent<HTMLInputElement, MouseEvent>
+                  ) => handleChange(event)}
                 />
                 <TweetInput handleChange={handleChange} disable={disable} />
               </CommentTextarea>
@@ -176,5 +180,5 @@ function CommentModal({
       </form>
     </ModalContainer>
   );
-}
+};
 export default CommentModal;

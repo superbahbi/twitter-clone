@@ -401,12 +401,12 @@ function Feed({
                       }}
                     />
                     <CommentModal
+                      auth={authState}
+                      tweet={tweets[show.id]}
                       show={show.status}
                       onHide={onHandleCommentClose}
                       onHandleCommentClose={onHandleCommentClose}
                       commentTweetMutation={commentTweetMutation}
-                      tweet={tweets[show.id]}
-                      auth={authState}
                       setShow={setShow}
                     />
                   </ButtonContainer>
