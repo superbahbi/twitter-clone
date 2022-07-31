@@ -106,7 +106,7 @@ const CommentModal: React.FC<ICommentModalProps> = ({
     );
     onHandleCommentClose();
   }
-  function handleChange(event: React.MouseEvent<HTMLInputElement>) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     let currentText = event.currentTarget.textContent;
     setCommentText(currentText);
     if (currentText !== null && currentText.length > 0) {
@@ -169,7 +169,7 @@ const CommentModal: React.FC<ICommentModalProps> = ({
                 <Textarea
                   placeholder="Tweet your reply"
                   onHandleChange={(
-                    event: React.MouseEvent<HTMLInputElement, MouseEvent>
+                    event: React.ChangeEvent<HTMLInputElement>
                   ) => handleChange(event)}
                 />
                 <TweetInput handleChange={handleChange} disable={disable} />

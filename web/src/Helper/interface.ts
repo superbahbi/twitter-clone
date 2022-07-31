@@ -263,3 +263,7 @@ export interface IProfileBoxProps {
   user: IUserProps;
   authUsername: string;
 }
+export interface ITweetInputProps {
+  disable?: boolean;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}

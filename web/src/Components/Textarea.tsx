@@ -22,9 +22,7 @@ const TextAreaBox = styled.div`
 `;
 interface ITextAreaProps {
   placeholder?: string;
-  onHandleChange?: (
-    event: React.MouseEvent<HTMLInputElement, MouseEvent>
-  ) => void;
+  onHandleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   height?: string;
 }
 const Textarea: React.FC<ITextAreaProps> = ({

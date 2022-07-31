@@ -10,6 +10,7 @@ import {
   TweetSchedule,
   TweetUpload,
 } from "../Assets/Icon";
+import { ITweetInputProps } from "../Helper/interface";
 import IconButton from "./IconButton";
 const TweetButton = styled.div`
   margin-left: auto !important;
@@ -40,7 +41,7 @@ const InputBoxRow = styled.div`
   //   width: 500px;
 `;
 
-const TweetInput = ({ disable, handleChange }) => {
+const TweetInput: React.FC<ITweetInputProps> = ({ disable, handleChange }) => {
   return (
     <InputBoxRow>
       <InputBoxGroup>
