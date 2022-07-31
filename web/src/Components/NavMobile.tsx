@@ -22,10 +22,10 @@ const ListStyle = styled.ul`
   padding: 0;
   margin: 0;
 `;
-const NavMobile = () => {
+const NavMobile: React.FC<{}> = ({}) => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("home");
-  function onHandleClick(id) {
+  function onHandleClick(id: string) {
     setIsActive(id);
     navigate(`/${id}`);
   }
