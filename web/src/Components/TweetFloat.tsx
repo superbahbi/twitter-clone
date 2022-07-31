@@ -22,7 +22,7 @@ const TweetIconButton = styled.div`
     display: block;
   }
 `;
-const TweetFloat = () => {
+const TweetFloat: React.FC<{}> = ({}) => {
   const navigate = useNavigate();
   return (
     <>
