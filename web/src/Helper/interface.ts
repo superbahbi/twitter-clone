@@ -116,9 +116,9 @@ export interface ServerToClientEvents {
 }
 export interface IMessageChatRoomProps {}
 export interface ISearchWithListProps {
-  placeholder: string;
-  filterUsers: ISelectUserProps[] | undefined;
-  onHandleChange: (e: React.SyntheticEvent) => void;
+  placeholder?: string;
+  filterUsers?: ISelectUserProps[] | undefined;
+  onHandleChange?: (e: React.SyntheticEvent) => void;
   onHandleSearchClick: (room: ISelectUserProps) => Promise<void>;
 }
 export interface IButtonProps {
@@ -184,8 +184,8 @@ export interface IIconButtonProps {
   children?: React.ReactNode;
 }
 export interface ISearchProps {
-  placeholder: string;
-  onHandleChange: (e: React.SyntheticEvent) => void;
+  placeholder?: string;
+  onHandleChange?: (e: React.SyntheticEvent) => void;
 }
 export interface IEditableProps {
   childRef: React.RefObject<HTMLDivElement>;

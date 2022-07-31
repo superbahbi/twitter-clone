@@ -85,13 +85,13 @@ const SidebarSubContainer = styled.div`
     padding: 16px;
   }
 `;
-function Sidebar() {
+const Sidebar: React.FC<{}> = ({}) => {
   return (
     <SidebarContainer>
       <form>
         <SideBarSearch>
           <i>
-            <Search />
+            <Search active={false} />
           </i>
           <input placeholder="Search Twitter" />
         </SideBarSearch>
@@ -150,5 +150,5 @@ function Sidebar() {
       </SidebarSubContainer>
     </SidebarContainer>
   );
-}
+};
 export default Sidebar;
