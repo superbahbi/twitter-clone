@@ -20,8 +20,17 @@ const TextAreaBox = styled.div`
     white-space: pre-wrap;
   }
 `;
-
-function Textarea({ placeholder, onHandleChange, height }) {
+interface ITextAreaProps {
+  placeholder?: string;
+  onHandleChange?: (
+    event: React.MouseEvent<HTMLInputElement, MouseEvent>
+  ) => void;
+  height?: string;
+}
+const Textarea: React.FC<ITextAreaProps> = ({
+  placeholder,
+  onHandleChange,
+}) => {
   return (
     <TextAreaBox>
       <div
@@ -33,5 +42,5 @@ function Textarea({ placeholder, onHandleChange, height }) {
       ></div>
     </TextAreaBox>
   );
-}
+};
 export default Textarea;
