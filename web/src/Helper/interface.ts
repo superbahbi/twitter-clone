@@ -183,3 +183,14 @@ export interface ISearchProps {
   placeholder: string;
   onHandleChange: (e: React.SyntheticEvent) => void;
 }
+export interface IEditableProps {
+  childRef: React.RefObject<HTMLDivElement>;
+  text: string;
+  name: string;
+  type: string;
+  username: string;
+  db: string;
+  token: string;
+  placeholder: string;
+  children: React.ReactNode;
+}

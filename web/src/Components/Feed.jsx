@@ -407,7 +407,6 @@ function Feed({
                       onHide={onHandleCommentClose}
                       onHandleCommentClose={onHandleCommentClose}
                       commentTweetMutation={commentTweetMutation}
-                      setShow={setShow}
                     />
                   </ButtonContainer>
 

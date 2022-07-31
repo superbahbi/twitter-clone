@@ -1,19 +1,23 @@
 // Editable.js
 import React, { useState, useEffect } from "react";
 import formurlencoded from "form-urlencoded";
+import { IEditableProps } from "../Helper/interface";
 // Component accept text, placeholder values and also pass what type of Input - input, textarea so that we can use it for styling accordingly
-const Editable = ({
+
+const Editable: React.FC<IEditableProps> = ({
   childRef,
   text,
   name,
   type,
+  db,
   placeholder,
   children,
-  ...props
+  username,
+  token,
 }) => {
   // Manage the state whether to show the label or the input box. By default, label will be shown.
   // Exercise: It can be made dynamic by accepting initial state as props outside the component
-  const [isEditing, setEditing] = useState(false);
+  const [isEditing, setEditing] = useState<boolean>(false);
   useEffect(() => {
     if (childRef && childRef.current && isEditing === true) {
       childRef.current.focus();
@@ -22,21 +26,21 @@ const Editable = ({
     if (text && isEditing === false) {
       console.log("Updating user");
       let data = {
-        username: props.username,
+        username: username,
         content: text,
-        db: props.db,
-        field: name
+        db: db,
+        field: name,
       };
 
       const url = process.env.REACT_APP_API_URL + "/api/profile";
-      const request = async (id = 100) => {
+      const request = async () => {
         const putUser = await fetch(url, {
           method: "PUT",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: "Bearer " + props.auth.token
+            Authorization: "Bearer " + token,
           },
-          body: formurlencoded(data)
+          body: formurlencoded(data),
         });
         await putUser.json();
         if (putUser.status === 200) {
@@ -45,9 +49,9 @@ const Editable = ({
       };
       request();
     }
-  }, [isEditing, childRef, props, name, text]);
+  }, [isEditing, childRef, name, text]);
   // Event handler while pressing any key while editing
-  const handleKeyDown = (event, type) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     // Handle when key is pressed
     const { key } = event;
     const keys = ["Escape", "Tab"];
@@ -73,11 +77,11 @@ const Editable = ({
 Note: For simplicity purpose, I removed all the classnames, you can check the repo for CSS styles
 */
   return (
-    <section {...props}>
+    <section>
       {isEditing ? (
         <div
           onBlur={() => setEditing(false)}
-          onKeyDown={e => handleKeyDown(e, type)}
+          onKeyDown={(e) => handleKeyDown(e)}
         >
           {children}
         </div>

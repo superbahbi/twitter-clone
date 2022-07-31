@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { Context as AuthContext } from "../Contexts/AuthContext";
-import Header from ".././Components/Header";
-import Editable from ".././Components/Editable";
+import Header from "../Components/Header";
+import Editable from "../Components/Editable";
 import styled from "styled-components";
 import Sidebar from "../Components/Sidebar";
 import Col from "react-bootstrap/Col";
@@ -108,7 +108,7 @@ const Settings: React.FC<{}> = ({}) => {
                   placeholder={user.profile.name}
                   type="input"
                   childRef={inputRef}
-                  auth={authState}
+                  token={authState.token}
                 >
                   <input
                     ref={inputRef}
@@ -132,7 +132,7 @@ const Settings: React.FC<{}> = ({}) => {
                   placeholder={user.profile.bio}
                   type="input"
                   childRef={inputRef}
-                  auth={authState}
+                  token={authState.token}
                 >
                   <input
                     ref={inputRef}
@@ -156,7 +156,7 @@ const Settings: React.FC<{}> = ({}) => {
                   placeholder={user.profile.location}
                   type="input"
                   childRef={inputRef}
-                  auth={authState}
+                  token={authState.token}
                 >
                   <input
                     ref={inputRef}
@@ -180,7 +180,7 @@ const Settings: React.FC<{}> = ({}) => {
                   placeholder={user.profile.website}
                   type="input"
                   childRef={inputRef}
-                  auth={authState}
+                  token={authState.token}
                 >
                   <input
                     ref={inputRef}
