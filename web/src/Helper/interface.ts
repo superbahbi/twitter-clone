@@ -248,3 +248,12 @@ export interface IListProps {
   name?: string;
   active?: boolean;
 }
+export interface IModalProps {
+  index?: number;
+  show?: boolean;
+  onHide?: () => void;
+  onFormSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+  onHandleModal?: () => void;
+  body?: React.ReactNode;
+  footer?: React.ReactNode;
+}

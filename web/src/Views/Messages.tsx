@@ -294,7 +294,6 @@ const Messages: React.FC<{}> = ({}) => {
           // />
           <></>
         }
-        setShow={setShow}
       />
     </Container>
   );
