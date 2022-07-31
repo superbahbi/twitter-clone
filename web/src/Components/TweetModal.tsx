@@ -1,12 +1,17 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from "@tanstack/react-query";
 import Tweet from "./Tweet";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import api from "../Helper/api";
 import Modal from "react-bootstrap/Modal";
 import IconButton from "./IconButton";
 import { Close } from "../Assets/Icon";
+import { IContext, INewTweet, ITweetModalProps } from "../Helper/interface";
 const TweetContainer = styled.div`
   flex: 1 1 auto !important;
 `;
@@ -34,23 +39,40 @@ const ModalContainer = styled(Modal)`
     border-top: 0 none;
   }
 `;
-const TweetModal = ({ show, onHide, onHandleTweetModal }) => {
+const TweetModal: React.FC<ITweetModalProps> = ({
+  show,
+  onHide,
+  onHandleTweetModal,
+}) => {
   const { state: authState } = useContext(AuthContext);
   const { user } = authState;
   const queryClient = useQueryClient();
-  const addTweetMutation = useMutation(
-    async (newPost) => {
-      await api.post("/api/tweet", newPost);
-    },
-    {
-      onError: (previousValue) =>
-        queryClient.setQueryData(["tweets"], previousValue),
-      onSettled: () => {
-        queryClient.invalidateQueries(["tweets"]);
-        onHandleTweetModal();
+  const addTweetMutation: UseMutationResult<string, Error, INewTweet> =
+    useMutation<string, Error, INewTweet, IContext | undefined>(
+      async ({ imgFile, videoLink, tweetText }): Promise<string> => {
+        const formData = new FormData();
+        formData.append("image", imgFile as string);
+        formData.append("type", "tweetImg");
+        formData.append("link", videoLink);
+        formData.append("tweet", tweetText);
+        const res = await api.post("/api/tweet", formData);
+        if (res.status === 200) {
+          return "success tweet";
+        } else {
+          return "error: tweet failed";
+        }
       },
-    }
-  );
+      {
+        onError: (previousValue) => {
+          queryClient.setQueryData(["tweets"], previousValue);
+        },
+        // no matter if error or success run me
+        onSettled: () => {
+          queryClient.invalidateQueries(["tweets"]);
+          onHandleTweetModal();
+        },
+      }
+    );
   return (
     <ModalContainer show={show} onHide={onHide} animation={false}>
       <Modal.Header>

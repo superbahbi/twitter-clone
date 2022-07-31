@@ -267,3 +267,8 @@ export interface ITweetInputProps {
   disable?: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
+export interface ITweetModalProps {
+  show: boolean;
+  onHide: () => void;
+  onHandleTweetModal: () => void;
+}
