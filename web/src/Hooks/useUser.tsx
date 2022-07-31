@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { Context as UserContext } from "../Contexts/UserContext";
-const useUser = (id) => {
+const useUser = () => {
   const { getUser, resetData } = useContext(UserContext);
 
-  const getUserProfile = async (id) => {
-    return await getUser(id);
+  const getUserProfile = async (id: string | undefined) => {
+    if (id) {
+      return await getUser(id);
+    } else return null;
   };
 
   const reset = async () => {
