@@ -291,3 +291,9 @@ export interface ITweetContextProps {
   newTweet?: ITweetDataProps;
   reload?: boolean;
 }
+export interface IUserContextProps {
+  allUsers: IUserProps[];
+  messsages: IMessageHistoryProps[];
+  getUser: IUserProps;
+  errorMessage?: string;
+}

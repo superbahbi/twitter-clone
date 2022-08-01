@@ -13,3 +13,9 @@ export enum TweetTypes {
   Reload = "reload",
   Reset = "reset",
 }
+export enum UserTypes {
+  Error = "add_error",
+  FetchMany = "fetch_users",
+  FetchOne = "fetch_user",
+  Messages = "fetch_messages",
+}
