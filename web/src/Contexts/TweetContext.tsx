@@ -1,24 +1,34 @@
 import createDataContext from "./createDataContext";
 import api from "../Helper/api";
+import {
+  ILikesProps,
+  IReducerActionProps,
+  ITweetContextProps,
+  ITweetDataProps,
+} from "../Helper/interface";
+import { TweetTypes } from "../Helper/enum";
 
-const tweetReducer = (state: any, action: any) => {
+const tweetReducer = (
+  state: ITweetContextProps,
+  action: IReducerActionProps
+) => {
   switch (action.type) {
-    case "add_error":
+    case TweetTypes.Error:
       return { ...state, errorMessage: action.payload };
-    case "fetch_tweets":
+    case TweetTypes.Fetch:
       return { ...state, errorMessage: "", tweets: action.payload };
-    case "add_tweet":
+    case TweetTypes.Add:
       return {
         ...state,
         errorMessage: "",
         tweets: action.payload,
       };
 
-    case "like_tweet":
-      state.tweets.map((tweet: any) => {
+    case TweetTypes.Like:
+      state.tweets.map((tweet: ITweetDataProps) => {
         if (tweet._id === action.payload.response._id) {
           let lineIndex = -1;
-          tweet.likes.map((like: any, index: number) => {
+          tweet.likes.map((like: ILikesProps, index: number) => {
             if (like._id === action.payload.userId) {
               lineIndex = index;
             }
@@ -33,23 +43,23 @@ const tweetReducer = (state: any, action: any) => {
         return null;
       });
       return { ...state, errorMessage: "" };
-    case "delete_tweet":
-      state.tweets.map((tweet: any, index: number) => {
+    case TweetTypes.Delete:
+      state.tweets.map((tweet: ITweetDataProps, index: number) => {
         if (tweet._id === action.payload) {
           state.tweets.splice(index, 1);
         }
         return null;
       });
       return { ...state, errorMessage: "" };
-    case "reload":
+    case TweetTypes.Reload:
       return { ...state, errorMessage: "", reload: action.payload };
-    case "reset":
+    case TweetTypes.Reset:
       return { ...state, errorMessage: "", tweets: action.payload };
     default:
       return state;
   }
 };
-const getTweets = (dispatch: any) => async (id: string) => {
+const getTweets = (dispatch: React.Dispatch<any>) => async (id: string) => {
   try {
     let url = id ? "/api/tweet/" + id : "/api/tweet";
     const response = await api.get(url);
@@ -62,22 +72,23 @@ const getTweets = (dispatch: any) => async (id: string) => {
     });
   }
 };
-const addTweet = (dispatch: any) => async (data: any) => {
-  try {
-    const response = await api.post("/api/tweet", data);
-    dispatch({ type: "add_tweet", payload: response.data.foundTweet });
-  } catch (error) {
-    dispatch({
-      type: "add_error",
-      payload:
-        "Cannot post tweet. Please check your internet connection and try again.",
-    });
-  }
-};
-const clearAddTweet = (dispatch: any) => async () => {
+const addTweet =
+  (dispatch: React.Dispatch<any>) => async (data: ITweetDataProps) => {
+    try {
+      const response = await api.post("/api/tweet", data);
+      dispatch({ type: "add_tweet", payload: response.data.foundTweet });
+    } catch (error) {
+      dispatch({
+        type: "add_error",
+        payload:
+          "Cannot post tweet. Please check your internet connection and try again.",
+      });
+    }
+  };
+const clearAddTweet = (dispatch: React.Dispatch<any>) => async () => {
   dispatch({ type: "update_feed", payload: null });
 };
-const deleteTweet = (dispatch: any) => async (id: string) => {
+const deleteTweet = (dispatch: React.Dispatch<any>) => async (id: string) => {
   try {
     await api.delete("/api/tweet/" + id);
     dispatch({ type: "delete_tweet", payload: id });
@@ -90,34 +101,36 @@ const deleteTweet = (dispatch: any) => async (id: string) => {
   }
 };
 // const editTweet = (dispatch: any) => async (id, data) => {};
-const likeTweet = (dispatch: any) => async (id: any, userId: any) => {
-  try {
-    const response = await api.put("/api/like/" + id);
-    dispatch({
-      type: "like_tweet",
-      payload: { response: response.data, userId: userId },
-    });
-  } catch (error) {
-    dispatch({
-      type: "add_error",
-      payload:
-        "Cannot like tweet. Please check your internet connection and try again.",
-    });
-  }
-};
-const addComment = (dispatch: any) => async (data: any) => {
-  try {
-    const response = await api.post("/api/comment", data);
-    dispatch({ type: "add_tweet", payload: response });
-  } catch (error) {
-    dispatch({
-      type: "add_error",
-      payload:
-        "Cannot post comment. Please check your internet connection and try again.",
-    });
-  }
-};
-const resetData = (dispatch: any) => () => {
+const likeTweet =
+  (dispatch: React.Dispatch<any>) => async (id: any, userId: string) => {
+    try {
+      const response = await api.put("/api/like/" + id);
+      dispatch({
+        type: "like_tweet",
+        payload: { response: response.data, userId: userId },
+      });
+    } catch (error) {
+      dispatch({
+        type: "add_error",
+        payload:
+          "Cannot like tweet. Please check your internet connection and try again.",
+      });
+    }
+  };
+const addComment =
+  (dispatch: React.Dispatch<any>) => async (data: ITweetDataProps) => {
+    try {
+      const response = await api.post("/api/comment", data);
+      dispatch({ type: "add_tweet", payload: response });
+    } catch (error) {
+      dispatch({
+        type: "add_error",
+        payload:
+          "Cannot post comment. Please check your internet connection and try again.",
+      });
+    }
+  };
+const resetData = (dispatch: React.Dispatch<any>) => () => {
   dispatch({ type: "reset", payload: "" });
 };
 export const { Provider, Context } = createDataContext(

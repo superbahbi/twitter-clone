@@ -285,3 +285,9 @@ export interface IAuthContextProps {
   user?: IUserProps;
   errorMessage?: string;
 }
+export interface ITweetContextProps {
+  tweets: ITweetDataProps[];
+  errorMessage?: string;
+  newTweet?: ITweetDataProps;
+  reload?: boolean;
+}
