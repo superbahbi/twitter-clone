@@ -9,9 +9,9 @@ import {
   Text,
 } from "react-native";
 import { Avatar, Divider } from "react-native-elements";
-import { DrawerItems } from "react-navigation-drawer";
+// import { DrawerItems } from "react-navigation-drawer";
 import { Context as TweetContext } from "../context/TweetContext";
-import { NavigationEvents } from "react-navigation";
+// import { NavigationEvents } from "react-navigation";
 const Drawer = (props, user) => {
   const ripple = TouchableNativeFeedback.Ripple("#adacac", false);
 
@@ -19,7 +19,7 @@ const Drawer = (props, user) => {
   const { profile, username, followers, following } = state.user;
   return (
     <View style={{ flex: 1 }}>
-      <NavigationEvents onWillFocus={fetchUser} />
+      {/* <NavigationEvents onWillFocus={fetchUser} /> */}
       <SafeAreaView
         style={styles.container}
         forceInset={{ top: "always", horizontal: "never" }}

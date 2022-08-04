@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
-import { View, StyleSheet } from "react-native";
-import { Text, Button } from "react-native-elements";
-import NavLink from "../components/NavLink";
+import { useNavigationContainerRef } from "@react-navigation/native";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-elements";
+import * as RootNavigation from "../navigationRef";
 import { FontAwesome5 } from "@expo/vector-icons";
-const LandingScreen = ({ navigation }) => {
+import NavLink from "../components/NavLink";
+const LandingScreen = () => {
   return (
     <View style={styles.container}>
       <View>
@@ -20,7 +22,7 @@ const LandingScreen = ({ navigation }) => {
       <Button
         buttonStyle={styles.button}
         title="Create Account"
-        onPress={() => navigation.navigate("Signup")}
+        onPress={() => RootNavigation.navigate("Signup")}
       />
 
       <NavLink

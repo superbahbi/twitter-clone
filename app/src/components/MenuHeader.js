@@ -5,7 +5,6 @@ import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { Context as AuthContext } from "../context/AuthContext";
 import { DrawerActions } from "react-navigation-drawer";
-import { withNavigation } from "react-navigation";
 const MenuHeader = ({ user, navigation, title }) => {
   const { profile } = user;
   return (
@@ -53,4 +52,4 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
 });
-export default withNavigation(MenuHeader);
+export default MenuHeader;

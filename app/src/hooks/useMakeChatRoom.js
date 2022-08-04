@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { Context as MessageContext } from "../context/MessageContext";
-import { navigate } from "../navigationRef";
 export default () => {
   const {
     // state: { id },

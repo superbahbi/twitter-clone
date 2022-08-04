@@ -1,10 +1,9 @@
-import { NavigationActions } from "react-navigation";
-let navigator;
+import { createNavigationContainerRef } from "@react-navigation/native";
 
-export const setNavigator = (nav) => {
-  navigator = nav;
-};
+export const navigationRef = createNavigationContainerRef();
 
-export const navigate = (routeName, params) => {
-  navigator.dispatch(NavigationActions.navigate({ routeName, params }));
-};
+export function navigate(name, params) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name, params);
+  }
+}

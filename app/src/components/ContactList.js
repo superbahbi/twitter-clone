@@ -1,8 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
-import { withNavigation } from "react-navigation";
-
 const ContactList = ({ navigation, text, routeName }) => {
   return (
     <>
@@ -18,4 +16,4 @@ const styles = StyleSheet.create({
     margin: 20,
   },
 });
-export default withNavigation(ContactList);
+export default ContactList;

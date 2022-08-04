@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import createDataContext from "./createDataContext";
 import tweetApi from "../api/tweetApi";
 import formurlencoded from "form-urlencoded";
-import { navigate } from "../navigationRef";
+// import { navigate } from "../navigationRef";
 const authReducer = (state, action) => {
   switch (action.type) {
     case "add_error":
@@ -22,9 +22,9 @@ const tryLocalSignin = (dispatch) => async () => {
   // await AsyncStorage.removeItem("token");
   if (token) {
     dispatch({ type: "signin", payload: token });
-    navigate("Tweet");
+    // navigate("Tweet");
   } else {
-    navigate("loginFlow");
+    // navigate("loginFlow");
   }
 };
 const clearErrorMessage = (dispatch) => () => {
@@ -45,7 +45,7 @@ const signup =
       );
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
-      navigate("Tweet");
+      // navigate("Tweet");
     } catch (err) {
       dispatch({
         type: "add_error",
@@ -73,7 +73,7 @@ const signin =
         type: "signin",
         payload: { token: response.data.token, user: response.data.user },
       });
-      navigate("Tweet");
+      // navigate("Tweet");
     } catch (err) {
       console.log(err);
       dispatch({
@@ -87,7 +87,7 @@ const signout = (dispatch) => async () => {
   await AsyncStorage.removeItem("token");
   await AsyncStorage.removeItem("pushtoken");
   dispatch({ type: signout });
-  navigate("loginFlow");
+  // navigate("loginFlow");
 };
 
 export const { Provider, Context } = createDataContext(

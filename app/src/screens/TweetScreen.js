@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import { NavigationEvents } from "react-navigation";
+// import { NavigationEvents } from "react-navigation";
 import ListItem from "../components/ListItem";
 import MenuHeader from "../components/MenuHeader";
 import { Context as AuthContext } from "../context/AuthContext";

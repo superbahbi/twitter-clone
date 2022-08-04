@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { NavigationEvents } from "react-navigation";
+// import { NavigationEvents } from "react-navigation";
 import {
   View,
   StyleSheet,
@@ -18,7 +18,7 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView>
-      <NavigationEvents onWillFocus={() => fetchProfileTweet(username)} />
+      {/* <NavigationEvents onWillFocus={() => fetchProfileTweet(username)} /> */}
       <Image
         source={{ uri: profile ? profile.cover.filename : null }}
         style={styles.cover}

@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Context as TweetContext } from "../context/TweetContext";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, Button, Card, ListItem } from "react-native-elements";
-import { SafeAreaView } from "react-navigation";
 const ContactScreen = ({ navigation }) => {
   const { state } = useContext(TweetContext);
 

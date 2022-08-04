@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Button, Input } from "react-native-elements";
-import { NavigationEvents } from "react-navigation";
 import { Context as AuthContext } from "../context/AuthContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 import NavLink from "../components/NavLink";
@@ -23,7 +22,7 @@ const SigninScreen = ({ navigation }) => {
       <View>
         <Text style={styles.title}>Log in to Not Twitter</Text>
       </View>
-      <NavigationEvents onWillFocus={clearErrorMessage} />
+      {/* <NavigationEvents onWillFocus={clearErrorMessage} /> */}
 
       {state.errorMessage ? (
         <Text style={styles.errorMessage}>{state.errorMessage}</Text>
