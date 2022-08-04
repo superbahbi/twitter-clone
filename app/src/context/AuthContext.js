@@ -19,7 +19,7 @@ const authReducer = (state, action) => {
 };
 const tryLocalSignin = (dispatch) => async () => {
   const token = await AsyncStorage.getItem("token");
-
+  // await AsyncStorage.removeItem("token");
   if (token) {
     dispatch({ type: "signin", payload: token });
     navigate("Tweet");
@@ -65,6 +65,8 @@ const signin =
           password,
         })
       );
+      console.log(username, password);
+      console.log("res:", response.data);
       await AsyncStorage.setItem("token", response.data.token);
       await AsyncStorage.setItem("user", JSON.stringify(response.data.user));
       dispatch({

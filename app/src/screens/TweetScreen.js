@@ -15,7 +15,7 @@ import { Context as AuthContext } from "../context/AuthContext";
 import { Context as TweetContext } from "../context/TweetContext";
 
 const TweetScreen = async ({ navigation }) => {
-  const { state: tweetState, fetchTweet, fetchUser } = useContext(TweetContext);
+  // const { state: tweetState, fetchTweet, fetchUser } = useContext(TweetContext);
   const { state: authState, signout } = useContext(AuthContext);
   // console.log(authState.user);
   // await AsyncStorage.removeItem("token");
@@ -23,7 +23,7 @@ const TweetScreen = async ({ navigation }) => {
   return (
     <SafeAreaView forceInset={{ top: "always" }} style={styles.container}>
       {/* <NavigationEvents onWillFocus={fetchUser} /> */}
-      <NavigationEvents onWillFocus={fetchTweet} />
+      {/* <NavigationEvents onWillFocus={fetchTweet} /> */}
 
       {/* <MenuHeader user={authState.user} />
       <FlatList
