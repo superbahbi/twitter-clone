@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-
 import { View, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import { Context as AuthContext } from "../context/AuthContext";
-import { DrawerActions } from "react-navigation-drawer";
+// import { DrawerActions } from "react-navigation-drawer";
 const MenuHeader = ({ user, navigation, title }) => {
   const { profile } = user;
   return (
@@ -14,14 +13,14 @@ const MenuHeader = ({ user, navigation, title }) => {
         leftComponent={
           <TouchableOpacity
             onPress={() => {
-              navigation.dispatch(DrawerActions.openDrawer());
+              // navigation.dispatch(DrawerActions.openDrawer());
             }}
           >
             <Avatar
               rounded
               size="small"
               source={{
-                uri: profile ? profile.avatar.filename : null,
+                uri: user ? user.profile.avatar.filename : null,
               }}
             />
           </TouchableOpacity>

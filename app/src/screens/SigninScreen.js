@@ -1,14 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Button, Input } from "react-native-elements";
 import { Context as AuthContext } from "../context/AuthContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 import NavLink from "../components/NavLink";
 
-const SigninScreen = ({ navigation }) => {
-  const { state, signin, clearErrorMessage } = useContext(AuthContext);
+const SigninScreen = () => {
+  const { state, signin, tryLocalSignin, clearErrorMessage } =
+    useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
   return (
     <View style={styles.container}>
       <View>
@@ -20,7 +24,7 @@ const SigninScreen = ({ navigation }) => {
         />
       </View>
       <View>
-        <Text style={styles.title}>Log in to Not Twitter</Text>
+        <Text style={styles.title}>Log in to Twitter</Text>
       </View>
       {/* <NavigationEvents onWillFocus={clearErrorMessage} /> */}
 
@@ -48,7 +52,9 @@ const SigninScreen = ({ navigation }) => {
         <Button
           buttonStyle={styles.signInButton}
           title="Log in"
-          onPress={() => signin({ username, password })}
+          onPress={() => {
+            signin({ username, password });
+          }}
         />
       </View>
       <View>

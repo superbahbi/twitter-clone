@@ -5,11 +5,9 @@ import { Text, Button } from "react-native-elements";
 import { Feather } from "@expo/vector-icons";
 import MenuHeader from "../components/MenuHeader";
 const NotificationScreen = () => {
-  const { state } = useContext(TweetContext);
-
   return (
     <View>
-      <MenuHeader user={state.user} title="Notifications" />
+      {/* <MenuHeader title="Notifications" /> */}
       <Text>NotificationScreen</Text>
     </View>
   );

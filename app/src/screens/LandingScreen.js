@@ -1,11 +1,15 @@
-import { useNavigationContainerRef } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect, useContext } from "react";
+import { Context as AuthContext } from "../context/AuthContext";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-elements";
 import * as RootNavigation from "../navigationRef";
 import { FontAwesome5 } from "@expo/vector-icons";
 import NavLink from "../components/NavLink";
 const LandingScreen = () => {
+  const { tryLocalSignin } = useContext(AuthContext);
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
   return (
     <View style={styles.container}>
       <View>

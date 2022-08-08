@@ -56,7 +56,7 @@ const ListItem = ({
           {content ? <Text style={styles.text}>{content}</Text> : null}
           {image ? (
             <Image
-              source={{ uri: image.filename }}
+              source={{ uri: image }}
               style={styles.image}
               PlaceholderContent={<ActivityIndicator />}
             />

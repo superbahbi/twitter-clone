@@ -2,13 +2,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import createDataContext from "./createDataContext";
 import tweetApi from "../api/tweetApi";
 import formurlencoded from "form-urlencoded";
-// import { navigate } from "../navigationRef";
+import * as RootNavigation from "../navigationRef";
 const authReducer = (state, action) => {
   switch (action.type) {
     case "add_error":
       return { ...state, errorMessage: action.payload };
     case "signin":
-      return { errorMessage: "", token: action.payload };
+      return {
+        errorMessage: "",
+        token: action.payload.token,
+        user: action.payload.user,
+      };
     case "clear_error_message":
       return { ...state, errorMessage: "" };
     case "signout":
@@ -19,12 +23,16 @@ const authReducer = (state, action) => {
 };
 const tryLocalSignin = (dispatch) => async () => {
   const token = await AsyncStorage.getItem("token");
+  const user = await AsyncStorage.getItem("user");
   // await AsyncStorage.removeItem("token");
-  if (token) {
-    dispatch({ type: "signin", payload: token });
-    // navigate("Tweet");
+  if (token && user) {
+    dispatch({
+      type: "signin",
+      payload: { token: token, user: JSON.parse(user) },
+    });
+    RootNavigation.navigate("Home");
   } else {
-    // navigate("loginFlow");
+    RootNavigation.navigate("Signin");
   }
 };
 const clearErrorMessage = (dispatch) => () => {
@@ -44,8 +52,12 @@ const signup =
         })
       );
       await AsyncStorage.setItem("token", response.data.token);
-      dispatch({ type: "signin", payload: response.data.token });
-      // navigate("Tweet");
+      await AsyncStorage.setItem("user", JSON.stringify(response.data.user));
+      dispatch({
+        type: "signin",
+        payload: { token: response.data.token, user: response.data.user },
+      });
+      RootNavigation.navigate("Home");
     } catch (err) {
       dispatch({
         type: "add_error",
@@ -65,15 +77,13 @@ const signin =
           password,
         })
       );
-      console.log(username, password);
-      console.log("res:", response.data);
       await AsyncStorage.setItem("token", response.data.token);
       await AsyncStorage.setItem("user", JSON.stringify(response.data.user));
       dispatch({
         type: "signin",
         payload: { token: response.data.token, user: response.data.user },
       });
-      // navigate("Tweet");
+      RootNavigation.navigate("Home");
     } catch (err) {
       console.log(err);
       dispatch({
@@ -87,7 +97,7 @@ const signout = (dispatch) => async () => {
   await AsyncStorage.removeItem("token");
   await AsyncStorage.removeItem("pushtoken");
   dispatch({ type: signout });
-  // navigate("loginFlow");
+  navigate("Landing");
 };
 
 export const { Provider, Context } = createDataContext(

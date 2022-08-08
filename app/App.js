@@ -1,19 +1,27 @@
 import React, { useRef, useEffect, useState } from "react";
-import { registerRootComponent } from "expo";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { navigationRef } from "./src/navigationRef";
-// import { createBottomTabNavigator } from "react-navigation-tabs";
-// import { createDrawerNavigator } from "react-navigation-drawer";
-// import { setNavigator } from "./src/navigationRef";
 
 import LandingScreen from "./src/screens/LandingScreen";
 import SigninScreen from "./src/screens/SigninScreen";
 import SignupScreen from "./src/screens/SignupScreen";
+import TweetScreen from "./src/screens/TweetScreen";
+import NotificationScreen from "./src/screens/NotificationScreen";
+
+import { Provider as AuthProvider } from "./src/context/AuthContext";
+import { Provider as TweetProvider } from "./src/context/TweetContext";
+import { Provider as MessageProvider } from "./src/context/MessageContext";
+// import { createBottomTabNavigator } from "react-navigation-tabs";
+// import { createDrawerNavigator } from "react-navigation-drawer";
+// import { setNavigator } from "./src/navigationRef";
+
 // import AuthScreen from "./src/screens/AuthScreen";
-// import TweetScreen from "./src/screens/TweetScreen";
+
 // import SearchScreen from "./src/screens/SearchScreen";
-// import NotificationScreen from "./src/screens/NotificationScreen";
+
 // import MessageScreen from "./src/screens/MessageScreen";
 // import ContactScreen from "./src/screens/ContactScreen";
 // import ChatScreen from "./src/screens/ChatScreen";
@@ -25,130 +33,48 @@ import SignupScreen from "./src/screens/SignupScreen";
 import { Feather } from "@expo/vector-icons";
 
 // import Drawer from "./src/components/Drawer";
-import { Provider as AuthProvider } from "./src/context/AuthContext";
-import { Provider as TweetProvider } from "./src/context/TweetContext";
-import { Provider as MessageProvider } from "./src/context/MessageContext";
-// const tweetFlow = createStackNavigator({
-//   Tweet: {
-//     screen: TweetScreen,
-//     navigationOptions: {
-//       headerShown: false,
-//     },
-//   },
-//   SingleTweet: {
-//     screen: SingleTweetScreen,
-//     navigationOptions: {
-//       title: "Tweet",
-//     },
-//   },
-// });
-// const messageFlow = createStackNavigator({
-//   Message: {
-//     screen: MessageScreen,
-//     navigationOptions: {
-//       headerShown: false,
-//     },
-//   },
-//   Contact: {
-//     screen: ContactScreen,
-//     navigationOptions: {
-//       title: "New message",
-//     },
-//   },
-//   Chat: {
-//     screen: ChatScreen,
-//     navigationOptions: { headerShown: true },
-//   },
-// });
-
-// const BottomTabNavigator = createBottomTabNavigator({
-//   TweetStack: {
-//     screen: tweetFlow,
-//     navigationOptions: {
-//       tabBarOptions: {
-//         showLabel: false,
-//       },
-//       tabBarIcon: <Feather name="home" size={30} color="#636E72" />,
-//     },
-//   },
-//   Search: {
-//     screen: SearchScreen,
-//     navigationOptions: {
-//       tabBarOptions: {
-//         showLabel: false,
-//       },
-//       tabBarIcon: <Feather name="search" size={30} color="#636E72" />,
-//     },
-//   },
-//   Notification: {
-//     screen: NotificationScreen,
-//     navigationOptions: {
-//       tabBarOptions: {
-//         showLabel: false,
-//       },
-//       tabBarIcon: <Feather name="bell" size={30} color="#636E72" />,
-//     },
-//   },
-//   Message: {
-//     screen: messageFlow,
-//     navigationOptions: {
-//       tabBarOptions: {
-//         showLabel: false,
-//       },
-//       tabBarIcon: <Feather name="mail" size={30} color="#636E72" />,
-//     },
-//   },
-// });
-// const DrawerNavigator = createDrawerNavigator(
-//   {
-//     Home: BottomTabNavigator,
-//     Profile: { screen: ProfileScreen },
-//     List: { screen: TweetScreen },
-//     Bookmarks: { screen: TweetScreen },
-//     Moments: { screen: TweetScreen },
-//     "Sign Out": SignoutScreen,
-//   },
-//   {
-//     drawerWidth: 300,
-//     drawerPosition: "left",
-//     contentComponent: Drawer,
-//   }
-// );
-// const switchNavigator = createSwitchNavigator({
-//   Auth: AuthScreen,
-//   AddTweet: AddTweetScreen,
-
-//   // profileFlow: DrawerNavigator,
-//   loginFlow: createStackNavigator({
-//     Landing: LandingScreen,
-//     Signup: SignupScreen,
-//     Signin: SigninScreen,
-//   }),
-//   mainFlow: DrawerNavigator,
-// });
+const screenOptionStyle = {
+  headerStyle: {
+    backgroundColor: "#9AC4F8",
+  },
+  headerTintColor: "white",
+  headerBackTitle: "Back",
+};
 const Stack = createNativeStackNavigator();
-
+const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
+const MainStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={screenOptionStyle}>
+      <Stack.Screen name="Landing" component={LandingScreen} />
+      <Stack.Screen name="Signin" component={SigninScreen} />
+      <Stack.Screen name="Signup" component={SignupScreen} />
+    </Stack.Navigator>
+  );
+};
+const BottomTabNavigator = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={TweetScreen} />
+      <Tab.Screen name="Test" component={TweetScreen} />
+      <Tab.Screen name="MainStackNavigator" component={MainStackNavigator} />
+    </Tab.Navigator>
+  );
+};
+const DrawerNavigator = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Home" component={BottomTabNavigator} />
+    </Drawer.Navigator>
+  );
+};
 export default () => {
   return (
     <MessageProvider>
       <TweetProvider>
         <AuthProvider>
           <NavigationContainer ref={navigationRef}>
-            <Stack.Navigator>
-              <Stack.Group
-                screenOptions={{
-                  headerShown: false,
-                }}
-              >
-                <Stack.Screen
-                  name="Landing"
-                  component={LandingScreen}
-                  options={{ title: "" }}
-                />
-                <Stack.Screen name="Signin" component={SigninScreen} />
-                <Stack.Screen name="Signup" component={SignupScreen} />
-              </Stack.Group>
-            </Stack.Navigator>
+            <DrawerNavigator />
           </NavigationContainer>
         </AuthProvider>
       </TweetProvider>

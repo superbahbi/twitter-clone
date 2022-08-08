@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext } from "react";
 import {
   FlatList,
@@ -6,42 +5,42 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  Text
 } from "react-native";
 import { Icon } from "react-native-elements";
-// import { NavigationEvents } from "react-navigation";
 import ListItem from "../components/ListItem";
 import MenuHeader from "../components/MenuHeader";
 import { Context as AuthContext } from "../context/AuthContext";
 import { Context as TweetContext } from "../context/TweetContext";
-
-const TweetScreen = async ({ navigation }) => {
-  // const { state: tweetState, fetchTweet, fetchUser } = useContext(TweetContext);
-  const { state: authState, signout } = useContext(AuthContext);
-  // console.log(authState.user);
-  // await AsyncStorage.removeItem("token");
-  // await AsyncStorage.removeItem("user");
+const TweetScreen = ({ navigation }) => {
+  const { state: authState } = useContext(AuthContext);
+  const { state: tweetState, fetchTweet, fetchUser } = useContext(TweetContext);
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchTweet();
+    });
+    return unsubscribe;
+  }, [navigation]);
   return (
     <SafeAreaView forceInset={{ top: "always" }} style={styles.container}>
-      {/* <NavigationEvents onWillFocus={fetchUser} /> */}
-      {/* <NavigationEvents onWillFocus={fetchTweet} /> */}
-
-      {/* <MenuHeader user={authState.user} />
-      <FlatList
-        data={tweetState.tweet}
+      <Text>Test</Text>
+      {/* <MenuHeader user={authState.user} /> */}
+      {/* <FlatList
+        data={tweetState.tweet.foundTweet}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              onPress={() => navigation.navigate("SingleTweet", { item })}
+            // onPress={() => navigation.navigate("SingleTweet", { item })}
             >
               <ListItem
-                avatar={item.avatar}
+                avatar={item.user_data.profile.avatar.filename}
                 _id={item._id}
-                userId={item.userId}
+                userId={item._id}
                 username={item.username}
                 name={item.name}
                 content={item.content}
-                image={item.img}
+                image={item.img?.filename}
                 timestamp={item.timestamp}
                 likes={item.likes}
                 user={authState.user}
@@ -49,14 +48,20 @@ const TweetScreen = async ({ navigation }) => {
             </TouchableOpacity>
           );
         }}
-      /> */}
-      {/* <View style={styles.tweet}>
+      />
+      <View style={styles.tweet}>
         <TouchableOpacity onPress={() => navigation.navigate("AddTweet")}>
           <Icon reverse name="addfile" type="antdesign" color="#1DA1F2" />
         </TouchableOpacity>
       </View> */}
     </SafeAreaView>
   );
+};
+
+TweetScreen.navigationOptions = () => {
+  return {
+    headerShown: false,
+  };
 };
 const styles = StyleSheet.create({
   container: {
@@ -76,4 +81,5 @@ const styles = StyleSheet.create({
     bottom: 30,
   },
 });
+
 export default TweetScreen;

@@ -1,15 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Button, Input } from "react-native-elements";
 import NavLink from "../components/NavLink";
 import { Context as AuthContext } from "../context/AuthContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 const SignupScreen = ({ navigation }) => {
-  const { state, signup, clearErrorMessage } = useContext(AuthContext);
+  const { state, signup, tryLocalSignin, clearErrorMessage } =
+    useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
   return (
     <View style={styles.container}>
       {/* <NavigationEvents onWillFocus={clearErrorMessage} /> */}
