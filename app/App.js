@@ -10,6 +10,13 @@ import SigninScreen from "./src/screens/SigninScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import TweetScreen from "./src/screens/TweetScreen";
 import NotificationScreen from "./src/screens/NotificationScreen";
+import MessageScreen from "./src/screens/MessageScreen";
+import ContactScreen from "./src/screens/ContactScreen";
+import ChatScreen from "./src/screens/ChatScreen";
+import AddTweetScreen from "./src/screens/AddTweetScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import SingleTweetScreen from "./src/screens/SingleTweetScreen";
+import SignoutScreen from "./src/screens/SignoutScreen";
 
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { Provider as TweetProvider } from "./src/context/TweetContext";
@@ -49,6 +56,7 @@ const MainStackNavigator = () => {
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="Signin" component={SigninScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
     </Stack.Navigator>
   );
 };
