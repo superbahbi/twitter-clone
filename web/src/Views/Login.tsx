@@ -70,7 +70,11 @@ const defaultValues: IFormLoginProps = {
 const Login: React.FC<{}> = ({}) => {
   const navigate = useNavigate();
   const { state, signin, tryLocalSignin } = useContext(AuthContext);
-  const { register, handleSubmit, errors } = useForm<IFormLoginProps>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormLoginProps>();
   useEffect(() => {
     tryLocalSignin();
   }, []);
@@ -94,27 +98,23 @@ const Login: React.FC<{}> = ({}) => {
           </div>
           <Form.Group>
             <StyledFormControl
+              {...register("username", { required: true })}
               error={errors.username}
               type="text"
               id="inputUsername"
               autoComplete="off"
               placeholder="Email, or username"
               name="username"
-              ref={register({
-                required: true,
-              })}
             />
           </Form.Group>
           <Form.Group>
             <StyledFormControl
+              {...register("password", { required: true })}
               error={errors.password}
               type="password"
               id="inputPassword"
               placeholder="Password"
               name="password"
-              ref={register({
-                required: true,
-              })}
             />
           </Form.Group>
           <div></div>

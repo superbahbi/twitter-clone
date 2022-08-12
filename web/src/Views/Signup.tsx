@@ -66,7 +66,12 @@ const StyledFormControl = styled(Form.Control)`
 const Signup: React.FC<{}> = ({}) => {
   const navigate = useNavigate();
   const { state, signup, tryLocalSignin } = useContext(AuthContext);
-  const { register, handleSubmit, errors, watch } = useForm<IFormSignupProps>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<IFormSignupProps>();
   useEffect(() => {
     tryLocalSignin();
   }, []);
@@ -91,80 +96,79 @@ const Signup: React.FC<{}> = ({}) => {
           </div>
           <Form.Group>
             <StyledFormControl
+              {...register("username", { required: true })}
               error={errors.username}
               type="text"
               id="inputUsername"
               placeholder="Enter username"
               name="username"
               autoComplete="username"
-              ref={register({
-                required: true,
-              })}
             />
           </Form.Group>
 
           <Form.Group>
             <StyledFormControl
+              {...register("password", {
+                required: true,
+                validate: (value) => value === watch("confirmpassword"),
+              })}
               error={errors.password}
               type="password"
               id="inputPassword"
               placeholder="Enter password"
               name="password"
               autoComplete="new-password"
-              ref={register({
-                required: true,
-                validate: (value) => value === watch("confirmpassword"),
-              })}
             />
           </Form.Group>
           <Form.Group>
             <StyledFormControl
+              {...register("confirmpassword", {
+                required: true,
+                validate: (value) => value === watch("password"),
+              })}
               error={errors.confirmpassword}
               type="password"
               id="inputConfirmPassword"
               placeholder="Repeat Password"
               name="confirmpassword"
               autoComplete="new-password"
-              ref={register({
-                required: true,
-                validate: (value) => value === watch("password"),
-              })}
             />
           </Form.Group>
           <Form.Group>
             <StyledFormControl
+              // TODO: character limit
+              {...register("name", {
+                required: true,
+              })}
               error={errors.name}
               type="text"
               id="inputName"
               placeholder="Enter name"
               name="name"
               autoComplete="name"
-              ref={register({
-                required: true,
-              })}
             />
           </Form.Group>
           <Form.Group>
             <StyledFormControl
+              {...register("email", {
+                required: true,
+                pattern: /^\S+@\S+$/i,
+              })}
               error={errors.email}
               type="email"
               id="inputEmail"
               placeholder="Enter email address"
               name="email"
-              ref={register({
-                required: true,
-                pattern: /^\S+@\S+$/i,
-              })}
             />
           </Form.Group>
           <Form.Group>
             <StyledFormControl
+              {...register("confirmpassword", {
+                required: true,
+              })}
               // error={errors.gender}
               as="select"
               name="gender"
-              ref={register({
-                required: true,
-              })}
             >
               <option value="" hidden>
                 &#160;&#160;Select

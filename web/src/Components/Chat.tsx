@@ -171,14 +171,12 @@ const Chat: React.FC<IChatProps> = ({
           <FormCol sm={10}>
             <FormGroup>
               <StyledFormControl
+                {...register("message", { required: true })}
                 type="text"
                 id="inputMessage"
                 autoComplete="off"
                 placeholder="Start a message"
                 name="message"
-                ref={register({
-                  required: true,
-                })}
                 onChange={(event: React.SyntheticEvent) => {
                   const target = event.target as HTMLInputElement;
                   if (!target.value) return;
