@@ -22,7 +22,7 @@ const LoginContainer = styled.div`
       display: flex;
       justify-content: center;
       svg {
-        fill: ${(props) => props.theme.main};
+        fill: ${(props) => props.theme.color.main};
         width: 30px;
       }
     }

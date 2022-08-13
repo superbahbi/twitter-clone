@@ -55,14 +55,14 @@ const LandingCol = styled.div`
         padding-top: 24px;
         padding-bottom: 12px;
         svg {
-          fill: ${(props) => props.theme.main};
+          fill: ${(props) => props.theme.color.main};
           width: 42px;
         }
       }
       .heading {
         font-size: 64px;
         font-weight: 900;
-        color: ${(props) => props.theme.text};
+        color: ${(props) => props.theme.color.text};
         line-height: 84px;
         margin-bottom: 48px;
         margin-top: 48px;
@@ -70,20 +70,20 @@ const LandingCol = styled.div`
       .join-now {
         font-size: 31px;
         font-weight: 900;
-        color: ${(props) => props.theme.text};
+        color: ${(props) => props.theme.color.text};
         margin-bottom: 32px;
       }
       .disclaimer {
         font-size: 11px;
         font-weight: 300;
-        color: ${(props) => props.theme.lightText};
+        color: ${(props) => props.theme.color.lightText};
         margin-top: 8px;
         margin-bottom: 20px;
       }
       .account {
         font-size: 17px;
         font-weight: 600;
-        color: ${(props) => props.theme.text};
+        color: ${(props) => props.theme.color.text};
         margin-top: 40px;
         margin-bottom: 20px;
       }

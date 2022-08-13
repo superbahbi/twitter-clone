@@ -22,7 +22,7 @@ const LoginContainer = styled.div`
       display: flex;
       justify-content: center;
       svg {
-        fill: ${(props) => props.theme.main};
+        fill: ${(props) => props.theme.color.main};
         width: 30px;
       }
     }
@@ -41,24 +41,24 @@ const StyledForm = styled(Form)`
     margin-top: 24px;
   }
   .error {
-    color: ${(props) => props.theme.error};
+    color: ${(props) => props.theme.color.error};
   }
 `;
 const StyledFormControl = styled(Form.Control)`
   border: ${(props) =>
     props.error
-      ? `1px solid ${props.theme.error}`
-      : `1px solid ${props.theme.border}`};
+      ? `1px solid ${props.theme.color.error}`
+      : `1px solid ${props.theme.color.border}`};
   border-radius: 0;
   box-shadow: none;
   outline: none;
   color: inherit;
-  background: ${(props) => props.theme.white};
+  background: ${(props) => props.theme.color.white};
   margin-bottom: 16px;
   text-transform: lowercase;
   :focus {
     border: none;
-    border: 1px solid ${(props) => props.theme.main};
+    border: 1px solid ${(props) => props.theme.color.main};
     border-radius: 0;
     box-shadow: none;
     outline: none;
