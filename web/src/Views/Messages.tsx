@@ -37,14 +37,14 @@ const Container = styled.div`
 
 const UserContainer = styled.div`
   grid-area: user;
-  border-right: 1px solid rgb(239, 243, 244);
-  border-left: 1px solid rgb(239, 243, 244);
+  border-right: 1px solid ${(props) => props.theme.color.border};
+  border-left: 1px solid ${(props) => props.theme.color.border};
   padding-bottom: 53px;
   height: 100vh;
 `;
 const ChatContainer = styled.div`
   grid-area: chat;
-  border-right: 1px solid rgb(239, 243, 244);
+  border-right: 1px solid ${(props) => props.theme.color.border};
   @media (max-width: 1080px) {
     display: none;
   }
@@ -74,7 +74,7 @@ const MessageH = styled.h1`
 `;
 const MessageP = styled.p`
   font-size: 15px;
-  color: #657786;
+  color: ${(props) => props.theme.color.text};
 `;
 const SelectMessage = styled.div`
   display: flex;
