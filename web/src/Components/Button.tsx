@@ -1,24 +1,28 @@
 import React from "react";
 import styled from "styled-components";
 import { IButtonProps } from "../Helper/interface";
-
 const StyledButton = styled.button<IButtonProps>`
+  color: ${(props) =>
+    (props.textColor && props.textColor) || props.theme.color.white};
+
   width: ${(props) => props.width || ""};
   height: ${(props) => (props.large && "52px") || "38px"};
-  line-height: ${(props) => (props.large && "52px") || "34px"};
+  line-height: ${(props) => (props.large && "52px") || "38px"};
 
-  color: ${(props) => (props.textColor && props.textColor) || "#fff"};
   background-color: ${(props) =>
-    (props.secondary && "#fff") ||
+    (props.secondary && props.theme.color.white) ||
     (props.backgroundColor && props.backgroundColor) ||
-    "#1da1f2"};
+    props.theme.color.main};
 
-  font-size: ${(props) => (props.large && "17px") || "15px"};
-  font-weight: ${(props) => (props.large && "600") || "600"};
+  font-size: ${(props) =>
+    (props.large && props.theme.fontSize.large) || props.theme.fontSize.medium};
+  font-weight: ${(props) =>
+    (props.large && props.theme.fontWeight.regular) ||
+    props.theme.fontWeight.regular};
   padding: ${(props) => (props.large && "0px 32px") || "0px 16px"};
 
   border: ${(props) =>
-    (props.secondary && "1px solid rgb(207, 217, 222)") || "none"};
+    (props.secondary && `1px solid ${props.theme.color.border}`) || "none"};
   border-radius: ${(props) =>
     (props.primary && "30px") ||
     (props.secondary && "30px") ||
@@ -31,7 +35,8 @@ const StyledButton = styled.button<IButtonProps>`
   }
   :hover {
     background-color: ${(props) =>
-      (props.hoverBackgroundColor && props.hoverBackgroundColor) || "#1a91da"};
+      (props.hoverBackgroundColor && props.hoverBackgroundColor) ||
+      props.theme.color.hover};
   }
 `;
 
