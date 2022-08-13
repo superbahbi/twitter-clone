@@ -22,7 +22,7 @@ const LoginContainer = styled.div`
       display: flex;
       justify-content: center;
       svg {
-        fill: #1da1f2;
+        fill: ${(props) => props.theme.main};
         width: 30px;
       }
     }
@@ -56,7 +56,7 @@ const StyledFormControl = styled(Form.Control)`
   text-transform: lowercase;
   :focus {
     border: none;
-    border: 1px solid #1da1f2;
+    border: 1px solid ${(props) => props.theme.main};
     border-radius: 0;
     box-shadow: none;
     outline: none;
