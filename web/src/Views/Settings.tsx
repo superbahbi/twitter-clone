@@ -56,14 +56,14 @@ const Settings: React.FC<{}> = ({}) => {
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
   const [website, setWebsite] = useState("");
-  const [imgFile, setImgFile] = useState<Object>({});
+  const [imgFile, setImgFile] = useState<Object>();
   const [type, setType] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const user = authState.user;
 
   useEffect(() => {
     const controller = new AbortController();
-    // const signal = controller.signal;
+    const signal = controller.signal;
     if (imgFile) {
       const url = process.env.REACT_APP_API_URL + "/api/upload";
       const formData = new FormData();
@@ -72,6 +72,7 @@ const Settings: React.FC<{}> = ({}) => {
       formData.append("username", authState.user.username);
       const request = async () => {
         const postUpload = await fetch(url, {
+          signal,
           method: "POST",
           headers: {
             Authorization: "Bearer " + authState.token,
@@ -80,7 +81,6 @@ const Settings: React.FC<{}> = ({}) => {
         });
         await postUpload.json();
         if (postUpload.status === 200) {
-          console.log(postUpload);
           console.log("Upload avatar/cover");
         }
       };
@@ -90,7 +90,7 @@ const Settings: React.FC<{}> = ({}) => {
       console.log("Settings data unmounting...");
       controller.abort();
     };
-  }, [imgFile, authState, type]);
+  }, [imgFile]);
   return (
     <>
       <SubMainContainer>
