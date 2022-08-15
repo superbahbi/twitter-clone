@@ -3,11 +3,15 @@ export default {
   color: {
     main: "#1da1f2",
     white: "#ffffff",
+    background: "#fafafa",
     text: "#0f1419",
     lightText: "#536471",
     border: "#eff3f4",
     error: "#ff0000",
     hover: "#1a91da",
+    hoverBackground: "#F7F9F9",
+    chatBackgroundLeft: "#eff3f4",
+    chatBackgroundRight: "#71c9f8",
   },
   fontSize: {
     small: "12px",

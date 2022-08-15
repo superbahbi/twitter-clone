@@ -14,7 +14,7 @@ const CardContainer = styled.div`
   border: 1px solid ${(props) => props.theme.color.border};
   background-color: white;
   :hover {
-    background-color: #${(props) => props.theme.color.hoverBackgroundColor}
+    background-color: ${(props) => props.theme.color.hoverBackground}
   }
 
 `;
