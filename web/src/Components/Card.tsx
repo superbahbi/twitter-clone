@@ -11,10 +11,10 @@ const CardContainer = styled.div`
   height: 129px;
   width: 100%;
   border-radius: 16px;
-  border: 1px solid #CFD9DE;
+  border: 1px solid ${(props) => props.theme.color.border};
   background-color: white;
   :hover {
-    background-color: #F7F9F9
+    background-color: #${(props) => props.theme.color.hoverBackgroundColor}
   }
 
 `;
@@ -30,7 +30,7 @@ const CardContent = styled.div`
   padding: 12px;
   font-size: 15px;
   font-weight: 300;
-  color: #536471;
+  color: ${(props) => props.theme.color.lightText};
   display: flex;
   flex-direction: column;
   justify-content: center;
