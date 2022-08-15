@@ -3,7 +3,7 @@ import { Context as TweetContext } from "../Contexts/TweetContext";
 import Modal from "react-bootstrap/Modal";
 import Avatar from "./Avatar";
 import Textarea from ".././Components/Textarea";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import moment from "moment";
 import formurlencoded from "form-urlencoded";
 import IconButton from "./IconButton";
@@ -46,12 +46,12 @@ const FeedName = styled.span`
 `;
 const FeedTag = styled.span`
   padding-right: 0.25em;
-  color: #657786;
+  color: ${(props) => props.theme.color.lightText};
   font-size: 16px;
 `;
 const FeedDate = styled.span`
   padding-right: 0.25em;
-  color: #657786;
+  color: ${(props) => props.theme.color.lightText};
   font-size: 16px;
 `;
 const FeedContent = styled.span`
@@ -89,6 +89,7 @@ const CommentModal: React.FC<ICommentModalProps> = ({
   onHandleCommentClose,
   // commentTweetMutation,
 }) => {
+  const theme = useContext(ThemeContext);
   const { addComment } = useContext(TweetContext);
   const [commentText, setCommentText] = React.useState<string | null>("");
   const [disable, setDisable] = useState(true);
@@ -122,8 +123,8 @@ const CommentModal: React.FC<ICommentModalProps> = ({
           <IconButton
             type="button"
             iconComponent={<Close />}
-            color="#0f1419"
-            hoverColor="#0f1419"
+            color={theme.color.text}
+            hoverColor={theme.color.text}
             handleClick={onHandleCommentClose}
           />
         </Modal.Header>
