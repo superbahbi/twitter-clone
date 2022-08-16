@@ -2,6 +2,7 @@ export default {
   main: "#1da1f2",
   color: {
     main: "#1da1f2",
+    lightMain: "#71c9f8",
     white: "#ffffff",
     background: "#fafafa",
     hoverBackground: "#F7F9F9",

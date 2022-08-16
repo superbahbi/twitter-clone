@@ -7,12 +7,12 @@ const SearchContainer = styled.div`
 const SearchInput = styled.input`
   width: 100%;
   border-radius: 2px;
-  border: 1px solid rgb(239, 243, 244);
+  border: 1px solid ${(props) => props.theme.color.border};
   padding: 10px;
   margin: 0px;
 
   :hover {
-    border-color: #71c9f8;
+    border-color: ${(props) => props.theme.color.lightMain};
     color: none;
   }
 `;
