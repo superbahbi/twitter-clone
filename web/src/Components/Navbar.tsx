@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef } from "react";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import Button from "./Button";
@@ -63,7 +63,10 @@ const NavProfile = styled.div<INavProfileProps>`
   }
   :hover {
     border-radius: 30px;
-    background-color: ${(props) => (props.brand ? "#e8f5fe" : "#E7E7E8")};
+    background-color: ${(props) =>
+      props.brand
+        ? props.theme.color.hoverLightBackground
+        : props.theme.color.icon};
   }
   .avatar {
     width: 40px;
@@ -84,13 +87,13 @@ const NavProfile = styled.div<INavProfileProps>`
     .name {
       font-size: 15px;
       font-weight: 600;
-      color: #0f1419;
+      color: ${(props) => props.theme.color.text};
       height: 15px;
     }
     .username {
       font-size: 15px;
       font-weight: 300;
-      color: #436471;
+      color: ${(props) => props.theme.color.lightText};
       height: 15px;
     }
     .threedot {
@@ -99,7 +102,7 @@ const NavProfile = styled.div<INavProfileProps>`
       svg {
         width: 20px;
         height: 20px;
-        fill: #0f1419;
+        fill: ${(props) => props.theme.color.text};
       }
     }
   }
@@ -122,7 +125,7 @@ const TweetIconButton = styled.div`
 const TooltipContainer = styled.div`
   background-color: white;
   border-radius: 5px;
-  color: #0f1419;
+  color: ${(props) => props.theme.color.text};
   width: 300px;
   border-radius: 16px;
   -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
@@ -138,11 +141,12 @@ const TooltipContainer = styled.div`
   .text {
     padding: 16px 16px;
     :hover {
-      background-color: #f7f7f7;
+      background-color: ${(props) => props.theme.color.hoverBackground};
     }
   }
 `;
 const Navbar: React.FC<{}> = ({}) => {
+  const theme = useContext(ThemeContext);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showTweetModal, setShowTweetModal] = useState(false);
@@ -263,9 +267,8 @@ const Navbar: React.FC<{}> = ({}) => {
             <IconButton
               type="button"
               iconComponent={<Tweet />}
-              color="#fff"
-              backgroundColor="#1da1f2"
-              hoverColorBackground="#1A8CD8"
+              color={theme.color.white}
+              backgroundColor={theme.color.main}
               borderRadius="30px"
               size="24px"
               width="50px"
