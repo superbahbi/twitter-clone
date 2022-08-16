@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useContext } from "react";
+import styled, { ThemeContext } from "styled-components";
 import IconButton from "./IconButton";
 import { Search, Threedot } from "../Assets/Icon";
 const SidebarContainer = styled.div`
@@ -9,9 +9,9 @@ const SidebarContainer = styled.div`
 const SideBarSearch = styled.div`
   display: grid;
   grid-template-columns: 42px 1fr;
-  border: 1px solid #fff;
+  border: 1px solid ${(props) => props.theme.color.border};
   border-radius: 30px;
-  background-color: #eff3f4;
+  background-color: ${(props) => props.theme.color.border};
   width: 100%;
   margin-bottom: 12px;
   i {
@@ -20,13 +20,13 @@ const SideBarSearch = styled.div`
     svg {
       height: 20px;
       width: 20px;
-      fill: #536571;
+      fill: ${(props) => props.theme.color.lightText};
     }
   }
   input {
     border: none;
     outline: none;
-    color: #536571;
+    color: ${(props) => props.theme.color.lightText};
     background-color: transparent;
     height: 42px;
     padding: 12px;
@@ -34,8 +34,8 @@ const SideBarSearch = styled.div`
   }
 `;
 const SidebarSubContainer = styled.div`
-  background-color: #f7f9f9;
-  border-color: #f7f9f9;
+  background-color: ${(props) => props.theme.color.hoverBackground};
+  border-color: ${(props) => props.theme.color.hoverBackground};
   border-style: solid;
   border-width: 1px;
   border-radius: 16px;
@@ -43,7 +43,7 @@ const SidebarSubContainer = styled.div`
   .heading {
     font-size: 20px;
     font-weight: 600;
-    color: #0f1419;
+    color: ${(props) => props.theme.color.text};
     padding: 12px 16px;
   }
   .item {
@@ -51,18 +51,18 @@ const SidebarSubContainer = styled.div`
     grid-template-columns: 1fr 68px;
     padding: 12px 16px;
     :hover {
-      background-color: #eff1f1;
+      background-color: ${(props) => props.theme.color.hoverBackground};
     }
     .story {
       margin-right: 12px;
       .title {
         font-size: 13px;
-        color: #536571;
+        color: ${(props) => props.theme.color.lightText};
       }
       .text {
         font-size: 15px;
         font-weight: 600;
-        color: #0f1419;
+        color: ${(props) => props.theme.color.text};
       }
     }
     .right {
@@ -81,11 +81,12 @@ const SidebarSubContainer = styled.div`
   }
   .sidebar-see-more {
     font-size: 15px;
-    color: #1da1f2;
+    color: ${(props) => props.theme.color.main};
     padding: 16px;
   }
 `;
 const Sidebar: React.FC<{}> = ({}) => {
+  const theme = useContext(ThemeContext);
   return (
     <SidebarContainer>
       <form>
@@ -139,9 +140,9 @@ const Sidebar: React.FC<{}> = ({}) => {
               <IconButton
                 type="button"
                 iconComponent={<Threedot />}
-                color="#536471"
-                hoverColor="#1D9BF0"
-                hoverColorBackground="#e8f5fe"
+                color={theme.color.lightText}
+                hoverColor={theme.color.main}
+                hoverColorBackground={theme.color.hoverLightBackground}
               />
             </div>
           </div>
