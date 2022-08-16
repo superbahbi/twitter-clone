@@ -269,6 +269,7 @@ const Navbar: React.FC<{}> = ({}) => {
               iconComponent={<Tweet />}
               color={theme.color.white}
               backgroundColor={theme.color.main}
+              hoverColorBackground={theme.color.main}
               borderRadius="30px"
               size="24px"
               width="50px"
