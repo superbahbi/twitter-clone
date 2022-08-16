@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import React, { useContext, useState } from "react";
 import Figure from "react-bootstrap/Figure";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import {
   AddRemove,
   Analytics,
@@ -36,7 +36,7 @@ const TweetContainer = styled.div`
   line-height: 16px;
   padding: 16px 16px 0 16px;
   :hover {
-    background-color: #f5f8fa;
+    background-color: ${(props) => props.theme.color.hoverBackground};
   }
   :last-of-type {
     margin-bottom: 50px;
@@ -63,7 +63,7 @@ const FeedUserText = styled.div`
     svg {
       width: 20px;
       height: 20px;
-      fill: #0f1419;
+      fill: ${(props) => props.theme.color.text};
     }
   }
   .tooltip-inner {
@@ -76,7 +76,7 @@ const FeedUserText = styled.div`
 `;
 const FeedName = styled.span`
   padding-right: 0.25em;
-  color: #0f1419;
+  color: ${(props) => props.theme.color.text};
   font-size: 15px;
   line-height: 15px;
   font-weight: 600;
@@ -84,23 +84,23 @@ const FeedName = styled.span`
   svg {
     height: 16.41px;
     width: 16.41px;
-    fill: #1da1f2;
+    fill: ${(props) => props.theme.color.main};
   }
 `;
 const FeedTag = styled.span`
   padding-right: 0.25em;
-  color: #536471;
+  color: ${(props) => props.theme.color.lightText};
   font-size: 15px;
   line-height: 15px;
   text-overflow: ellipsis; ;
 `;
 const FeedDate = styled.span`
-  color: #536471;
+  color: ${(props) => props.theme.color.lightText};
   font-size: 15px;
   line-height: 15px;
 `;
 const FeedContent = styled.span`
-  color: #0f1419;
+  color: ${(props) => props.theme.color.text};
   font-size: 15px;
   line-height: 20px;
   font-weight: 300;
@@ -136,7 +136,7 @@ const ButtonContainer = styled.div`
 const TooltipContainer = styled.div`
   background-color: white;
   border-radius: 5px;
-  color: #0f1419;
+  color: ${(props) => props.theme.color.text};
   width: 300px;
 
   -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
@@ -151,7 +151,7 @@ const TooltipContainer = styled.div`
     svg {
       height: 18.75px;
       width: 18.75px;
-      fill: #0f1419;
+      fill: ${(props) => props.theme.color.text};
       margin-right: 12px;
     }
   }
@@ -161,10 +161,10 @@ const TooltipContainer = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 15px;
-    color: #0f1419;
+    color: ${(props) => props.theme.color.text};
     :hover {
       border-radius: 5px;
-      background-color: #f7f7f7;
+      background-color: ${(props) => props.theme.color.hoverBackground};
     }
   }
   .delete {
@@ -186,6 +186,7 @@ const Feed: React.FC<IFeedProps> = ({
   commentTweetMutation,
 }) => {
   dayjs.extend(relativeTime);
+  const theme = useContext(ThemeContext);
   const { state: authState } = useContext(AuthContext);
   const [showTooltip, setShowTooltip] = useState({
     status: false,
@@ -362,9 +363,9 @@ const Feed: React.FC<IFeedProps> = ({
                     <IconButton
                       type="button"
                       iconComponent={<Threedot />}
-                      color="#536471"
-                      hoverColor="#1D9BF0"
-                      hoverColorBackground="#e8f5fe"
+                      color={theme.color.lightText}
+                      hoverColor={theme.color.main}
+                      hoverColorBackground={theme.color.hoverLightBackground}
                       handleClick={() => onHandleTooltip(index)}
                     />
                   </span>
@@ -409,10 +410,10 @@ const Feed: React.FC<IFeedProps> = ({
                       <IconButton
                         type="button"
                         iconComponent={<Comment />}
-                        color="#536471"
+                        color={theme.color.lightText}
                         size="18.75px"
-                        hoverColor="#1D9BF0"
-                        hoverColorBackground="#e8f5fe"
+                        hoverColor={theme.color.main}
+                        hoverColorBackground={theme.color.hoverLightBackground}
                         handleClick={() => {
                           onHandleComment(index);
                         }}
@@ -431,10 +432,12 @@ const Feed: React.FC<IFeedProps> = ({
                       <IconButton
                         type="button"
                         iconComponent={<Retweet />}
-                        color="#536471"
+                        color={theme.color.lightText}
                         size="18.75px"
-                        hoverColor="#00BA7C"
-                        hoverColorBackground="#DEF1EB"
+                        hoverColor={theme.color.retweetHover}
+                        hoverColorBackground={
+                          theme.color.retweetHoverBackground
+                        }
                         // handleClick={() => {
                         //   onHandleComment(index);
                         // }}
@@ -450,10 +453,14 @@ const Feed: React.FC<IFeedProps> = ({
                             hidden="false"
                           />
                         }
-                        color={userlike(item.likes) ? "#F91880" : "#536471"}
+                        color={
+                          userlike(item.likes)
+                            ? theme.color.likeHover
+                            : theme.color.lightText
+                        }
                         size="18.75px"
-                        hoverColor="#F91880"
-                        hoverColorBackground="#F7E0EB"
+                        hoverColor={theme.color.likeHover}
+                        hoverColorBackground={theme.color.likeHoverBackground}
                         handleClick={() => {
                           likeTweetMutation.mutate(item._id);
                         }}
@@ -463,10 +470,10 @@ const Feed: React.FC<IFeedProps> = ({
                       <IconButton
                         type="button"
                         iconComponent={<Share />}
-                        color="#536471"
+                        color={theme.color.lightText}
                         size="18.75px"
-                        hoverColor="#1D9BF0"
-                        hoverColorBackground="#e8f5fe"
+                        hoverColor={theme.color.main}
+                        hoverColorBackground={theme.color.hoverLightBackground}
                       />
                     </ButtonContainer>
                   </ButtonRow>
