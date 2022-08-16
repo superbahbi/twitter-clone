@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef } from "react";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Context as AuthContext } from "../Contexts/AuthContext";
 import IconButton from "../Components/IconButton";
@@ -25,7 +25,8 @@ const HeaderContainer = styled.div`
     position: fixed;
     height: 53px;
     margin: 0;
-    background-color: rgba(255, 255, 255,0.99);
+    background-color: ${(props) => props.theme.color.white};
+    opacity: 0.99;
     width: 100%;
     z-index: 1;
     .avatar{
@@ -44,7 +45,7 @@ const HeaderName = styled.div`
 
 const HeaderIconButton = styled(IconButton)`
   font-size: 15px;
-  color: #1da1f2;
+  color: ${(props) => props.theme.color.main};
   padding: 0.5em;
   cursor: pointer;
   max-width: 45px;
@@ -52,7 +53,7 @@ const HeaderIconButton = styled(IconButton)`
 const TooltipContainer = styled.div`
   background-color: white;
   border-radius: 5px;
-  color: #0f1419;
+  color: ${(props) => props.theme.color.text};
   width: 300px;
   border-radius: 16px;
   -webkit-box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
@@ -68,7 +69,7 @@ const TooltipContainer = styled.div`
   .text {
     padding: 16px 16px;
     :hover {
-      background-color: #f7f7f7;
+      background-color: ${(props) => props.theme.color.hoverBackground};
     }
   }
 `;
@@ -83,6 +84,7 @@ const Header: React.FC<IHeaderProps> = ({
   iconRightComponent,
   onHandleIconRightButton,
 }) => {
+  const theme = useContext(ThemeContext);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const target = useRef(null);
@@ -98,7 +100,7 @@ const Header: React.FC<IHeaderProps> = ({
         <div className="left-icon">
           <HeaderIconButton
             icon={iconLeft}
-            hoverColor="#000"
+            hoverColor={theme.color.text}
             iconComponent={iconLeftComponent}
             handleClick={() => {
               navigate(-1);
@@ -139,7 +141,7 @@ const Header: React.FC<IHeaderProps> = ({
         <div className="right-icon">
           <HeaderIconButton
             icon={iconRight}
-            hoverColor="#000"
+            hoverColor={theme.color.text}
             iconComponent={iconRightComponent}
             handleClick={onHandleIconRightButton}
           />
