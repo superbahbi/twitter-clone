@@ -4,18 +4,18 @@ import { IInputProps } from "../Helper/interface";
 
 const InputBox = styled.div`
   font-size: 15px;
-  color: #657786;
-  background-color: #f5f8fa;
+  color: ${(props) => props.theme.color.lightText};
+  background-color: ${(props) => props.theme.color.background};
   border: 0 solid black;
   box-sizing: border-box;
   margin-right: 15px;
   padding: 15px;
-  border-bottom: 2px solid #657786;
+  border-bottom: 2px solid ${(props) => props.theme.color.border};
   width: 250px;
   max-width: 250px;
   :hover {
-    color: #71c9f8;
-    border-color: #71c9f8;
+    color: ${(props) => props.theme.color.main};
+    border-color: ${(props) => props.theme.color.main};
   }
 `;
 
@@ -27,7 +27,7 @@ const InputBoxInput = styled.input`
   align-items: stretch;
   border: 0 solid black;
   box-sizing: border-box;
-  background-color: #f5f8fa;
+  background-color: ${(props) => props.theme.color.background};
   color: black;
   display: block;
   font-size: 20px;

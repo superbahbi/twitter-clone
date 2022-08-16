@@ -1,8 +1,8 @@
 import moment from "moment";
-import React from "react";
+import React, { useContext } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import Button from ".././Components/Button";
 import { TweetLocation, Link, Calendar } from "../Assets/Icon";
 import { IProfileBoxProps } from "../Helper/interface";
@@ -20,7 +20,7 @@ const ProfileContainer = styled.div`
 const ProfileCover = styled.img`
   background-position: 0 50%;
   background-size: auto auto;
-  border-bottom: 1px solid #e1e8ed;
+  border-bottom: 1px solid ${(props) => props.theme.color.border};
   border-radius: 2px 2px 0 0;
   @media only screen and (max-width: 700px) {
     width: 100%;
@@ -35,11 +35,11 @@ const ProfileAvatar = styled.img`
   z-index: 1;
   margin-top: -80px;
   margin-left: 30px;
-  color: #fff;
+  color: ${(props) => props.theme.color.white};
   height: 134px;
   width: 134px;
   border-radius: 50% !important;
-  border: 4px solid #fff;
+  border: 4px solid ${(props) => props.theme.color.white};
 `;
 const ProfileButton = styled.div`
   position: absolute;
@@ -52,18 +52,18 @@ const ProfileUser = styled.div`
 `;
 
 const ProfileName = styled.div`
-  color: #0f1419;
+  color: ${(props) => props.theme.color.text};
   font-size: 20px;
   font-weight: 900;
   line-height: 21px;
 `;
 const ProfileTag = styled.div`
-  color: #536471;
+  color: ${(props) => props.theme.color.lightText};
   text-decoration: none;
   margin-bottom: 12px;
 `;
 const ProfileBio = styled.div`
-  color: #0f1419;
+  color: ${(props) => props.theme.color.text};
   padding: 5px 0 5px 0;
 `;
 const ProfileInfo = styled.div`
@@ -73,17 +73,13 @@ const ProfileInfo = styled.div`
 `;
 const ProfileStat = styled.div`
   font-size: 14px;
-  color: #536471;
+  color: ${(props) => props.theme.color.lightText};
   margin-right: 20px;
   .number {
     font-weight: 900;
     padding-right: 4px;
   }
 `;
-// const ProfileButton = styled.div`
-//   display: flex;
-//   flex-direction: row;
-// `;
 const Icon = styled.span`
   align-self: center;
   margin-left: auto;
@@ -91,15 +87,16 @@ const Icon = styled.span`
   svg {
     width: 20px;
     height: 20px;
-    fill: #536571;
+    fill: ${(props) => props.theme.color.lightText};
   }
 `;
 const Text = styled.span`
-  color: #536571;
+  color: ${(props) => props.theme.color.lightText};
 `;
 const ProfileInfoCol = styled(Col)``;
 
 const ProfileBox: React.FC<IProfileBoxProps> = ({ user, authUsername }) => {
+  const theme = useContext(ThemeContext);
   function onHandleClick() {
     // Navigate("/settings");
   }
@@ -130,8 +127,8 @@ const ProfileBox: React.FC<IProfileBoxProps> = ({ user, authUsername }) => {
                   name="button"
                   type="submit"
                   label="Edit profile"
-                  textColor="#000"
-                  hoverBackgroundColor="#E7E7E8"
+                  textColor={theme.color.text}
+                  hoverBackgroundColor={theme.color.icon}
                   handleClick={onHandleClick}
                 />
               </ProfileButton>
@@ -142,9 +139,9 @@ const ProfileBox: React.FC<IProfileBoxProps> = ({ user, authUsername }) => {
                   name="button"
                   type="submit"
                   label="Follow"
-                  backgroundColor="#000"
-                  textColor="#fff"
-                  hoverBackgroundColor="#272C30"
+                  backgroundColor={theme.color.text}
+                  textColor={theme.color.white}
+                  hoverBackgroundColor={theme.color.lightText}
                   handleClick={onHandleClick}
                 />
               </ProfileButton>

@@ -8,7 +8,7 @@ import Col from "react-bootstrap/Col";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
-  border: 1px solid rgb(239, 243, 244);
+  border: 1px solid ${(props) => props.theme.color.border};
 `;
 const SidebarContainer = styled(Col)`
   @media only screen and (max-width: 1005px) {
@@ -29,12 +29,12 @@ const Stack = styled.div`
 const Title = styled.div`
   font-size: 31px;
   font-weight: 900;
-  color: #0f1419;
+  color: ${(props) => props.theme.color.text};
 `;
 const SubTitle = styled.div`
   font-size: 15px;
   font-weight: 300;
-  color: #536471;
+  color: ${(props) => props.theme.color.lightText};
 `;
 
 const Bookmarks: React.FC<{}> = ({}) => {

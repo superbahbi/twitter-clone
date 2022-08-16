@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import Button from "../Components/Button";
 import { Twitter } from "../Assets/Icon";
 import { LandingImage } from "../Assets/Image";
@@ -55,14 +55,14 @@ const LandingCol = styled.div`
         padding-top: 24px;
         padding-bottom: 12px;
         svg {
-          fill: #1da1f2;
+          fill: ${(props) => props.theme.color.main};
           width: 42px;
         }
       }
       .heading {
         font-size: 64px;
         font-weight: 900;
-        color: #0f1419;
+        color: ${(props) => props.theme.color.text};
         line-height: 84px;
         margin-bottom: 48px;
         margin-top: 48px;
@@ -70,20 +70,20 @@ const LandingCol = styled.div`
       .join-now {
         font-size: 31px;
         font-weight: 900;
-        color: #0f1419;
+        color: ${(props) => props.theme.color.text};
         margin-bottom: 32px;
       }
       .disclaimer {
         font-size: 11px;
         font-weight: 300;
-        color: #536471;
+        color: ${(props) => props.theme.color.lightText};
         margin-top: 8px;
         margin-bottom: 20px;
       }
       .account {
         font-size: 17px;
         font-weight: 600;
-        color: #0f1419;
+        color: ${(props) => props.theme.color.text};
         margin-top: 40px;
         margin-bottom: 20px;
       }
@@ -97,6 +97,7 @@ const LandingCol = styled.div`
 `;
 
 const Index: React.FC<{}> = ({}) => {
+  const theme = useContext(ThemeContext);
   const navigate = useNavigate();
   const { state, tryLocalSignin } = useContext(AuthContext);
   useEffect(() => {
@@ -136,7 +137,8 @@ const Index: React.FC<{}> = ({}) => {
                 <span className="account">Already have an account?</span>
                 <Button
                   secondary
-                  textColor="#1da1f2"
+                  textColor={theme.color.main}
+                  hoverBackgroundColor={theme.color.border}
                   label="Sign in"
                   handleClick={() => navigate("/login")}
                 />

@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { IIconButtonProps } from "../Helper/interface";
 const StyledIconButton = styled.button<IIconButtonProps>`
-  color: #657786;
   padding: 0;
   border: none;
   background: none;
@@ -24,15 +23,18 @@ const StyledIconButton = styled.button<IIconButtonProps>`
     svg {
       width: ${(props) => (props.size ? props.size : "20px")};
       height: ${(props) => (props.size ? props.size : "20px")};
-      fill: ${(props) => (props.color ? props.color : "#000")};
+      fill: ${(props) => (props.color ? props.color : props.theme.color.text)};
     }
     :hover {
       svg {
-        fill: ${(props) => (props.hoverColor ? props.hoverColor : "#e7e7e8")};
+        fill: ${(props) =>
+          props.hoverColor ? props.hoverColor : props.theme.color.icon};
       }
       border-radius: 30px;
       background-color: ${(props) =>
-        props.hoverColorBackground ? props.hoverColorBackground : "#e7e7e8"};
+        props.hoverColorBackground
+          ? props.hoverColorBackground
+          : props.theme.color.icon};
     }
   }
 `;

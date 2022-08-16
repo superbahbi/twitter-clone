@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import IconButton from "../Components/IconButton";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import { useForm } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import moment from "moment";
@@ -44,8 +44,8 @@ const Message = styled.p<IMessageBubbleProps>`
   margin-bottom: 0px;
   ${(props) =>
     props.right
-      ? "border-radius: 9999px 0px 0px 9999px; background-color: #71c9f8;"
-      : "border-radius: 0px 9999px 9999px 0px; background-color: #eff3f4;"}
+      ? `border-radius: 9999px 0px 0px 9999px; background-color: ${props.theme.color.chatBackgroundRight};`
+      : `border-radius: 0px 9999px 9999px 0px; background-color:${props.theme.color.chatBackgroundLeft};`}
 `;
 // Time
 const Time = styled.span`
@@ -76,8 +76,8 @@ const MessageForm = styled(Form)`
   position: absolute;
   bottom: 0;
   max-width: 600px;
-  background-color: #fff;
-  border-right: 1px solid rgb(239, 243, 244);
+  background-color: ${(props) => props.theme.color.white};
+  border-right: 1px solid ${(props) => props.theme.color.border};
 `;
 
 const FormRow = styled(Row)`
@@ -97,24 +97,24 @@ const FormGroup = styled(Form.Group)`
 `;
 const StyledFormControl = styled(Form.Control)`
   border-radius: 9999px;
-  border-color: rgb(239, 243, 244);
+  border-color: ${(props) => props.theme.color.border};
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
   :hover {
-    border-color: #71c9f8;
+    border-color: ${(props) => props.theme.color.main};
     color: none;
   }
   :focus {
     outline: none !important;
-    border-color: #719ece !important;
+    border-color: ${(props) => props.theme.color.main} !important;
   }
 `;
 const SendIconButton = styled(IconButton)`
   display: flex;
   align-items: center;
   font-size: 15px;
-  color: #1da1f2;
+  color: ${(props) => props.theme.color.main};
   padding: 0.5em;
 `;
 
@@ -123,6 +123,7 @@ const Chat: React.FC<IChatProps> = ({
   messagesHistory,
   onUpdateMessageSubmit,
 }) => {
+  const theme = useContext(ThemeContext);
   const { register, handleSubmit } = useForm(); // initialise the hook
   const messagesRef = useRef<null | HTMLDivElement>(null);
   const [message, setMessage] = useState("");
@@ -190,9 +191,9 @@ const Chat: React.FC<IChatProps> = ({
             <SendIconButton
               type="submit"
               iconComponent={<Send />}
-              color="#1da1f2"
-              hoverColor="fff"
-              hoverColorBackground="#fff"
+              color={theme.color.main}
+              hoverColor={theme.color.main}
+              hoverColorBackground={theme.color.white}
             />
           </FormCol>
         </FormRow>

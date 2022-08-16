@@ -14,15 +14,15 @@ const SearchListGroupItem = styled(ListGroupItem)`
   cursor: pointer;
   width: 100%;
   :hover {
-    background-color: #eff3f4;
+    background-color: ${(props) => props.theme.color.background};
     border-radius: 0px;
-    border-right: 3px solid #71c9f8;
+    border-right: 3px solid ${(props) => props.theme.color.lightMain};
   }
   &.active {
-    color: #212529;
-    background-color: #fff;
+    color: ${(props) => props.theme.color.text};
+    background-color: ${(props) => props.theme.color.white};
     border-radius: 0px;
-    border-right: 3px solid #71c9f8;
+    border-right: 3px solid ${(props) => props.theme.color.lightMain};
   }
 `;
 const SearchListGroupText = styled.p`

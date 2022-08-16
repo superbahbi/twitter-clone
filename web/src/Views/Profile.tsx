@@ -19,7 +19,7 @@ import useUser from "../Hooks/useUser";
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
-  border: 1px solid rgb(239, 243, 244);
+  border: 1px solid ${(props) => props.theme.color.border};
 `;
 const SidebarContainer = styled(Col)`
   @media only screen and (max-width: 1055px) {

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReactModal from "react-bootstrap/Modal";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import { Close } from "../Assets/Icon";
 import { IModalProps } from "../Helper/interface";
 import IconButton from "./IconButton";
@@ -20,6 +20,7 @@ const Modal: React.FC<IModalProps> = ({
   body,
   footer,
 }) => {
+  const theme = useContext(ThemeContext);
   return (
     <CustomModal
       id={index}
@@ -33,8 +34,8 @@ const Modal: React.FC<IModalProps> = ({
           <IconButton
             type="button"
             iconComponent={<Close />}
-            color="#0f1419"
-            hoverColor="#0f1419"
+            color={theme.color.text}
+            hoverColor={theme.color.text}
             handleClick={onHandleModal}
           />
         </ReactModal.Header>

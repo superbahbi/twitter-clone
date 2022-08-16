@@ -22,14 +22,14 @@ const LoginContainer = styled.div`
       display: flex;
       justify-content: center;
       svg {
-        fill: #1da1f2;
+        fill: ${(props) => props.theme.color.main};
         width: 30px;
       }
     }
     .heading {
       font-size: 31px;
       font-weight: 600;
-      color: #0f1419;
+      color: ${(props) => props.theme.color.text};
     }
   }
 `;
@@ -41,22 +41,24 @@ const StyledForm = styled(Form)`
     margin-top: 24px;
   }
   .error {
-    color: #ff0000;
+    color: ${(props) => props.theme.color.error};
   }
 `;
 const StyledFormControl = styled(Form.Control)`
   border: ${(props) =>
-    props.error ? "1px solid #ff0000" : "1px solid rgb(239, 243, 244)"};
+    props.error
+      ? `1px solid ${props.theme.color.error}`
+      : `1px solid ${props.theme.color.border}`};
   border-radius: 0;
   box-shadow: none;
   outline: none;
   color: inherit;
-  background: #fff;
+  background: ${(props) => props.theme.color.white};
   margin-bottom: 16px;
   text-transform: lowercase;
   :focus {
     border: none;
-    border: 1px solid #1da1f2;
+    border: 1px solid ${(props) => props.theme.color.main};
     border-radius: 0;
     box-shadow: none;
     outline: none;

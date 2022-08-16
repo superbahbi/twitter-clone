@@ -18,12 +18,12 @@ import { useTweets } from "../Hooks/useTweets";
 const TweetDivider = styled.div`
   flex: 1 1 auto;
   margin: 4px 0px;
-  border-bottom: 1px solid rgb(239, 243, 244);
+  border-bottom: 1px solid ${(props) => props.theme.color.border};
 `;
 const SubMainContainer = styled(Col)`
   max-width: 600px;
   padding: 0px;
-  border: 1px solid rgb(239, 243, 244);
+  border: 1px solid ${(props) => props.theme.color.border};
 `;
 const SidebarContainer = styled(Col)`
   @media only screen and (max-width: 1005px) {

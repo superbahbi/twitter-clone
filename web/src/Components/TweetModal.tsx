@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import {
   useMutation,
   UseMutationResult,
@@ -44,6 +44,7 @@ const TweetModal: React.FC<ITweetModalProps> = ({
   onHide,
   onHandleTweetModal,
 }) => {
+  const theme = useContext(ThemeContext);
   const { state: authState } = useContext(AuthContext);
   const { user } = authState;
   const queryClient = useQueryClient();
@@ -79,8 +80,8 @@ const TweetModal: React.FC<ITweetModalProps> = ({
         <IconButton
           type="button"
           iconComponent={<Close />}
-          color="#0f1419"
-          hoverColor="#0f1419"
+          color={theme.color.text}
+          hoverColor={theme.color.text}
           handleClick={onHandleTweetModal}
         />
       </Modal.Header>

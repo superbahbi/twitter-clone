@@ -15,7 +15,7 @@ const TextAreaBox = styled.div`
     padding: 2px 0px;
   }
   .textarea[contenteditable]:empty::before {
-    color: #436471;
+    color: ${(props) => props.theme.color.lightText};
     content: attr(data-ph);
     white-space: pre-wrap;
   }
