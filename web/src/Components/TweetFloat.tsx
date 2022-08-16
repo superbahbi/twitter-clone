@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import { Tweet } from "../Assets/Icon";
 import IconButton from "./IconButton";
 const TweetFloatContainer = styled.div`
@@ -23,6 +23,7 @@ const TweetIconButton = styled.div`
   }
 `;
 const TweetFloat: React.FC<{}> = ({}) => {
+  const theme = useContext(ThemeContext);
   const navigate = useNavigate();
   return (
     <>
@@ -31,9 +32,9 @@ const TweetFloat: React.FC<{}> = ({}) => {
           <IconButton
             type="button"
             iconComponent={<Tweet />}
-            color="#fff"
-            backgroundColor="#1da1f2"
-            hoverColorBackground="#1A8CD8"
+            color={theme.color.white}
+            backgroundColor={theme.color.main}
+            hoverColorBackground={theme.color.main}
             borderRadius="30px"
             size="24px"
             width="50px"
