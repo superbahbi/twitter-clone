@@ -10,7 +10,7 @@ const NavMobileContainer = styled.div`
     position: fixed;
     bottom: 0;
     height: 53px;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: ${(props) => props.theme.color.white};
     width: 100%;
     z-index: 1;
   }
