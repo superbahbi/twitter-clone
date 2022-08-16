@@ -13,6 +13,7 @@ export default {
     text: "#0f1419",
     lightText: "#536471",
     border: "#eff3f4",
+    icon: "#e7e7e8",
     error: "#ff0000",
     hover: "#1a91da",
     chatBackgroundLeft: "#eff3f4",
