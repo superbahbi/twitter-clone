@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useContext } from "react";
+import styled, { ThemeContext } from "styled-components";
 import { Close } from "../Assets/Icon";
 import { IMediaFrameProps } from "../Helper/interface";
 import IconButton from "./IconButton";
@@ -32,15 +32,16 @@ const MediaFrame: React.FC<IMediaFrameProps> = ({
   children,
   onHandleMediaClose,
 }) => {
+  const theme = useContext(ThemeContext);
   return (
     <Frame>
       <IconButton
         className="close"
         type="button"
         iconComponent={<Close />}
-        color="#fff"
-        hoverColor="#fff"
-        hoverColorBackground="#black"
+        color={theme.color.white}
+        hoverColor={theme.color.white}
+        hoverColorBackground={theme.color.text}
         handleClick={onHandleMediaClose}
       />
       {children}
