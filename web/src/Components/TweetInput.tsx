@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useContext } from "react";
+import styled, { ThemeContext } from "styled-components";
 
 import Button from ".././Components/Button";
 import {
@@ -27,7 +27,7 @@ const InputBoxGroup = styled.label`
   display: flex;
   align-items: center;
 
-  color: #71c9f8;
+  color: ${(props) => props.theme.color.lightMain};
   font-size: 2em;
   padding: 0;
   border: none;
@@ -42,15 +42,16 @@ const InputBoxRow = styled.div`
 `;
 
 const TweetInput: React.FC<ITweetInputProps> = ({ disable, handleChange }) => {
+  const theme = useContext(ThemeContext);
   return (
     <InputBoxRow>
       <InputBoxGroup>
         <IconButton
           type="button"
           iconComponent={<TweetUpload />}
-          color="#1D9BF0"
-          hoverColor="#1D9BF0"
-          hoverColorBackground="#e8f5fe"
+          color={theme.color.main}
+          hoverColor={theme.color.main}
+          hoverColorBackground={theme.color.hoverLightBackground}
         >
           <InputFile
             type="file"
@@ -62,9 +63,9 @@ const TweetInput: React.FC<ITweetInputProps> = ({ disable, handleChange }) => {
         <IconButton
           type="button"
           iconComponent={<TweetGif />}
-          color="#1D9BF0"
-          hoverColor="#1D9BF0"
-          hoverColorBackground="#e8f5fe"
+          color={theme.color.main}
+          hoverColor={theme.color.main}
+          hoverColorBackground={theme.color.hoverLightBackground}
         >
           {/* <InputFile
               type="file"
@@ -76,9 +77,9 @@ const TweetInput: React.FC<ITweetInputProps> = ({ disable, handleChange }) => {
         <IconButton
           type="button"
           iconComponent={<TweetPoll />}
-          color="#1D9BF0"
-          hoverColor="#1D9BF0"
-          hoverColorBackground="#e8f5fe"
+          color={theme.color.main}
+          hoverColor={theme.color.main}
+          hoverColorBackground={theme.color.hoverLightBackground}
         >
           {/* <InputFile
               type="file"
@@ -90,9 +91,9 @@ const TweetInput: React.FC<ITweetInputProps> = ({ disable, handleChange }) => {
         <IconButton
           type="button"
           iconComponent={<TweetEmoji />}
-          color="#1D9BF0"
-          hoverColor="#1D9BF0"
-          hoverColorBackground="#e8f5fe"
+          color={theme.color.main}
+          hoverColor={theme.color.main}
+          hoverColorBackground={theme.color.hoverLightBackground}
         >
           {/* <InputFile
               type="file"
@@ -104,9 +105,9 @@ const TweetInput: React.FC<ITweetInputProps> = ({ disable, handleChange }) => {
         <IconButton
           type="button"
           iconComponent={<TweetSchedule />}
-          color="#1D9BF0"
-          hoverColor="#1D9BF0"
-          hoverColorBackground="#e8f5fe"
+          color={theme.color.main}
+          hoverColor={theme.color.main}
+          hoverColorBackground={theme.color.hoverLightBackground}
         >
           {/* <InputFile
               type="file"
@@ -118,9 +119,9 @@ const TweetInput: React.FC<ITweetInputProps> = ({ disable, handleChange }) => {
         <IconButton
           type="button"
           iconComponent={<TweetLocation />}
-          color="#1D9BF0"
-          hoverColor="#1D9BF0"
-          hoverColorBackground="#e8f5fe"
+          color={theme.color.main}
+          hoverColor={theme.color.main}
+          hoverColorBackground={theme.color.hoverLightBackground}
           disabled={true}
         >
           {/* <InputFile
