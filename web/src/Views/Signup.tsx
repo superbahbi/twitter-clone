@@ -165,7 +165,7 @@ const Signup: React.FC<{}> = ({}) => {
           </Form.Group>
           <Form.Group>
             <StyledFormControl
-              {...register("confirmpassword", {
+              {...register("gender", {
                 required: true,
               })}
               // error={errors.gender}
